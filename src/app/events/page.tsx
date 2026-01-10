@@ -9,6 +9,7 @@ import { GlassCard, GlowButton, NeonText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { Footer } from '@/components/sections'
+import { Target, Code, Brain, Bot, Palette, Gamepad2, BookOpen } from 'lucide-react'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -22,6 +23,16 @@ const categoryColors: Record<string, string> = {
     design: 'from-green-500 to-teal-500',
     gaming: 'from-yellow-500 to-orange-500',
     workshop: 'from-indigo-500 to-purple-500',
+}
+
+const categoryIcons: Record<string, React.ReactNode> = {
+    all: <Target className="w-4 h-4 sm:w-5 sm:h-5" />,
+    coding: <Code className="w-4 h-4 sm:w-5 sm:h-5" />,
+    ai: <Brain className="w-4 h-4 sm:w-5 sm:h-5" />,
+    robotics: <Bot className="w-4 h-4 sm:w-5 sm:h-5" />,
+    design: <Palette className="w-4 h-4 sm:w-5 sm:h-5" />,
+    gaming: <Gamepad2 className="w-4 h-4 sm:w-5 sm:h-5" />,
+    workshop: <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />,
 }
 
 export default function EventsPage() {
@@ -86,12 +97,12 @@ export default function EventsPage() {
                                 <button
                                     key={category.id}
                                     onClick={() => setActiveCategory(category.id)}
-                                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${activeCategory === category.id
+                                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex items-center ${activeCategory === category.id
                                         ? 'bg-glow-cyan/20 text-glow-cyan border border-glow-cyan/50'
                                         : 'glass text-text-secondary hover:text-white'
                                         }`}
                                 >
-                                    <span className="mr-1 sm:mr-2">{category.icon}</span>
+                                    <span className="mr-1.5 sm:mr-2">{categoryIcons[category.id]}</span>
                                     {category.label}
                                 </button>
                             ))}

@@ -10,6 +10,7 @@ import { GlassCard, GlowButton, NeonText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { Footer } from '@/components/sections'
+import { ClipboardList, Clock, Calendar, MapPin, Users, FileText } from 'lucide-react'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -84,7 +85,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             >
                                 <GlassCard>
                                     <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2">
-                                        <span className="text-xl sm:text-2xl">📋</span>
+                                        <ClipboardList className="w-6 h-6 text-glow-cyan" />
                                         Rules & Guidelines
                                     </h2>
                                     <ul className="space-y-2 sm:space-y-3">
@@ -108,7 +109,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             >
                                 <GlassCard>
                                     <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2">
-                                        <span className="text-xl sm:text-2xl">⏰</span>
+                                        <Clock className="w-6 h-6 text-glow-cyan" />
                                         Event Timeline
                                     </h2>
                                     <div className="relative">
@@ -142,11 +143,11 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                     <h3 className="text-base sm:text-lg font-heading font-bold mb-4 sm:mb-6">Event Details</h3>
 
                                     <div className="space-y-3 sm:space-y-4">
-                                        <InfoRow icon="📅" label="Date" value={event.date} />
-                                        <InfoRow icon="🕐" label="Time" value={event.time} />
-                                        <InfoRow icon="📍" label="Venue" value={event.venue} />
-                                        <InfoRow icon="👥" label="Team Size" value={event.teamSize} />
-                                        <InfoRow icon="📝" label="Deadline" value={event.registrationDeadline} />
+                                        <InfoRow icon={<Calendar className="w-5 h-5 text-glow-cyan" />} label="Date" value={event.date} />
+                                        <InfoRow icon={<Clock className="w-5 h-5 text-glow-cyan" />} label="Time" value={event.time} />
+                                        <InfoRow icon={<MapPin className="w-5 h-5 text-glow-cyan" />} label="Venue" value={event.venue} />
+                                        <InfoRow icon={<Users className="w-5 h-5 text-glow-cyan" />} label="Team Size" value={event.teamSize} />
+                                        <InfoRow icon={<FileText className="w-5 h-5 text-glow-cyan" />} label="Deadline" value={event.registrationDeadline} />
 
                                         <div className="pt-3 sm:pt-4 border-t border-white/10">
                                             <p className="text-xs sm:text-sm text-text-muted mb-1">Prize Pool</p>
@@ -174,10 +175,10 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
     )
 }
 
-function InfoRow({ icon, label, value }: { icon: string; label: string; value: string }) {
+function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
     return (
         <div className="flex items-start gap-2 sm:gap-3">
-            <span className="text-lg sm:text-xl">{icon}</span>
+            <span className="mt-0.5">{icon}</span>
             <div>
                 <p className="text-xs text-text-muted uppercase tracking-wider">{label}</p>
                 <p className="text-text-primary text-sm sm:text-base">{value}</p>

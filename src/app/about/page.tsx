@@ -19,11 +19,13 @@ const stats = [
     { value: '3', label: 'Days' },
 ]
 
+import { Rocket, Target, Globe, Lightbulb } from 'lucide-react'
+
 const features = [
-    { icon: '🚀', title: 'Innovation Hub', description: 'A melting pot of ideas where the brightest minds converge to shape the future.' },
-    { icon: '🎯', title: 'World-Class Events', description: 'From hackathons to robotics, our competitions are designed to challenge and inspire.' },
-    { icon: '🌐', title: 'Global Network', description: 'Connect with industry leaders, researchers, and innovators from around the world.' },
-    { icon: '💡', title: 'Learn & Grow', description: 'Hands-on workshops and talks by pioneers defining the next technological frontier.' },
+    { icon: <Rocket className="w-8 h-8 sm:w-10 sm:h-10 text-glow-cyan" />, title: 'Innovation Hub', description: 'A melting pot of ideas where the brightest minds converge to shape the future.' },
+    { icon: <Target className="w-8 h-8 sm:w-10 sm:h-10 text-glow-violet" />, title: 'World-Class Events', description: 'From hackathons to robotics, our competitions are designed to challenge and inspire.' },
+    { icon: <Globe className="w-8 h-8 sm:w-10 sm:h-10 text-glow-cyan" />, title: 'Global Network', description: 'Connect with industry leaders, researchers, and innovators from around the world.' },
+    { icon: <Lightbulb className="w-8 h-8 sm:w-10 sm:h-10 text-glow-violet" />, title: 'Learn & Grow', description: 'Hands-on workshops and talks by pioneers defining the next technological frontier.' },
 ]
 
 export default function AboutPage() {
