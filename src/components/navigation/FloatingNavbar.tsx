@@ -65,7 +65,7 @@ export function FloatingNavbar() {
                                         <span className="text-xl font-heading font-bold gradient-text">I</span>
                                     </div>
                                 </div>
-                                <span className="font-heading font-bold text-lg tracking-wider hidden sm:block">
+                                <span className="font-heading font-bold text-base sm:text-lg tracking-wider">
                                     <span className="text-glow-cyan">INFO</span>
                                     <span className="text-white">THON</span>
                                 </span>

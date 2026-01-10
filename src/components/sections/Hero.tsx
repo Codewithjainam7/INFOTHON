@@ -74,7 +74,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
 
             {/* Hero Content */}
-            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16">
+            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-36 sm:pt-40 pb-16">
                 <div className="text-center max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -95,11 +95,11 @@ export function Hero() {
                         <NeonText as="h1" color="gradient" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-4">
                             INFOTHON
                         </NeonText>
-                        <div className="flex justify-center">
+                        <div className="flex justify-center mt-2">
                             <img
                                 src="/images/2026.png"
                                 alt="2026"
-                                className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain"
                             />
                         </div>
                     </motion.div>
