@@ -28,12 +28,13 @@ export function GlowCursor() {
         // Check for interactive elements
         const handleElementHover = (e: MouseEvent) => {
             const target = e.target as HTMLElement
-            const isInteractive =
+            const isInteractive = !!(
                 target.tagName === 'BUTTON' ||
                 target.tagName === 'A' ||
                 target.closest('button') ||
                 target.closest('a') ||
                 target.getAttribute('data-cursor-hover') !== null
+            )
 
             setIsHovering(isInteractive)
         }

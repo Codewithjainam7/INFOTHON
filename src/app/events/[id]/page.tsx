@@ -1,5 +1,6 @@
 'use client'
 
+import { use } from 'react'
 import { motion } from 'framer-motion'
 import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic'
@@ -24,8 +25,9 @@ const categoryColors: Record<string, string> = {
     workshop: 'from-indigo-500 to-purple-500',
 }
 
-export default function EventPage({ params }: { params: { id: string } }) {
-    const event = events.find((e) => e.id === params.id)
+export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params)
+    const event = events.find((e) => e.id === id)
 
     if (!event) {
         notFound()

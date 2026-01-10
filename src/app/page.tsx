@@ -29,7 +29,7 @@ export default function Home() {
             {!isBooting && (
                 <SmoothScroll>
                     <GlowCursor />
-                    <Background3D backgroundImage="/images/2026.png" />
+                    <Background3D backgroundImage="/images/bg_img.540Z.png" />
                     <FloatingNavbar />
 
                     <main className="relative z-10">

@@ -95,9 +95,13 @@ export function Hero() {
                         <NeonText as="h1" color="gradient" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-4">
                             INFOTHON
                         </NeonText>
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-light text-text-secondary tracking-wide">
-                            2026
-                        </h2>
+                        <div className="flex justify-center">
+                            <img
+                                src="/images/2026.png"
+                                alt="2026"
+                                className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                            />
+                        </div>
                     </motion.div>
 
                     <motion.p
