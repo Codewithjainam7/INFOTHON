@@ -14,6 +14,7 @@ const navLinks = [
     { href: '/speakers', label: 'Speakers' },
     { href: '/schedule', label: 'Schedule' },
     { href: '/sponsors', label: 'Sponsors' },
+    { href: '/profile', label: 'Profile' },
 ]
 
 export function FloatingNavbar() {
