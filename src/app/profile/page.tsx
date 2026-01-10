@@ -1,31 +1,37 @@
-'use client'
-
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import Image from 'next/image'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { eventPackages, colorMap } from '@/data'
-import { Calendar, Clock, MapPin, QrCode, Ticket, User, Download, Share2 } from 'lucide-react'
+import { Calendar, Clock, MapPin, QrCode, Ticket, User, Download, Share2, Edit2, Check } from 'lucide-react'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
     { ssr: false }
 )
 
+const avatars = [
+    '/images/boy_avatar_1.325Z.png',
+    '/images/girl_avatar_1.851Z.png',
+    '/images/boy_avatar_2.325Z.png',
+    '/images/girl_avatar_2.851Z.png',
+]
+
 export default function ProfilePage() {
     const [purchasedEvents, setPurchasedEvents] = useState<string[]>([])
     const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+    const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
+    const [showAvatarSelection, setShowAvatarSelection] = useState(false)
 
     useEffect(() => {
         // Load user data
         const userData = localStorage.getItem('infothon_user')
         if (userData) {
-            // Mock user data if just a flag, or parse if object
-            // Assuming simple flag for now based on register page logic, but let's mock a name
             setUser({ name: 'Cyber Nomad', email: 'nomad@infothon.tech' })
         }
 
@@ -34,7 +40,21 @@ export default function ProfilePage() {
         if (saved) {
             setPurchasedEvents(JSON.parse(saved))
         }
+
+        // Load avatar
+        const savedAvatar = localStorage.getItem('infothon_avatar')
+        if (savedAvatar) {
+            setSelectedAvatar(savedAvatar)
+        } else {
+            setShowAvatarSelection(true)
+        }
     }, [])
+
+    const handleAvatarSelect = (avatar: string) => {
+        setSelectedAvatar(avatar)
+        localStorage.setItem('infothon_avatar', avatar)
+        setShowAvatarSelection(false)
+    }
 
     const myTickets = eventPackages.filter(pkg => purchasedEvents.includes(pkg.id))
 
@@ -53,28 +73,100 @@ export default function ProfilePage() {
                         className="mb-12"
                     >
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div>
-                                <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
-                                    // OPERATIVE_STATUS: ACTIVE
-                                </span>
-                                <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-2">
-                                    My Profile
-                                </NeonText>
-                                <div className="flex items-center gap-3 text-text-secondary">
-                                    <User className="w-5 h-5 text-glow-cyan" />
-                                    <span className="text-lg">{user?.name || 'Guest User'}</span>
-                                    <span className="text-sm text-text-muted">•</span>
-                                    <span className="text-sm font-mono text-text-muted">{user?.email || 'Not logged in'}</span>
+                            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                                {/* Avatar Section */}
+                                <div className="relative group">
+                                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-br from-glow-cyan to-glow-violet shadow-[0_0_30px_rgba(0,245,255,0.3)]">
+                                        <div className="w-full h-full rounded-full bg-black overflow-hidden relative">
+                                            {selectedAvatar ? (
+                                                <Image
+                                                    src={selectedAvatar}
+                                                    alt="Profile Avatar"
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-white/5">
+                                                    <User className="w-10 h-10 text-white/50" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => setShowAvatarSelection(!showAvatarSelection)}
+                                        className="absolute bottom-0 right-0 p-2 rounded-full bg-bg-primary border border-glow-cyan text-glow-cyan shadow-lg hover:bg-glow-cyan hover:text-black transition-all"
+                                    >
+                                        <Edit2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-2">
+                                        // OPERATIVE_STATUS: ACTIVE
+                                    </span>
+                                    <NeonText as="h1" color="gradient" className="text-3xl sm:text-4xl md:text-5xl mb-2">
+                                        {user?.name || 'Guest User'}
+                                    </NeonText>
+                                    <div className="flex items-center gap-2 text-text-secondary font-mono text-sm">
+                                        <span>{user?.email || 'Not logged in'}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <GlowButton>
+                            <GlowButton onClick={() => window.location.reload()}>
                                 Refresh Data
                                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                             </GlowButton>
                         </div>
+
+                        {/* Avatar Selection Panel */}
+                        <AnimatePresence>
+                            {showAvatarSelection && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                                    animate={{ opacity: 1, height: 'auto', marginTop: 32 }}
+                                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                    className="overflow-hidden"
+                                >
+                                    <GlassCard className="p-6 border-glow-cyan/30" glowColor="cyan">
+                                        <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
+                                            <User className="w-5 h-5 text-glow-cyan" />
+                                            Choose Your Avatar
+                                        </h3>
+                                        <div className="flex flex-wrap gap-4 md:gap-8">
+                                            {avatars.map((avatar, index) => (
+                                                <motion.button
+                                                    key={index}
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                    onClick={() => handleAvatarSelect(avatar)}
+                                                    className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all ${selectedAvatar === avatar
+                                                            ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
+                                                            : 'bg-white/10 hover:bg-white/30'
+                                                        }`}
+                                                >
+                                                    <div className="w-full h-full rounded-full overflow-hidden relative bg-black">
+                                                        <Image
+                                                            src={avatar}
+                                                            alt={`Avatar ${index + 1}`}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
+                                                    </div>
+                                                    {selectedAvatar === avatar && (
+                                                        <div className="absolute top-0 right-0 w-6 h-6 rounded-full bg-glow-cyan text-black flex items-center justify-center border-2 border-black z-10">
+                                                            <Check className="w-3 h-3" />
+                                                        </div>
+                                                    )}
+                                                </motion.button>
+                                            ))}
+                                        </div>
+                                    </GlassCard>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
 
                     {/* Stats Grid */}
