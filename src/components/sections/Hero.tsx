@@ -74,7 +74,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
 
             {/* Hero Content */}
-            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-36 sm:pt-40 pb-16">
+            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-48 sm:pt-52 pb-16">
                 <div className="text-center max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -95,11 +95,11 @@ export function Hero() {
                         <NeonText as="h1" color="gradient" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-4">
                             INFOTHON
                         </NeonText>
-                        <div className="flex justify-center mt-2">
+                        <div className="flex justify-center mt-4">
                             <img
                                 src="/images/2026.png"
                                 alt="2026"
-                                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain"
+                                className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto object-contain"
                             />
                         </div>
                     </motion.div>
@@ -223,12 +223,12 @@ export function Hero() {
                         )
                     })}
                 </motion.div>
-            </div>
+            </div >
 
             {/* Corner Elements */}
-            <div className="absolute top-20 left-4 sm:left-8 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-t-2 border-glow-cyan/20 rounded-tl-3xl" />
+            < div className="absolute top-20 left-4 sm:left-8 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-t-2 border-glow-cyan/20 rounded-tl-3xl" />
             <div className="absolute top-20 right-4 sm:right-8 w-16 h-16 sm:w-24 sm:h-24 border-r-2 border-t-2 border-glow-cyan/20 rounded-tr-3xl" />
-        </section>
+        </section >
     )
 }
 
