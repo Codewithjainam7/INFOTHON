@@ -74,7 +74,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
 
             {/* Hero Content */}
-            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-48 sm:pt-52 pb-16">
+            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-64 sm:pt-52 pb-16">
                 <div className="text-center max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -99,7 +99,7 @@ export function Hero() {
                             <img
                                 src="/images/2026.png"
                                 alt="2026"
-                                className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto object-contain"
+                                className="h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain"
                             />
                         </div>
                     </motion.div>
