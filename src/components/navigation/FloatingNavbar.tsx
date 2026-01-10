@@ -53,7 +53,7 @@ export function FloatingNavbar() {
             >
                 <div className={cn(
                     'max-w-7xl mx-auto rounded-2xl transition-all duration-300 border border-white/10',
-                    'bg-bg-primary/90 backdrop-blur-3xl shadow-lg',
+                    'bg-bg-primary/60 backdrop-blur-lg shadow-lg',
                     isScrolled ? 'px-4 sm:px-6 py-3 shadow-glow-cyan/20' : 'px-4 sm:px-6 py-3'
                 )}>
                     <div className="flex items-center justify-between">

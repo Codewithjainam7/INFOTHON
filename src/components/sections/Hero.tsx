@@ -74,7 +74,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
 
             {/* Hero Content */}
-            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-64 sm:pt-52 pb-16">
+            <div className="relative z-10 section-container px-4 sm:px-6 lg:px-8 pt-72 sm:pt-40 pb-16">
                 <div className="text-center max-w-4xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
