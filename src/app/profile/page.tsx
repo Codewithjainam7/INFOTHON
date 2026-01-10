@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
@@ -143,8 +145,8 @@ export default function ProfilePage() {
                                                     whileTap={{ scale: 0.95 }}
                                                     onClick={() => handleAvatarSelect(avatar)}
                                                     className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all ${selectedAvatar === avatar
-                                                            ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
-                                                            : 'bg-white/10 hover:bg-white/30'
+                                                        ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
+                                                        : 'bg-white/10 hover:bg-white/30'
                                                         }`}
                                                 >
                                                     <div className="w-full h-full rounded-full overflow-hidden relative bg-black">
