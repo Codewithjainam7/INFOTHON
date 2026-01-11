@@ -49,32 +49,42 @@ export default function AboutPage() {
                             ABOUT US
                         </span>
                         <div className="relative inline-block mb-6">
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10 overflow-visible">
                                 <span className="gradient-text relative inline-block">
-                                    <ScrambleText
-                                        text="The Future Awaits"
-                                        revealSpeed={50}
-                                        scrambleSpeed={30}
-                                        delay={500}
-                                    />
-                                    {/* Infinite Glitch Layers */}
-                                    <motion.span
-                                        className="absolute inset-0 text-glow-cyan opacity-50 mix-blend-screen pointer-events-none"
+                                    <motion.div
                                         animate={{
-                                            x: [-2, 2, -1, 1, 0, 3, -3, 0],
-                                            opacity: [0.5, 0.8, 0.5, 0.2, 0.5]
+                                            skewX: [0, 2, -2, 0],
+                                            x: [0, 1, -1, 0]
                                         }}
-                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
+                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
+                                    >
+                                        <ScrambleText
+                                            text="The Future Awaits"
+                                            revealSpeed={50}
+                                            scrambleSpeed={30}
+                                            delay={500}
+                                        />
+                                    </motion.div>
+                                    {/* Infinite Intense Glitch Layers */}
+                                    <motion.span
+                                        className="absolute inset-0 text-[#00f0ff] opacity-0 mix-blend-screen pointer-events-none select-none"
+                                        animate={{
+                                            x: [-4, 4, -2, 3, 0],
+                                            y: [1, -1, 0],
+                                            opacity: [0, 0.8, 0, 0.6, 0]
+                                        }}
+                                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1 }}
                                     >
                                         The Future Awaits
                                     </motion.span>
                                     <motion.span
-                                        className="absolute inset-0 text-glow-violet opacity-50 mix-blend-screen pointer-events-none"
+                                        className="absolute inset-0 text-[#8b5cf6] opacity-0 mix-blend-screen pointer-events-none select-none"
                                         animate={{
-                                            x: [2, -2, 1, -1, 0, -2, 2, 0],
-                                            opacity: [0.5, 0.8, 0.5, 0.2, 0.5]
+                                            x: [3, -3, 2, -2, 0],
+                                            y: [-1, 1, 0],
+                                            opacity: [0, 0.8, 0, 0.6, 0]
                                         }}
-                                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 3 }}
+                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 1.2 }}
                                     >
                                         The Future Awaits
                                     </motion.span>
@@ -100,20 +110,15 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + index * 0.1 }}
-                                className="glitch-container rounded-lg p-4 sm:p-6 group hover:border-glow-cyan/50 transition-all duration-300 relative overflow-hidden"
-                                whileHover={{ scale: 1.02 }}
+                                className="glitch-container rounded-lg p-4 sm:p-6 group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden"
+                                whileHover={{ scale: 1.02, y: -5 }}
                             >
-                                {/* Active Glitch Hover Effect */}
-                                {/* Active Glitch Hover Effect - Clean Scanline */}
+                                {/* Active Glitch Hover Effect - Border Glow Pulse */}
                                 <motion.div
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
-                                >
-                                    <motion.div
-                                        className="absolute top-0 left-0 w-full h-[2px] bg-glow-cyan/50 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
-                                        animate={{ top: ['0%', '100%'] }}
-                                        transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                                    />
-                                </motion.div>
+                                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-lg pointer-events-none"
+                                    animate={{ opacity: [0.5, 1, 0.5] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                />
                                 {/* Corner accents */}
                                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
                                 <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
@@ -172,20 +177,15 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 + index * 0.1 }}
-                                className="glitch-container rounded-lg p-6 sm:p-8 group border border-white/5 hover:border-glow-cyan/50 hover:bg-glow-cyan/5 transition-all duration-300 relative overflow-hidden"
-                                whileHover={{ scale: 1.02 }}
+                                className="glitch-container rounded-lg p-6 sm:p-8 group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden"
+                                whileHover={{ scale: 1.02, y: -5 }}
                             >
-                                {/* Subtle Hover Shine */}
-                                {/* Active Glitch Hover Effect - Clean Scanline */}
+                                {/* Active Glitch Hover Effect - Border Glow Pulse */}
                                 <motion.div
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
-                                >
-                                    <motion.div
-                                        className="absolute top-0 left-0 w-full h-[2px] bg-glow-cyan/50 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
-                                        animate={{ top: ['0%', '100%'] }}
-                                        transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                                    />
-                                </motion.div>
+                                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-lg pointer-events-none"
+                                    animate={{ opacity: [0.5, 1, 0.5] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                />
                                 {/* Corner accents */}
                                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
                                 <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
