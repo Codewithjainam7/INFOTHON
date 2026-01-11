@@ -52,7 +52,6 @@ export default function AboutPage() {
                             <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10 overflow-visible">
                                 <span className="gradient-text relative inline-block">
                                     <motion.div
-                                        style={{ willChange: 'transform' }}
                                         animate={{
                                             skewX: [0, 2, -2, 0],
                                             x: [0, 1, -1, 0]
