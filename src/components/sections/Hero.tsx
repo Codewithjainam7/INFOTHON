@@ -95,9 +95,55 @@ export function Hero() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter mb-4">
-                            INFOTHON x HACKATHON
-                        </NeonText>
+                        {/* Infinite Scrolling Text Marquee with Logo */}
+                        <div className="relative overflow-hidden w-full mb-4">
+                            {/* Gradient masks for smooth fade */}
+                            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-bg-primary to-transparent z-10" />
+                            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-bg-primary to-transparent z-10" />
+
+                            <motion.div
+                                className="flex whitespace-nowrap"
+                                animate={{ x: [0, '-50%'] }}
+                                transition={{
+                                    x: {
+                                        duration: 20,
+                                        repeat: Infinity,
+                                        ease: 'linear',
+                                    },
+                                }}
+                            >
+                                {/* Repeat twice for seamless loop */}
+                                {[0, 1].map((i) => (
+                                    <div key={i} className="flex items-center gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-8">
+                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
+                                            INFOTHON
+                                        </NeonText>
+                                        <img
+                                            src="/images/INFOTHON.png"
+                                            alt="Logo"
+                                            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                                        />
+                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
+                                            HACKATHON
+                                        </NeonText>
+                                        <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-glow-violet font-bold">✦</span>
+
+                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
+                                            INFOTHON
+                                        </NeonText>
+                                        <img
+                                            src="/images/INFOTHON.png"
+                                            alt="Logo"
+                                            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain drop-shadow-[0_0_10px_rgba(139,92,246,0.5)]"
+                                        />
+                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
+                                            HACKATHON
+                                        </NeonText>
+                                        <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-glow-cyan font-bold">✦</span>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        </div>
 
                         {/* Animated 2026 Image with Glitch Effect */}
                         <div className="flex justify-center mt-4 relative">
