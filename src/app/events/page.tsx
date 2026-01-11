@@ -9,7 +9,7 @@ import { GlowButton, ScrambleText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { Footer } from '@/components/sections'
-import { Target, Code, Brain, Bot, Palette, Gamepad2, BookOpen } from 'lucide-react'
+import { Target, Code, Brain, Bot, Palette, Gamepad2, BookOpen, Search } from 'lucide-react'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -138,30 +138,62 @@ export default function EventsPage() {
                         transition={{ delay: 0.1 }}
                         className="mb-10 sm:mb-12"
                     >
-                        {/* Search */}
-                        <div className="max-w-md mx-auto mb-6 sm:mb-8">
-                            <input
-                                type="text"
-                                placeholder="Search events..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full px-4 sm:px-5 py-3 pl-10 sm:pl-12 rounded-xl glass bg-bg-secondary/50 border border-white/10 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan/50 transition-all text-sm sm:text-base"
-                            />
+                        {/* Search Container */}
+                        <div className="max-w-xl mx-auto mb-10 relative group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-glow-cyan/20 to-glow-violet/20 rounded-xl blur-md opacity-20 group-hover:opacity-40 transition-opacity" />
+                            <div className="relative relative flex items-center bg-black/60 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-lg group-hover:border-glow-cyan/50 transition-all">
+                                <Search className="w-6 h-6 text-glow-cyan ml-4 mr-2 opacity-70 group-hover:opacity-100 transition-opacity" />
+                                <input
+                                    type="text"
+                                    placeholder="SEARCH_EVENTS_DATABASE..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full px-4 py-4 bg-transparent text-white placeholder-text-muted/50 focus:outline-none font-mono text-sm tracking-widest uppercase"
+                                />
+                                <div className="pr-4">
+                                    <div className="w-2 h-2 bg-glow-cyan rounded-full animate-pulse" />
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Categories */}
-                        <div className="flex flex-wrap justify-center gap-2">
+                        {/* Futuristic Categories HUD */}
+                        <div className="flex flex-wrap justify-center gap-4">
                             {eventCategories.map((category) => (
                                 <button
                                     key={category.id}
                                     onClick={() => setActiveCategory(category.id)}
-                                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex items-center ${activeCategory === category.id
-                                        ? 'bg-glow-cyan/20 text-glow-cyan border border-glow-cyan/50'
-                                        : 'glass text-text-secondary hover:text-white'
+                                    className={`relative group px-6 py-3 font-heading font-bold uppercase tracking-wider text-sm transition-all duration-300 ${activeCategory === category.id
+                                        ? 'text-black'
+                                        : 'text-text-secondary hover:text-white'
                                         }`}
                                 >
-                                    <span className="mr-1.5 sm:mr-2">{categoryIcons[category.id]}</span>
-                                    {category.label}
+                                    {/* Active Background - Glowing Shape */}
+                                    {activeCategory === category.id && (
+                                        <motion.div
+                                            layoutId="activeCategory"
+                                            className="absolute inset-0 bg-glow-cyan shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+                                            style={{
+                                                clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
+                                            }}
+                                            transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                                        />
+                                    )}
+
+                                    {/* Inactive Border - Visible on Hover */}
+                                    {activeCategory !== category.id && (
+                                        <div
+                                            className="absolute inset-0 border border-white/20 bg-black/40 backdrop-blur-sm group-hover:border-glow-cyan/50 transition-colors"
+                                            style={{
+                                                clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
+                                            }}
+                                        />
+                                    )}
+
+                                    {/* Content */}
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        {categoryIcons[category.id]}
+                                        {category.label}
+                                    </span>
                                 </button>
                             ))}
                         </div>
