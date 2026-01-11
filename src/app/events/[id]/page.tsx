@@ -229,10 +229,52 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             transition={{ delay: 0.3 }}
                             className="mb-8 relative z-10"
                         >
-                            <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-cyan">
-                                <ClipboardList className="w-6 h-6" />
-                                Rules & Guidelines
-                            </h2>
+                            <div className="relative mb-4">
+                                <h2 className="text-lg sm:text-xl font-heading font-bold flex items-center gap-2 text-glow-cyan relative z-20">
+                                    <ClipboardList className="w-6 h-6" />
+                                    Rules & Guidelines
+                                </h2>
+
+                                {/* Glitch layer - Cyan offset */}
+                                <motion.div
+                                    className="absolute inset-0 flex items-center gap-2 text-lg sm:text-xl font-heading font-bold text-[#00f0ff] pointer-events-none z-10"
+                                    style={{ opacity: 0 }}
+                                    animate={{
+                                        x: [0, -4, 2, -3, 0],
+                                        y: [0, 2, -1, 0],
+                                        opacity: [0, 0.9, 0, 0.7, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.2,
+                                        repeat: Infinity,
+                                        repeatDelay: 2.5,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                >
+                                    <ClipboardList className="w-6 h-6" />
+                                    Rules & Guidelines
+                                </motion.div>
+
+                                {/* Glitch layer - Violet offset */}
+                                <motion.div
+                                    className="absolute inset-0 flex items-center gap-2 text-lg sm:text-xl font-heading font-bold text-[#8b5cf6] pointer-events-none z-10"
+                                    style={{ opacity: 0 }}
+                                    animate={{
+                                        x: [0, 4, -2, 3, 0],
+                                        y: [0, -2, 1, 0],
+                                        opacity: [0, 0.8, 0, 0.6, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.15,
+                                        repeat: Infinity,
+                                        repeatDelay: 2.2,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                >
+                                    <ClipboardList className="w-6 h-6" />
+                                    Rules & Guidelines
+                                </motion.div>
+                            </div>
                             <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                                 {event.rules.map((rule, index) => (
                                     <motion.div
@@ -265,10 +307,52 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             transition={{ delay: 0.4 }}
                             className="mb-8 relative z-10"
                         >
-                            <h2 className="text-lg sm:text-xl font-heading font-bold mb-6 flex items-center gap-2 text-glow-violet">
-                                <Clock className="w-6 h-6" />
-                                Event Timeline
-                            </h2>
+                            <div className="relative mb-6">
+                                <h2 className="text-lg sm:text-xl font-heading font-bold flex items-center gap-2 text-glow-violet relative z-20">
+                                    <Clock className="w-6 h-6" />
+                                    Event Timeline
+                                </h2>
+
+                                {/* Glitch layer - Cyan offset */}
+                                <motion.div
+                                    className="absolute inset-0 flex items-center gap-2 text-lg sm:text-xl font-heading font-bold text-[#00f0ff] pointer-events-none z-10"
+                                    style={{ opacity: 0 }}
+                                    animate={{
+                                        x: [0, -4, 2, -3, 0],
+                                        y: [0, 2, -1, 0],
+                                        opacity: [0, 0.9, 0, 0.7, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.2,
+                                        repeat: Infinity,
+                                        repeatDelay: 3,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                >
+                                    <Clock className="w-6 h-6" />
+                                    Event Timeline
+                                </motion.div>
+
+                                {/* Glitch layer - Violet offset */}
+                                <motion.div
+                                    className="absolute inset-0 flex items-center gap-2 text-lg sm:text-xl font-heading font-bold text-[#8b5cf6] pointer-events-none z-10"
+                                    style={{ opacity: 0 }}
+                                    animate={{
+                                        x: [0, 4, -2, 3, 0],
+                                        y: [0, -2, 1, 0],
+                                        opacity: [0, 0.8, 0, 0.6, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.15,
+                                        repeat: Infinity,
+                                        repeatDelay: 2.8,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                >
+                                    <Clock className="w-6 h-6" />
+                                    Event Timeline
+                                </motion.div>
+                            </div>
                             <div className="relative pl-2">
                                 {/* Gradient line - positioned at center of nodes */}
                                 <div className="absolute left-[9px] sm:left-[11px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan/30" />
