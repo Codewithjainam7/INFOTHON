@@ -95,8 +95,8 @@ export function Hero() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        <NeonText as="h1" color="gradient" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-4">
-                            INFOTHON
+                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter mb-4">
+                            INFOTHON x HACKATHON
                         </NeonText>
                         <div className="flex justify-center mt-4">
                             <img
@@ -105,6 +105,9 @@ export function Hero() {
                                 className="h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain"
                             />
                         </div>
+                        <p className="mt-4 text-lg sm:text-xl md:text-2xl font-heading font-semibold text-text-secondary tracking-wide">
+                            INFOTHON PRESENTS HACKATHON 2026
+                        </p>
                     </motion.div>
 
                     <motion.p
