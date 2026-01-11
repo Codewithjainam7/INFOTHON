@@ -43,20 +43,41 @@ export default function AboutPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-center mb-16 sm:mb-20"
+                        className="flex flex-col items-center justify-center mb-16 sm:mb-20"
                     >
                         <span className="inline-block px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm text-xs font-cyber text-glow-cyan tracking-widest mb-6 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                             ABOUT US
                         </span>
                         <div className="relative inline-block mb-6">
                             <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
-                                <span className="gradient-text">
+                                <span className="gradient-text relative inline-block">
                                     <ScrambleText
                                         text="The Future Awaits"
                                         revealSpeed={50}
                                         scrambleSpeed={30}
                                         delay={500}
                                     />
+                                    {/* Infinite Glitch Layers */}
+                                    <motion.span
+                                        className="absolute inset-0 text-glow-cyan opacity-50 mix-blend-screen pointer-events-none"
+                                        animate={{
+                                            x: [-2, 2, -1, 1, 0, 3, -3, 0],
+                                            opacity: [0.5, 0.8, 0.5, 0.2, 0.5]
+                                        }}
+                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
+                                    >
+                                        The Future Awaits
+                                    </motion.span>
+                                    <motion.span
+                                        className="absolute inset-0 text-glow-violet opacity-50 mix-blend-screen pointer-events-none"
+                                        animate={{
+                                            x: [2, -2, 1, -1, 0, -2, 2, 0],
+                                            opacity: [0.5, 0.8, 0.5, 0.2, 0.5]
+                                        }}
+                                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 3 }}
+                                    >
+                                        The Future Awaits
+                                    </motion.span>
                                 </span>
                             </h1>
                         </div>
