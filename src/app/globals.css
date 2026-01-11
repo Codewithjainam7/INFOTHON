@@ -196,12 +196,25 @@ h6 {
     border-color: rgba(139, 92, 246, 0.3);
   }
 
-  /* Gradient Text */
+  /* Gradient Text - with iOS Safari fallback */
   .gradient-text {
+    color: var(--glow-cyan);
+    /* Fallback for browsers without support */
     background: linear-gradient(135deg, var(--glow-cyan) 0%, var(--glow-violet) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Ensure gradient text is always visible on mobile */
+  @supports not (-webkit-background-clip: text) {
+    .gradient-text {
+      background: none;
+      color: var(--glow-cyan);
+      -webkit-text-fill-color: currentColor;
+    }
   }
 
   .gradient-text-animated {

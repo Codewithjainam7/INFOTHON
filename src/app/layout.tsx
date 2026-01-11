@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ClientLayout } from '@/components/ClientLayout'
 
 export const metadata: Metadata = {
     title: 'INFOTHON 2026 | The Future Awaits',
@@ -26,7 +27,9 @@ export default function RootLayout({
                 <meta name="theme-color" content="#0a0a0f" />
             </head>
             <body className="bg-bg-primary text-text-primary antialiased">
-                {children}
+                <ClientLayout>
+                    {children}
+                </ClientLayout>
             </body>
         </html>
     )
