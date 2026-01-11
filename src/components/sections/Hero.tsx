@@ -273,8 +273,54 @@ export function Hero() {
                                     <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
                                     <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
                                     <div className="relative z-10">
-                                        <div className="text-xl sm:text-2xl md:text-3xl font-cyber font-bold text-glow-cyan glow-text-cyan">
-                                            {mounted ? String(item.value).padStart(2, '0') : '--'}
+                                        {/* Glitch number layers */}
+                                        <div className="relative">
+                                            {/* Cyan glitch layer */}
+                                            <motion.div
+                                                className="absolute inset-0 text-xl sm:text-2xl md:text-3xl font-cyber font-bold opacity-0"
+                                                style={{ color: '#00f0ff', filter: 'hue-rotate(180deg)' }}
+                                                animate={{
+                                                    x: [0, -3, 0, 2, 0],
+                                                    opacity: [0, 0.6, 0, 0.4, 0],
+                                                }}
+                                                transition={{
+                                                    duration: 0.2,
+                                                    repeat: Infinity,
+                                                    repeatDelay: 4,
+                                                }}
+                                            >
+                                                {mounted ? String(item.value).padStart(2, '0') : '--'}
+                                            </motion.div>
+                                            {/* Violet glitch layer */}
+                                            <motion.div
+                                                className="absolute inset-0 text-xl sm:text-2xl md:text-3xl font-cyber font-bold opacity-0"
+                                                style={{ color: '#8b5cf6', filter: 'hue-rotate(-60deg)' }}
+                                                animate={{
+                                                    x: [0, 3, 0, -2, 0],
+                                                    opacity: [0, 0.5, 0, 0.3, 0],
+                                                }}
+                                                transition={{
+                                                    duration: 0.15,
+                                                    repeat: Infinity,
+                                                    repeatDelay: 3.5,
+                                                }}
+                                            >
+                                                {mounted ? String(item.value).padStart(2, '0') : '--'}
+                                            </motion.div>
+                                            {/* Main number */}
+                                            <motion.div
+                                                className="text-xl sm:text-2xl md:text-3xl font-cyber font-bold text-glow-cyan glow-text-cyan"
+                                                animate={{
+                                                    x: [0, 0, -1, 1, 0],
+                                                }}
+                                                transition={{
+                                                    duration: 0.1,
+                                                    repeat: Infinity,
+                                                    repeatDelay: 5,
+                                                }}
+                                            >
+                                                {mounted ? String(item.value).padStart(2, '0') : '--'}
+                                            </motion.div>
                                         </div>
                                         <div className="text-[9px] sm:text-[10px] text-text-muted uppercase tracking-widest mt-1 font-cyber">
                                             {item.label}

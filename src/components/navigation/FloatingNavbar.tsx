@@ -71,10 +71,56 @@ export function FloatingNavbar() {
                                         priority
                                     />
                                 </div>
-                                <span className="font-heading font-bold text-base sm:text-lg tracking-wider">
-                                    <span className="text-glow-cyan">INFO</span>
-                                    <span className="text-white">THON</span>
-                                </span>
+                                {/* Glitch Text Effect */}
+                                <div className="relative">
+                                    {/* Cyan glitch layer */}
+                                    <motion.span
+                                        className="absolute inset-0 font-heading font-bold text-base sm:text-lg tracking-wider opacity-0"
+                                        style={{ color: '#00f0ff' }}
+                                        animate={{
+                                            x: [0, -2, 0, 1, 0],
+                                            opacity: [0, 0.7, 0, 0.5, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.15,
+                                            repeat: Infinity,
+                                            repeatDelay: 3,
+                                        }}
+                                    >
+                                        INFOTHON
+                                    </motion.span>
+                                    {/* Violet glitch layer */}
+                                    <motion.span
+                                        className="absolute inset-0 font-heading font-bold text-base sm:text-lg tracking-wider opacity-0"
+                                        style={{ color: '#8b5cf6' }}
+                                        animate={{
+                                            x: [0, 2, 0, -1, 0],
+                                            opacity: [0, 0.6, 0, 0.4, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.12,
+                                            repeat: Infinity,
+                                            repeatDelay: 2.5,
+                                        }}
+                                    >
+                                        INFOTHON
+                                    </motion.span>
+                                    {/* Main text */}
+                                    <motion.span
+                                        className="font-heading font-bold text-base sm:text-lg tracking-wider"
+                                        animate={{
+                                            x: [0, 0, -0.5, 0.5, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.08,
+                                            repeat: Infinity,
+                                            repeatDelay: 4,
+                                        }}
+                                    >
+                                        <span className="text-glow-cyan">INFO</span>
+                                        <span className="text-white">THON</span>
+                                    </motion.span>
+                                </div>
                             </Link>
                         </MagneticElement>
 
