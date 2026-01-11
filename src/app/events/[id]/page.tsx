@@ -83,20 +83,47 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 {event.category}
                             </div>
 
-                            {/* Title with Glitch Effect */}
-                            <div className="relative mb-4 group">
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(34,211,238,0.6)]">
+                            {/* Title with Animated Glitch Effect */}
+                            <div className="relative mb-4">
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(34,211,238,0.6)] relative z-20">
                                     <ScrambleText text={event.title} revealSpeed={50} scrambleSpeed={30} delay={300} />
                                 </h1>
-                                {/* Glitch layer - appears on hover */}
-                                <h1
-                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#ff0066] opacity-0 group-hover:opacity-70 transition-opacity pointer-events-none"
-                                    style={{ transform: 'translate(-2px, 1px)' }}
-                                >{event.title}</h1>
-                                <h1
-                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#00ff66] opacity-0 group-hover:opacity-70 transition-opacity pointer-events-none"
-                                    style={{ transform: 'translate(2px, -1px)' }}
-                                >{event.title}</h1>
+
+                                {/* Glitch layer - Cyan offset */}
+                                <motion.h1
+                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                    style={{ opacity: 0 }}
+                                    animate={{
+                                        x: [0, -8, 4, -6, 0],
+                                        y: [0, 3, -2, 0],
+                                        scale: [1, 1.03, 0.97, 1],
+                                        opacity: [0, 1, 0, 0.8, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.2,
+                                        repeat: Infinity,
+                                        repeatDelay: 1.5,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                >{event.title}</motion.h1>
+
+                                {/* Glitch layer - Violet offset */}
+                                <motion.h1
+                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                    style={{ opacity: 0 }}
+                                    animate={{
+                                        x: [0, 8, -4, 6, 0],
+                                        y: [0, -3, 2, 0],
+                                        scale: [1, 0.97, 1.03, 1],
+                                        opacity: [0, 0.9, 0, 0.7, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.15,
+                                        repeat: Infinity,
+                                        repeatDelay: 1.2,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                >{event.title}</motion.h1>
                             </div>
 
                             <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-3xl">
@@ -149,23 +176,48 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
 
                                 <p className="text-sm sm:text-base text-text-muted uppercase tracking-[0.4em] font-mono mb-3 relative z-10">PRIZE POOL</p>
 
-                                {/* Prize with glitch on hover */}
+                                {/* Prize with animated glitch */}
                                 <div className="relative inline-block">
                                     <p
-                                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-glow-cyan relative z-10"
+                                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-glow-cyan relative z-20"
                                         style={{ textShadow: '0 0 50px rgba(34,211,238,0.8), 0 0 100px rgba(34,211,238,0.4)' }}
                                     >
                                         {event.prize}
                                     </p>
-                                    {/* Glitch layers on hover */}
-                                    <p
-                                        className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-[#ff0066] opacity-0 group-hover:opacity-80 transition-opacity"
-                                        style={{ transform: 'translate(-3px, 2px)', filter: 'blur(0.5px)' }}
-                                    >{event.prize}</p>
-                                    <p
-                                        className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-[#00ff66] opacity-0 group-hover:opacity-80 transition-opacity"
-                                        style={{ transform: 'translate(3px, -2px)', filter: 'blur(0.5px)' }}
-                                    >{event.prize}</p>
+
+                                    {/* Glitch layer - Cyan offset */}
+                                    <motion.p
+                                        className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                        style={{ opacity: 0 }}
+                                        animate={{
+                                            x: [0, -6, 3, -4, 0],
+                                            y: [0, 2, -2, 0],
+                                            opacity: [0, 0.9, 0, 0.7, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.18,
+                                            repeat: Infinity,
+                                            repeatDelay: 1.8,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
+                                        }}
+                                    >{event.prize}</motion.p>
+
+                                    {/* Glitch layer - Violet offset */}
+                                    <motion.p
+                                        className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                        style={{ opacity: 0 }}
+                                        animate={{
+                                            x: [0, 6, -3, 4, 0],
+                                            y: [0, -2, 2, 0],
+                                            opacity: [0, 0.8, 0, 0.6, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.15,
+                                            repeat: Infinity,
+                                            repeatDelay: 1.4,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
+                                        }}
+                                    >{event.prize}</motion.p>
                                 </div>
                             </div>
                         </motion.div>
