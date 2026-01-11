@@ -9,30 +9,41 @@ interface BootSequenceProps {
     duration?: number
 }
 
-// Glitch text component
-const GlitchText = ({ children, className }: { children: string; className?: string }) => (
-    <motion.span className={`relative inline-block ${className}`}>
-        <span className="relative z-10">{children}</span>
-        <motion.span
-            className="absolute inset-0 text-glow-cyan opacity-70"
-            animate={{ x: [0, -2, 2, 0], opacity: [0.7, 0.3, 0.7] }}
-            transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 2 }}
-            style={{ clipPath: 'inset(0 0 50% 0)' }}
-        >
-            {children}
+// Glitch text component with RGB split effect
+const GlitchText = ({ children, className, intensity = 'normal' }: { children: string; className?: string; intensity?: 'normal' | 'high' }) => {
+    const glitchDelay = intensity === 'high' ? 1.5 : 2.5;
+    return (
+        <motion.span className={`relative inline-block ${className}`}>
+            <span className="relative z-10">{children}</span>
+            <motion.span
+                className="absolute inset-0 text-glow-cyan"
+                animate={{
+                    x: [0, -3, 0, 2, -1, 0],
+                    opacity: [0, 0.8, 0, 0.5, 0.3, 0],
+                    skewX: [0, 2, 0, -1, 0]
+                }}
+                transition={{ duration: 0.15, repeat: Infinity, repeatDelay: glitchDelay }}
+                style={{ clipPath: 'inset(0 0 60% 0)' }}
+            >
+                {children}
+            </motion.span>
+            <motion.span
+                className="absolute inset-0 text-glow-violet"
+                animate={{
+                    x: [0, 3, -2, 0, 1, 0],
+                    opacity: [0, 0.7, 0, 0.4, 0.2, 0],
+                    skewX: [0, -2, 0, 1, 0]
+                }}
+                transition={{ duration: 0.12, repeat: Infinity, repeatDelay: glitchDelay + 0.5 }}
+                style={{ clipPath: 'inset(40% 0 0 0)' }}
+            >
+                {children}
+            </motion.span>
         </motion.span>
-        <motion.span
-            className="absolute inset-0 text-glow-violet opacity-70"
-            animate={{ x: [0, 2, -2, 0], opacity: [0.7, 0.3, 0.7] }}
-            transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 2.5 }}
-            style={{ clipPath: 'inset(50% 0 0 0)' }}
-        >
-            {children}
-        </motion.span>
-    </motion.span>
-)
+    )
+}
 
-// Terminal line component
+// Terminal line component with typing effect
 const TerminalLine = ({ text, delay, isCommand = false }: { text: string; delay: number; isCommand?: boolean }) => (
     <motion.div
         initial={{ opacity: 0, x: -10 }}
@@ -41,7 +52,12 @@ const TerminalLine = ({ text, delay, isCommand = false }: { text: string; delay:
         className={`font-mono text-xs ${isCommand ? 'text-glow-cyan' : 'text-text-muted'}`}
     >
         {isCommand && <span className="text-glow-violet mr-2">›</span>}
-        {text}
+        <motion.span
+            animate={{ opacity: [1, 0.7, 1] }}
+            transition={{ duration: 0.1, repeat: 3, delay: delay + 0.1 }}
+        >
+            {text}
+        </motion.span>
     </motion.div>
 )
 
@@ -49,6 +65,7 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
     const [phase, setPhase] = useState<'loading' | 'transition'>('loading')
     const [progress, setProgress] = useState(0)
     const [showLogo, setShowLogo] = useState(false)
+    const [glitchActive, setGlitchActive] = useState(false)
 
     const terminalLines = [
         { text: 'SYSTEM BOOT SEQUENCE INITIATED', delay: 0.2, isCommand: true },
@@ -62,6 +79,12 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
     useEffect(() => {
         // Show logo after initial lines
         const logoTimer = setTimeout(() => setShowLogo(true), 800)
+
+        // Random glitch effect
+        const glitchInterval = setInterval(() => {
+            setGlitchActive(true)
+            setTimeout(() => setGlitchActive(false), 150)
+        }, 2000)
 
         // Progress animation
         const progressInterval = setInterval(() => {
@@ -84,6 +107,7 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
             clearTimeout(timer)
             clearTimeout(logoTimer)
             clearInterval(progressInterval)
+            clearInterval(glitchInterval)
         }
     }, [duration, onComplete])
 
@@ -104,19 +128,44 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                                   linear-gradient(90deg, rgba(34,211,238,0.1) 1px, transparent 1px)`,
                                 backgroundSize: '50px 50px',
                             }}
-                            animate={{ y: [0, 50] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                            animate={{
+                                y: [0, 50],
+                                x: glitchActive ? [0, -5, 3, 0] : 0,
+                            }}
+                            transition={{
+                                y: { duration: 2, repeat: Infinity, ease: 'linear' },
+                                x: { duration: 0.1 }
+                            }}
                         />
                     </div>
 
-                    {/* Background Image */}
-                    <Image
-                        src="/images/booting_img.048Z.png"
-                        alt="Boot Background"
-                        fill
-                        priority
-                        className="object-cover opacity-20"
-                    />
+                    {/* Background Image with glitch */}
+                    <motion.div
+                        className="absolute inset-0"
+                        animate={{
+                            x: glitchActive ? [0, -3, 2, 0] : 0,
+                        }}
+                        transition={{ duration: 0.1 }}
+                    >
+                        <Image
+                            src="/images/booting_img.048Z.png"
+                            alt="Boot Background"
+                            fill
+                            priority
+                            className="object-cover opacity-20"
+                        />
+                    </motion.div>
+
+                    {/* Glitch overlay effect */}
+                    <motion.div
+                        className="absolute inset-0 pointer-events-none z-50"
+                        animate={{ opacity: glitchActive ? 1 : 0 }}
+                        transition={{ duration: 0.05 }}
+                    >
+                        <div className="absolute inset-0 bg-glow-cyan/5" style={{ clipPath: 'inset(20% 0 60% 0)', transform: 'translateX(-5px)' }} />
+                        <div className="absolute inset-0 bg-glow-violet/5" style={{ clipPath: 'inset(50% 0 30% 0)', transform: 'translateX(5px)' }} />
+                        <div className="absolute inset-0 bg-white/5" style={{ clipPath: 'inset(70% 0 10% 0)', transform: 'translateX(-3px)' }} />
+                    </motion.div>
 
                     {/* Radial Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-radial from-glow-cyan/10 via-transparent to-transparent" />
@@ -129,14 +178,27 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                 key={i}
                                 className="absolute left-0 right-0 h-px bg-glow-cyan/20"
                                 style={{ top: `${i * 5}%` }}
-                                animate={{ opacity: [0.2, 0.5, 0.2] }}
-                                transition={{ duration: 1.5, delay: i * 0.05, repeat: Infinity }}
+                                animate={{
+                                    opacity: [0.2, 0.5, 0.2],
+                                    x: glitchActive && i % 3 === 0 ? [0, 10, -5, 0] : 0,
+                                }}
+                                transition={{
+                                    opacity: { duration: 1.5, delay: i * 0.05, repeat: Infinity },
+                                    x: { duration: 0.1 }
+                                }}
                             />
                         ))}
                     </div>
 
                     {/* Main Content Container */}
-                    <div className="relative z-10 w-full max-w-lg px-6">
+                    <motion.div
+                        className="relative z-10 w-full max-w-lg px-6"
+                        animate={{
+                            x: glitchActive ? [0, -4, 3, 0] : 0,
+                            skewX: glitchActive ? [0, 1, -1, 0] : 0,
+                        }}
+                        transition={{ duration: 0.1 }}
+                    >
                         {/* Terminal Window */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -146,9 +208,21 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                         >
                             {/* Terminal Header */}
                             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
-                                <div className="w-2 h-2 rounded-full bg-red-500" />
-                                <div className="w-2 h-2 rounded-full bg-yellow-500" />
-                                <div className="w-2 h-2 rounded-full bg-green-500" />
+                                <motion.div
+                                    className="w-2 h-2 rounded-full bg-red-500"
+                                    animate={{ scale: glitchActive ? [1, 1.5, 1] : 1 }}
+                                    transition={{ duration: 0.1 }}
+                                />
+                                <motion.div
+                                    className="w-2 h-2 rounded-full bg-yellow-500"
+                                    animate={{ scale: glitchActive ? [1, 0.5, 1] : 1 }}
+                                    transition={{ duration: 0.1 }}
+                                />
+                                <motion.div
+                                    className="w-2 h-2 rounded-full bg-green-500"
+                                    animate={{ scale: glitchActive ? [1, 1.3, 1] : 1 }}
+                                    transition={{ duration: 0.1 }}
+                                />
                                 <span className="ml-2 text-xs text-text-muted font-mono">system_init.exe</span>
                             </div>
 
@@ -167,29 +241,72 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                             transition={{ duration: 0.6, type: 'spring' }}
                             className="text-center"
                         >
-                            {/* Animated Logo */}
+                            {/* Animated Logo with Glitch */}
                             <div className="relative w-32 h-32 mx-auto mb-6">
                                 {/* Outer rotating ring */}
                                 <motion.div
-                                    className="absolute inset-0 rounded-full border-2 border-transparent"
-                                    style={{
-                                        borderImage: 'linear-gradient(45deg, #22d3ee, #8b5cf6, #22d3ee) 1',
+                                    className="absolute inset-0 rounded-full border-2 border-glow-cyan/50"
+                                    animate={{
+                                        rotate: 360,
+                                        borderColor: glitchActive ? ['rgba(34,211,238,0.5)', 'rgba(139,92,246,0.8)', 'rgba(34,211,238,0.5)'] : 'rgba(34,211,238,0.5)',
                                     }}
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                                    transition={{
+                                        rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
+                                        borderColor: { duration: 0.1 }
+                                    }}
                                 />
 
                                 {/* Inner pulsing ring */}
                                 <motion.div
-                                    className="absolute inset-2 rounded-full border border-glow-cyan/50"
+                                    className="absolute inset-2 rounded-full border border-glow-violet/50"
                                     animate={{
                                         scale: [1, 1.05, 1],
                                         opacity: [0.5, 1, 0.5],
+                                        rotate: glitchActive ? [0, -5, 3, 0] : 0,
                                     }}
-                                    transition={{ duration: 2, repeat: Infinity }}
+                                    transition={{
+                                        scale: { duration: 2, repeat: Infinity },
+                                        opacity: { duration: 2, repeat: Infinity },
+                                        rotate: { duration: 0.1 }
+                                    }}
                                 />
 
-                                {/* Logo container with glow */}
+                                {/* Glitch logo layers */}
+                                <motion.div
+                                    className="absolute inset-4 rounded-full overflow-hidden"
+                                    style={{ filter: 'hue-rotate(180deg)' }}
+                                    animate={{
+                                        x: glitchActive ? [-4, 3, 0] : 0,
+                                        opacity: glitchActive ? 0.6 : 0,
+                                    }}
+                                    transition={{ duration: 0.1 }}
+                                >
+                                    <Image
+                                        src="/images/INFOTHON.png"
+                                        alt=""
+                                        fill
+                                        className="object-contain p-2"
+                                    />
+                                </motion.div>
+
+                                <motion.div
+                                    className="absolute inset-4 rounded-full overflow-hidden"
+                                    style={{ filter: 'hue-rotate(-60deg)' }}
+                                    animate={{
+                                        x: glitchActive ? [3, -4, 0] : 0,
+                                        opacity: glitchActive ? 0.5 : 0,
+                                    }}
+                                    transition={{ duration: 0.1 }}
+                                >
+                                    <Image
+                                        src="/images/INFOTHON.png"
+                                        alt=""
+                                        fill
+                                        className="object-contain p-2"
+                                    />
+                                </motion.div>
+
+                                {/* Main logo container with glow */}
                                 <motion.div
                                     className="absolute inset-4 rounded-full overflow-hidden"
                                     animate={{
@@ -198,8 +315,12 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                             '0 0 40px rgba(139,92,246,0.4)',
                                             '0 0 20px rgba(34,211,238,0.3)',
                                         ],
+                                        x: glitchActive ? [0, -2, 2, 0] : 0,
                                     }}
-                                    transition={{ duration: 2, repeat: Infinity }}
+                                    transition={{
+                                        boxShadow: { duration: 2, repeat: Infinity },
+                                        x: { duration: 0.1 }
+                                    }}
                                 >
                                     <Image
                                         src="/images/INFOTHON.png"
@@ -210,50 +331,86 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                     />
                                 </motion.div>
 
-                                {/* Corner accents */}
+                                {/* Corner accents with glitch */}
                                 <motion.div
                                     className="absolute -top-1 -left-1 w-4 h-4 border-l-2 border-t-2 border-glow-cyan"
-                                    animate={{ opacity: [0.5, 1, 0.5] }}
-                                    transition={{ duration: 1, repeat: Infinity }}
+                                    animate={{
+                                        opacity: [0.5, 1, 0.5],
+                                        x: glitchActive ? [0, -3, 1, 0] : 0,
+                                    }}
+                                    transition={{
+                                        opacity: { duration: 1, repeat: Infinity },
+                                        x: { duration: 0.1 }
+                                    }}
                                 />
                                 <motion.div
                                     className="absolute -top-1 -right-1 w-4 h-4 border-r-2 border-t-2 border-glow-violet"
-                                    animate={{ opacity: [0.5, 1, 0.5] }}
-                                    transition={{ duration: 1, repeat: Infinity, delay: 0.25 }}
+                                    animate={{
+                                        opacity: [0.5, 1, 0.5],
+                                        x: glitchActive ? [0, 3, -1, 0] : 0,
+                                    }}
+                                    transition={{
+                                        opacity: { duration: 1, repeat: Infinity, delay: 0.25 },
+                                        x: { duration: 0.1 }
+                                    }}
                                 />
                                 <motion.div
                                     className="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-glow-violet"
-                                    animate={{ opacity: [0.5, 1, 0.5] }}
-                                    transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
+                                    animate={{
+                                        opacity: [0.5, 1, 0.5],
+                                        x: glitchActive ? [0, -2, 2, 0] : 0,
+                                    }}
+                                    transition={{
+                                        opacity: { duration: 1, repeat: Infinity, delay: 0.5 },
+                                        x: { duration: 0.1 }
+                                    }}
                                 />
                                 <motion.div
                                     className="absolute -bottom-1 -right-1 w-4 h-4 border-r-2 border-b-2 border-glow-cyan"
-                                    animate={{ opacity: [0.5, 1, 0.5] }}
-                                    transition={{ duration: 1, repeat: Infinity, delay: 0.75 }}
+                                    animate={{
+                                        opacity: [0.5, 1, 0.5],
+                                        x: glitchActive ? [0, 2, -2, 0] : 0,
+                                    }}
+                                    transition={{
+                                        opacity: { duration: 1, repeat: Infinity, delay: 0.75 },
+                                        x: { duration: 0.1 }
+                                    }}
                                 />
                             </div>
 
-                            {/* Brand Name with Glitch */}
+                            {/* Brand Name with High Intensity Glitch */}
                             <motion.h1
                                 initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 1.2 }}
+                                animate={{
+                                    opacity: 1,
+                                    x: glitchActive ? [0, -5, 3, 0] : 0,
+                                }}
+                                transition={{
+                                    opacity: { delay: 1.2 },
+                                    x: { duration: 0.1 }
+                                }}
                                 className="text-3xl sm:text-4xl font-heading font-bold mb-2"
                             >
-                                <GlitchText className="text-glow-cyan">INFO</GlitchText>
-                                <GlitchText className="text-white">THON</GlitchText>
+                                <GlitchText className="text-glow-cyan" intensity="high">INFO</GlitchText>
+                                <GlitchText className="text-white" intensity="high">THON</GlitchText>
                             </motion.h1>
 
                             <motion.p
                                 initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 1.4 }}
+                                animate={{
+                                    opacity: 1,
+                                    x: glitchActive ? [0, 3, -2, 0] : 0,
+                                }}
+                                transition={{
+                                    opacity: { delay: 1.4 },
+                                    x: { duration: 0.1 }
+                                }}
                                 className="text-text-muted text-sm mb-6 tracking-widest"
                             >
-                                HACKATHON 2026 • TECHFEST
+                                <GlitchText intensity="normal">HACKATHON 2026 • TECHFEST</GlitchText>
                             </motion.p>
 
-                            {/* Progress Bar */}
+                            {/* Progress Bar with Glitch */}
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -264,6 +421,10 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                     <motion.div
                                         className="absolute inset-y-0 left-0 bg-gradient-to-r from-glow-cyan via-glow-violet to-glow-cyan rounded-full"
                                         style={{ width: `${progress}%` }}
+                                        animate={{
+                                            x: glitchActive ? [0, -3, 2, 0] : 0,
+                                        }}
+                                        transition={{ duration: 0.1 }}
                                     />
                                     {/* Shimmer effect */}
                                     <motion.div
@@ -273,29 +434,51 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                     />
                                 </div>
                                 <div className="flex justify-between items-center mt-2">
-                                    <p className="font-mono text-xs text-glow-cyan tracking-wider">
+                                    <motion.p
+                                        className="font-mono text-xs text-glow-cyan tracking-wider"
+                                        animate={{ opacity: glitchActive ? [1, 0.5, 1] : 1 }}
+                                        transition={{ duration: 0.1 }}
+                                    >
                                         LOADING SYSTEM
-                                    </p>
-                                    <p className="font-mono text-xs text-glow-violet">
+                                    </motion.p>
+                                    <motion.p
+                                        className="font-mono text-xs text-glow-violet"
+                                        animate={{
+                                            x: glitchActive ? [0, 2, -1, 0] : 0,
+                                        }}
+                                        transition={{ duration: 0.1 }}
+                                    >
                                         {progress.toFixed(0)}%
-                                    </p>
+                                    </motion.p>
                                 </div>
                             </motion.div>
                         </motion.div>
-                    </div>
+                    </motion.div>
 
-                    {/* Scanning Line Effect */}
+                    {/* Scanning Line Effect with Glitch */}
                     <motion.div
                         className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-glow-cyan/60 to-transparent"
-                        animate={{ top: ['0%', '100%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                        animate={{
+                            top: ['0%', '100%'],
+                            opacity: glitchActive ? [0.6, 1, 0.6] : 0.6,
+                        }}
+                        transition={{
+                            top: { duration: 2, repeat: Infinity, ease: 'linear' },
+                            opacity: { duration: 0.1 }
+                        }}
                     />
 
                     {/* Vertical Scan Lines */}
                     <motion.div
                         className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-glow-violet/40 to-transparent"
-                        animate={{ left: ['0%', '100%'] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                        animate={{
+                            left: ['0%', '100%'],
+                            opacity: glitchActive ? [0.4, 0.8, 0.4] : 0.4,
+                        }}
+                        transition={{
+                            left: { duration: 3, repeat: Infinity, ease: 'linear' },
+                            opacity: { duration: 0.1 }
+                        }}
                     />
 
                     {/* Corner Decorations */}
@@ -304,8 +487,12 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                     <div className="absolute bottom-4 left-4 w-16 h-16 border-l-2 border-b-2 border-glow-violet/40 rounded-bl-lg" />
                     <div className="absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 border-glow-cyan/40 rounded-br-lg" />
 
-                    {/* HUD Elements */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2">
+                    {/* HUD Elements with Glitch */}
+                    <motion.div
+                        className="absolute top-4 left-1/2 -translate-x-1/2"
+                        animate={{ x: glitchActive ? [0, -10, 5, 0] : '-50%' }}
+                        transition={{ duration: 0.1 }}
+                    >
                         <motion.div
                             className="font-mono text-xs text-glow-cyan/60 tracking-widest"
                             animate={{ opacity: [0.4, 1, 0.4] }}
@@ -313,9 +500,13 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                         >
                             ◆ SYSTEM v2.026 ◆
                         </motion.div>
-                    </div>
+                    </motion.div>
 
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+                    <motion.div
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+                        animate={{ x: glitchActive ? [0, 8, -4, 0] : '-50%' }}
+                        transition={{ duration: 0.1 }}
+                    >
                         <motion.div
                             className="font-mono text-xs text-text-muted tracking-wider"
                             animate={{ opacity: [0.3, 0.7, 0.3] }}
@@ -323,7 +514,27 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                         >
                             FEBRUARY 12-13, 2026 • MUMBAI
                         </motion.div>
-                    </div>
+                    </motion.div>
+
+                    {/* Random glitch noise lines */}
+                    {glitchActive && (
+                        <>
+                            <motion.div
+                                className="absolute left-0 right-0 h-0.5 bg-white/20"
+                                style={{ top: '30%' }}
+                                initial={{ scaleX: 0, x: '-100%' }}
+                                animate={{ scaleX: 1, x: '100%' }}
+                                transition={{ duration: 0.1 }}
+                            />
+                            <motion.div
+                                className="absolute left-0 right-0 h-0.5 bg-glow-cyan/30"
+                                style={{ top: '65%' }}
+                                initial={{ scaleX: 0, x: '100%' }}
+                                animate={{ scaleX: 1, x: '-100%' }}
+                                transition={{ duration: 0.08 }}
+                            />
+                        </>
+                    )}
                 </motion.div>
             )}
         </AnimatePresence>

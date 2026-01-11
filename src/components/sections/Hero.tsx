@@ -99,7 +99,7 @@ export function Hero() {
                             INFOTHON x HACKATHON
                         </NeonText>
 
-                        {/* Animated 2026 Image */}
+                        {/* Animated 2026 Image with Glitch Effect */}
                         <div className="flex justify-center mt-4 relative">
                             {/* Glow background */}
                             <motion.div
@@ -112,11 +112,11 @@ export function Hero() {
                                 <div className="w-64 h-24 bg-glow-cyan/20 blur-3xl rounded-full" />
                             </motion.div>
 
-                            {/* Main 2026 image with animations */}
+                            {/* Main 2026 image with glitch animations */}
                             <motion.div
                                 className="relative"
                                 animate={{
-                                    y: [0, -8, 0],
+                                    y: [0, -6, 0],
                                 }}
                                 transition={{
                                     duration: 4,
@@ -124,19 +124,43 @@ export function Hero() {
                                     ease: 'easeInOut',
                                 }}
                             >
-                                {/* Side accent lines */}
-                                <motion.div
-                                    className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-px bg-gradient-to-r from-transparent to-glow-cyan"
-                                    animate={{ scaleX: [0, 1, 0], opacity: [0, 1, 0] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                />
-                                <motion.div
-                                    className="absolute -right-8 top-1/2 -translate-y-1/2 w-6 h-px bg-gradient-to-l from-transparent to-glow-violet"
-                                    animate={{ scaleX: [0, 1, 0], opacity: [0, 1, 0] }}
-                                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                                {/* Glitch layer - Cyan offset */}
+                                <motion.img
+                                    src="/images/2026.png"
+                                    alt=""
+                                    className="absolute inset-0 h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain opacity-60"
+                                    style={{ filter: 'hue-rotate(180deg)' }}
+                                    animate={{
+                                        x: [0, -3, 0, 2, 0],
+                                        opacity: [0, 0.6, 0, 0.4, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.2,
+                                        repeat: Infinity,
+                                        repeatDelay: 3,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
                                 />
 
-                                {/* Image with glow effect */}
+                                {/* Glitch layer - Violet offset */}
+                                <motion.img
+                                    src="/images/2026.png"
+                                    alt=""
+                                    className="absolute inset-0 h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain opacity-60"
+                                    style={{ filter: 'hue-rotate(-60deg)' }}
+                                    animate={{
+                                        x: [0, 3, 0, -2, 0],
+                                        opacity: [0, 0.5, 0, 0.3, 0],
+                                    }}
+                                    transition={{
+                                        duration: 0.15,
+                                        repeat: Infinity,
+                                        repeatDelay: 2.5,
+                                        times: [0, 0.2, 0.4, 0.6, 1],
+                                    }}
+                                />
+
+                                {/* Main image with glow effect */}
                                 <motion.img
                                     src="/images/2026.png"
                                     alt="2026"
@@ -145,14 +169,34 @@ export function Hero() {
                                         filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
                                     }}
                                     animate={{
+                                        x: [0, 0, -2, 0, 2, 0, 0],
                                         filter: [
                                             'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
                                             'drop-shadow(0 0 30px rgba(34,211,238,0.6)) drop-shadow(0 0 60px rgba(139,92,246,0.4))',
                                             'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
                                         ],
                                     }}
-                                    transition={{ duration: 3, repeat: Infinity }}
+                                    transition={{
+                                        x: { duration: 0.1, repeat: Infinity, repeatDelay: 4, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
+                                        filter: { duration: 3, repeat: Infinity },
+                                    }}
                                 />
+
+                                {/* Glitch slice overlay */}
+                                <motion.div
+                                    className="absolute inset-0 overflow-hidden pointer-events-none z-20"
+                                    animate={{ opacity: [0, 1, 0] }}
+                                    transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 5 }}
+                                >
+                                    <div
+                                        className="absolute w-full h-1/4 bg-glow-cyan/20"
+                                        style={{ top: '25%', transform: 'translateX(3px)' }}
+                                    />
+                                    <div
+                                        className="absolute w-full h-1/6 bg-glow-violet/20"
+                                        style={{ top: '60%', transform: 'translateX(-4px)' }}
+                                    />
+                                </motion.div>
 
                                 {/* Scanning line effect */}
                                 <motion.div
@@ -162,7 +206,7 @@ export function Hero() {
                                     <motion.div
                                         className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan to-transparent"
                                         animate={{ top: ['-10%', '110%'] }}
-                                        transition={{ duration: 2.5, repeat: Infinity, ease: 'linear' }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
                                     />
                                 </motion.div>
 
@@ -200,23 +244,35 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.8 }}
-                        className="flex justify-center gap-2 sm:gap-4 md:gap-6 mb-10 px-2"
+                        className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 mb-10 px-2"
                     >
                         {countdownItems.map((item, index) => (
-                            <motion.div
-                                key={item.label}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
-                                className="glass rounded-xl p-3 sm:p-4 md:p-5 min-w-[65px] sm:min-w-[80px]"
-                            >
-                                <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-glow-cyan glow-text-cyan">
-                                    {mounted ? String(item.value).padStart(2, '0') : '--'}
-                                </div>
-                                <div className="text-[10px] sm:text-xs text-text-muted uppercase tracking-wider mt-1">
-                                    {item.label}
-                                </div>
-                            </motion.div>
+                            <div key={item.label} className="flex items-center">
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
+                                    className="glass rounded-xl p-3 sm:p-4 md:p-5 w-[70px] sm:w-[85px] md:w-[100px] text-center"
+                                >
+                                    <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-glow-cyan glow-text-cyan">
+                                        {mounted ? String(item.value).padStart(2, '0') : '--'}
+                                    </div>
+                                    <div className="text-[10px] sm:text-xs text-text-muted uppercase tracking-wider mt-1">
+                                        {item.label}
+                                    </div>
+                                </motion.div>
+                                {/* Colon separator - don't show after last item */}
+                                {index < countdownItems.length - 1 && (
+                                    <motion.span
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: [0.4, 1, 0.4] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: index * 0.2 }}
+                                        className="text-xl sm:text-2xl md:text-3xl font-bold text-glow-cyan mx-1 sm:mx-2"
+                                    >
+                                        :
+                                    </motion.span>
+                                )}
+                            </div>
                         ))}
                     </motion.div>
 
