@@ -24,18 +24,39 @@ const avatars = [
     '/images/girl_avatar_2.851Z.png',
 ]
 
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
+
+// ... existing imports
+
 export default function ProfilePage() {
+    const router = useRouter()
+    const supabase = createClientComponentClient()
     const [purchasedEvents, setPurchasedEvents] = useState<string[]>([])
     const [user, setUser] = useState<{ name: string; email: string } | null>(null)
     const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
     const [showAvatarSelection, setShowAvatarSelection] = useState(false)
 
     useEffect(() => {
-        // Load user data
-        const userData = localStorage.getItem('infothon_user')
-        if (userData) {
-            setUser({ name: 'Cyber Nomad', email: 'nomad@infothon.tech' })
+        const getUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (user) {
+                setUser({
+                    name: user.user_metadata.full_name || 'Cyber Nomad',
+                    email: user.email || ''
+                })
+            } else {
+                // Fallback to local storage for demo/testing without backend
+                const userData = localStorage.getItem('infothon_user')
+                if (userData) {
+                    const parsed = JSON.parse(userData)
+                    setUser(parsed)
+                } else {
+                    router.push('/login')
+                }
+            }
         }
+        getUser()
 
         // Load purchased events
         const saved = localStorage.getItem('infothon_purchased')
@@ -50,7 +71,14 @@ export default function ProfilePage() {
         } else {
             setShowAvatarSelection(true)
         }
-    }, [])
+    }, [router, supabase])
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut()
+        localStorage.removeItem('infothon_user') // Clear local fallback
+        router.push('/')
+        router.refresh()
+    }
 
     const handleAvatarSelect = (avatar: string) => {
         setSelectedAvatar(avatar)
@@ -115,10 +143,10 @@ export default function ProfilePage() {
                                 </div>
                             </div>
 
-                            <GlowButton onClick={() => window.location.reload()}>
-                                Refresh Data
+                            <GlowButton onClick={handleSignOut} className="border-red-500/50 hover:bg-red-500/20 text-red-400">
+                                Sign Out
                                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
                             </GlowButton>
                         </div>

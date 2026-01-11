@@ -8,6 +8,9 @@ import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard } from '@/components/ui'
 import { Footer } from '@/components/sections'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -72,18 +75,39 @@ export default function SignUpPage() {
         e.preventDefault()
         setIsSubmitting(true)
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500))
-
-        // Store signup status in localStorage
-        localStorage.setItem('infothon_user', JSON.stringify({
-            name: formData.name,
+        // Supabase SignUp
+        const { data, error } = await supabase.auth.signUp({
             email: formData.email,
-            signedUp: true
-        }))
+            password: formData.password,
+            options: {
+                data: {
+                    full_name: formData.name,
+                    phone: formData.phone,
+                    college: formData.college,
+                    role: 'user', // Default role
+                }
+            }
+        })
+
+        if (error) {
+            console.error('Signup Error:', error)
+            alert('Signup failed: ' + error.message) // Simple alert for now
+            setIsSubmitting(false)
+            return
+        }
+
+        // Store basic user info in local storage as a fallback/cache
+        if (data.user) {
+            localStorage.setItem('infothon_user', JSON.stringify({
+                name: formData.name,
+                email: formData.email,
+                signedUp: true,
+                id: data.user.id
+            }))
+            setSubmitted(true)
+        }
 
         setIsSubmitting(false)
-        setSubmitted(true)
     }
 
     return (

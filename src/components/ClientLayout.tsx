@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react'
 import { PageTransition } from '@/components/effects'
+import { SupabaseProvider } from '@/components/providers'
 
 interface ClientLayoutProps {
     children: ReactNode
@@ -9,8 +10,10 @@ interface ClientLayoutProps {
 
 export function ClientLayout({ children }: ClientLayoutProps) {
     return (
-        <PageTransition>
-            {children}
-        </PageTransition>
+        <SupabaseProvider>
+            <PageTransition>
+                {children}
+            </PageTransition>
+        </SupabaseProvider>
     )
 }

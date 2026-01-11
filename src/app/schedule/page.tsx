@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlassCard, NeonText } from '@/components/ui'
+import { GlassCard, NeonText, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { schedule, type ScheduleItem } from '@/data'
 
