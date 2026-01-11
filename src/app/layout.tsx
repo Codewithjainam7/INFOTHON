@@ -21,7 +21,8 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark">
             <head>
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" type="image/png" href="/images/INFOTHON.png" />
+                <link rel="apple-touch-icon" href="/images/INFOTHON.png" />
                 <meta name="theme-color" content="#0a0a0f" />
             </head>
             <body className="bg-bg-primary text-text-primary antialiased">

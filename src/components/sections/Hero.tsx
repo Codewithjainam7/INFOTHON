@@ -98,16 +98,91 @@ export function Hero() {
                         <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter mb-4">
                             INFOTHON x HACKATHON
                         </NeonText>
-                        <div className="flex justify-center mt-4">
-                            <img
-                                src="/images/2026.png"
-                                alt="2026"
-                                className="h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain"
-                            />
+
+                        {/* Animated 2026 Image */}
+                        <div className="flex justify-center mt-4 relative">
+                            {/* Glow background */}
+                            <motion.div
+                                className="absolute inset-0 flex justify-center items-center"
+                                animate={{
+                                    opacity: [0.3, 0.6, 0.3],
+                                }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                            >
+                                <div className="w-64 h-24 bg-glow-cyan/20 blur-3xl rounded-full" />
+                            </motion.div>
+
+                            {/* Main 2026 image with animations */}
+                            <motion.div
+                                className="relative"
+                                animate={{
+                                    y: [0, -8, 0],
+                                }}
+                                transition={{
+                                    duration: 4,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                }}
+                            >
+                                {/* Side accent lines */}
+                                <motion.div
+                                    className="absolute -left-8 top-1/2 -translate-y-1/2 w-6 h-px bg-gradient-to-r from-transparent to-glow-cyan"
+                                    animate={{ scaleX: [0, 1, 0], opacity: [0, 1, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                />
+                                <motion.div
+                                    className="absolute -right-8 top-1/2 -translate-y-1/2 w-6 h-px bg-gradient-to-l from-transparent to-glow-violet"
+                                    animate={{ scaleX: [0, 1, 0], opacity: [0, 1, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                                />
+
+                                {/* Image with glow effect */}
+                                <motion.img
+                                    src="/images/2026.png"
+                                    alt="2026"
+                                    className="h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain relative z-10"
+                                    style={{
+                                        filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                    }}
+                                    animate={{
+                                        filter: [
+                                            'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                            'drop-shadow(0 0 30px rgba(34,211,238,0.6)) drop-shadow(0 0 60px rgba(139,92,246,0.4))',
+                                            'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                        ],
+                                    }}
+                                    transition={{ duration: 3, repeat: Infinity }}
+                                />
+
+                                {/* Scanning line effect */}
+                                <motion.div
+                                    className="absolute inset-0 overflow-hidden pointer-events-none"
+                                    style={{ clipPath: 'inset(0)' }}
+                                >
+                                    <motion.div
+                                        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan to-transparent"
+                                        animate={{ top: ['-10%', '110%'] }}
+                                        transition={{ duration: 2.5, repeat: Infinity, ease: 'linear' }}
+                                    />
+                                </motion.div>
+
+                                {/* Corner brackets */}
+                                <div className="absolute -top-2 -left-2 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/50" />
+                                <div className="absolute -top-2 -right-2 w-3 h-3 border-r-2 border-t-2 border-glow-violet/50" />
+                                <div className="absolute -bottom-2 -left-2 w-3 h-3 border-l-2 border-b-2 border-glow-violet/50" />
+                                <div className="absolute -bottom-2 -right-2 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/50" />
+                            </motion.div>
                         </div>
-                        <p className="mt-4 text-lg sm:text-xl md:text-2xl font-heading font-semibold text-text-secondary tracking-wide">
+
+                        <motion.p
+                            className="mt-6 text-lg sm:text-xl md:text-2xl font-heading font-semibold tracking-wide"
+                            animate={{
+                                color: ['rgba(203,213,225,1)', 'rgba(34,211,238,0.9)', 'rgba(203,213,225,1)'],
+                            }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                        >
                             INFOTHON PRESENTS HACKATHON 2026
-                        </p>
+                        </motion.p>
                     </motion.div>
 
                     <motion.p
