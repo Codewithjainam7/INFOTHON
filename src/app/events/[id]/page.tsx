@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { events } from '@/data'
-import { GlassCard, GlowButton, NeonText } from '@/components/ui'
+import { GlowButton, ScrambleText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { Footer } from '@/components/sections'
@@ -61,7 +61,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                     <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
                         {/* Main Content */}
                         <div className="lg:col-span-2 space-y-6 sm:space-y-8">
-                            {/* Header */}
+                            {/* Header with Glitch Effect */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -69,23 +69,73 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 <div className={`inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-gradient-to-r ${categoryColors[event.category]} text-white mb-3 sm:mb-4`}>
                                     {event.category}
                                 </div>
-                                <NeonText as="h1" color="gradient" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4">
-                                    {event.title}
-                                </NeonText>
+
+                                {/* Glitched Title */}
+                                <div className="relative inline-block mb-4">
+                                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                                        <ScrambleText
+                                            text={event.title}
+                                            revealSpeed={50}
+                                            scrambleSpeed={30}
+                                            delay={300}
+                                        />
+                                    </h1>
+
+                                    {/* Glitch layer - Cyan */}
+                                    <motion.h1
+                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                        style={{ opacity: 0 }}
+                                        animate={{
+                                            x: [0, -8, 4, -6, 0],
+                                            y: [0, 3, -2, 0],
+                                            scale: [1, 1.03, 0.97, 1],
+                                            opacity: [0, 1, 0, 0.8, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.2,
+                                            repeat: Infinity,
+                                            repeatDelay: 1.5,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
+                                        }}
+                                    >
+                                        {event.title}
+                                    </motion.h1>
+
+                                    {/* Glitch layer - Violet */}
+                                    <motion.h1
+                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                        style={{ opacity: 0 }}
+                                        animate={{
+                                            x: [0, 8, -4, 6, 0],
+                                            y: [0, -3, 2, 0],
+                                            scale: [1, 0.97, 1.03, 1],
+                                            opacity: [0, 0.9, 0, 0.7, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.15,
+                                            repeat: Infinity,
+                                            repeatDelay: 1.2,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
+                                        }}
+                                    >
+                                        {event.title}
+                                    </motion.h1>
+                                </div>
+
                                 <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
                                     {event.longDescription}
                                 </p>
                             </motion.div>
 
-                            {/* Rules */}
+                            {/* Rules - Glassmorphism Container */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
                             >
-                                <GlassCard>
-                                    <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2">
-                                        <ClipboardList className="w-6 h-6 text-glow-cyan" />
+                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300">
+                                    <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-cyan">
+                                        <ClipboardList className="w-6 h-6" />
                                         Rules & Guidelines
                                     </h2>
                                     <ul className="space-y-2 sm:space-y-3">
@@ -98,18 +148,18 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                             </li>
                                         ))}
                                     </ul>
-                                </GlassCard>
+                                </div>
                             </motion.div>
 
-                            {/* Timeline */}
+                            {/* Timeline - Glassmorphism Container */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                <GlassCard>
-                                    <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2">
-                                        <Clock className="w-6 h-6 text-glow-cyan" />
+                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-violet/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300">
+                                    <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-violet">
+                                        <Clock className="w-6 h-6" />
                                         Event Timeline
                                     </h2>
                                     <div className="relative">
@@ -128,19 +178,19 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                             ))}
                                         </div>
                                     </div>
-                                </GlassCard>
+                                </div>
                             </motion.div>
                         </div>
 
-                        {/* Sidebar */}
+                        {/* Sidebar - Glassmorphism Container */}
                         <div className="space-y-6">
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 }}
                             >
-                                <GlassCard className="lg:sticky lg:top-24" glowColor="violet">
-                                    <h3 className="text-base sm:text-lg font-heading font-bold mb-4 sm:mb-6">Event Details</h3>
+                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-violet/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300 lg:sticky lg:top-24">
+                                    <h3 className="text-base sm:text-lg font-heading font-bold mb-4 sm:mb-6 text-glow-violet">Event Details</h3>
 
                                     <div className="space-y-3 sm:space-y-4">
                                         <InfoRow icon={<Calendar className="w-5 h-5 text-glow-cyan" />} label="Date" value={event.date} />
@@ -151,7 +201,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
 
                                         <div className="pt-3 sm:pt-4 border-t border-white/10">
                                             <p className="text-xs sm:text-sm text-text-muted mb-1">Prize Pool</p>
-                                            <p className="text-2xl sm:text-3xl font-heading font-bold gradient-text">{event.prize}</p>
+                                            <p className="text-2xl sm:text-3xl font-heading font-bold text-glow-cyan drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">{event.prize}</p>
                                         </div>
                                     </div>
 
@@ -163,7 +213,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                             Download Rulebook
                                         </GlowButton>
                                     </div>
-                                </GlassCard>
+                                </div>
                             </motion.div>
                         </div>
                     </div>
@@ -186,3 +236,4 @@ function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string;
         </div>
     )
 }
+
