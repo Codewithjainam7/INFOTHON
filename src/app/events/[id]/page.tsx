@@ -65,13 +65,14 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
+                                className="flex flex-col"
                             >
-                                <div className={`inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-gradient-to-r ${categoryColors[event.category]} text-white mb-3 sm:mb-4`}>
+                                <div className={`inline-block w-fit px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-gradient-to-r ${categoryColors[event.category]} text-white mb-3 sm:mb-4`}>
                                     {event.category}
                                 </div>
 
                                 {/* Glitched Title */}
-                                <div className="relative inline-block mb-4">
+                                <div className="relative mb-4">
                                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
                                         <ScrambleText
                                             text={event.title}
