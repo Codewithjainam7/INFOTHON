@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlassCard, NeonText } from '@/components/ui'
+import { NeonText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 
 const Background3D = dynamic(
@@ -32,7 +32,7 @@ export default function AboutPage() {
     return (
         <SmoothScroll>
             <GlowCursor />
-            <Background3D backgroundImage="/images/new_bg.png" />
+            <Background3D backgroundImage="/images/bg_img.540Z.png" />
             <FloatingNavbar />
 
             <main className="relative z-10 min-h-screen pt-24 pb-16">
@@ -43,10 +43,10 @@ export default function AboutPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center mb-16 sm:mb-20"
                     >
-                        <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
+                        <span className="inline-block px-4 py-1 rounded-full border border-glow-cyan/30 bg-glow-cyan/5 text-xs font-cyber text-glow-cyan tracking-widest mb-4">
                             ABOUT US
                         </span>
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-6">
+                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-6 font-heading font-black">
                             The Future Awaits
                         </NeonText>
                         <p className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4">
@@ -68,15 +68,54 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + index * 0.1 }}
+                                className="glitch-container rounded-lg p-4 sm:p-6 group hover:border-glow-cyan/50 transition-all duration-300"
                             >
-                                <GlassCard className="text-center py-6 sm:py-8" hover3D={false}>
-                                    <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold gradient-text mb-2">
+                                {/* Corner accents */}
+                                <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
+                                <div className="mb-2 relative inline-block group-hover:scale-105 transition-transform duration-300">
+                                    {/* Glitch layers */}
+                                    <motion.div
+                                        className="absolute inset-0 text-2xl sm:text-3xl md:text-4xl font-cyber font-bold opacity-0"
+                                        style={{ color: '#00f0ff', filter: 'hue-rotate(180deg)' }}
+                                        animate={{
+                                            x: [0, -2, 0, 1, 0],
+                                            opacity: [0, 0.6, 0, 0.4, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.2,
+                                            repeat: Infinity,
+                                            repeatDelay: 3 + index,
+                                        }}
+                                    >
+                                        {stat.value}
+                                    </motion.div>
+                                    <motion.div
+                                        className="absolute inset-0 text-2xl sm:text-3xl md:text-4xl font-cyber font-bold opacity-0"
+                                        style={{ color: '#8b5cf6', filter: 'hue-rotate(-60deg)' }}
+                                        animate={{
+                                            x: [0, 2, 0, -1, 0],
+                                            opacity: [0, 0.5, 0, 0.3, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.15,
+                                            repeat: Infinity,
+                                            repeatDelay: 2.5 + index,
+                                        }}
+                                    >
+                                        {stat.value}
+                                    </motion.div>
+                                    {/* Main text */}
+                                    <div className="text-2xl sm:text-3xl md:text-4xl font-cyber font-bold gradient-text relative z-10">
                                         {stat.value}
                                     </div>
-                                    <div className="text-xs sm:text-sm text-text-muted uppercase tracking-wider">
-                                        {stat.label}
-                                    </div>
-                                </GlassCard>
+                                </div>
+                                <div className="text-[10px] sm:text-xs text-text-muted uppercase tracking-widest font-cyber">
+                                    {stat.label}
+                                </div>
                             </motion.div>
                         ))}
                     </motion.div>
@@ -89,22 +128,27 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 + index * 0.1 }}
+                                className="glitch-container rounded-lg p-6 sm:p-8 group hover:border-glow-cyan/50 transition-all duration-300"
                             >
-                                <GlassCard className="h-full group" glowColor={index % 2 === 0 ? 'cyan' : 'violet'}>
-                                    <div className="flex items-start gap-4">
-                                        <div className="text-3xl sm:text-4xl group-hover:scale-110 transition-transform">
-                                            {feature.icon}
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg sm:text-xl font-heading font-semibold mb-2 group-hover:text-glow-cyan transition-colors">
-                                                {feature.title}
-                                            </h3>
-                                            <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
-                                                {feature.description}
-                                            </p>
-                                        </div>
+                                {/* Corner accents */}
+                                <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
+                                <div className="flex items-start gap-4">
+                                    <div className="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300 group-hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                                        {feature.icon}
                                     </div>
-                                </GlassCard>
+                                    <div>
+                                        <h3 className="text-lg sm:text-xl font-cyber font-bold mb-2 group-hover:text-glow-cyan transition-colors">
+                                            {feature.title}
+                                        </h3>
+                                        <p className="text-sm sm:text-base text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">
+                                            {feature.description}
+                                        </p>
+                                    </div>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
@@ -116,15 +160,19 @@ export default function AboutPage() {
                         transition={{ delay: 0.8 }}
                         className="text-center"
                     >
-                        <GlassCard variant="dark" className="inline-block max-w-4xl py-10 sm:py-12 px-6 sm:px-8" hover3D={false}>
+                        <div className="glitch-container inline-block max-w-4xl py-10 sm:py-12 px-6 sm:px-8 rounded-xl relative">
+                            {/* Corner accents */}
+                            <div className="absolute top-[-2px] left-[-2px] w-6 h-6 border-l-2 border-t-2 border-glow-cyan" />
+                            <div className="absolute bottom-[-2px] right-[-2px] w-6 h-6 border-r-2 border-b-2 border-glow-violet" />
+
                             <blockquote className="text-xl sm:text-2xl md:text-3xl font-heading font-light leading-relaxed">
                                 &ldquo;We don&apos;t just predict the future—
-                                <span className="gradient-text font-semibold"> we build it.</span>&rdquo;
+                                <span className="gradient-text font-black"> we build it.</span>&rdquo;
                             </blockquote>
-                            <p className="mt-4 text-text-muted text-sm uppercase tracking-wider">
+                            <p className="mt-4 text-text-muted text-xs sm:text-sm font-cyber tracking-widest">
                                 — INFOTHON Vision Statement
                             </p>
-                        </GlassCard>
+                        </div>
                     </motion.div>
                 </div>
             </main>
