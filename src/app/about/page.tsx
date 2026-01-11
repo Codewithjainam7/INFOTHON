@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { NeonText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 
 const Background3D = dynamic(
@@ -32,7 +31,9 @@ export default function AboutPage() {
     return (
         <SmoothScroll>
             <GlowCursor />
-            <Background3D backgroundImage="/images/bg_img.540Z.png" />
+            <GlowCursor />
+            <Background3D backgroundImage="/images/new_bg7.png" />
+            <FloatingNavbar />
             <FloatingNavbar />
 
             <main className="relative z-10 min-h-screen pt-24 pb-16">
@@ -46,9 +47,44 @@ export default function AboutPage() {
                         <span className="inline-block px-4 py-1 rounded-full border border-glow-cyan/30 bg-glow-cyan/5 text-xs font-cyber text-glow-cyan tracking-widest mb-4">
                             ABOUT US
                         </span>
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-6 font-heading font-black">
-                            The Future Awaits
-                        </NeonText>
+                        <div className="relative inline-block mb-6">
+                            <motion.h1
+                                className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <span className="inline-block relative">
+                                    <span className="relative z-10 gradient-text">The Future Awaits</span>
+                                    <motion.span
+                                        className="absolute inset-0 text-glow-cyan opacity-50 mix-blend-screen"
+                                        animate={{ x: [-2, 2, -1, 1, 0], opacity: [0.5, 0.8, 0.5] }}
+                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
+                                    >
+                                        The Future Awaits
+                                    </motion.span>
+                                    <motion.span
+                                        className="absolute inset-0 text-glow-violet opacity-50 mix-blend-screen"
+                                        animate={{ x: [2, -2, 1, -1, 0], opacity: [0.5, 0.8, 0.5] }}
+                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3.2 }}
+                                    >
+                                        The Future Awaits
+                                    </motion.span>
+                                </span>
+                            </motion.h1>
+                            {/* Glitch Frame */}
+                            <motion.div
+                                className="absolute -inset-4 border border-glow-cyan/30 rounded-lg opacity-0"
+                                animate={{ opacity: [0, 1, 0, 1, 0] }}
+                                transition={{ duration: 2, repeat: Infinity, repeatDelay: 5 }}
+                            />
+                            <motion.div
+                                className="absolute -inset-4 border border-glow-violet/30 rounded-lg opacity-0"
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 4 }}
+                                style={{ transform: 'scale(1.05)' }}
+                            />
+                        </div>
                         <p className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4">
                             INFOTHON is more than a tech festival—it&apos;s a movement. For over a decade, we&apos;ve been
                             the launchpad for ideas that transformed industries and careers that shaped the world.
@@ -68,8 +104,17 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + index * 0.1 }}
-                                className="glitch-container rounded-lg p-4 sm:p-6 group hover:border-glow-cyan/50 transition-all duration-300"
+                                className="glitch-container rounded-lg p-4 sm:p-6 group hover:border-glow-cyan/50 transition-all duration-300 relative overflow-hidden"
+                                whileHover={{ scale: 1.02 }}
                             >
+                                {/* Active Glitch Hover Effect */}
+                                <motion.div
+                                    className="absolute inset-0 bg-glow-cyan/10 opacity-0 group-hover:opacity-100"
+                                    animate={{
+                                        clipPath: ['inset(0 0 100% 0)', 'inset(0 0 0 0)', 'inset(100% 0 0 0)']
+                                    }}
+                                    transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.5 }}
+                                />
                                 {/* Corner accents */}
                                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
                                 <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
@@ -128,8 +173,13 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 + index * 0.1 }}
-                                className="glitch-container rounded-lg p-6 sm:p-8 group hover:border-glow-cyan/50 transition-all duration-300"
+                                className="glitch-container rounded-lg p-6 sm:p-8 group hover:border-glow-cyan/50 transition-all duration-300 relative overflow-hidden"
+                                whileHover={{ scale: 1.02 }}
                             >
+                                {/* Active Glitch Hover Effect */}
+                                <div className="absolute inset-0 pointer-events-none">
+                                    <div className="absolute top-0 left-0 w-full h-[1px] bg-glow-cyan/50 opacity-0 group-hover:opacity-100 group-hover:animate-scanline" />
+                                </div>
                                 {/* Corner accents */}
                                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
                                 <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
