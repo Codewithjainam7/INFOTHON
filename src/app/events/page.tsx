@@ -25,14 +25,14 @@ const categoryColors: Record<string, string> = {
     workshop: 'from-indigo-500 to-purple-500',
 }
 
-// Text colors for event titles (solid colors for mobile compatibility)
-const categoryTextColors: Record<string, string> = {
-    coding: 'text-cyan-400',
-    ai: 'text-purple-400',
-    robotics: 'text-orange-400',
-    design: 'text-teal-400',
-    gaming: 'text-yellow-400',
-    workshop: 'text-indigo-400',
+// Text shimmer classes for event titles (gradient on hover)
+const categoryShimmerClasses: Record<string, string> = {
+    coding: 'shimmer-coding',
+    ai: 'shimmer-ai',
+    robotics: 'shimmer-robotics',
+    design: 'shimmer-design',
+    gaming: 'shimmer-gaming',
+    workshop: 'shimmer-workshop',
 }
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -184,7 +184,7 @@ export default function EventsPage() {
                                             <div className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-semibold uppercase bg-gradient-to-r ${categoryColors[event.category]} text-white mb-3 sm:mb-4`}>
                                                 {event.category}
                                             </div>
-                                            <h3 className={`text-lg sm:text-xl font-heading font-bold mb-2 sm:mb-3 ${categoryTextColors[event.category]} group-hover:brightness-125 transition-all`}>
+                                            <h3 className={`text-lg sm:text-xl font-heading font-bold mb-2 sm:mb-3 ${categoryShimmerClasses[event.category]}`}>
                                                 {event.title}
                                             </h3>
                                             <p className="text-text-secondary text-xs sm:text-sm mb-4 line-clamp-2">

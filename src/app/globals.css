@@ -229,6 +229,79 @@ h6 {
     animation: shimmer 3s linear infinite;
   }
 
+  /* Category shimmer animations - activated on hover */
+  .shimmer-coding {
+    background: linear-gradient(90deg, #22d3ee, #3b82f6, #22d3ee);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .group:hover .shimmer-coding {
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  .shimmer-ai {
+    background: linear-gradient(90deg, #a855f7, #ec4899, #a855f7);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .group:hover .shimmer-ai {
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  .shimmer-robotics {
+    background: linear-gradient(90deg, #f97316, #ef4444, #f97316);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .group:hover .shimmer-robotics {
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  .shimmer-design {
+    background: linear-gradient(90deg, #10b981, #14b8a6, #10b981);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .group:hover .shimmer-design {
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  .shimmer-gaming {
+    background: linear-gradient(90deg, #eab308, #f97316, #eab308);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .group:hover .shimmer-gaming {
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  .shimmer-workshop {
+    background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .group:hover .shimmer-workshop {
+    animation: shimmer 1.5s linear infinite;
+  }
+
   /* Noise Overlay */
   .noise-overlay::before {
     content: '';
