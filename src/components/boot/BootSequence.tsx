@@ -255,102 +255,97 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                             transition={{ duration: 0.6, type: 'spring' }}
                             className="text-center"
                         >
-                            {/* Animated Logo with Glitch */}
-                            <div className="relative w-32 h-32 mx-auto mb-6">
-                                {/* Outer rotating ring */}
+                            {/* Animated Logo with Glitch - No Circles */}
+                            <div className="relative w-28 h-28 mx-auto mb-6">
+                                {/* Glitch logo layer - Cyan */}
                                 <motion.div
-                                    className="absolute inset-0 rounded-full border-2 border-glow-cyan/50"
-                                    animate={{
-                                        rotate: 360,
-                                        borderColor: glitchActive ? ['rgba(34,211,238,0.5)', 'rgba(139,92,246,0.8)', 'rgba(34,211,238,0.5)'] : 'rgba(34,211,238,0.5)',
-                                    }}
-                                    transition={{
-                                        rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
-                                        borderColor: { duration: 0.1 }
-                                    }}
-                                />
-
-                                {/* Inner pulsing ring */}
-                                <motion.div
-                                    className="absolute inset-2 rounded-full border border-glow-violet/50"
-                                    animate={{
-                                        scale: [1, 1.05, 1],
-                                        opacity: [0.5, 1, 0.5],
-                                        rotate: glitchActive ? [0, -5, 3, 0] : 0,
-                                    }}
-                                    transition={{
-                                        scale: { duration: 2, repeat: Infinity },
-                                        opacity: { duration: 2, repeat: Infinity },
-                                        rotate: { duration: 0.1 }
-                                    }}
-                                />
-
-                                {/* Glitch logo layers */}
-                                <motion.div
-                                    className="absolute inset-4 rounded-full overflow-hidden"
+                                    className="absolute inset-0 overflow-hidden"
                                     style={{ filter: 'hue-rotate(180deg)' }}
                                     animate={{
-                                        x: glitchActive ? [-4, 3, 0] : 0,
-                                        opacity: glitchActive ? 0.6 : 0,
-                                    }}
-                                    transition={{ duration: 0.1 }}
-                                >
-                                    <Image
-                                        src="/images/INFOTHON.png"
-                                        alt=""
-                                        fill
-                                        className="object-contain p-2"
-                                    />
-                                </motion.div>
-
-                                <motion.div
-                                    className="absolute inset-4 rounded-full overflow-hidden"
-                                    style={{ filter: 'hue-rotate(-60deg)' }}
-                                    animate={{
-                                        x: glitchActive ? [3, -4, 0] : 0,
-                                        opacity: glitchActive ? 0.5 : 0,
-                                    }}
-                                    transition={{ duration: 0.1 }}
-                                >
-                                    <Image
-                                        src="/images/INFOTHON.png"
-                                        alt=""
-                                        fill
-                                        className="object-contain p-2"
-                                    />
-                                </motion.div>
-
-                                {/* Main logo container with glow */}
-                                <motion.div
-                                    className="absolute inset-4 rounded-full overflow-hidden"
-                                    animate={{
-                                        boxShadow: [
-                                            '0 0 20px rgba(34,211,238,0.3)',
-                                            '0 0 40px rgba(139,92,246,0.4)',
-                                            '0 0 20px rgba(34,211,238,0.3)',
-                                        ],
-                                        x: glitchActive ? [0, -2, 2, 0] : 0,
+                                        x: glitchActive ? [-6, 4, 0] : [0, -2, 0, 2, 0],
+                                        opacity: glitchActive ? [0.8, 0.4, 0.6] : [0, 0.4, 0],
                                     }}
                                     transition={{
-                                        boxShadow: { duration: 2, repeat: Infinity },
-                                        x: { duration: 0.1 }
+                                        x: { duration: glitchActive ? 0.1 : 0.15, repeat: glitchActive ? 0 : Infinity, repeatDelay: 3 },
+                                        opacity: { duration: glitchActive ? 0.1 : 0.15, repeat: glitchActive ? 0 : Infinity, repeatDelay: 3 }
+                                    }}
+                                >
+                                    <Image
+                                        src="/images/INFOTHON.png"
+                                        alt=""
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </motion.div>
+
+                                {/* Glitch logo layer - Violet */}
+                                <motion.div
+                                    className="absolute inset-0 overflow-hidden"
+                                    style={{ filter: 'hue-rotate(-60deg)' }}
+                                    animate={{
+                                        x: glitchActive ? [5, -3, 0] : [0, 2, 0, -2, 0],
+                                        opacity: glitchActive ? [0.7, 0.3, 0.5] : [0, 0.3, 0],
+                                    }}
+                                    transition={{
+                                        x: { duration: glitchActive ? 0.1 : 0.12, repeat: glitchActive ? 0 : Infinity, repeatDelay: 2.5 },
+                                        opacity: { duration: glitchActive ? 0.1 : 0.12, repeat: glitchActive ? 0 : Infinity, repeatDelay: 2.5 }
+                                    }}
+                                >
+                                    <Image
+                                        src="/images/INFOTHON.png"
+                                        alt=""
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </motion.div>
+
+                                {/* Main logo with glow and glitch */}
+                                <motion.div
+                                    className="absolute inset-0 overflow-hidden"
+                                    animate={{
+                                        x: glitchActive ? [0, -3, 3, 0] : 0,
+                                        filter: [
+                                            'drop-shadow(0 0 15px rgba(34,211,238,0.4))',
+                                            'drop-shadow(0 0 25px rgba(139,92,246,0.5))',
+                                            'drop-shadow(0 0 15px rgba(34,211,238,0.4))',
+                                        ],
+                                    }}
+                                    transition={{
+                                        x: { duration: 0.1 },
+                                        filter: { duration: 2, repeat: Infinity }
                                     }}
                                 >
                                     <Image
                                         src="/images/INFOTHON.png"
                                         alt="INFOTHON Logo"
                                         fill
-                                        className="object-contain p-2"
+                                        className="object-contain"
                                         priority
+                                    />
+                                </motion.div>
+
+                                {/* Glitch slice overlays */}
+                                <motion.div
+                                    className="absolute inset-0 overflow-hidden pointer-events-none"
+                                    animate={{ opacity: glitchActive ? 1 : 0 }}
+                                    transition={{ duration: 0.05 }}
+                                >
+                                    <div
+                                        className="absolute w-full h-1/4 bg-glow-cyan/30"
+                                        style={{ top: '20%', transform: 'translateX(-4px)' }}
+                                    />
+                                    <div
+                                        className="absolute w-full h-1/5 bg-glow-violet/30"
+                                        style={{ top: '55%', transform: 'translateX(4px)' }}
                                     />
                                 </motion.div>
 
                                 {/* Corner accents with glitch */}
                                 <motion.div
-                                    className="absolute -top-1 -left-1 w-4 h-4 border-l-2 border-t-2 border-glow-cyan"
+                                    className="absolute -top-2 -left-2 w-4 h-4 border-l-2 border-t-2 border-glow-cyan"
                                     animate={{
                                         opacity: [0.5, 1, 0.5],
-                                        x: glitchActive ? [0, -3, 1, 0] : 0,
+                                        x: glitchActive ? [0, -4, 2, 0] : 0,
                                     }}
                                     transition={{
                                         opacity: { duration: 1, repeat: Infinity },
@@ -358,10 +353,10 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                     }}
                                 />
                                 <motion.div
-                                    className="absolute -top-1 -right-1 w-4 h-4 border-r-2 border-t-2 border-glow-violet"
+                                    className="absolute -top-2 -right-2 w-4 h-4 border-r-2 border-t-2 border-glow-violet"
                                     animate={{
                                         opacity: [0.5, 1, 0.5],
-                                        x: glitchActive ? [0, 3, -1, 0] : 0,
+                                        x: glitchActive ? [0, 4, -2, 0] : 0,
                                     }}
                                     transition={{
                                         opacity: { duration: 1, repeat: Infinity, delay: 0.25 },
@@ -369,10 +364,10 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                     }}
                                 />
                                 <motion.div
-                                    className="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-glow-violet"
+                                    className="absolute -bottom-2 -left-2 w-4 h-4 border-l-2 border-b-2 border-glow-violet"
                                     animate={{
                                         opacity: [0.5, 1, 0.5],
-                                        x: glitchActive ? [0, -2, 2, 0] : 0,
+                                        x: glitchActive ? [0, -3, 2, 0] : 0,
                                     }}
                                     transition={{
                                         opacity: { duration: 1, repeat: Infinity, delay: 0.5 },
@@ -380,10 +375,10 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                     }}
                                 />
                                 <motion.div
-                                    className="absolute -bottom-1 -right-1 w-4 h-4 border-r-2 border-b-2 border-glow-cyan"
+                                    className="absolute -bottom-2 -right-2 w-4 h-4 border-r-2 border-b-2 border-glow-cyan"
                                     animate={{
                                         opacity: [0.5, 1, 0.5],
-                                        x: glitchActive ? [0, 2, -2, 0] : 0,
+                                        x: glitchActive ? [0, 3, -2, 0] : 0,
                                     }}
                                     transition={{
                                         opacity: { duration: 1, repeat: Infinity, delay: 0.75 },

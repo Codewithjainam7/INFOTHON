@@ -339,13 +339,20 @@ export function Hero() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 1.5 + index * 0.1 }}
-                            className="glass rounded-xl p-4 text-center"
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            className="relative backdrop-blur-md bg-white/5 rounded-xl p-4 text-center border border-white/10 hover:border-glow-cyan/40 transition-all duration-300 group overflow-hidden"
                         >
-                            <div className="text-xl sm:text-2xl font-heading font-bold gradient-text">
-                                {stat.value}
-                            </div>
-                            <div className="text-xs text-text-muted uppercase tracking-wider">
-                                {stat.label}
+                            {/* Glow effect on hover */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-glow-cyan/10 to-glow-violet/10" />
+                            {/* Top accent line */}
+                            <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-glow-cyan/50 to-transparent" />
+                            <div className="relative z-10">
+                                <div className="text-xl sm:text-2xl font-heading font-bold gradient-text">
+                                    {stat.value}
+                                </div>
+                                <div className="text-xs text-text-muted uppercase tracking-wider mt-1">
+                                    {stat.label}
+                                </div>
                             </div>
                         </motion.div>
                     ))}

@@ -27,12 +27,12 @@ const footerLinks = {
 
 export function Footer() {
     return (
-        <footer className="relative pt-16 sm:pt-20 pb-6 sm:pb-8 overflow-hidden">
-            <div className="absolute inset-0 bg-bg-secondary/50" />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan/30 to-transparent" />
+        <footer className="relative pt-10 sm:pt-12 pb-4 sm:pb-6 overflow-hidden backdrop-blur-md bg-bg-secondary/20 border-t border-white/10">
+            <div className="absolute inset-0 bg-gradient-to-b from-glow-cyan/5 to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan/40 to-transparent" />
 
             <div className="relative z-10 section-container px-6 sm:px-8">
-                <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12 mb-12 sm:mb-16">
+                <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-10 mb-8 sm:mb-10">
                     {/* Brand */}
                     <div className="lg:col-span-2">
                         <Link href="/" className="inline-flex items-center gap-2 mb-4 sm:mb-6 group">
