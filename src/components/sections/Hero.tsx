@@ -85,7 +85,7 @@ export function Hero() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="mb-6"
                     >
-                        <span className="inline-block px-4 py-2 rounded-full glass text-sm font-mono text-glow-cyan tracking-wider">
+                        <span className="inline-block px-4 py-2 rounded-full glass text-sm font-mono text-glow-cyan tracking-wider whitespace-nowrap">
                             FEBRUARY 12-13, 2026 • MUMBAI, INDIA
                         </span>
                     </motion.div>
@@ -118,7 +118,7 @@ export function Hero() {
                                 },
                             }}
                         >
-                            INFOTHON x HACKATHON
+                            INFOTHON <span className="text-glow-violet">×</span> HACKATHON
                         </motion.h1>
 
                         {/* Animated 2026 Image with Glitch Effect */}
@@ -340,17 +340,20 @@ export function Hero() {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 1.5 + index * 0.1 }}
                             whileHover={{ scale: 1.05, y: -2 }}
-                            className="relative backdrop-blur-md bg-white/5 rounded-xl p-4 text-center border border-white/10 hover:border-glow-cyan/40 transition-all duration-300 group overflow-hidden"
+                            className="glitch-container rounded-lg p-4 text-center hover:border-glow-cyan/50 transition-all duration-300 group"
                         >
+                            {/* Corner accents */}
+                            <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-glow-cyan/60" />
+                            <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-glow-violet/60" />
+                            <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-glow-violet/60" />
+                            <div className="absolute bottom-0 right-0 w-3 h-3 border-r border-b border-glow-cyan/60" />
                             {/* Glow effect on hover */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-glow-cyan/10 to-glow-violet/10" />
-                            {/* Top accent line */}
-                            <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-glow-cyan/50 to-transparent" />
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-glow-cyan/10 to-glow-violet/10 rounded-lg" />
                             <div className="relative z-10">
-                                <div className="text-xl sm:text-2xl font-heading font-bold gradient-text">
+                                <div className="text-xl sm:text-2xl font-cyber font-bold gradient-text">
                                     {stat.value}
                                 </div>
-                                <div className="text-xs text-text-muted uppercase tracking-wider mt-1">
+                                <div className="text-[10px] sm:text-xs text-text-muted uppercase tracking-widest mt-1 font-cyber">
                                     {stat.label}
                                 </div>
                             </div>
