@@ -97,28 +97,41 @@ export function Hero() {
                     >
                         {/* Static Text with Animated Image Fill Inside */}
                         <motion.h1
-                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-center mb-4"
+                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-center mb-4 flex flex-wrap justify-center items-center gap-2 sm:gap-4"
                             style={{
-                                backgroundImage: 'url(/images/intext_img.png)',
-                                backgroundSize: '200% 100%',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                color: 'transparent',
-                                WebkitTextFillColor: 'transparent',
                                 filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.3))',
                             }}
                             animate={{
-                                backgroundPosition: ['0% center', '100% center', '0% center'],
-                            }}
-                            transition={{
-                                backgroundPosition: {
-                                    duration: 8,
-                                    repeat: Infinity,
-                                    ease: 'linear',
-                                },
+                                opacity: 1,
                             }}
                         >
-                            INFOTHON <span className="text-glow-violet">×</span> HACKATHON
+                            <span
+                                style={{
+                                    backgroundImage: 'url(/images/intext_img.png)',
+                                    backgroundSize: '200% 100%',
+                                    backgroundClip: 'text',
+                                    WebkitBackgroundClip: 'text',
+                                    color: 'transparent',
+                                    WebkitTextFillColor: 'transparent',
+                                    animation: 'shimmer 8s linear infinite',
+                                }}
+                            >
+                                INFOTHON
+                            </span>
+                            <span className="text-glow-violet text-2xl sm:text-4xl md:text-5xl">×</span>
+                            <span
+                                style={{
+                                    backgroundImage: 'url(/images/intext_img.png)',
+                                    backgroundSize: '200% 100%',
+                                    backgroundClip: 'text',
+                                    WebkitBackgroundClip: 'text',
+                                    color: 'transparent',
+                                    WebkitTextFillColor: 'transparent',
+                                    animation: 'shimmer 8s linear infinite',
+                                }}
+                            >
+                                HACKATHON
+                            </span>
                         </motion.h1>
 
                         {/* Animated 2026 Image with Glitch Effect */}
@@ -376,17 +389,27 @@ export function Hero() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1.7 + index * 0.1 }}
+                                whileHover={{ scale: 1.03, y: -2 }}
                             >
                                 <Link href={link.href}>
-                                    <GlassCard className="text-center group cursor-pointer h-full" glowColor={index % 2 === 0 ? 'cyan' : 'violet'}>
-                                        <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-glow-cyan/10 border border-glow-cyan/20 flex items-center justify-center text-glow-cyan group-hover:bg-glow-violet/10 group-hover:border-glow-violet/20 group-hover:text-glow-violet transition-all duration-300">
-                                            <Icon />
+                                    <div className="glitch-container rounded-lg p-4 text-center h-full group hover:border-glow-cyan/50 transition-all duration-300">
+                                        {/* Corner accents */}
+                                        <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-glow-cyan/60" />
+                                        <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-glow-violet/60" />
+                                        <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-glow-violet/60" />
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 border-r border-b border-glow-cyan/60" />
+                                        {/* Glow on hover */}
+                                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-glow-cyan/10 to-glow-violet/10 rounded-lg" />
+                                        <div className="relative z-10">
+                                            <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-glow-cyan/10 border border-glow-cyan/30 flex items-center justify-center text-glow-cyan group-hover:bg-glow-violet/10 group-hover:border-glow-violet/30 group-hover:text-glow-violet transition-all duration-300">
+                                                <Icon />
+                                            </div>
+                                            <h3 className="text-sm sm:text-base font-cyber font-semibold mb-1 group-hover:text-glow-cyan transition-colors">
+                                                {link.title}
+                                            </h3>
+                                            <p className="text-[10px] sm:text-xs text-text-muted font-cyber tracking-wide">{link.description}</p>
                                         </div>
-                                        <h3 className="text-sm sm:text-base font-heading font-semibold mb-1 group-hover:text-glow-cyan transition-colors">
-                                            {link.title}
-                                        </h3>
-                                        <p className="text-xs text-text-muted">{link.description}</p>
-                                    </GlassCard>
+                                    </div>
                                 </Link>
                             </motion.div>
                         )
