@@ -49,62 +49,48 @@ export default function AboutPage() {
                             ABOUT US
                         </span>
                         <div className="relative inline-block mb-6">
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10 overflow-visible">
-                                <span className="gradient-text relative inline-block">
-                                    <motion.div
-                                        animate={{
-                                            skewX: [0, 2, -2, 0],
-                                            x: [0, 1, -1, 0]
-                                        }}
-                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
-                                    >
-                                        <ScrambleText
-                                            text="The Future Awaits"
-                                            revealSpeed={50}
-                                            scrambleSpeed={30}
-                                            delay={500}
-                                        />
-                                    </motion.div>
-                                    {/* Glitch layer - Cyan offset (2k26 style) */}
-                                    <motion.span
-                                        className="absolute inset-0 text-[#00f0ff] opacity-0 mix-blend-screen pointer-events-none select-none"
-                                        style={{ filter: 'hue-rotate(180deg)' }}
-                                        animate={{
-                                            x: [0, -5, 2, -5, 0],
-                                            y: [0, 2, -1, 0],
-                                            scale: [1, 1.02, 0.98, 1],
-                                            opacity: [0, 0.8, 0, 0.6, 0],
-                                        }}
-                                        transition={{
-                                            duration: 0.15,
-                                            repeat: Infinity,
-                                            repeatDelay: 2,
-                                            times: [0, 0.2, 0.4, 0.6, 1],
-                                        }}
-                                    >
-                                        The Future Awaits
-                                    </motion.span>
-                                    {/* Glitch layer - Violet offset (2k26 style) */}
-                                    <motion.span
-                                        className="absolute inset-0 text-[#8b5cf6] opacity-0 mix-blend-screen pointer-events-none select-none"
-                                        style={{ filter: 'hue-rotate(-60deg)' }}
-                                        animate={{
-                                            x: [0, 5, -2, 5, 0],
-                                            y: [0, -2, 1, 0],
-                                            scale: [1, 0.98, 1.02, 1],
-                                            opacity: [0, 0.7, 0, 0.5, 0],
-                                        }}
-                                        transition={{
-                                            duration: 0.12,
-                                            repeat: Infinity,
-                                            repeatDelay: 1.5,
-                                            times: [0, 0.2, 0.4, 0.6, 1],
-                                        }}
-                                    >
-                                        The Future Awaits
-                                    </motion.span>
-                                </span>
+                            {/* Main visible text */}
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
+                                <span className="gradient-text">The Future Awaits</span>
                             </h1>
+
+                            {/* Glitch layer - Cyan offset (2k26 style) */}
+                            <motion.h1
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-0 pointer-events-none"
+                                animate={{
+                                    x: [0, -5, 2, -5, 0],
+                                    y: [0, 2, -1, 0],
+                                    scale: [1, 1.02, 0.98, 1],
+                                    opacity: [0, 0.8, 0, 0.6, 0],
+                                }}
+                                transition={{
+                                    duration: 0.15,
+                                    repeat: Infinity,
+                                    repeatDelay: 2,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                The Future Awaits
+                            </motion.h1>
+
+                            {/* Glitch layer - Violet offset (2k26 style) */}
+                            <motion.h1
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-0 pointer-events-none"
+                                animate={{
+                                    x: [0, 5, -2, 5, 0],
+                                    y: [0, -2, 1, 0],
+                                    scale: [1, 0.98, 1.02, 1],
+                                    opacity: [0, 0.7, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.12,
+                                    repeat: Infinity,
+                                    repeatDelay: 1.5,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                The Future Awaits
+                            </motion.h1>
                         </div>
                         <p className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4">
                             INFOTHON is more than a tech festival—it&apos;s a movement. For over a decade, we&apos;ve been
