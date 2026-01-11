@@ -282,7 +282,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.35 + index * 0.03 }}
-                                        className="p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-glow-cyan/40 hover:border-glow-cyan hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all"
+                                        className="p-4 rounded-xl bg-black/60 backdrop-blur-md border border-glow-cyan/30 hover:border-glow-cyan hover:bg-black/80 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all"
                                     >
                                         <div className="flex items-start gap-3">
                                             <span className="font-mono text-xl font-black text-glow-cyan drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">
@@ -377,10 +377,10 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
 
                                             {/* Content card - slides in */}
                                             <motion.div
-                                                initial={{ opacity: 0, x: 20 }}
+                                                initial={{ opacity: 0, x: 50 }}
                                                 animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: 0.7 + index * 0.1 }}
-                                                className="p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 group-hover:border-glow-violet/50 group-hover:bg-black/40 transition-all"
+                                                transition={{ delay: 0.8 + index * 0.15, type: "spring", stiffness: 100, damping: 15 }}
+                                                className="p-4 rounded-xl bg-black/80 backdrop-blur-md border border-glow-cyan/20 group-hover:border-glow-cyan/60 group-hover:bg-black/90 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.15)] transition-all"
                                             >
                                                 <div className="flex flex-wrap items-center gap-3">
                                                     <span className="px-3 py-1 rounded-lg bg-glow-violet/20 border border-glow-violet/40 font-mono text-sm text-glow-violet font-bold">
