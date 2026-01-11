@@ -52,6 +52,7 @@ export default function AboutPage() {
                             <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10 overflow-visible">
                                 <span className="gradient-text relative inline-block">
                                     <motion.div
+                                        style={{ willChange: 'transform' }}
                                         animate={{
                                             skewX: [0, 2, -2, 0],
                                             x: [0, 1, -1, 0]
@@ -68,6 +69,7 @@ export default function AboutPage() {
                                     {/* Infinite Intense Glitch Layers */}
                                     <motion.span
                                         className="absolute inset-0 text-[#00f0ff] opacity-0 mix-blend-screen pointer-events-none select-none"
+                                        style={{ willChange: 'transform, opacity, clip-path' }}
                                         animate={{
                                             x: [-4, 4, -2, 3, 0],
                                             y: [1, -1, 0],
@@ -86,6 +88,7 @@ export default function AboutPage() {
                                     </motion.span>
                                     <motion.span
                                         className="absolute inset-0 text-[#8b5cf6] opacity-0 mix-blend-screen pointer-events-none select-none"
+                                        style={{ willChange: 'transform, opacity, clip-path' }}
                                         animate={{
                                             x: [3, -3, 2, -2, 0],
                                             y: [-1, 1, 0],
@@ -104,6 +107,7 @@ export default function AboutPage() {
                                     </motion.span>
                                     <motion.span
                                         className="absolute inset-0 text-white opacity-0 mix-blend-overlay pointer-events-none select-none"
+                                        style={{ willChange: 'transform, opacity, filter' }}
                                         animate={{
                                             scale: [1, 1.05, 1],
                                             opacity: [0, 0.3, 0],
@@ -136,11 +140,13 @@ export default function AboutPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + index * 0.1 }}
                                 className="glitch-container rounded-lg p-4 sm:p-6 group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden"
+                                style={{ willChange: 'transform' }}
                                 whileHover={{ scale: 1.02 }}
                             >
                                 {/* Active Glitch Hover Effect - Border Glow Pulse */}
                                 <motion.div
                                     className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-lg pointer-events-none"
+                                    style={{ willChange: 'opacity' }}
                                     animate={{ opacity: [0.5, 1, 0.5] }}
                                     transition={{ duration: 1.5, repeat: Infinity }}
                                 />
@@ -154,7 +160,7 @@ export default function AboutPage() {
                                     {/* Glitch layers */}
                                     <motion.div
                                         className="absolute inset-0 text-2xl sm:text-3xl md:text-4xl font-cyber font-bold opacity-0"
-                                        style={{ color: '#00f0ff', filter: 'hue-rotate(180deg)' }}
+                                        style={{ color: '#00f0ff', filter: 'hue-rotate(180deg)', willChange: 'transform, opacity' }}
                                         animate={{
                                             x: [0, -2, 0, 1, 0],
                                             opacity: [0, 0.6, 0, 0.4, 0],
@@ -169,7 +175,7 @@ export default function AboutPage() {
                                     </motion.div>
                                     <motion.div
                                         className="absolute inset-0 text-2xl sm:text-3xl md:text-4xl font-cyber font-bold opacity-0"
-                                        style={{ color: '#8b5cf6', filter: 'hue-rotate(-60deg)' }}
+                                        style={{ color: '#8b5cf6', filter: 'hue-rotate(-60deg)', willChange: 'transform, opacity' }}
                                         animate={{
                                             x: [0, 2, 0, -1, 0],
                                             opacity: [0, 0.5, 0, 0.3, 0],
@@ -203,6 +209,7 @@ export default function AboutPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 + index * 0.1 }}
                                 className="glitch-container rounded-lg p-6 sm:p-8 group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden"
+                                style={{ willChange: 'transform' }}
                                 whileHover={{ scale: 1.02 }}
                             >
                                 {/* Active Glitch Hover Effect - Border Glow Pulse */}
