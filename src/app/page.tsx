@@ -34,10 +34,9 @@ export default function Home() {
     const handleBootComplete = useCallback(() => {
         sessionStorage.setItem(BOOT_KEY, 'true')
         setShowGlitchEntrance(true)
-        // Brief glitch effect before showing content
         setTimeout(() => {
             setIsBooting(false)
-        }, 100)
+        }, 50)
     }, [])
 
     // Don't render until we check sessionStorage (prevents flash)
@@ -59,65 +58,128 @@ export default function Home() {
                 {!isBooting && (
                     <motion.div
                         key="main-content"
-                        initial={showGlitchEntrance ? {
-                            opacity: 0,
-                            filter: 'blur(10px) brightness(2)',
-                            x: -10,
-                        } : false}
-                        animate={{
-                            opacity: 1,
-                            filter: 'blur(0px) brightness(1)',
-                            x: 0,
-                        }}
-                        transition={{
-                            duration: 0.5,
-                            ease: 'easeOut',
-                        }}
+                        initial={showGlitchEntrance ? { opacity: 0 } : false}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.1 }}
                     >
-                        {/* Glitch overlay effect on entrance */}
+                        {/* INTENSE GLITCH TRANSITION OVERLAY */}
                         {showGlitchEntrance && (
                             <motion.div
-                                className="fixed inset-0 z-[90] pointer-events-none"
+                                className="fixed inset-0 z-[95] pointer-events-none overflow-hidden"
                                 initial={{ opacity: 1 }}
                                 animate={{ opacity: 0 }}
-                                transition={{ duration: 0.8 }}
+                                transition={{ duration: 1.2, ease: 'easeOut' }}
                             >
+                                {/* Screen flash */}
                                 <motion.div
-                                    className="absolute inset-0 bg-glow-cyan/20"
-                                    animate={{
-                                        x: [-5, 5, -3, 3, 0],
-                                        opacity: [0.5, 0.3, 0.4, 0.2, 0],
-                                    }}
-                                    transition={{ duration: 0.4 }}
+                                    className="absolute inset-0 bg-white"
+                                    animate={{ opacity: [1, 0, 0.3, 0, 0.1, 0] }}
+                                    transition={{ duration: 0.5, times: [0, 0.1, 0.2, 0.3, 0.4, 1] }}
                                 />
+
+                                {/* RGB Split - Cyan layer */}
                                 <motion.div
-                                    className="absolute inset-0 bg-glow-violet/20"
+                                    className="absolute inset-0 bg-glow-cyan/40"
                                     style={{ mixBlendMode: 'screen' }}
                                     animate={{
-                                        x: [5, -5, 3, -3, 0],
-                                        opacity: [0.4, 0.2, 0.3, 0.1, 0],
+                                        x: [-15, 10, -8, 5, -3, 0],
+                                        opacity: [0.8, 0.5, 0.6, 0.3, 0.2, 0],
+                                    }}
+                                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                                />
+
+                                {/* RGB Split - Violet layer */}
+                                <motion.div
+                                    className="absolute inset-0 bg-glow-violet/40"
+                                    style={{ mixBlendMode: 'screen' }}
+                                    animate={{
+                                        x: [15, -10, 8, -5, 3, 0],
+                                        opacity: [0.7, 0.4, 0.5, 0.2, 0.1, 0],
+                                    }}
+                                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                                />
+
+                                {/* Horizontal scan distortion lines */}
+                                {[...Array(12)].map((_, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className="absolute left-0 right-0 bg-white/60"
+                                        style={{
+                                            top: `${(i * 8) + 4}%`,
+                                            height: `${Math.random() * 4 + 2}px`,
+                                        }}
+                                        animate={{
+                                            scaleX: [0, 1, 0.3, 0.8, 0],
+                                            x: [i % 2 === 0 ? -50 : 50, 0, i % 2 === 0 ? 30 : -30, 0, 0],
+                                            opacity: [0, 1, 0.5, 0.3, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.4,
+                                            delay: i * 0.02,
+                                            ease: 'easeOut',
+                                        }}
+                                    />
+                                ))}
+
+                                {/* Vertical glitch slices */}
+                                <motion.div
+                                    className="absolute top-0 bottom-0 w-1/3 left-0 bg-glow-cyan/30"
+                                    animate={{
+                                        x: [-100, 0, 50, -20, 0],
+                                        opacity: [1, 0.6, 0.3, 0.1, 0],
+                                    }}
+                                    transition={{ duration: 0.5 }}
+                                />
+                                <motion.div
+                                    className="absolute top-0 bottom-0 w-1/3 right-0 bg-glow-violet/30"
+                                    animate={{
+                                        x: [100, 0, -50, 20, 0],
+                                        opacity: [1, 0.6, 0.3, 0.1, 0],
+                                    }}
+                                    transition={{ duration: 0.5 }}
+                                />
+
+                                {/* Scanline overlay */}
+                                <motion.div
+                                    className="absolute inset-0"
+                                    style={{
+                                        background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)',
+                                    }}
+                                    animate={{ opacity: [0.8, 0.4, 0.6, 0.2, 0] }}
+                                    transition={{ duration: 0.8 }}
+                                />
+
+                                {/* Noise flicker */}
+                                <motion.div
+                                    className="absolute inset-0 bg-white/10"
+                                    animate={{ opacity: [0, 0.3, 0, 0.2, 0, 0.1, 0] }}
+                                    transition={{ duration: 0.3, repeat: 2 }}
+                                />
+
+                                {/* Center burst */}
+                                <motion.div
+                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh] rounded-full"
+                                    style={{
+                                        background: 'radial-gradient(circle, rgba(34,211,238,0.4) 0%, transparent 50%)',
+                                    }}
+                                    initial={{ scale: 0, opacity: 1 }}
+                                    animate={{ scale: 2, opacity: 0 }}
+                                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                                />
+
+                                {/* Glitch text flash */}
+                                <motion.div
+                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl sm:text-8xl font-heading font-black text-white/80"
+                                    style={{ textShadow: '4px 0 #00f0ff, -4px 0 #8b5cf6' }}
+                                    animate={{
+                                        opacity: [1, 0, 0.5, 0],
+                                        x: [-5, 5, -3, 0],
+                                        scale: [1.2, 1, 1.1, 1],
                                     }}
                                     transition={{ duration: 0.4 }}
-                                />
-                                {/* Glitch lines */}
-                                <motion.div
-                                    className="absolute left-0 right-0 h-1 bg-glow-cyan/60"
-                                    style={{ top: '30%' }}
-                                    animate={{
-                                        scaleX: [1, 0.5, 1, 0.3, 0],
-                                        x: [-20, 20, -10, 10, 0],
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                />
-                                <motion.div
-                                    className="absolute left-0 right-0 h-1 bg-glow-violet/60"
-                                    style={{ top: '70%' }}
-                                    animate={{
-                                        scaleX: [1, 0.6, 1, 0.4, 0],
-                                        x: [20, -20, 10, -10, 0],
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                />
+                                >
+                                    INFOTHON
+                                </motion.div>
                             </motion.div>
                         )}
 
