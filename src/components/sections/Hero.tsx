@@ -95,18 +95,18 @@ export function Hero() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        {/* Infinite Scrolling Text Marquee with Logo */}
+                        {/* Infinite Scrolling Text with Image Fill */}
                         <div className="relative overflow-hidden w-full mb-4">
-                            {/* Gradient masks for smooth fade */}
-                            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-bg-primary to-transparent z-10" />
-                            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-bg-primary to-transparent z-10" />
+                            {/* Gradient masks for smooth fade on edges */}
+                            <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-bg-primary to-transparent z-10" />
+                            <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-bg-primary to-transparent z-10" />
 
                             <motion.div
                                 className="flex whitespace-nowrap"
-                                animate={{ x: [0, '-50%'] }}
+                                animate={{ x: ['0%', '-50%'] }}
                                 transition={{
                                     x: {
-                                        duration: 20,
+                                        duration: 15,
                                         repeat: Infinity,
                                         ease: 'linear',
                                     },
@@ -114,33 +114,22 @@ export function Hero() {
                             >
                                 {/* Repeat twice for seamless loop */}
                                 {[0, 1].map((i) => (
-                                    <div key={i} className="flex items-center gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-8">
-                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
-                                            INFOTHON
-                                        </NeonText>
-                                        <img
-                                            src="/images/INFOTHON.png"
-                                            alt="Logo"
-                                            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"
-                                        />
-                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
-                                            HACKATHON
-                                        </NeonText>
-                                        <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-glow-violet font-bold">✦</span>
-
-                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
-                                            INFOTHON
-                                        </NeonText>
-                                        <img
-                                            src="/images/INFOTHON.png"
-                                            alt="Logo"
-                                            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain drop-shadow-[0_0_10px_rgba(139,92,246,0.5)]"
-                                        />
-                                        <NeonText as="span" color="gradient" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter font-heading font-bold">
-                                            HACKATHON
-                                        </NeonText>
-                                        <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-glow-cyan font-bold">✦</span>
-                                    </div>
+                                    <h1
+                                        key={i}
+                                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black tracking-tight px-8 sm:px-12"
+                                        style={{
+                                            backgroundImage: 'url(/images/intext_img.png)',
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            backgroundClip: 'text',
+                                            WebkitBackgroundClip: 'text',
+                                            color: 'transparent',
+                                            WebkitTextFillColor: 'transparent',
+                                            filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.3))',
+                                        }}
+                                    >
+                                        INFOTHON x HACKATHON &nbsp;✦&nbsp; INFOTHON x HACKATHON &nbsp;✦&nbsp;
+                                    </h1>
                                 ))}
                             </motion.div>
                         </div>
