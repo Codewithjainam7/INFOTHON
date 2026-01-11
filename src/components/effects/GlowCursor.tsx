@@ -83,12 +83,16 @@ export function GlowCursor() {
                 }
             `}</style>
 
-            {/* Main Cursor Dot */}
+            {/* Main Cursor Dot - properly centered */}
             <motion.div
-                className="fixed top-0 left-0 pointer-events-none z-[9999] hidden lg:block"
+                className="fixed pointer-events-none z-[9999] hidden lg:block"
                 style={{
+                    left: 0,
+                    top: 0,
                     x: cursorXSpring,
                     y: cursorYSpring,
+                    translateX: '-50%',
+                    translateY: '-50%',
                 }}
                 animate={{
                     opacity: isVisible ? 1 : 0,
@@ -96,22 +100,24 @@ export function GlowCursor() {
                 }}
                 transition={{ duration: 0.15 }}
             >
-                <div className="relative -translate-x-1/2 -translate-y-1/2">
-                    <div
-                        className="w-3 h-3 rounded-full bg-white"
-                        style={{
-                            boxShadow: '0 0 6px #22d3ee, 0 0 12px #22d3ee',
-                        }}
-                    />
-                </div>
+                <div
+                    className="w-3 h-3 rounded-full bg-white"
+                    style={{
+                        boxShadow: '0 0 6px #22d3ee, 0 0 12px #22d3ee',
+                    }}
+                />
             </motion.div>
 
-            {/* Hover Ring with Pointer Effect */}
+            {/* Hover Ring with Pointer Effect - properly centered */}
             <motion.div
-                className="fixed top-0 left-0 pointer-events-none z-[9998] hidden lg:block"
+                className="fixed pointer-events-none z-[9998] hidden lg:block"
                 style={{
+                    left: 0,
+                    top: 0,
                     x: trailXSpring,
                     y: trailYSpring,
+                    translateX: '-50%',
+                    translateY: '-50%',
                 }}
                 animate={{
                     opacity: isVisible ? 1 : 0,
@@ -120,13 +126,12 @@ export function GlowCursor() {
                 transition={{ type: 'spring', damping: 20, stiffness: 200 }}
             >
                 <motion.div
-                    className="relative -translate-x-1/2 -translate-y-1/2"
                     animate={{ rotate: isHovering ? 45 : 0 }}
                     transition={{ duration: 0.3 }}
                 >
                     {/* Main ring - only visible on hover */}
                     <motion.div
-                        className="w-12 h-12 rounded-full border-2 border-glow-violet"
+                        className="w-12 h-12 rounded-full border-2 border-glow-violet flex items-center justify-center"
                         animate={{
                             opacity: isHovering ? 1 : 0,
                             scale: isHovering ? 1 : 0.5,
@@ -135,10 +140,21 @@ export function GlowCursor() {
                         style={{
                             boxShadow: isHovering ? '0 0 15px rgba(139,92,246,0.5), inset 0 0 15px rgba(139,92,246,0.1)' : 'none',
                         }}
-                    />
+                    >
+                        {/* Center crosshair on hover */}
+                        <motion.div
+                            className="flex items-center justify-center"
+                            animate={{ opacity: isHovering ? 1 : 0 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <div className="w-4 h-px bg-glow-violet absolute" />
+                            <div className="w-px h-4 bg-glow-violet absolute" />
+                        </motion.div>
+                    </motion.div>
 
                     {/* Corner brackets on hover */}
                     <motion.div
+                        className="absolute inset-0"
                         animate={{ opacity: isHovering ? 1 : 0, scale: isHovering ? 1 : 0.5 }}
                         transition={{ duration: 0.2 }}
                     >
@@ -147,37 +163,29 @@ export function GlowCursor() {
                         <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-glow-cyan" />
                         <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-glow-cyan" />
                     </motion.div>
-
-                    {/* Center crosshair on hover */}
-                    <motion.div
-                        className="absolute inset-0 flex items-center justify-center"
-                        animate={{ opacity: isHovering ? 1 : 0 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <div className="w-4 h-px bg-glow-violet" />
-                        <div className="absolute w-px h-4 bg-glow-violet" />
-                    </motion.div>
                 </motion.div>
             </motion.div>
 
-            {/* Subtle glow trail */}
+            {/* Subtle glow trail - properly centered */}
             <motion.div
-                className="fixed top-0 left-0 pointer-events-none z-[9996] hidden lg:block"
+                className="fixed pointer-events-none z-[9996] hidden lg:block"
                 style={{
+                    left: 0,
+                    top: 0,
                     x: trailXSpring,
                     y: trailYSpring,
+                    translateX: '-50%',
+                    translateY: '-50%',
                 }}
                 animate={{
                     opacity: isVisible ? (isHovering ? 0.5 : 0.2) : 0,
                 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="relative -translate-x-1/2 -translate-y-1/2">
-                    <div
-                        className={`w-10 h-10 rounded-full blur-lg transition-colors duration-300 ${isHovering ? 'bg-glow-violet/50' : 'bg-glow-cyan/30'
-                            }`}
-                    />
-                </div>
+                <div
+                    className={`w-10 h-10 rounded-full blur-lg transition-colors duration-300 ${isHovering ? 'bg-glow-violet/50' : 'bg-glow-cyan/30'
+                        }`}
+                />
             </motion.div>
         </>
     )

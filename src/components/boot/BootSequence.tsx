@@ -97,10 +97,20 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
             })
         }, duration / 70)
 
-        // Transition after duration
+        // Transition after duration - trigger intense glitch before exit
         const timer = setTimeout(() => {
-            setPhase('transition')
-            setTimeout(onComplete, 600)
+            // Trigger rapid glitch sequence before transition
+            setGlitchActive(true)
+            setTimeout(() => {
+                setGlitchActive(false)
+                setTimeout(() => {
+                    setGlitchActive(true)
+                    setTimeout(() => {
+                        setPhase('transition')
+                        setTimeout(onComplete, 800)
+                    }, 100)
+                }, 50)
+            }, 100)
         }, duration)
 
         return () => {
@@ -116,8 +126,12 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
             {phase === 'loading' && (
                 <motion.div
                     className="fixed inset-0 z-[100] bg-bg-primary flex items-center justify-center overflow-hidden"
-                    exit={{ opacity: 0, scale: 1.1 }}
-                    transition={{ duration: 0.6, ease: 'easeInOut' }}
+                    exit={{
+                        opacity: 0,
+                        scale: 1.05,
+                        filter: 'blur(10px) brightness(2)',
+                    }}
+                    transition={{ duration: 0.8, ease: 'easeInOut' }}
                 >
                     {/* Animated Background Grid */}
                     <div className="absolute inset-0 overflow-hidden opacity-20">
