@@ -71,9 +71,16 @@ export default function AboutPage() {
                                         animate={{
                                             x: [-4, 4, -2, 3, 0],
                                             y: [1, -1, 0],
-                                            opacity: [0, 0.8, 0, 0.6, 0]
+                                            opacity: [0, 0.9, 0, 0.6, 0],
+                                            clipPath: [
+                                                'inset(0 0 100% 0)',
+                                                'inset(20% 0 50% 0)',
+                                                'inset(10% 0 60% 0)',
+                                                'inset(40% 0 20% 0)',
+                                                'inset(0 0 100% 0)'
+                                            ]
                                         }}
-                                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1 }}
+                                        transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 0.8 }}
                                     >
                                         The Future Awaits
                                     </motion.span>
@@ -82,9 +89,27 @@ export default function AboutPage() {
                                         animate={{
                                             x: [3, -3, 2, -2, 0],
                                             y: [-1, 1, 0],
-                                            opacity: [0, 0.8, 0, 0.6, 0]
+                                            opacity: [0, 0.9, 0, 0.6, 0],
+                                            clipPath: [
+                                                'inset(100% 0 0 0)',
+                                                'inset(60% 0 10% 0)',
+                                                'inset(50% 0 20% 0)',
+                                                'inset(30% 0 50% 0)',
+                                                'inset(100% 0 0 0)'
+                                            ]
                                         }}
-                                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 1.2 }}
+                                        transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 1.1 }}
+                                    >
+                                        The Future Awaits
+                                    </motion.span>
+                                    <motion.span
+                                        className="absolute inset-0 text-white opacity-0 mix-blend-overlay pointer-events-none select-none"
+                                        animate={{
+                                            scale: [1, 1.05, 1],
+                                            opacity: [0, 0.3, 0],
+                                            filter: ['blur(0px)', 'blur(4px)', 'blur(0px)']
+                                        }}
+                                        transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 2.3 }}
                                     >
                                         The Future Awaits
                                     </motion.span>
