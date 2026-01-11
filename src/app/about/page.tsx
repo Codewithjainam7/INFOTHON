@@ -49,8 +49,8 @@ export default function AboutPage() {
                             ABOUT US
                         </span>
                         <div className="relative inline-block mb-6">
-                            {/* Main visible text with ScrambleText typing animation */}
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
+                            {/* Main visible text - HIGH Z-INDEX for iOS */}
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-20">
                                 <span className="gradient-text">
                                     <ScrambleText
                                         text="The Future Awaits"
@@ -61,9 +61,10 @@ export default function AboutPage() {
                                 </span>
                             </h1>
 
-                            {/* Glitch layer - Cyan offset (INTENSIFIED) */}
+                            {/* Glitch layer - Cyan offset */}
                             <motion.h1
-                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-0 pointer-events-none"
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                style={{ opacity: 0 }}
                                 animate={{
                                     x: [0, -8, 4, -6, 0],
                                     y: [0, 3, -2, 0],
@@ -80,9 +81,10 @@ export default function AboutPage() {
                                 The Future Awaits
                             </motion.h1>
 
-                            {/* Glitch layer - Violet offset (INTENSIFIED) */}
+                            {/* Glitch layer - Violet offset */}
                             <motion.h1
-                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-0 pointer-events-none"
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                style={{ opacity: 0 }}
                                 animate={{
                                     x: [0, 8, -4, 6, 0],
                                     y: [0, -3, 2, 0],

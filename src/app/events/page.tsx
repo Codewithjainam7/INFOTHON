@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { events, eventCategories, type Event } from '@/data'
-import { GlassCard, GlowButton, ScrambleText } from '@/components/ui'
+import { GlowButton, ScrambleText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { Footer } from '@/components/sections'
@@ -60,14 +60,14 @@ export default function EventsPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-center mb-10 sm:mb-12"
+                        className="flex flex-col items-center justify-center mb-10 sm:mb-12"
                     >
-                        <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
+                        <span className="inline-block px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm text-xs font-cyber text-glow-cyan tracking-widest mb-6 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                             EVENTS
                         </span>
                         <div className="relative inline-block mb-4">
-                            {/* Main visible text with ScrambleText typing animation */}
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
+                            {/* Main visible text - HIGH Z-INDEX for iOS */}
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-20">
                                 <span className="gradient-text">
                                     <ScrambleText
                                         text="Competitions"
@@ -80,7 +80,8 @@ export default function EventsPage() {
 
                             {/* Glitch layer - Cyan offset */}
                             <motion.h1
-                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-0 pointer-events-none"
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                style={{ opacity: 0 }}
                                 animate={{
                                     x: [0, -8, 4, -6, 0],
                                     y: [0, 3, -2, 0],
@@ -99,7 +100,8 @@ export default function EventsPage() {
 
                             {/* Glitch layer - Violet offset */}
                             <motion.h1
-                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-0 pointer-events-none"
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                style={{ opacity: 0 }}
                                 animate={{
                                     x: [0, 8, -4, 6, 0],
                                     y: [0, -3, 2, 0],
@@ -170,7 +172,7 @@ export default function EventsPage() {
                                     transition={{ duration: 0.3, delay: index * 0.05 }}
                                 >
                                     <Link href={`/events/${event.id}`}>
-                                        <GlassCard className="h-full group cursor-pointer">
+                                        <div className="glitch-container rounded-lg p-4 sm:p-5 h-full group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden">
                                             <div className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-semibold uppercase bg-gradient-to-r ${categoryColors[event.category]} text-white mb-3 sm:mb-4`}>
                                                 {event.category}
                                             </div>
@@ -184,7 +186,7 @@ export default function EventsPage() {
                                                 <span className="text-xs sm:text-sm text-text-muted">{event.date}</span>
                                                 <span className="text-sm sm:text-base font-heading font-bold gradient-text">{event.prize}</span>
                                             </div>
-                                        </GlassCard>
+                                        </div>
                                     </Link>
                                 </motion.div>
                             ))}
