@@ -269,9 +269,9 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 <Clock className="w-6 h-6" />
                                 Event Timeline
                             </h2>
-                            <div className="relative">
-                                {/* Gradient line */}
-                                <div className="absolute left-4 sm:left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan/30" />
+                            <div className="relative pl-2">
+                                {/* Gradient line - positioned at center of nodes */}
+                                <div className="absolute left-[9px] sm:left-[11px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan/30" />
 
                                 <div className="space-y-4">
                                     {event.timeline.map((item, index) => (
@@ -280,11 +280,11 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                             initial={{ opacity: 0, x: -20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: 0.45 + index * 0.05 }}
-                                            className="relative pl-12 sm:pl-14 group"
+                                            className="relative pl-10 sm:pl-12 group"
                                         >
-                                            {/* Glowing node */}
-                                            <div className="absolute left-2 sm:left-3 top-3 w-4 h-4 rounded-full bg-bg-primary border-2 border-glow-cyan shadow-[0_0_12px_rgba(34,211,238,0.6)] flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(34,211,238,0.9)] transition-shadow">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-glow-cyan" />
+                                            {/* Glowing node - centered on line */}
+                                            <div className="absolute left-0 top-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-bg-primary border-2 border-glow-cyan shadow-[0_0_12px_rgba(34,211,238,0.6)] flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(34,211,238,0.9)] transition-shadow">
+                                                <div className="w-2 h-2 rounded-full bg-glow-cyan" />
                                             </div>
 
                                             {/* Content card */}
@@ -329,11 +329,11 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 </span>
                             </button>
                         </motion.div>
-                    </motion.div>
-                </div>
-            </main>
+                    </motion.div >
+                </div >
+            </main >
 
             <Footer />
-        </SmoothScroll>
+        </SmoothScroll >
     )
 }
