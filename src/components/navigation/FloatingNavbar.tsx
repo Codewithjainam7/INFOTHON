@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-
 import { cn } from '@/lib/utils'
 import { GlowButton, MagneticElement } from '@/components/ui'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const navLinks = [
@@ -61,11 +62,14 @@ export function FloatingNavbar() {
                         {/* Logo */}
                         <MagneticElement strength={0.2}>
                             <Link href="/" className="flex items-center gap-2 group">
-                                <div className="relative w-10 h-10">
-                                    <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-glow-cyan to-glow-violet opacity-80 group-hover:opacity-100 transition-opacity" />
-                                    <div className="absolute inset-0.5 rounded-lg bg-bg-primary flex items-center justify-center">
-                                        <span className="text-xl font-heading font-bold gradient-text">I</span>
-                                    </div>
+                                <div className="relative w-10 h-10 sm:w-11 sm:h-11">
+                                    <Image
+                                        src="/images/INFOTHON.png"
+                                        alt="INFOTHON Logo"
+                                        fill
+                                        className="object-contain drop-shadow-[0_0_8px_rgba(34,211,238,0.4)] group-hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.6)] transition-all"
+                                        priority
+                                    />
                                 </div>
                                 <span className="font-heading font-bold text-base sm:text-lg tracking-wider">
                                     <span className="text-glow-cyan">INFO</span>

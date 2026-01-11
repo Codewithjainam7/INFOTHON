@@ -66,16 +66,23 @@ export function BootSequence({ onComplete, duration = 3500 }: BootSequenceProps)
                         className="relative z-10 text-center px-6"
                     >
                         {/* Logo */}
-                        <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-6 relative">
+                        <div className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-6 relative">
                             <motion.div
-                                className="absolute inset-0 rounded-2xl bg-gradient-to-br from-glow-cyan to-glow-violet"
+                                className="absolute inset-0 rounded-2xl bg-gradient-to-br from-glow-cyan/30 to-glow-violet/30"
                                 animate={{
                                     boxShadow: ['0 0 30px rgba(0,245,255,0.3)', '0 0 60px rgba(0,245,255,0.5)', '0 0 30px rgba(0,245,255,0.3)'],
                                 }}
                                 transition={{ duration: 2, repeat: Infinity }}
                             />
-                            <div className="absolute inset-1 rounded-xl bg-bg-primary/90 backdrop-blur flex items-center justify-center">
-                                <span className="text-5xl sm:text-6xl font-heading font-bold gradient-text">I</span>
+                            <div className="absolute inset-2 flex items-center justify-center">
+                                <Image
+                                    src="/images/INFOTHON.png"
+                                    alt="INFOTHON Logo"
+                                    width={120}
+                                    height={120}
+                                    className="object-contain drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+                                    priority
+                                />
                             </div>
                         </div>
 

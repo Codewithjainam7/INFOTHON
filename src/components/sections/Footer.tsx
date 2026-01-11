@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const footerLinks = {
     explore: [
@@ -35,11 +36,13 @@ export function Footer() {
                     {/* Brand */}
                     <div className="lg:col-span-2">
                         <Link href="/" className="inline-flex items-center gap-2 mb-4 sm:mb-6 group">
-                            <div className="relative w-8 h-8 sm:w-10 sm:h-10">
-                                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-glow-cyan to-glow-violet opacity-80" />
-                                <div className="absolute inset-0.5 rounded-lg bg-bg-primary flex items-center justify-center">
-                                    <span className="text-lg sm:text-xl font-heading font-bold gradient-text">I</span>
-                                </div>
+                            <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                                <Image
+                                    src="/images/INFOTHON.png"
+                                    alt="INFOTHON Logo"
+                                    fill
+                                    className="object-contain drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]"
+                                />
                             </div>
                             <span className="font-heading font-bold text-lg sm:text-xl tracking-wider">
                                 <span className="text-glow-cyan">INFO</span>
