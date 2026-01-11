@@ -95,44 +95,31 @@ export function Hero() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        {/* Infinite Scrolling Text with Image Fill */}
-                        <div className="relative overflow-hidden w-full mb-4">
-                            {/* Gradient masks for smooth fade on edges */}
-                            <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-bg-primary to-transparent z-10" />
-                            <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-bg-primary to-transparent z-10" />
-
-                            <motion.div
-                                className="flex whitespace-nowrap"
-                                animate={{ x: ['0%', '-50%'] }}
-                                transition={{
-                                    x: {
-                                        duration: 15,
-                                        repeat: Infinity,
-                                        ease: 'linear',
-                                    },
-                                }}
-                            >
-                                {/* Repeat twice for seamless loop */}
-                                {[0, 1].map((i) => (
-                                    <h1
-                                        key={i}
-                                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black tracking-tight px-8 sm:px-12"
-                                        style={{
-                                            backgroundImage: 'url(/images/intext_img.png)',
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            backgroundClip: 'text',
-                                            WebkitBackgroundClip: 'text',
-                                            color: 'transparent',
-                                            WebkitTextFillColor: 'transparent',
-                                            filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.3))',
-                                        }}
-                                    >
-                                        INFOTHON x HACKATHON &nbsp;✦&nbsp; INFOTHON x HACKATHON &nbsp;✦&nbsp;
-                                    </h1>
-                                ))}
-                            </motion.div>
-                        </div>
+                        {/* Static Text with Animated Image Fill Inside */}
+                        <motion.h1
+                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-center mb-4"
+                            style={{
+                                backgroundImage: 'url(/images/intext_img.png)',
+                                backgroundSize: '200% 100%',
+                                backgroundClip: 'text',
+                                WebkitBackgroundClip: 'text',
+                                color: 'transparent',
+                                WebkitTextFillColor: 'transparent',
+                                filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.3))',
+                            }}
+                            animate={{
+                                backgroundPosition: ['0% center', '100% center', '0% center'],
+                            }}
+                            transition={{
+                                backgroundPosition: {
+                                    duration: 8,
+                                    repeat: Infinity,
+                                    ease: 'linear',
+                                },
+                            }}
+                        >
+                            INFOTHON x HACKATHON
+                        </motion.h1>
 
                         {/* Animated 2026 Image with Glitch Effect */}
                         <div className="flex justify-center mt-4 relative">
