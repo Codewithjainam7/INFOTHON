@@ -73,34 +73,40 @@ export function FloatingNavbar() {
                                 </div>
                                 {/* Glitch Text Effect */}
                                 <div className="relative">
-                                    {/* Cyan glitch layer */}
+                                    {/* Cyan glitch layer - INTENSIFIED */}
                                     <motion.span
                                         className="absolute inset-0 font-heading font-bold text-base sm:text-lg tracking-wider opacity-0"
                                         style={{ color: '#00f0ff' }}
                                         animate={{
-                                            x: [0, -2, 0, 1, 0],
-                                            opacity: [0, 0.7, 0, 0.5, 0],
+                                            x: [0, -5, 3, -4, 0],
+                                            y: [0, 2, -1, 0],
+                                            scale: [1, 1.02, 0.98, 1],
+                                            opacity: [0, 1, 0, 0.8, 0],
                                         }}
                                         transition={{
-                                            duration: 0.15,
+                                            duration: 0.2,
                                             repeat: Infinity,
-                                            repeatDelay: 3,
+                                            repeatDelay: 1,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
                                         }}
                                     >
                                         INFOTHON
                                     </motion.span>
-                                    {/* Violet glitch layer */}
+                                    {/* Violet glitch layer - INTENSIFIED */}
                                     <motion.span
                                         className="absolute inset-0 font-heading font-bold text-base sm:text-lg tracking-wider opacity-0"
                                         style={{ color: '#8b5cf6' }}
                                         animate={{
-                                            x: [0, 2, 0, -1, 0],
-                                            opacity: [0, 0.6, 0, 0.4, 0],
+                                            x: [0, 5, -3, 4, 0],
+                                            y: [0, -2, 1, 0],
+                                            scale: [1, 0.98, 1.02, 1],
+                                            opacity: [0, 0.9, 0, 0.7, 0],
                                         }}
                                         transition={{
-                                            duration: 0.12,
+                                            duration: 0.15,
                                             repeat: Infinity,
-                                            repeatDelay: 2.5,
+                                            repeatDelay: 0.8,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
                                         }}
                                     >
                                         INFOTHON

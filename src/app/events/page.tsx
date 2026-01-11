@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { events, eventCategories, type Event } from '@/data'
-import { GlassCard, GlowButton, NeonText } from '@/components/ui'
+import { GlassCard, GlowButton, ScrambleText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { Footer } from '@/components/sections'
@@ -65,9 +65,57 @@ export default function EventsPage() {
                         <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
                             EVENTS
                         </span>
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-4">
-                            Competitions
-                        </NeonText>
+                        <div className="relative inline-block mb-4">
+                            {/* Main visible text with ScrambleText typing animation */}
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
+                                <span className="gradient-text">
+                                    <ScrambleText
+                                        text="Competitions"
+                                        revealSpeed={50}
+                                        scrambleSpeed={30}
+                                        delay={300}
+                                    />
+                                </span>
+                            </h1>
+
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.h1
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-0 pointer-events-none"
+                                animate={{
+                                    x: [0, -8, 4, -6, 0],
+                                    y: [0, 3, -2, 0],
+                                    scale: [1, 1.03, 0.97, 1],
+                                    opacity: [0, 1, 0, 0.8, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 1,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Competitions
+                            </motion.h1>
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.h1
+                                className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-0 pointer-events-none"
+                                animate={{
+                                    x: [0, 8, -4, 6, 0],
+                                    y: [0, -3, 2, 0],
+                                    scale: [1, 0.97, 1.03, 1],
+                                    opacity: [0, 0.9, 0, 0.7, 0],
+                                }}
+                                transition={{
+                                    duration: 0.15,
+                                    repeat: Infinity,
+                                    repeatDelay: 0.8,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Competitions
+                            </motion.h1>
+                        </div>
                         <p className="text-base sm:text-lg text-text-secondary max-w-2xl mx-auto px-4">
                             Explore all competitions, hackathons, workshops, and more.
                         </p>

@@ -49,43 +49,50 @@ export default function AboutPage() {
                             ABOUT US
                         </span>
                         <div className="relative inline-block mb-6">
-                            {/* Main visible text */}
+                            {/* Main visible text with ScrambleText typing animation */}
                             <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-10">
-                                <span className="gradient-text">The Future Awaits</span>
+                                <span className="gradient-text">
+                                    <ScrambleText
+                                        text="The Future Awaits"
+                                        revealSpeed={50}
+                                        scrambleSpeed={30}
+                                        delay={300}
+                                    />
+                                </span>
                             </h1>
 
-                            {/* Glitch layer - Cyan offset (2k26 style) */}
+                            {/* Glitch layer - Cyan offset (INTENSIFIED) */}
                             <motion.h1
                                 className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-0 pointer-events-none"
                                 animate={{
-                                    x: [0, -5, 2, -5, 0],
-                                    y: [0, 2, -1, 0],
-                                    scale: [1, 1.02, 0.98, 1],
-                                    opacity: [0, 0.8, 0, 0.6, 0],
+                                    x: [0, -8, 4, -6, 0],
+                                    y: [0, 3, -2, 0],
+                                    scale: [1, 1.03, 0.97, 1],
+                                    opacity: [0, 1, 0, 0.8, 0],
                                 }}
                                 transition={{
-                                    duration: 0.15,
+                                    duration: 0.2,
                                     repeat: Infinity,
-                                    repeatDelay: 2,
+                                    repeatDelay: 1,
                                     times: [0, 0.2, 0.4, 0.6, 1],
                                 }}
                             >
                                 The Future Awaits
                             </motion.h1>
 
-                            {/* Glitch layer - Violet offset (2k26 style) */}
+                            {/* Glitch layer - Violet offset (INTENSIFIED) */}
                             <motion.h1
                                 className="absolute inset-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-0 pointer-events-none"
                                 animate={{
-                                    x: [0, 5, -2, 5, 0],
-                                    y: [0, -2, 1, 0],
-                                    scale: [1, 0.98, 1.02, 1],
-                                    opacity: [0, 0.7, 0, 0.5, 0],
+                                    x: [0, 8, -4, 6, 0],
+                                    y: [0, -3, 2, 0],
+                                    scale: [1, 0.97, 1.03, 1],
+                                    opacity: [0, 0.9, 0, 0.7, 0],
                                 }}
                                 transition={{
-                                    duration: 0.12,
+                                    duration: 0.15,
                                     repeat: Infinity,
-                                    repeatDelay: 1.5,
+                                    repeatDelay: 0.8,
                                     times: [0, 0.2, 0.4, 0.6, 1],
                                 }}
                             >
