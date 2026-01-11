@@ -138,7 +138,7 @@ export function Hero() {
                             <div className="relative">
                                 {/* Glitch layer - Cyan offset */}
                                 <motion.img
-                                    src="/images/2026.png"
+                                    src="/images/2k26.png"
                                     alt=""
                                     className="absolute inset-0 h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain opacity-60"
                                     style={{ filter: 'hue-rotate(180deg)' }}
@@ -156,7 +156,7 @@ export function Hero() {
 
                                 {/* Glitch layer - Violet offset */}
                                 <motion.img
-                                    src="/images/2026.png"
+                                    src="/images/2k26.png"
                                     alt=""
                                     className="absolute inset-0 h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain opacity-60"
                                     style={{ filter: 'hue-rotate(-60deg)' }}
@@ -174,8 +174,8 @@ export function Hero() {
 
                                 {/* Main image with glow effect */}
                                 <motion.img
-                                    src="/images/2026.png"
-                                    alt="2026"
+                                    src="/images/2k26.png"
+                                    alt="2k26"
                                     className="h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain relative z-10"
                                     style={{
                                         filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
@@ -237,7 +237,7 @@ export function Hero() {
                             }}
                             transition={{ duration: 4, repeat: Infinity }}
                         >
-                            INFOTHON PRESENTS HACKATHON 2026
+                            INFOTHON PRESENTS HACKATHON 2K26
                         </motion.p>
                     </motion.div>
 
