@@ -58,44 +58,58 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                         </Link>
                     </motion.div>
 
-                    {/* Main Container */}
+                    {/* Main Glassmorphism Container */}
                     <motion.div
-                        className="rounded-2xl border border-white/10 bg-black/20 backdrop-blur-md p-6 sm:p-8 relative"
+                        className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-xl p-6 sm:p-8 relative overflow-hidden shadow-2xl"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        {/* Corner accents */}
-                        <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-glow-cyan/80" />
-                        <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-glow-violet/80" />
-                        <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-glow-violet/80" />
-                        <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-glow-cyan/80" />
+                        {/* Subtle gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-glow-cyan/5 via-transparent to-glow-violet/5 pointer-events-none" />
 
-                        {/* Header Section */}
+                        {/* Corner accents */}
+                        <div className="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-glow-cyan" />
+                        <div className="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-glow-violet" />
+                        <div className="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-glow-violet" />
+                        <div className="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-glow-cyan" />
+
+                        {/* Header Section with Glitch */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="mb-8"
+                            className="mb-8 relative z-10"
                         >
                             <div className={`inline-block w-fit px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-gradient-to-r ${categoryColors[event.category]} text-white mb-4`}>
                                 {event.category}
                             </div>
 
-                            {/* Title */}
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(34,211,238,0.6)] mb-4">
-                                <ScrambleText text={event.title} revealSpeed={50} scrambleSpeed={30} delay={300} />
-                            </h1>
+                            {/* Title with Glitch Effect */}
+                            <div className="relative mb-4 group">
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(34,211,238,0.6)]">
+                                    <ScrambleText text={event.title} revealSpeed={50} scrambleSpeed={30} delay={300} />
+                                </h1>
+                                {/* Glitch layer - appears on hover */}
+                                <h1
+                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#ff0066] opacity-0 group-hover:opacity-70 transition-opacity pointer-events-none"
+                                    style={{ transform: 'translate(-2px, 1px)' }}
+                                >{event.title}</h1>
+                                <h1
+                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#00ff66] opacity-0 group-hover:opacity-70 transition-opacity pointer-events-none"
+                                    style={{ transform: 'translate(2px, -1px)' }}
+                                >{event.title}</h1>
+                            </div>
 
                             <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-3xl">
                                 {event.longDescription}
                             </p>
                         </motion.div>
 
-                        {/* HUD Dashboard - Event Details */}
+                        {/* HUD Dashboard */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="mb-8"
+                            className="mb-8 relative z-10"
                         >
                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
                                 {[
@@ -110,10 +124,10 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.15 + index * 0.03 }}
-                                        className="p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:border-glow-cyan/50 transition-colors"
+                                        className="p-3 sm:p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 hover:border-glow-cyan/50 hover:bg-black/40 transition-all group"
                                     >
-                                        <div className="w-8 h-8 rounded-lg bg-glow-cyan/20 flex items-center justify-center mb-2">
-                                            <item.icon className="w-4 h-4 text-glow-cyan" />
+                                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-glow-cyan/30 to-glow-violet/20 flex items-center justify-center mb-2 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-shadow">
+                                            <item.icon className="w-5 h-5 text-glow-cyan" />
                                         </div>
                                         <p className="text-[10px] sm:text-xs text-text-muted uppercase tracking-wider font-mono">{item.label}</p>
                                         <p className="text-sm sm:text-base text-text-primary font-semibold truncate">{item.value}</p>
@@ -122,30 +136,46 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             </div>
                         </motion.div>
 
-                        {/* Prize Pool - Static Glow */}
+                        {/* Prize Pool with Glitch Effect */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="mb-8"
+                            className="mb-8 relative z-10"
                         >
-                            <div className="text-center py-8 sm:py-10 rounded-xl bg-gradient-to-r from-glow-cyan/10 via-glow-violet/5 to-glow-cyan/10 border border-glow-cyan/20">
-                                <p className="text-sm sm:text-base text-text-muted uppercase tracking-[0.3em] font-mono mb-2">PRIZE POOL</p>
-                                <p
-                                    className="text-4xl sm:text-5xl md:text-6xl font-heading font-black text-glow-cyan"
-                                    style={{ textShadow: '0 0 40px rgba(34,211,238,0.6), 0 0 80px rgba(34,211,238,0.3)' }}
-                                >
-                                    {event.prize}
-                                </p>
+                            <div className="text-center py-10 sm:py-14 rounded-2xl bg-gradient-to-r from-black/40 via-glow-cyan/10 to-black/40 border border-glow-cyan/30 relative overflow-hidden group">
+                                {/* Grid overlay */}
+                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(rgba(0,240,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+
+                                <p className="text-sm sm:text-base text-text-muted uppercase tracking-[0.4em] font-mono mb-3 relative z-10">PRIZE POOL</p>
+
+                                {/* Prize with glitch on hover */}
+                                <div className="relative inline-block">
+                                    <p
+                                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-glow-cyan relative z-10"
+                                        style={{ textShadow: '0 0 50px rgba(34,211,238,0.8), 0 0 100px rgba(34,211,238,0.4)' }}
+                                    >
+                                        {event.prize}
+                                    </p>
+                                    {/* Glitch layers on hover */}
+                                    <p
+                                        className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-[#ff0066] opacity-0 group-hover:opacity-80 transition-opacity"
+                                        style={{ transform: 'translate(-3px, 2px)', filter: 'blur(0.5px)' }}
+                                    >{event.prize}</p>
+                                    <p
+                                        className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-[#00ff66] opacity-0 group-hover:opacity-80 transition-opacity"
+                                        style={{ transform: 'translate(3px, -2px)', filter: 'blur(0.5px)' }}
+                                    >{event.prize}</p>
+                                </div>
                             </div>
                         </motion.div>
 
-                        {/* Rules - 2 Column Grid */}
+                        {/* Rules - Glass Cards Grid */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="mb-8"
+                            className="mb-8 relative z-10"
                         >
                             <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-cyan">
                                 <ClipboardList className="w-6 h-6" />
@@ -158,10 +188,10 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.35 + index * 0.03 }}
-                                        className="p-4 rounded-lg bg-white/5 border border-glow-cyan/30 hover:border-glow-cyan/60 transition-colors"
+                                        className="p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-glow-cyan/40 hover:border-glow-cyan hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all"
                                     >
                                         <div className="flex items-start gap-3">
-                                            <span className="font-mono text-lg font-bold text-glow-cyan/70">
+                                            <span className="font-mono text-xl font-black text-glow-cyan drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">
                                                 {String(index + 1).padStart(2, '0')}
                                             </span>
                                             <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
@@ -176,41 +206,42 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             </div>
                         </motion.div>
 
-                        {/* Timeline - Simple Clean */}
+                        {/* Timeline - Enhanced */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="mb-8"
+                            className="mb-8 relative z-10"
                         >
-                            <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-violet">
+                            <h2 className="text-lg sm:text-xl font-heading font-bold mb-6 flex items-center gap-2 text-glow-violet">
                                 <Clock className="w-6 h-6" />
                                 Event Timeline
                             </h2>
                             <div className="relative">
-                                {/* Static line */}
-                                <div className="absolute left-3 sm:left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-transparent" />
+                                {/* Gradient line */}
+                                <div className="absolute left-4 sm:left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan/30" />
 
-                                <div className="space-y-0">
+                                <div className="space-y-4">
                                     {event.timeline.map((item, index) => (
                                         <motion.div
                                             key={index}
-                                            initial={{ opacity: 0, x: -15 }}
+                                            initial={{ opacity: 0, x: -20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: 0.45 + index * 0.05 }}
-                                            className="relative pl-10 sm:pl-12 pb-5 last:pb-0"
+                                            className="relative pl-12 sm:pl-14 group"
                                         >
-                                            {/* Node */}
-                                            <div className="absolute left-1 sm:left-2 top-1 w-4 h-4 rounded-full bg-bg-primary border-2 border-glow-cyan shadow-[0_0_10px_rgba(34,211,238,0.5)] flex items-center justify-center">
+                                            {/* Glowing node */}
+                                            <div className="absolute left-2 sm:left-3 top-3 w-4 h-4 rounded-full bg-bg-primary border-2 border-glow-cyan shadow-[0_0_12px_rgba(34,211,238,0.6)] flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(34,211,238,0.9)] transition-shadow">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-glow-cyan" />
                                             </div>
 
-                                            {/* Content */}
-                                            <div className="p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10 hover:border-glow-cyan/40 transition-colors">
-                                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                                                    <span className="font-mono text-sm text-glow-cyan font-bold">{item.time}</span>
-                                                    <span className="hidden sm:block w-px h-4 bg-white/20" />
-                                                    <p className="text-text-primary text-sm sm:text-base">{item.activity}</p>
+                                            {/* Content card */}
+                                            <div className="p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 group-hover:border-glow-violet/50 group-hover:bg-black/40 transition-all">
+                                                <div className="flex flex-wrap items-center gap-3">
+                                                    <span className="px-3 py-1 rounded-lg bg-glow-violet/20 border border-glow-violet/40 font-mono text-sm text-glow-violet font-bold">
+                                                        {item.time}
+                                                    </span>
+                                                    <p className="text-text-primary text-sm sm:text-base font-medium">{item.activity}</p>
                                                 </div>
                                             </div>
                                         </motion.div>
@@ -219,15 +250,16 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             </div>
                         </motion.div>
 
-                        {/* Buttons */}
+                        {/* Chamfered Buttons */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
-                            className="flex flex-col sm:flex-row gap-4"
+                            className="flex flex-col sm:flex-row gap-4 relative z-10"
                         >
                             <button
-                                className="flex-1 py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors rounded-lg"
+                                className="flex-1 py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors"
+                                style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
                             >
                                 <span className="flex items-center justify-center gap-2">
                                     <Zap className="w-5 h-5" />
@@ -236,7 +268,8 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             </button>
 
                             <button
-                                className="flex-1 py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-glow-cyan border-2 border-glow-cyan/60 bg-transparent hover:bg-glow-cyan/10 hover:border-glow-cyan transition-colors rounded-lg"
+                                className="flex-1 py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-glow-cyan border-2 border-glow-cyan bg-transparent hover:bg-glow-cyan/10 transition-colors"
+                                style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
                             >
                                 <span className="flex items-center justify-center gap-2">
                                     <Download className="w-5 h-5" />
