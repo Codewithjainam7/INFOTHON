@@ -66,16 +66,14 @@ export default function EventsPage() {
                             EVENTS
                         </span>
                         <div className="relative inline-block mb-4">
-                            {/* Main visible text - HIGH Z-INDEX for iOS */}
-                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-20">
-                                <span className="gradient-text">
-                                    <ScrambleText
-                                        text="Competitions"
-                                        revealSpeed={50}
-                                        scrambleSpeed={30}
-                                        delay={300}
-                                    />
-                                </span>
+                            {/* Main visible text - SOLID COLOR for maximum compatibility */}
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black relative z-20 text-white">
+                                <ScrambleText
+                                    text="Competitions"
+                                    revealSpeed={50}
+                                    scrambleSpeed={30}
+                                    delay={300}
+                                />
                             </h1>
 
                             {/* Glitch layer - Cyan offset */}
