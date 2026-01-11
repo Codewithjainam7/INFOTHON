@@ -137,60 +137,69 @@ export function Hero() {
                             {/* Main 2026 image with glitch animations - no float */}
                             <div className="relative">
                                 {/* Glitch layer - Cyan offset */}
+                                {/* Glitch layer - Cyan offset */}
                                 <motion.img
                                     src="/images/2k26.png"
                                     alt=""
-                                    className="absolute inset-0 h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain opacity-60"
+                                    className="absolute inset-0 h-40 sm:h-48 md:h-56 lg:h-64 w-auto object-contain opacity-60"
                                     style={{ filter: 'hue-rotate(180deg)' }}
                                     animate={{
-                                        x: [0, -3, 0, 2, 0],
-                                        opacity: [0, 0.6, 0, 0.4, 0],
+                                        x: [0, -5, 2, -5, 0],
+                                        y: [0, 2, -1, 0],
+                                        scale: [1, 1.02, 0.98, 1],
+                                        opacity: [0, 0.8, 0, 0.6, 0],
                                     }}
                                     transition={{
-                                        duration: 0.2,
+                                        duration: 0.15,
                                         repeat: Infinity,
-                                        repeatDelay: 3,
+                                        repeatDelay: 2,
                                         times: [0, 0.2, 0.4, 0.6, 1],
                                     }}
                                 />
 
                                 {/* Glitch layer - Violet offset */}
+                                {/* Glitch layer - Violet offset */}
                                 <motion.img
                                     src="/images/2k26.png"
                                     alt=""
-                                    className="absolute inset-0 h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain opacity-60"
+                                    className="absolute inset-0 h-40 sm:h-48 md:h-56 lg:h-64 w-auto object-contain opacity-60"
                                     style={{ filter: 'hue-rotate(-60deg)' }}
                                     animate={{
-                                        x: [0, 3, 0, -2, 0],
-                                        opacity: [0, 0.5, 0, 0.3, 0],
+                                        x: [0, 5, -2, 5, 0],
+                                        y: [0, -2, 1, 0],
+                                        scale: [1, 0.98, 1.02, 1],
+                                        opacity: [0, 0.7, 0, 0.5, 0],
                                     }}
                                     transition={{
-                                        duration: 0.15,
+                                        duration: 0.12,
                                         repeat: Infinity,
-                                        repeatDelay: 2.5,
+                                        repeatDelay: 1.5,
                                         times: [0, 0.2, 0.4, 0.6, 1],
                                     }}
                                 />
 
                                 {/* Main image with glow effect */}
+                                {/* Main image with glow effect */}
                                 <motion.img
                                     src="/images/2k26.png"
                                     alt="2k26"
-                                    className="h-32 sm:h-28 md:h-32 lg:h-36 w-auto object-contain relative z-10"
+                                    className="h-40 sm:h-48 md:h-56 lg:h-64 w-auto object-contain relative z-10"
                                     style={{
                                         filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
                                     }}
                                     animate={{
-                                        x: [0, 0, -2, 0, 2, 0, 0],
+                                        x: [0, 0, -3, 0, 3, 0, 0],
+                                        scale: [1, 1, 1.01, 1, 0.99, 1, 1],
                                         filter: [
                                             'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                            'drop-shadow(0 0 30px rgba(34,211,238,0.6)) drop-shadow(0 0 60px rgba(139,92,246,0.4))',
+                                            'drop-shadow(0 0 40px rgba(34,211,238,0.7)) drop-shadow(0 0 80px rgba(139,92,246,0.5))',
                                             'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
                                         ],
                                     }}
                                     transition={{
-                                        x: { duration: 0.1, repeat: Infinity, repeatDelay: 4, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
-                                        filter: { duration: 3, repeat: Infinity },
+                                        x: { duration: 0.1, repeat: Infinity, repeatDelay: 3, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
+                                        scale: { duration: 0.1, repeat: Infinity, repeatDelay: 3, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
+                                        filter: { duration: 2, repeat: Infinity },
                                     }}
                                 />
 
