@@ -151,13 +151,13 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.15 + index * 0.03 }}
-                                        className="p-3 sm:p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 hover:border-glow-cyan/50 hover:bg-black/40 transition-all group"
+                                        className="p-3 sm:p-4 rounded-xl bg-black/60 backdrop-blur-md border border-glow-cyan/30 hover:border-glow-cyan/60 hover:bg-black/70 transition-all group"
                                     >
-                                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-glow-cyan/30 to-glow-violet/20 flex items-center justify-center mb-2 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-shadow">
+                                        <div className="w-10 h-10 rounded-lg bg-glow-cyan/20 border border-glow-cyan/30 flex items-center justify-center mb-2 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-shadow">
                                             <item.icon className="w-5 h-5 text-glow-cyan" />
                                         </div>
-                                        <p className="text-[10px] sm:text-xs text-text-muted uppercase tracking-wider font-mono">{item.label}</p>
-                                        <p className="text-sm sm:text-base text-text-primary font-semibold truncate">{item.value}</p>
+                                        <p className="text-xs text-glow-cyan/80 uppercase tracking-wider font-mono mb-1">{item.label}</p>
+                                        <p className="text-sm sm:text-base text-white font-bold">{item.value}</p>
                                     </motion.div>
                                 ))}
                             </div>
