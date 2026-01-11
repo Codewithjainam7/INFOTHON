@@ -136,7 +136,7 @@ export default function AboutPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3 + index * 0.1 }}
                                 className="glitch-container rounded-lg p-4 sm:p-6 group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden"
-                                whileHover={{ scale: 1.02, y: -5 }}
+                                whileHover={{ scale: 1.02 }}
                             >
                                 {/* Active Glitch Hover Effect - Border Glow Pulse */}
                                 <motion.div
@@ -203,7 +203,7 @@ export default function AboutPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4 + index * 0.1 }}
                                 className="glitch-container rounded-lg p-6 sm:p-8 group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden"
-                                whileHover={{ scale: 1.02, y: -5 }}
+                                whileHover={{ scale: 1.02 }}
                             >
                                 {/* Active Glitch Hover Effect - Border Glow Pulse */}
                                 <motion.div
