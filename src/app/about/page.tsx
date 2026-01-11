@@ -65,54 +65,41 @@ export default function AboutPage() {
                                             delay={500}
                                         />
                                     </motion.div>
-                                    {/* Infinite Intense Glitch Layers */}
+                                    {/* Glitch layer - Cyan offset (2k26 style) */}
                                     <motion.span
                                         className="absolute inset-0 text-[#00f0ff] opacity-0 mix-blend-screen pointer-events-none select-none"
-                                        style={{ willChange: 'transform, opacity, clip-path' }}
+                                        style={{ filter: 'hue-rotate(180deg)' }}
                                         animate={{
-                                            x: [-4, 4, -2, 3, 0],
-                                            y: [1, -1, 0],
-                                            opacity: [0, 0.9, 0, 0.6, 0],
-                                            clipPath: [
-                                                'inset(0 0 100% 0)',
-                                                'inset(20% 0 50% 0)',
-                                                'inset(10% 0 60% 0)',
-                                                'inset(40% 0 20% 0)',
-                                                'inset(0 0 100% 0)'
-                                            ]
+                                            x: [0, -5, 2, -5, 0],
+                                            y: [0, 2, -1, 0],
+                                            scale: [1, 1.02, 0.98, 1],
+                                            opacity: [0, 0.8, 0, 0.6, 0],
                                         }}
-                                        transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 0.8 }}
+                                        transition={{
+                                            duration: 0.15,
+                                            repeat: Infinity,
+                                            repeatDelay: 2,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
+                                        }}
                                     >
                                         The Future Awaits
                                     </motion.span>
+                                    {/* Glitch layer - Violet offset (2k26 style) */}
                                     <motion.span
                                         className="absolute inset-0 text-[#8b5cf6] opacity-0 mix-blend-screen pointer-events-none select-none"
-                                        style={{ willChange: 'transform, opacity, clip-path' }}
+                                        style={{ filter: 'hue-rotate(-60deg)' }}
                                         animate={{
-                                            x: [3, -3, 2, -2, 0],
-                                            y: [-1, 1, 0],
-                                            opacity: [0, 0.9, 0, 0.6, 0],
-                                            clipPath: [
-                                                'inset(100% 0 0 0)',
-                                                'inset(60% 0 10% 0)',
-                                                'inset(50% 0 20% 0)',
-                                                'inset(30% 0 50% 0)',
-                                                'inset(100% 0 0 0)'
-                                            ]
+                                            x: [0, 5, -2, 5, 0],
+                                            y: [0, -2, 1, 0],
+                                            scale: [1, 0.98, 1.02, 1],
+                                            opacity: [0, 0.7, 0, 0.5, 0],
                                         }}
-                                        transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 1.1 }}
-                                    >
-                                        The Future Awaits
-                                    </motion.span>
-                                    <motion.span
-                                        className="absolute inset-0 text-white opacity-0 mix-blend-overlay pointer-events-none select-none"
-                                        style={{ willChange: 'transform, opacity, filter' }}
-                                        animate={{
-                                            scale: [1, 1.05, 1],
-                                            opacity: [0, 0.3, 0],
-                                            filter: ['blur(0px)', 'blur(4px)', 'blur(0px)']
+                                        transition={{
+                                            duration: 0.12,
+                                            repeat: Infinity,
+                                            repeatDelay: 1.5,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
                                         }}
-                                        transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 2.3 }}
                                     >
                                         The Future Awaits
                                     </motion.span>
