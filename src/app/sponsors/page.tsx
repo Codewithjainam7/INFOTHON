@@ -4,7 +4,11 @@ import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { NeonText } from '@/components/ui'
+import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
+import { FloatingNavbar } from '@/components/navigation'
+import { SmoothScroll, GlowCursor } from '@/components/effects'
+import { NeonText, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { sponsors, sponsorTiers } from '@/data'
 
@@ -31,9 +35,62 @@ export default function SponsorsPage() {
                         <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
                             SPONSORS
                         </span>
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-6">
-                            Our Partners
-                        </NeonText>
+
+                        <div className="relative inline-block group mb-6">
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.h1
+                                className="absolute top-0 left-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-70 pointer-events-none z-0"
+                                animate={{
+                                    x: [0, -2, 2, -1, 0],
+                                    y: [0, 1, -1, 0, 0],
+                                    scale: [1, 1.02, 0.98, 1, 1],
+                                    opacity: [0, 0.8, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 2.5,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Our Partners
+                            </motion.h1>
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.h1
+                                className="absolute top-0 left-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-70 pointer-events-none z-0"
+                                animate={{
+                                    x: [0, 2, -2, 1, 0],
+                                    y: [0, -1, 1, 0, 0],
+                                    scale: [1, 0.98, 1.02, 1, 1],
+                                    opacity: [0, 0.8, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 2.2,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Our Partners
+                            </motion.h1>
+
+                            {/* Main Text */}
+                            <motion.h1
+                                className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+                                animate={{
+                                    textShadow: [
+                                        "0 0 10px rgba(34,211,238,0.5)",
+                                        "0 0 20px rgba(34,211,238,0.8)",
+                                        "0 0 10px rgba(34,211,238,0.5)",
+                                    ],
+                                }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                            >
+                                <ScrambleText text="Our Partners" />
+                            </motion.h1>
+                        </div>
+
                         <p className="text-base sm:text-lg text-text-secondary max-w-2xl mx-auto px-4">
                             Powered by the world&apos;s leading technology companies.
                         </p>
@@ -73,8 +130,9 @@ export default function SponsorsPage() {
                                                 transition={{ delay: 0.2 + index * 0.05 }}
                                                 whileHover={{ scale: 1.05 }}
                                                 className={`
-                          group glass rounded-2xl flex items-center justify-center
-                          transition-all duration-300 hover:shadow-glow-sm hover:border-glow-cyan/30
+                          group relative overflow-hidden rounded-2xl flex items-center justify-center
+                          bg-black/60 backdrop-blur-md border border-white/10
+                          transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] hover:border-glow-cyan/50 hover:bg-black/80
                           ${tier.id === 'title' ? 'w-48 sm:w-64 h-24 sm:h-32' : ''}
                           ${tier.id === 'platinum' ? 'w-36 sm:w-48 h-20 sm:h-24' : ''}
                           ${tier.id === 'gold' ? 'w-32 sm:w-40 h-16 sm:h-20' : ''}
@@ -82,7 +140,7 @@ export default function SponsorsPage() {
                         `}
                                             >
                                                 <div className={`
-                          font-heading font-bold text-text-muted group-hover:text-white transition-colors text-center px-2
+                          font-heading font-bold text-text-muted group-hover:text-white transition-colors text-center px-2 z-10
                           ${tier.id === 'title' ? 'text-lg sm:text-xl' : ''}
                           ${tier.id === 'platinum' ? 'text-base sm:text-lg' : ''}
                           ${tier.id === 'gold' ? 'text-sm sm:text-base' : ''}

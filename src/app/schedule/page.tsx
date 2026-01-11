@@ -79,9 +79,62 @@ export default function SchedulePage() {
                         <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
                             SCHEDULE
                         </span>
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-6">
-                            Two Days of Innovation
-                        </NeonText>
+
+                        <div className="relative inline-block group mb-6">
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.h1
+                                className="absolute top-0 left-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-70 pointer-events-none z-0"
+                                animate={{
+                                    x: [0, -2, 2, -1, 0],
+                                    y: [0, 1, -1, 0, 0],
+                                    scale: [1, 1.02, 0.98, 1, 1],
+                                    opacity: [0, 0.8, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 2.5,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Two Days of Innovation
+                            </motion.h1>
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.h1
+                                className="absolute top-0 left-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-70 pointer-events-none z-0"
+                                animate={{
+                                    x: [0, 2, -2, 1, 0],
+                                    y: [0, -1, 1, 0, 0],
+                                    scale: [1, 0.98, 1.02, 1, 1],
+                                    opacity: [0, 0.8, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 2.2,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Two Days of Innovation
+                            </motion.h1>
+
+                            {/* Main Text */}
+                            <motion.h1
+                                className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+                                animate={{
+                                    textShadow: [
+                                        "0 0 10px rgba(34,211,238,0.5)",
+                                        "0 0 20px rgba(34,211,238,0.8)",
+                                        "0 0 10px rgba(34,211,238,0.5)",
+                                    ],
+                                }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                            >
+                                <ScrambleText text="Two Days of Innovation" />
+                            </motion.h1>
+                        </div>
+
                         <p className="text-base sm:text-lg text-text-secondary max-w-2xl mx-auto px-4">
                             Plan your journey through the most action-packed tech weekend of the year.
                         </p>
@@ -99,8 +152,8 @@ export default function SchedulePage() {
                                 key={day.day}
                                 onClick={() => setActiveDay(day.day)}
                                 className={`relative px-4 sm:px-6 py-3 sm:py-4 rounded-xl transition-all group ${activeDay === day.day
-                                    ? 'glass border-glow-cyan/50 shadow-glow-sm'
-                                    : 'glass-light hover:border-white/30'
+                                    ? 'bg-black/60 border-glow-cyan/50 shadow-glow-sm'
+                                    : 'bg-black/30 hover:bg-black/50 hover:border-white/30'
                                     }`}
                             >
                                 <div className="text-center">
@@ -147,7 +200,8 @@ export default function SchedulePage() {
                             className="max-w-3xl mx-auto"
                         >
                             <div className="relative">
-                                <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan opacity-30" />
+                                {/* Gradient Line */}
+                                <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan opacity-50 shadow-[0_0_10px_rgba(34,211,238,0.3)]" />
 
                                 <div className="space-y-3 sm:space-y-4">
                                     {currentDaySchedule?.items.map((item, index) => (
@@ -180,7 +234,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
             {/* Time Marker */}
             <div className="flex-shrink-0 w-12 sm:w-16 text-right">
                 <div className="relative">
-                    <div className="absolute right-[-18px] sm:right-[-24px] top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-bg-primary border-2 border-glow-cyan group-hover:bg-glow-cyan/20 transition-colors" />
+                    <div className="absolute right-[-18px] sm:right-[-24px] top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-bg-primary border-2 border-glow-cyan group-hover:bg-glow-cyan/20 group-hover:shadow-[0_0_10px_rgba(34,211,238,0.5)] transition-all" />
                     <span className="font-mono text-xs sm:text-sm text-text-muted group-hover:text-glow-cyan transition-colors">
                         {item.time}
                     </span>
@@ -188,7 +242,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
             </div>
 
             {/* Content Card */}
-            <GlassCard className="flex-1 ml-3 sm:ml-4" glowColor="cyan" hover3D={false}>
+            <div className="flex-1 ml-3 sm:ml-4 p-4 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 group-hover:border-glow-cyan/50 group-hover:bg-black/80 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.15)] transition-all">
                 <div className="flex items-start gap-3 sm:gap-4">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 text-glow-cyan flex-shrink-0">
                         <IconComponent className="w-full h-full" />
@@ -209,7 +263,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
                         </p>
                     </div>
                 </div>
-            </GlassCard>
+            </div>
         </div>
     )
 }

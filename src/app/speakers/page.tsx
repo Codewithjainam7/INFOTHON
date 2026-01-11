@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlassCard, NeonText } from '@/components/ui'
+import { GlassCard, NeonText, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { speakers } from '@/data'
 
@@ -31,9 +31,62 @@ export default function SpeakersPage() {
                         <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-violet tracking-wider mb-4">
                             SPEAKERS
                         </span>
-                        <NeonText as="h1" color="gradient" className="text-4xl sm:text-5xl md:text-6xl mb-6">
-                            Industry Pioneers
-                        </NeonText>
+
+                        <div className="relative inline-block group mb-6">
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.h1
+                                className="absolute top-0 left-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#00f0ff] opacity-70 pointer-events-none z-0"
+                                animate={{
+                                    x: [0, -2, 2, -1, 0],
+                                    y: [0, 1, -1, 0, 0],
+                                    scale: [1, 1.02, 0.98, 1, 1],
+                                    opacity: [0, 0.8, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 2.5,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Industry Pioneers
+                            </motion.h1>
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.h1
+                                className="absolute top-0 left-0 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-[#8b5cf6] opacity-70 pointer-events-none z-0"
+                                animate={{
+                                    x: [0, 2, -2, 1, 0],
+                                    y: [0, -1, 1, 0, 0],
+                                    scale: [1, 0.98, 1.02, 1, 1],
+                                    opacity: [0, 0.8, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 2.2,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Industry Pioneers
+                            </motion.h1>
+
+                            {/* Main Text */}
+                            <motion.h1
+                                className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-violet-200 to-white drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]"
+                                animate={{
+                                    textShadow: [
+                                        "0 0 10px rgba(139,92,246,0.5)",
+                                        "0 0 20px rgba(139,92,246,0.8)",
+                                        "0 0 10px rgba(139,92,246,0.5)",
+                                    ],
+                                }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                            >
+                                <ScrambleText text="Industry Pioneers" />
+                            </motion.h1>
+                        </div>
+
                         <p className="text-base sm:text-lg text-text-secondary max-w-2xl mx-auto px-4">
                             Learn from the visionaries who are shaping the future of technology.
                         </p>
@@ -48,7 +101,7 @@ export default function SpeakersPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                             >
-                                <GlassCard className="text-center group h-full" glowColor="violet">
+                                <div className="p-6 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 group h-full hover:border-glow-violet/50 hover:bg-black/80 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all">
                                     {/* Avatar */}
                                     <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-6">
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-glow-cyan to-glow-violet animate-glow-pulse" />
@@ -60,15 +113,15 @@ export default function SpeakersPage() {
                                     </div>
 
                                     {/* Info */}
-                                    <h3 className="text-base sm:text-lg font-heading font-bold mb-1 group-hover:text-glow-violet transition-colors">
+                                    <h3 className="text-base sm:text-lg font-heading font-bold mb-1 text-white group-hover:text-glow-violet transition-colors text-center">
                                         {speaker.name}
                                     </h3>
-                                    <p className="text-xs sm:text-sm text-glow-cyan mb-1">{speaker.title}</p>
-                                    <p className="text-xs text-text-muted mb-4">{speaker.company}</p>
+                                    <p className="text-xs sm:text-sm text-glow-cyan mb-1 text-center">{speaker.title}</p>
+                                    <p className="text-xs text-text-muted mb-4 text-center">{speaker.company}</p>
 
                                     {/* Topic */}
                                     <div className="mt-auto pt-4 border-t border-white/10">
-                                        <p className="text-xs sm:text-sm text-text-secondary line-clamp-2">
+                                        <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 text-center">
                                             &ldquo;{speaker.topic}&rdquo;
                                         </p>
                                     </div>
@@ -96,7 +149,7 @@ export default function SpeakersPage() {
                                             </a>
                                         )}
                                     </div>
-                                </GlassCard>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
