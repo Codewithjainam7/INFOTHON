@@ -354,33 +354,42 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 </motion.div>
                             </div>
                             <div className="relative pl-2">
-                                {/* Gradient line - positioned at center of nodes */}
-                                <div className="absolute left-[9px] sm:left-[11px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan/30" />
+                                {/* Gradient line - grows vertically */}
+                                <motion.div
+                                    className="absolute left-[9px] sm:left-[11px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan/30 origin-top"
+                                    initial={{ scaleY: 0 }}
+                                    animate={{ scaleY: 1 }}
+                                    transition={{ duration: 0.8, delay: 0.5, ease: "circOut" }}
+                                />
 
                                 <div className="space-y-4">
                                     {event.timeline.map((item, index) => (
-                                        <motion.div
-                                            key={index}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.45 + index * 0.05 }}
-                                            className="relative pl-10 sm:pl-12 group"
-                                        >
-                                            {/* Glowing node - centered on line */}
-                                            <div className="absolute left-0 top-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-bg-primary border-2 border-glow-cyan shadow-[0_0_12px_rgba(34,211,238,0.6)] flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(34,211,238,0.9)] transition-shadow">
+                                        <div key={index} className="relative pl-10 sm:pl-12 group">
+                                            {/* Glowing node - pops in */}
+                                            <motion.div
+                                                className="absolute left-0 top-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-bg-primary border-2 border-glow-cyan shadow-[0_0_12px_rgba(34,211,238,0.6)] flex items-center justify-center z-10 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.9)] transition-shadow"
+                                                initial={{ scale: 0, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                transition={{ delay: 0.6 + index * 0.1, type: "spring", stiffness: 200, damping: 15 }}
+                                            >
                                                 <div className="w-2 h-2 rounded-full bg-glow-cyan" />
-                                            </div>
+                                            </motion.div>
 
-                                            {/* Content card */}
-                                            <div className="p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 group-hover:border-glow-violet/50 group-hover:bg-black/40 transition-all">
+                                            {/* Content card - slides in */}
+                                            <motion.div
+                                                initial={{ opacity: 0, x: 20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.7 + index * 0.1 }}
+                                                className="p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 group-hover:border-glow-violet/50 group-hover:bg-black/40 transition-all"
+                                            >
                                                 <div className="flex flex-wrap items-center gap-3">
                                                     <span className="px-3 py-1 rounded-lg bg-glow-violet/20 border border-glow-violet/40 font-mono text-sm text-glow-violet font-bold">
                                                         {item.time}
                                                     </span>
                                                     <p className="text-text-primary text-sm sm:text-base font-medium">{item.activity}</p>
                                                 </div>
-                                            </div>
-                                        </motion.div>
+                                            </motion.div>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
