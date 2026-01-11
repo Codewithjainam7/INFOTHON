@@ -134,7 +134,13 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
                             >
-                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300">
+                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden">
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
                                     <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-cyan">
                                         <ClipboardList className="w-6 h-6" />
                                         Rules & Guidelines
@@ -152,30 +158,69 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 </div>
                             </motion.div>
 
-                            {/* Timeline - Glassmorphism Container */}
+                            {/* Timeline - Glassmorphism Container with Cool Animation */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-violet/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300">
+                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-violet/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300 relative overflow-hidden">
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
                                     <h2 className="text-lg sm:text-xl font-heading font-bold mb-4 flex items-center gap-2 text-glow-violet">
                                         <Clock className="w-6 h-6" />
                                         Event Timeline
                                     </h2>
                                     <div className="relative">
-                                        <div className="absolute left-2.5 sm:left-3 top-0 bottom-0 w-px bg-gradient-to-b from-glow-cyan to-glow-violet opacity-30" />
-                                        <div className="space-y-3 sm:space-y-4">
+                                        {/* Animated gradient line */}
+                                        <motion.div
+                                            className="absolute left-2.5 sm:left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-glow-cyan via-glow-violet to-glow-cyan"
+                                            initial={{ scaleY: 0 }}
+                                            animate={{ scaleY: 1 }}
+                                            transition={{ duration: 1, delay: 0.5 }}
+                                            style={{ originY: 0 }}
+                                        />
+                                        {/* Glowing pulse traveling down the line */}
+                                        <motion.div
+                                            className="absolute left-2 sm:left-2.5 w-1.5 h-8 bg-gradient-to-b from-transparent via-glow-cyan to-transparent rounded-full blur-sm"
+                                            animate={{ top: ['0%', '100%'] }}
+                                            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                                        />
+
+                                        <div className="space-y-4 sm:space-y-5">
                                             {event.timeline.map((item, index) => (
-                                                <div key={index} className="flex items-start gap-3 sm:gap-4 pl-6 sm:pl-8 relative">
-                                                    <div className="absolute left-0 top-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-bg-secondary border-2 border-glow-cyan flex items-center justify-center">
-                                                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-glow-cyan" />
+                                                <motion.div
+                                                    key={index}
+                                                    className="flex items-start gap-3 sm:gap-4 pl-8 sm:pl-10 relative group"
+                                                    initial={{ opacity: 0, x: -20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: 0.6 + index * 0.15 }}
+                                                >
+                                                    {/* Pulsing dot */}
+                                                    <motion.div
+                                                        className="absolute left-0 top-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-bg-primary border-2 border-glow-cyan flex items-center justify-center"
+                                                        animate={{
+                                                            boxShadow: ['0 0 0px rgba(34,211,238,0.5)', '0 0 15px rgba(34,211,238,0.8)', '0 0 0px rgba(34,211,238,0.5)']
+                                                        }}
+                                                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                                                    >
+                                                        <motion.div
+                                                            className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-glow-cyan"
+                                                            animate={{ scale: [1, 1.3, 1] }}
+                                                            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                                                        />
+                                                    </motion.div>
+
+                                                    {/* Content card */}
+                                                    <div className="flex-1 p-3 rounded-lg bg-white/5 border border-white/10 group-hover:border-glow-cyan/30 group-hover:bg-white/10 transition-all duration-300">
+                                                        <p className="font-mono text-xs sm:text-sm text-glow-cyan font-bold">{item.time}</p>
+                                                        <p className="text-text-primary text-sm sm:text-base mt-1">{item.activity}</p>
                                                     </div>
-                                                    <div>
-                                                        <p className="font-mono text-xs sm:text-sm text-glow-cyan">{item.time}</p>
-                                                        <p className="text-text-primary text-sm sm:text-base">{item.activity}</p>
-                                                    </div>
-                                                </div>
+                                                </motion.div>
                                             ))}
                                         </div>
                                     </div>
@@ -190,7 +235,13 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 }}
                             >
-                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-violet/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300 lg:sticky lg:top-24">
+                                <div className="glitch-container rounded-lg p-5 sm:p-6 border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-violet/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300 lg:sticky lg:top-24 relative overflow-hidden">
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
                                     <h3 className="text-base sm:text-lg font-heading font-bold mb-4 sm:mb-6 text-glow-violet">Event Details</h3>
 
                                     <div className="space-y-3 sm:space-y-4">
