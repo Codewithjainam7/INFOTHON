@@ -97,41 +97,28 @@ export function Hero() {
                     >
                         {/* Static Text with Animated Image Fill Inside */}
                         <motion.h1
-                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-center mb-4 flex flex-wrap justify-center items-center gap-2 sm:gap-4"
+                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-center mb-4"
                             style={{
+                                backgroundImage: 'url(/images/intext_img.png)',
+                                backgroundSize: '200% 100%',
+                                backgroundClip: 'text',
+                                WebkitBackgroundClip: 'text',
+                                color: 'transparent',
+                                WebkitTextFillColor: 'transparent',
                                 filter: 'drop-shadow(0 0 30px rgba(34,211,238,0.3))',
                             }}
                             animate={{
-                                opacity: 1,
+                                backgroundPosition: ['0% center', '100% center', '0% center'],
+                            }}
+                            transition={{
+                                backgroundPosition: {
+                                    duration: 8,
+                                    repeat: Infinity,
+                                    ease: 'linear',
+                                },
                             }}
                         >
-                            <span
-                                style={{
-                                    backgroundImage: 'url(/images/intext_img.png)',
-                                    backgroundSize: '200% 100%',
-                                    backgroundClip: 'text',
-                                    WebkitBackgroundClip: 'text',
-                                    color: 'transparent',
-                                    WebkitTextFillColor: 'transparent',
-                                    animation: 'shimmer 8s linear infinite',
-                                }}
-                            >
-                                INFOTHON
-                            </span>
-                            <span className="text-glow-violet text-2xl sm:text-4xl md:text-5xl">×</span>
-                            <span
-                                style={{
-                                    backgroundImage: 'url(/images/intext_img.png)',
-                                    backgroundSize: '200% 100%',
-                                    backgroundClip: 'text',
-                                    WebkitBackgroundClip: 'text',
-                                    color: 'transparent',
-                                    WebkitTextFillColor: 'transparent',
-                                    animation: 'shimmer 8s linear infinite',
-                                }}
-                            >
-                                HACKATHON
-                            </span>
+                            INFOTHON x HACKATHON
                         </motion.h1>
 
                         {/* Animated 2026 Image with Glitch Effect */}
@@ -147,18 +134,8 @@ export function Hero() {
                                 <div className="w-64 h-24 bg-glow-cyan/20 blur-3xl rounded-full" />
                             </motion.div>
 
-                            {/* Main 2026 image with glitch animations */}
-                            <motion.div
-                                className="relative"
-                                animate={{
-                                    y: [0, -6, 0],
-                                }}
-                                transition={{
-                                    duration: 4,
-                                    repeat: Infinity,
-                                    ease: 'easeInOut',
-                                }}
-                            >
+                            {/* Main 2026 image with glitch animations - no float */}
+                            <div className="relative">
                                 {/* Glitch layer - Cyan offset */}
                                 <motion.img
                                     src="/images/2026.png"
@@ -250,7 +227,7 @@ export function Hero() {
                                 <div className="absolute -top-2 -right-2 w-3 h-3 border-r-2 border-t-2 border-glow-violet/50" />
                                 <div className="absolute -bottom-2 -left-2 w-3 h-3 border-l-2 border-b-2 border-glow-violet/50" />
                                 <div className="absolute -bottom-2 -right-2 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/50" />
-                            </motion.div>
+                            </div>
                         </div>
 
                         <motion.p
@@ -287,13 +264,21 @@ export function Hero() {
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
-                                    className="glass rounded-xl p-3 sm:p-4 md:p-5 w-[70px] sm:w-[85px] md:w-[100px] text-center"
+                                    whileHover={{ scale: 1.05 }}
+                                    className="glitch-container rounded-lg p-3 sm:p-4 md:p-5 w-[70px] sm:w-[85px] md:w-[100px] text-center"
                                 >
-                                    <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-glow-cyan glow-text-cyan">
-                                        {mounted ? String(item.value).padStart(2, '0') : '--'}
-                                    </div>
-                                    <div className="text-[10px] sm:text-xs text-text-muted uppercase tracking-wider mt-1">
-                                        {item.label}
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+                                    <div className="relative z-10">
+                                        <div className="text-xl sm:text-2xl md:text-3xl font-cyber font-bold text-glow-cyan glow-text-cyan">
+                                            {mounted ? String(item.value).padStart(2, '0') : '--'}
+                                        </div>
+                                        <div className="text-[9px] sm:text-[10px] text-text-muted uppercase tracking-widest mt-1 font-cyber">
+                                            {item.label}
+                                        </div>
                                     </div>
                                 </motion.div>
                                 {/* Colon separator - don't show after last item */}
