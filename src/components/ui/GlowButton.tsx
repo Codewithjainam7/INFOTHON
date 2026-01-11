@@ -2,7 +2,7 @@
 
 import { motion, HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { forwardRef, ReactNode } from 'react'
+import { forwardRef, ReactNode, useState } from 'react'
 
 interface GlowButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
     children: ReactNode
@@ -19,8 +19,17 @@ export const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
         size = 'md',
         glowColor = 'cyan',
         className,
+        onClick,
         ...props
     }, ref) => {
+        const [isGlitching, setIsGlitching] = useState(false)
+
+        const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+            setIsGlitching(true)
+            setTimeout(() => setIsGlitching(false), 300)
+            onClick?.(e)
+        }
+
         const baseStyles = 'relative inline-flex items-center justify-center font-heading font-semibold uppercase tracking-wider transition-all duration-300 overflow-hidden group'
 
         const sizeStyles = {
@@ -48,15 +57,76 @@ export const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
                 )}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={handleClick}
                 {...props}
             >
+                {/* Glitch effect on click */}
+                {isGlitching && (
+                    <>
+                        {/* Cyan glitch layer */}
+                        <motion.span
+                            className="absolute inset-0 flex items-center justify-center"
+                            style={{ color: '#00f0ff', filter: 'brightness(1.5)' }}
+                            initial={{ x: 0, opacity: 0 }}
+                            animate={{
+                                x: [-4, 3, -2, 0],
+                                opacity: [0.8, 0.5, 0.3, 0],
+                            }}
+                            transition={{ duration: 0.25 }}
+                        >
+                            <span className="flex items-center gap-2">{children}</span>
+                        </motion.span>
+                        {/* Violet glitch layer */}
+                        <motion.span
+                            className="absolute inset-0 flex items-center justify-center"
+                            style={{ color: '#8b5cf6', filter: 'brightness(1.5)' }}
+                            initial={{ x: 0, opacity: 0 }}
+                            animate={{
+                                x: [4, -3, 2, 0],
+                                opacity: [0.7, 0.4, 0.2, 0],
+                            }}
+                            transition={{ duration: 0.25 }}
+                        >
+                            <span className="flex items-center gap-2">{children}</span>
+                        </motion.span>
+                        {/* Flash overlay */}
+                        <motion.span
+                            className="absolute inset-0 bg-white"
+                            initial={{ opacity: 0.6 }}
+                            animate={{ opacity: 0 }}
+                            transition={{ duration: 0.15 }}
+                        />
+                        {/* Glitch lines */}
+                        <motion.span
+                            className="absolute left-0 right-0 h-[2px] bg-glow-cyan/80"
+                            style={{ top: '30%' }}
+                            initial={{ scaleX: 1, x: -20 }}
+                            animate={{ scaleX: 0, x: 20 }}
+                            transition={{ duration: 0.2 }}
+                        />
+                        <motion.span
+                            className="absolute left-0 right-0 h-[2px] bg-glow-violet/80"
+                            style={{ top: '70%' }}
+                            initial={{ scaleX: 1, x: 20 }}
+                            animate={{ scaleX: 0, x: -20 }}
+                            transition={{ duration: 0.2 }}
+                        />
+                    </>
+                )}
+
                 {/* Shimmer effect */}
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                 {/* Content */}
-                <span className="relative z-10 flex items-center gap-2">
+                <motion.span
+                    className="relative z-10 flex items-center gap-2"
+                    animate={isGlitching ? {
+                        x: [0, -2, 2, -1, 0],
+                    } : {}}
+                    transition={{ duration: 0.2 }}
+                >
                     {children}
-                </span>
+                </motion.span>
             </motion.button>
         )
     }
@@ -65,3 +135,4 @@ export const GlowButton = forwardRef<HTMLButtonElement, GlowButtonProps>(
 GlowButton.displayName = 'GlowButton'
 
 export default GlowButton
+
