@@ -432,21 +432,23 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             transition={{ delay: 0.5 }}
                             className="flex flex-col sm:flex-row gap-4 relative z-10"
                         >
-                            <motion.button
-                                className="flex-1 py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors"
-                                style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
-                                whileTap={{
-                                    scale: 0.95,
-                                    x: [0, -3, 3, -3, 3, 0],
-                                    y: [0, 2, -2, 2, -2, 0],
-                                    transition: { duration: 0.2 }
-                                }}
-                            >
-                                <span className="flex items-center justify-center gap-2">
-                                    <Zap className="w-5 h-5" />
-                                    Register Now
-                                </span>
-                            </motion.button>
+                            <Link href="/register" className="flex-1">
+                                <motion.button
+                                    className="w-full py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors"
+                                    style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
+                                    whileTap={{
+                                        scale: 0.95,
+                                        x: [0, -3, 3, -3, 3, 0],
+                                        y: [0, 2, -2, 2, -2, 0],
+                                        transition: { duration: 0.2 }
+                                    }}
+                                >
+                                    <span className="flex items-center justify-center gap-2">
+                                        <Zap className="w-5 h-5" />
+                                        Register Now
+                                    </span>
+                                </motion.button>
+                            </Link>
 
                             <motion.button
                                 className="flex-1 py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-glow-cyan border-2 border-glow-cyan bg-transparent hover:bg-glow-cyan/10 transition-colors"

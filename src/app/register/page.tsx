@@ -21,6 +21,7 @@ import { eventPackages, colorMap } from '@/data'
 
 export default function RegisterPage() {
     const [selectedEvents, setSelectedEvents] = useState<string[]>([])
+    const [selectedCategory, setSelectedCategory] = useState<string>('ALL')
     const [isSignedUp, setIsSignedUp] = useState(false)
     const [showCart, setShowCart] = useState(false)
 
@@ -64,6 +65,12 @@ export default function RegisterPage() {
         const event = eventPackages.find(e => e.id === id)
         return sum + ((event?.originalPrice || 0) - (event?.price || 0))
     }, 0)
+
+    // Filter Logic
+    const categories = ['ALL', ...Array.from(new Set(eventPackages.map(e => e.category)))]
+    const filteredEvents = selectedCategory === 'ALL'
+        ? eventPackages
+        : eventPackages.filter(e => e.category === selectedCategory)
 
     return (
         <SmoothScroll>
@@ -142,11 +149,27 @@ export default function RegisterPage() {
                                 Register for Events
                             </motion.h1>
                         </div>
-                        <p className="text-text-secondary max-w-2xl mx-auto">
+                        <p className="text-text-secondary max-w-2xl mx-auto font-cyber text-glow-cyan/70 tracking-wide text-sm sm:text-base">
                             Choose your battles. Each event has unique challenges and prizes.
                             Early bird pricing ends soon!
                         </p>
                     </motion.div>
+
+                    {/* Category Filter */}
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10 sticky top-24 z-30 py-4 bg-black/20 backdrop-blur-sm rounded-xl">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setSelectedCategory(cat)}
+                                className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-cyber tracking-widest transition-all ${selectedCategory === cat
+                                    ? 'bg-glow-cyan text-black shadow-[0_0_15px_rgba(34,211,238,0.5)]'
+                                    : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'
+                                    }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
 
                     {/* Sign Up Prompt */}
                     {!isSignedUp && (
@@ -181,7 +204,7 @@ export default function RegisterPage() {
 
                     {/* Event Cards Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
-                        {eventPackages.map((event, index) => {
+                        {filteredEvents.map((event, index) => {
                             const colors = colorMap[event.color]
                             const isSelected = selectedEvents.includes(event.id)
 
@@ -243,6 +266,17 @@ export default function RegisterPage() {
                                                     {event.category}
                                                 </span>
                                             </div>
+
+                                            {/* Details Link Button */}
+                                            <Link
+                                                href={`/events/${event.id}`}
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="absolute top-4 left-4 z-20 w-8 h-8 rounded-lg bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-glow-cyan hover:text-black hover:border-glow-cyan transition-all group/info"
+                                            >
+                                                <svg className="w-4 h-4 text-white group-hover/info:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </Link>
                                         </div>
 
                                         <div className="p-6 flex flex-col flex-grow relative z-10">
@@ -251,7 +285,7 @@ export default function RegisterPage() {
                                                     <h3 className={`text-xl font-heading font-black mb-1 group-hover:translate-x-1 transition-transform ${isSelected ? 'text-white' : 'text-gray-100'}`}>
                                                         {event.title}
                                                     </h3>
-                                                    <p className="text-sm text-text-muted line-clamp-2">{event.description}</p>
+                                                    <p className="text-sm text-text-muted line-clamp-2 font-mono">{event.description}</p>
                                                 </div>
                                                 <div className="text-right">
                                                     <div className={`text-xl font-bold font-mono ${isSelected ? 'text-glow-cyan' : 'text-white'}`}>₹{event.price}</div>
@@ -305,51 +339,44 @@ export default function RegisterPage() {
                         })}
                     </div>
 
-                    {/* Floating Cart */}
+                    {/* Floating Cart - Improved Popup */}
                     <AnimatePresence>
                         {selectedEvents.length > 0 && isSignedUp && (
                             <motion.div
                                 initial={{ y: 100, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: 100, opacity: 0 }}
-                                className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 w-[95%] sm:w-auto max-w-xl"
+                                className="fixed bottom-6 inset-x-4 sm:left-1/2 sm:translate-x-[-50%] sm:w-auto z-50 pointer-events-auto"
                             >
-                                {/* Cyberpunk styled cart with corner accents */}
-                                <div className="relative">
-                                    {/* Corner accents */}
-                                    <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan" />
-                                    <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet" />
-                                    <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet" />
-                                    <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan" />
+                                {/* Glass Panel with Cyber Border */}
+                                <div className="relative rounded-2xl bg-black/90 backdrop-blur-xl border border-glow-cyan/50 shadow-[0_0_50px_rgba(34,211,238,0.3)] overflow-hidden">
+                                    {/* Animated Scanline */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-glow-cyan/10 to-transparent translate-x-[-100%] animate-[scan_3s_linear_infinite]" />
 
-                                    {/* Glitch border animation */}
-                                    <motion.div
-                                        className="absolute inset-0 border-2 border-transparent rounded-xl pointer-events-none"
-                                        animate={{ borderColor: ['rgba(0,245,255,0.3)', 'rgba(139,92,246,0.3)', 'rgba(0,245,255,0.3)'] }}
-                                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                                    />
-
-                                    <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between sm:justify-start gap-3 sm:gap-6 rounded-xl border border-white/10 bg-black/80 backdrop-blur-md shadow-[0_0_30px_rgba(0,245,255,0.15)]">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-glow-cyan/30 to-glow-violet/30 border border-glow-cyan/50 flex items-center justify-center text-glow-cyan font-bold text-sm sm:text-base shadow-[0_0_15px_rgba(0,245,255,0.3)]">
-                                                {selectedEvents.length}
+                                    <div className="p-4 sm:p-5 flex items-center justify-between gap-6 sm:gap-12">
+                                        <div className="flex items-center gap-4">
+                                            {/* Counter Badge */}
+                                            <div className="relative">
+                                                <div className="w-12 h-12 rounded-xl bg-glow-cyan/20 border border-glow-cyan flex items-center justify-center">
+                                                    <span className="font-heading font-black text-xl text-glow-cyan">{selectedEvents.length}</span>
+                                                </div>
+                                                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 animate-pulse" />
                                             </div>
-                                            <div>
-                                                <div className="text-xs sm:text-sm text-glow-cyan/70 hidden sm:block font-mono tracking-wider">// SELECTED_EVENTS</div>
-                                                <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
-                                                    <span className="text-lg sm:text-xl font-heading font-bold text-white">₹{totalPrice}</span>
+
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] font-cyber tracking-widest text-glow-cyan/60">TOTAL_AMOUNT</span>
+                                                <div className="flex items-baseline gap-2">
+                                                    <span className="text-2xl font-heading font-bold text-white">₹{totalPrice}</span>
                                                     {totalSavings > 0 && (
-                                                        <span className="text-[10px] sm:text-xs text-green-400 font-mono">SAVE ₹{totalSavings}</span>
+                                                        <span className="text-xs text-green-400 font-mono line-through opacity-60">₹{totalPrice + totalSavings}</span>
                                                     )}
                                                 </div>
                                             </div>
                                         </div>
-                                        <GlowButton size="sm" className="sm:text-base">
-                                            <span className="hidden sm:inline">Proceed to Pay</span>
-                                            <span className="sm:hidden">Pay Now</span>
-                                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                            </svg>
+
+                                        <GlowButton className="whitespace-nowrap shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+                                            <span className="hidden sm:inline">PROCEED TO PAY</span>
+                                            <span className="sm:hidden">PAY NOW &gt;</span>
                                         </GlowButton>
                                     </div>
                                 </div>
