@@ -183,12 +183,25 @@ export default function ProfilePage() {
                                     exit={{ opacity: 0, height: 0, marginTop: 0 }}
                                     className="relative z-50"
                                 >
-                                    <GlassCard className="p-6 border-glow-cyan/30" glowColor="cyan">
-                                        <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
+                                    <div className="glitch-container rounded-xl p-6 sm:p-8 relative group border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden hover:border-glow-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+                                        {/* Active Glitch Hover Effect - Border Glow Pulse */}
+                                        <motion.div
+                                            className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none z-0"
+                                            animate={{ opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                        />
+
+                                        {/* Corner accents */}
+                                        <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-10" />
+                                        <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60 z-10" />
+                                        <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60 z-10" />
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-10" />
+
+                                        <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2 relative z-20">
                                             <User className="w-5 h-5 text-glow-cyan" />
                                             Choose Your Avatar
                                         </h3>
-                                        <div className="flex flex-wrap gap-4 md:gap-8 justify-center sm:justify-start">
+                                        <div className="flex flex-wrap gap-4 md:gap-8 justify-center sm:justify-start relative z-20">
                                             {avatars.map((avatar, index) => (
                                                 <motion.button
                                                     key={index}
@@ -199,7 +212,7 @@ export default function ProfilePage() {
                                                         e.stopPropagation(); // Prevent propagation
                                                         handleAvatarSelect(avatar);
                                                     }}
-                                                    className={`relative cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all z-50 hover:z-[60] outline-none focus:outline-none ${selectedAvatar === avatar
+                                                    className={`relative cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all outline-none focus:outline-none ${selectedAvatar === avatar
                                                         ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
                                                         : 'bg-white/10 hover:bg-white/30'
                                                         }`}
@@ -213,14 +226,14 @@ export default function ProfilePage() {
                                                         />
                                                     </div>
                                                     {selectedAvatar === avatar && (
-                                                        <div className="absolute top-0 right-0 w-6 h-6 rounded-full bg-glow-cyan text-black flex items-center justify-center border-2 border-black z-50">
+                                                        <div className="absolute top-0 right-0 w-6 h-6 rounded-full bg-glow-cyan text-black flex items-center justify-center border-2 border-black z-50 pointer-events-none">
                                                             <Check className="w-3 h-3" />
                                                         </div>
                                                     )}
                                                 </motion.button>
                                             ))}
                                         </div>
-                                    </GlassCard>
+                                    </div>
                                 </motion.div>
                             )}
                         </AnimatePresence>
