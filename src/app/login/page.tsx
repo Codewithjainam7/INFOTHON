@@ -9,9 +9,8 @@ import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard } from '@/components/ui'
 import { Footer } from '@/components/sections'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase'
 
-const supabase = createClientComponentClient()
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -39,7 +38,7 @@ function CyberInput({
                 {label}
             </label>
             <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors z-10 pointer-events-none">
                     {icon}
                 </div>
                 <input
@@ -47,9 +46,9 @@ function CyberInput({
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-                    className="w-full bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg px-12 py-3.5 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan focus:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 font-mono text-sm"
+                    className="relative z-10 w-full bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg px-12 py-3.5 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan focus:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 font-mono text-sm"
                 />
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+                <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
             </div>
         </div>
     )
@@ -71,6 +70,7 @@ export default function LoginPage() {
         e.preventDefault()
         setIsSubmitting(true)
 
+        const supabase = createClient()
         const { data, error } = await supabase.auth.signInWithPassword({
             email: formData.email,
             password: formData.password,

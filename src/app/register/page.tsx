@@ -245,29 +245,45 @@ export default function RegisterPage() {
                                 exit={{ y: 100, opacity: 0 }}
                                 className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 w-[95%] sm:w-auto max-w-xl"
                             >
-                                <GlassCard className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between sm:justify-start gap-3 sm:gap-6" glowColor="cyan">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-glow-cyan/20 flex items-center justify-center text-glow-cyan font-bold text-sm sm:text-base">
-                                            {selectedEvents.length}
-                                        </div>
-                                        <div>
-                                            <div className="text-xs sm:text-sm text-text-muted hidden sm:block">Selected Events</div>
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
-                                                <span className="text-lg sm:text-xl font-heading font-bold text-white">₹{totalPrice}</span>
-                                                {totalSavings > 0 && (
-                                                    <span className="text-[10px] sm:text-xs text-green-400">Save ₹{totalSavings}</span>
-                                                )}
+                                {/* Cyberpunk styled cart with corner accents */}
+                                <div className="relative">
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan" />
+                                    <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet" />
+                                    <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet" />
+                                    <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan" />
+
+                                    {/* Glitch border animation */}
+                                    <motion.div
+                                        className="absolute inset-0 border-2 border-transparent rounded-xl pointer-events-none"
+                                        animate={{ borderColor: ['rgba(0,245,255,0.3)', 'rgba(139,92,246,0.3)', 'rgba(0,245,255,0.3)'] }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                                    />
+
+                                    <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between sm:justify-start gap-3 sm:gap-6 rounded-xl border border-white/10 bg-black/80 backdrop-blur-md shadow-[0_0_30px_rgba(0,245,255,0.15)]">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-glow-cyan/30 to-glow-violet/30 border border-glow-cyan/50 flex items-center justify-center text-glow-cyan font-bold text-sm sm:text-base shadow-[0_0_15px_rgba(0,245,255,0.3)]">
+                                                {selectedEvents.length}
+                                            </div>
+                                            <div>
+                                                <div className="text-xs sm:text-sm text-glow-cyan/70 hidden sm:block font-mono tracking-wider">// SELECTED_EVENTS</div>
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+                                                    <span className="text-lg sm:text-xl font-heading font-bold text-white">₹{totalPrice}</span>
+                                                    {totalSavings > 0 && (
+                                                        <span className="text-[10px] sm:text-xs text-green-400 font-mono">SAVE ₹{totalSavings}</span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
+                                        <GlowButton size="sm" className="sm:text-base">
+                                            <span className="hidden sm:inline">Proceed to Pay</span>
+                                            <span className="sm:hidden">Pay Now</span>
+                                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                            </svg>
+                                        </GlowButton>
                                     </div>
-                                    <GlowButton size="sm" className="sm:text-base">
-                                        <span className="hidden sm:inline">Proceed to Pay</span>
-                                        <span className="sm:hidden">Pay Now</span>
-                                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                        </svg>
-                                    </GlowButton>
-                                </GlassCard>
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>

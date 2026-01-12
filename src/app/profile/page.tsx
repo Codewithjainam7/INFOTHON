@@ -24,14 +24,13 @@ const avatars = [
     '/images/girl_avatar_2.851Z.png',
 ]
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
-
-// ... existing imports
+import { useMemo } from 'react'
 
 export default function ProfilePage() {
     const router = useRouter()
-    const supabase = createClientComponentClient()
+    const supabase = useMemo(() => createClient(), [])
     const [purchasedEvents, setPurchasedEvents] = useState<string[]>([])
     const [user, setUser] = useState<{ name: string; email: string } | null>(null)
     const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
@@ -124,7 +123,7 @@ export default function ProfilePage() {
                                     </div>
                                     <button
                                         onClick={() => setShowAvatarSelection(!showAvatarSelection)}
-                                        className="absolute bottom-0 right-0 p-2 rounded-full bg-bg-primary border border-glow-cyan text-glow-cyan shadow-lg hover:bg-glow-cyan hover:text-black transition-all"
+                                        className="absolute bottom-0 right-0 z-20 p-2 rounded-full bg-bg-primary border border-glow-cyan text-glow-cyan shadow-lg hover:bg-glow-cyan hover:text-black transition-all cursor-pointer"
                                     >
                                         <Edit2 className="w-4 h-4" />
                                     </button>
@@ -172,7 +171,7 @@ export default function ProfilePage() {
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.95 }}
                                                     onClick={() => handleAvatarSelect(avatar)}
-                                                    className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all ${selectedAvatar === avatar
+                                                    className={`relative z-10 cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all ${selectedAvatar === avatar
                                                         ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
                                                         : 'bg-white/10 hover:bg-white/30'
                                                         }`}
