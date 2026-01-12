@@ -156,15 +156,15 @@ export default function RegisterPage() {
                     </motion.div>
 
                     {/* Category Filter - Cyber Command Deck */}
-                    <div className="sticky top-24 z-30 mb-12 flex justify-center px-4">
-                        <div className="relative p-2 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_rgba(34,211,238,0.1)] overflow-hidden">
+                    <div className="sticky top-24 z-30 mb-8 sm:mb-12 flex justify-start sm:justify-center px-0 sm:px-4 overflow-x-auto sm:overflow-visible no-scrollbar pb-4 sm:pb-0 -mx-4 sm:mx-0 pl-4 sm:pl-0 snap-x">
+                        <div className="relative p-1.5 sm:p-2 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_rgba(34,211,238,0.1)] min-w-max mx-auto sm:mx-0">
                             {/* Animated Background Scanline */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-glow-cyan/5 to-transparent skew-x-12 translate-x-[-150%] animate-[scan_4s_linear_infinite]" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-glow-cyan/5 to-transparent skew-x-12 translate-x-[-150%] animate-[scan_4s_linear_infinite] rounded-2xl" />
 
                             {/* Inner Border */}
                             <div className="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none" />
 
-                            <div className="flex flex-wrap justify-center gap-2 relative z-10">
+                            <div className="flex gap-1.5 sm:gap-2 relative z-10 px-1">
                                 {categories.map((cat) => {
                                     const isSelected = selectedCategory === cat;
                                     return (
@@ -172,16 +172,16 @@ export default function RegisterPage() {
                                             key={cat}
                                             onClick={() => setSelectedCategory(cat)}
                                             className={`
-                                                relative px-6 py-2.5 rounded-xl font-cyber text-xs tracking-[0.15em] transition-all duration-300 overflow-hidden group
+                                                relative px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl font-cyber text-[10px] sm:text-xs tracking-[0.15em] transition-all duration-300 overflow-hidden group snap-center whitespace-nowrap
                                                 ${isSelected
                                                     ? 'bg-glow-cyan text-black font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)]'
                                                     : 'bg-transparent text-text-secondary hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10'
                                                 }
                                             `}
                                         >
-                                            <span className="relative z-10 flex items-center gap-2">
+                                            <span className="relative z-10 flex items-center gap-1.5 sm:gap-2">
                                                 {/* Glitch Dot Indicator */}
-                                                <span className={`w-1.5 h-1.5 rounded-full transition-colors ${isSelected ? 'bg-black' : 'bg-glow-cyan/50 group-hover:bg-glow-cyan'}`} />
+                                                <span className={`w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full transition-colors ${isSelected ? 'bg-black' : 'bg-glow-cyan/50 group-hover:bg-glow-cyan'}`} />
                                                 {cat}
                                             </span>
 
