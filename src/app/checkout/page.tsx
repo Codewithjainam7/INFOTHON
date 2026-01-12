@@ -100,8 +100,8 @@ export default function CheckoutPage() {
             <Background3D backgroundImage="/images/new_bg6.png" />
             <FloatingNavbar />
 
-            <main className="relative z-10 min-h-screen pt-28 pb-20">
-                <div className="section-container px-4 sm:px-6 max-w-5xl mx-auto">
+            <main className="relative z-10 min-h-screen pt-28 pb-20 overflow-x-hidden">
+                <div className="section-container px-4 sm:px-6 max-w-5xl mx-auto overflow-hidden">
 
                     {/* Header with Glitch Animation */}
                     <motion.div

@@ -307,10 +307,10 @@ export default function RegisterPage() {
                                         <div className="p-6 flex flex-col flex-grow relative z-10">
                                             <div className="flex justify-between items-start mb-4">
                                                 <div>
-                                                    <h3 className={`text-xl font-heading font-black mb-1 group-hover:translate-x-1 transition-transform ${isSelected ? 'text-white' : 'text-gray-100'}`}>
+                                                    <h3 className={`text-xl font-cyber font-bold tracking-wide mb-1 group-hover:translate-x-1 transition-transform ${isSelected ? 'text-white' : 'text-gray-100'}`}>
                                                         {event.title}
                                                     </h3>
-                                                    <p className="text-sm text-text-muted line-clamp-2 font-mono">{event.description}</p>
+                                                    <p className="text-sm text-text-muted line-clamp-2 font-mono tracking-tight">{event.description}</p>
                                                 </div>
                                                 <div className="text-right">
                                                     <div className={`text-xl font-bold font-mono ${isSelected ? 'text-glow-cyan' : 'text-white'}`}>₹{event.price}</div>
@@ -324,7 +324,7 @@ export default function RegisterPage() {
                                             {/* Features */}
                                             <div className="space-y-2 mb-6 flex-grow">
                                                 {event.features.slice(0, 3).map((feature, i) => (
-                                                    <div key={i} className="flex items-center text-xs text-text-secondary/80">
+                                                    <div key={i} className="flex items-center text-xs text-text-secondary/80 font-mono">
                                                         {/* Fixed Bullet Point */}
                                                         <div className={`w-1.5 h-1.5 rounded-full mr-2 ${isSelected ? 'bg-glow-cyan' : 'bg-gray-500'}`} />
                                                         {feature}
