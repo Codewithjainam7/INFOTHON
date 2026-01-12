@@ -119,16 +119,51 @@ export default function LoginPage() {
                                     transition={{ delay: 0.1 }}
                                     className="inline-block mb-4"
                                 >
-                                    <div className="glass px-4 py-2 rounded-full">
-                                        <span className="font-mono text-xs text-glow-cyan tracking-wider">
-                                            // AUTH_REQUIRED
+                                    <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                                        <span className="font-cyber text-xs text-glow-cyan tracking-widest">
+                                            AUTH_REQUIRED
                                         </span>
                                     </div>
                                 </motion.div>
 
-                                <NeonText as="h1" color="gradient" className="text-3xl sm:text-4xl md:text-5xl mb-3">
-                                    System Access
-                                </NeonText>
+                                {/* Glitch Title */}
+                                <div className="relative inline-block mb-3">
+                                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                                        System Access
+                                    </h1>
+                                    {/* Glitch layer - Cyan offset */}
+                                    <motion.h1
+                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                        style={{ opacity: 0 }}
+                                        animate={{
+                                            x: [0, -6, 3, -4, 0],
+                                            opacity: [0, 0.8, 0, 0.6, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.2,
+                                            repeat: Infinity,
+                                            repeatDelay: 2.5,
+                                        }}
+                                    >
+                                        System Access
+                                    </motion.h1>
+                                    {/* Glitch layer - Violet offset */}
+                                    <motion.h1
+                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                        style={{ opacity: 0 }}
+                                        animate={{
+                                            x: [0, 6, -3, 4, 0],
+                                            opacity: [0, 0.7, 0, 0.5, 0],
+                                        }}
+                                        transition={{
+                                            duration: 0.15,
+                                            repeat: Infinity,
+                                            repeatDelay: 1.8,
+                                        }}
+                                    >
+                                        System Access
+                                    </motion.h1>
+                                </div>
                                 <p className="text-text-secondary text-sm">
                                     Login to access your registered events and profile
                                 </p>

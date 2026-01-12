@@ -71,16 +71,35 @@ export default function RegisterPage() {
                             transition={{ delay: 0.1 }}
                             className="inline-block mb-4"
                         >
-                            <div className="glass px-4 py-2 rounded-full">
-                                <span className="font-mono text-xs text-glow-cyan tracking-wider">
-                                    // SELECT_YOUR_EVENTS
+                            <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                                <span className="font-cyber text-xs text-glow-cyan tracking-widest">
+                                    SELECT_YOUR_EVENTS
                                 </span>
                             </div>
                         </motion.div>
 
-                        <NeonText as="h1" color="gradient" className="text-3xl sm:text-4xl md:text-6xl mb-4">
-                            Register for Events
-                        </NeonText>
+                        {/* Glitch Title */}
+                        <div className="relative inline-block mb-4">
+                            <h1 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-glow-cyan via-white to-glow-violet drop-shadow-[0_0_30px_rgba(34,211,238,0.4)]">
+                                Register for Events
+                            </h1>
+                            <motion.h1
+                                className="absolute inset-0 text-3xl sm:text-4xl md:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                style={{ opacity: 0 }}
+                                animate={{ x: [0, -6, 3, -4, 0], opacity: [0, 0.8, 0, 0.6, 0] }}
+                                transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
+                            >
+                                Register for Events
+                            </motion.h1>
+                            <motion.h1
+                                className="absolute inset-0 text-3xl sm:text-4xl md:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                style={{ opacity: 0 }}
+                                animate={{ x: [0, 6, -3, 4, 0], opacity: [0, 0.7, 0, 0.5, 0] }}
+                                transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.5 }}
+                            >
+                                Register for Events
+                            </motion.h1>
+                        </div>
                         <p className="text-text-secondary max-w-2xl mx-auto">
                             Choose your battles. Each event has unique challenges and prizes.
                             Early bird pricing ends soon!

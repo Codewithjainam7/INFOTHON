@@ -1,0 +1,169 @@
+<!-- 
+INFOTHON 2026 - Cyberpunk Themed Email Confirmation Template
+Copy this HTML into: Supabase Dashboard → Authentication → Email Templates → Confirm signup
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your INFOTHON Account</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: 'Rajdhani', 'Segoe UI', sans-serif;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                
+                <!-- Main Container -->
+                <table role="presentation" style="width: 100%; max-width: 600px; border-collapse: collapse; background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #0d0d0d 100%); border-radius: 16px; border: 1px solid rgba(0, 245, 255, 0.3); box-shadow: 0 0 40px rgba(0, 245, 255, 0.15), inset 0 1px 0 rgba(255,255,255,0.05);">
+                    
+                    <!-- Corner Accents (visual only) -->
+                    <tr>
+                        <td style="padding: 0; position: relative;">
+                            <div style="position: absolute; top: 0; left: 0; width: 20px; height: 20px; border-left: 2px solid #00f5ff; border-top: 2px solid #00f5ff;"></div>
+                            <div style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border-right: 2px solid #8b5cf6; border-top: 2px solid #8b5cf6;"></div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Header Section -->
+                    <tr>
+                        <td align="center" style="padding: 40px 40px 20px 40px;">
+                            <!-- Logo/Brand -->
+                            <table role="presentation" style="border-collapse: collapse;">
+                                <tr>
+                                    <td align="center">
+                                        <div style="display: inline-block; padding: 8px 20px; border: 1px solid rgba(0, 245, 255, 0.5); border-radius: 50px; background: rgba(0, 0, 0, 0.5);">
+                                            <span style="font-family: 'Orbitron', monospace; font-size: 12px; color: #00f5ff; letter-spacing: 3px; text-transform: uppercase;">
+                                                SYSTEM_VERIFICATION
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Main Title -->
+                            <h1 style="margin: 30px 0 10px 0; font-family: 'Orbitron', monospace; font-size: 32px; font-weight: 900; color: #00f5ff; text-shadow: 0 0 30px rgba(0, 245, 255, 0.5), 0 0 60px rgba(0, 245, 255, 0.3); letter-spacing: 2px;">
+                                INITIALIZE ACCESS
+                            </h1>
+                            
+                            <p style="margin: 0; font-size: 16px; color: #a0a0a0; line-height: 1.6;">
+                                Verify your identity to complete system registration
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Scan Line Effect -->
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.4), transparent);"></div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content Section -->
+                    <tr>
+                        <td style="padding: 30px 40px;">
+                            <!-- Welcome Message -->
+                            <p style="margin: 0 0 20px 0; font-size: 16px; color: #e0e0e0; line-height: 1.8;">
+                                <span style="color: #00f5ff; font-family: 'Orbitron', monospace;">OPERATIVE:</span> Welcome to <strong style="color: #ffffff;">INFOTHON 2026</strong>, the ultimate cyberpunk tech odyssey.
+                            </p>
+                            
+                            <p style="margin: 0 0 30px 0; font-size: 15px; color: #a0a0a0; line-height: 1.7;">
+                                Your registration request has been received. Click the button below to verify your email and activate your account.
+                            </p>
+                            
+                            <!-- CTA Button -->
+                            <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td align="center" style="padding: 10px 0 30px 0;">
+                                        <a href="{{ .ConfirmationURL }}" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #00f5ff 0%, #00bcd4 100%); color: #000000; font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 8px; letter-spacing: 2px; text-transform: uppercase; box-shadow: 0 0 30px rgba(0, 245, 255, 0.4), 0 4px 15px rgba(0, 0, 0, 0.3); transition: all 0.3s ease;">
+                                            ⚡ VERIFY IDENTITY
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Fallback Link -->
+                            <p style="margin: 0 0 10px 0; font-size: 12px; color: #666666; font-family: monospace;">
+                                // If button doesn't work, copy this link:
+                            </p>
+                            <p style="margin: 0; font-size: 11px; color: #00f5ff; word-break: break-all; font-family: monospace; background: rgba(0, 245, 255, 0.1); padding: 12px; border-radius: 6px; border: 1px solid rgba(0, 245, 255, 0.2);">
+                                {{ .ConfirmationURL }}
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Divider -->
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.4), transparent);"></div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer Section -->
+                    <tr>
+                        <td style="padding: 30px 40px 40px 40px;">
+                            <!-- Event Info -->
+                            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                                <tr>
+                                    <td style="padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                                        <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <td width="50%" style="padding: 5px;">
+                                                    <span style="font-size: 11px; color: #8b5cf6; font-family: 'Orbitron', monospace; letter-spacing: 1px;">📅 DATE</span><br>
+                                                    <span style="font-size: 14px; color: #ffffff; font-weight: 600;">March 2026</span>
+                                                </td>
+                                                <td width="50%" style="padding: 5px;">
+                                                    <span style="font-size: 11px; color: #8b5cf6; font-family: 'Orbitron', monospace; letter-spacing: 1px;">📍 LOCATION</span><br>
+                                                    <span style="font-size: 14px; color: #ffffff; font-weight: 600;">Tech Campus</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Security Notice -->
+                            <p style="margin: 0 0 20px 0; font-size: 12px; color: #666666; line-height: 1.6;">
+                                <span style="color: #ff6b6b;">⚠️ SECURITY:</span> If you didn't create an account, you can safely ignore this email. This link expires in 24 hours.
+                            </p>
+                            
+                            <!-- Branding -->
+                            <p style="margin: 0; font-size: 18px; font-family: 'Orbitron', monospace; font-weight: 900; background: linear-gradient(90deg, #00f5ff, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 3px;">
+                                INFOTHON 2026
+                            </p>
+                            <p style="margin: 5px 0 0 0; font-size: 11px; color: #555555; font-family: monospace;">
+                                // THE FUTURE IS NOW
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Bottom Corner Accents -->
+                    <tr>
+                        <td style="padding: 0; position: relative; height: 20px;">
+                            <div style="position: absolute; bottom: 0; left: 0; width: 20px; height: 20px; border-left: 2px solid #8b5cf6; border-bottom: 2px solid #8b5cf6;"></div>
+                            <div style="position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; border-right: 2px solid #00f5ff; border-bottom: 2px solid #00f5ff;"></div>
+                        </td>
+                    </tr>
+                    
+                </table>
+                
+                <!-- Footer Links -->
+                <table role="presentation" style="width: 100%; max-width: 600px; margin-top: 20px;">
+                    <tr>
+                        <td align="center" style="padding: 20px;">
+                            <p style="margin: 0; font-size: 11px; color: #444444;">
+                                © 2026 INFOTHON. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

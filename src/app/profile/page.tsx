@@ -130,12 +130,31 @@ export default function ProfilePage() {
                                 </div>
 
                                 <div>
-                                    <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-2">
-                                        // OPERATIVE_STATUS: ACTIVE
+                                    <span className="inline-block px-4 py-1 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm text-xs font-cyber text-glow-cyan tracking-widest mb-2">
+                                        OPERATIVE_STATUS: ACTIVE
                                     </span>
-                                    <NeonText as="h1" color="gradient" className="text-3xl sm:text-4xl md:text-5xl mb-2">
-                                        {user?.name || 'Guest User'}
-                                    </NeonText>
+                                    {/* Glitch Username */}
+                                    <div className="relative inline-block">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)] mb-2">
+                                            {user?.name || 'Guest User'}
+                                        </h1>
+                                        <motion.h1
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                            style={{ opacity: 0 }}
+                                            animate={{ x: [0, -5, 3, -4, 0], opacity: [0, 0.8, 0, 0.6, 0] }}
+                                            transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
+                                        >
+                                            {user?.name || 'Guest User'}
+                                        </motion.h1>
+                                        <motion.h1
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                            style={{ opacity: 0 }}
+                                            animate={{ x: [0, 5, -3, 4, 0], opacity: [0, 0.7, 0, 0.5, 0] }}
+                                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 2 }}
+                                        >
+                                            {user?.name || 'Guest User'}
+                                        </motion.h1>
+                                    </div>
                                     <div className="flex items-center gap-2 text-text-secondary font-mono text-sm">
                                         <span>{user?.email || 'Not logged in'}</span>
                                     </div>

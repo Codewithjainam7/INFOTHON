@@ -132,16 +132,51 @@ export default function SignUpPage() {
                                         transition={{ delay: 0.1 }}
                                         className="inline-block mb-4"
                                     >
-                                        <div className="glass px-4 py-2 rounded-full">
-                                            <span className="font-mono text-xs text-glow-cyan tracking-wider">
-                                                // SYSTEM_ACCESS_REQUIRED
+                                        <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                                            <span className="font-cyber text-xs text-glow-cyan tracking-widest">
+                                                SYSTEM_ACCESS_REQUIRED
                                             </span>
                                         </div>
                                     </motion.div>
 
-                                    <NeonText as="h1" color="gradient" className="text-3xl sm:text-4xl md:text-5xl mb-3">
-                                        Create Account
-                                    </NeonText>
+                                    {/* Glitch Title */}
+                                    <div className="relative inline-block mb-3">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                                            Create Account
+                                        </h1>
+                                        {/* Glitch layer - Cyan offset */}
+                                        <motion.h1
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                            style={{ opacity: 0 }}
+                                            animate={{
+                                                x: [0, -6, 3, -4, 0],
+                                                opacity: [0, 0.8, 0, 0.6, 0],
+                                            }}
+                                            transition={{
+                                                duration: 0.2,
+                                                repeat: Infinity,
+                                                repeatDelay: 2,
+                                            }}
+                                        >
+                                            Create Account
+                                        </motion.h1>
+                                        {/* Glitch layer - Violet offset */}
+                                        <motion.h1
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                            style={{ opacity: 0 }}
+                                            animate={{
+                                                x: [0, 6, -3, 4, 0],
+                                                opacity: [0, 0.7, 0, 0.5, 0],
+                                            }}
+                                            transition={{
+                                                duration: 0.15,
+                                                repeat: Infinity,
+                                                repeatDelay: 1.5,
+                                            }}
+                                        >
+                                            Create Account
+                                        </motion.h1>
+                                    </div>
                                     <p className="text-text-secondary text-sm">
                                         Sign up to register for INFOTHON 2026 events
                                     </p>
@@ -283,33 +318,66 @@ export default function SignUpPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="text-center"
                             >
-                                <GlassCard className="p-8" glowColor="cyan">
+                                <GlassCard className="p-8 relative overflow-hidden" glowColor="cyan">
+                                    {/* Scan line effect */}
+                                    <motion.div
+                                        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan/60 to-transparent"
+                                        animate={{ top: ['0%', '100%', '0%'] }}
+                                        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                                    />
+
+                                    {/* Email Icon */}
                                     <motion.div
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         transition={{ type: 'spring', delay: 0.2 }}
-                                        className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-glow-cyan to-glow-violet flex items-center justify-center"
+                                        className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-glow-cyan to-glow-violet flex items-center justify-center shadow-[0_0_40px_rgba(0,245,255,0.4)]"
                                     >
                                         <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
                                     </motion.div>
 
-                                    <NeonText as="h2" color="cyan" className="text-2xl sm:text-3xl mb-3">
-                                        Account Created!
-                                    </NeonText>
-                                    <p className="text-text-secondary mb-6">
-                                        Welcome to INFOTHON 2026, {formData.name}!
+                                    {/* Glitch Title */}
+                                    <div className="relative inline-block mb-3">
+                                        <h2 className="text-2xl sm:text-3xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                                            Verify Your Email
+                                        </h2>
+                                        <motion.h2
+                                            className="absolute inset-0 text-2xl sm:text-3xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                            style={{ opacity: 0 }}
+                                            animate={{ x: [0, -4, 2, -3, 0], opacity: [0, 0.8, 0, 0.6, 0] }}
+                                            transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
+                                        >
+                                            Verify Your Email
+                                        </motion.h2>
+                                    </div>
+
+                                    <p className="text-text-secondary mb-2">
+                                        We&apos;ve sent a verification link to:
+                                    </p>
+                                    <p className="font-mono text-glow-cyan text-sm mb-6 px-4 py-2 bg-black/50 rounded-lg border border-glow-cyan/30 inline-block">
+                                        {formData.email}
                                     </p>
 
-                                    <Link href="/register">
-                                        <GlowButton size="lg">
-                                            Register for Events
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                            </svg>
-                                        </GlowButton>
-                                    </Link>
+                                    <div className="bg-black/30 rounded-lg p-4 mb-6 border border-glow-violet/30">
+                                        <p className="text-sm text-text-muted">
+                                            <span className="text-glow-violet font-mono">// INSTRUCTIONS:</span><br />
+                                            Check your inbox and click the verification link to activate your account.
+                                            Don&apos;t forget to check your spam folder!
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                        <Link href="/login">
+                                            <GlowButton size="lg">
+                                                Go to Login
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                </svg>
+                                            </GlowButton>
+                                        </Link>
+                                    </div>
                                 </GlassCard>
                             </motion.div>
                         )}
