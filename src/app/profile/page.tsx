@@ -129,8 +129,8 @@ export default function ProfilePage() {
                                     </button>
                                 </div>
 
-                                <div>
-                                    <span className="inline-block px-4 py-1 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm text-xs font-cyber text-glow-cyan tracking-widest mb-2">
+                                <div className="flex flex-col items-start gap-2">
+                                    <span className="inline-block px-4 py-1 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm text-xs font-cyber text-glow-cyan tracking-widest">
                                         OPERATIVE_STATUS: ACTIVE
                                     </span>
                                     {/* Glitch Username */}

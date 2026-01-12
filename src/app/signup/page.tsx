@@ -37,17 +37,22 @@ function CyberInput({
                 {label}
             </label>
             <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors z-10 pointer-events-none">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors z-20 pointer-events-none">
                     {icon}
                 </div>
+                {/* Background Layer with Blur to prevent text blurring */}
+                <div className="absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300" />
+
+                {/* Gradient Glow Layer */}
+                <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+
                 <input
                     type={type}
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-                    className="relative z-10 w-full bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg px-12 py-3.5 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan focus:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 font-mono text-sm"
+                    className="relative z-10 w-full bg-transparent px-12 py-3.5 text-white placeholder-text-muted focus:outline-none font-mono text-sm"
                 />
-                <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
             </div>
         </div>
     )
@@ -135,12 +140,12 @@ export default function SignUpPage() {
                                 transition={{ duration: 0.6 }}
                             >
                                 {/* Header */}
-                                <div className="text-center mb-8">
+                                <div className="flex flex-col items-center justify-center mb-8">
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ delay: 0.1 }}
-                                        className="inline-block mb-4"
+                                        className="mb-4"
                                     >
                                         <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                                             <span className="font-cyber text-xs text-glow-cyan tracking-widest">
