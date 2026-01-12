@@ -32,9 +32,7 @@ export default function AboutPage() {
     return (
         <SmoothScroll>
             <GlowCursor />
-            <GlowCursor />
             <Background3D backgroundImage="/images/new_bg7.png" />
-            <FloatingNavbar />
             <FloatingNavbar />
 
             <main className="relative z-10 min-h-screen pt-24 pb-16">
