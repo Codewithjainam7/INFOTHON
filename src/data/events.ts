@@ -28,7 +28,7 @@ export const events: Event[] = [
         prize: '₹2,00,000',
         teamSize: '2-3 members',
         registrationDeadline: 'March 10, 2026',
-        image: '/events/code-sprint.jpg',
+        image: '/images/code_sprint.png',
         rules: [
             'Teams must consist of 2-3 members from the same institution',
             'All standard programming languages are allowed',
@@ -57,7 +57,7 @@ export const events: Event[] = [
         prize: '₹3,00,000',
         teamSize: '3-4 members',
         registrationDeadline: 'March 12, 2026',
-        image: '/events/neural-nexus.jpg',
+        image: '/images/neural_nexus.png',
         rules: [
             'Pre-trained models are allowed but must be disclosed',
             'Cloud computing resources will be provided',
@@ -86,7 +86,7 @@ export const events: Event[] = [
         prize: '₹2,50,000',
         teamSize: '4-6 members',
         registrationDeadline: 'March 5, 2026',
-        image: '/events/robo-wars.jpg',
+        image: '/images/robo_wars.png',
         rules: [
             'Robots must weigh under 60kg',
             'No projectile weapons or flame-based attacks',
@@ -115,7 +115,7 @@ export const events: Event[] = [
         prize: '₹1,00,000',
         teamSize: '1-2 members',
         registrationDeadline: 'March 12, 2026',
-        image: '/events/pixel-perfect.jpg',
+        image: '/images/pixel_perfect.png',
         rules: [
             'Any design tool is permitted (Figma, Sketch, Adobe XD, etc.)',
             'Submissions must include interactive prototypes',
@@ -144,7 +144,7 @@ export const events: Event[] = [
         prize: '₹1,50,000',
         teamSize: '5 members (Varies by game)',
         registrationDeadline: 'March 14, 2026',
-        image: '/events/cyber-siege.jpg',
+        image: '/images/cyber_siege.png',
         rules: [
             'Teams must register for specific game tournaments',
             'All participants must be 16 years or older',
@@ -173,7 +173,7 @@ export const events: Event[] = [
         prize: 'Certificate + Swag Kit',
         teamSize: 'Individual',
         registrationDeadline: 'March 14, 2026',
-        image: '/events/quantum-workshop.jpg',
+        image: '/images/quantum_101.png',
         rules: [
             'Basic Python knowledge required',
             'Laptops mandatory',

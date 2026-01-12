@@ -367,7 +367,7 @@ export function Hero() {
                                         transition: { duration: 0.2, repeat: Infinity }
                                     }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="glitch-container relative px-8 py-4 rounded-lg bg-glow-cyan/10 border border-glow-cyan/30 text-glow-cyan font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-glow-cyan/20 transition-all duration-300 transform-none"
+                                    className="glitch-container relative px-8 py-4 rounded-lg bg-glow-cyan/10 border-2 border-transparent text-glow-cyan font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-glow-cyan/20 transition-all duration-300 transform-none"
                                 >
                                     {/* Corner accents */}
                                     <div className="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-glow-cyan/60" />
@@ -387,8 +387,11 @@ export function Hero() {
                                         </svg>
                                     </div>
 
+                                    {/* Double Border Effect */}
+                                    <div className="absolute inset-0 rounded-lg border border-glow-cyan/50 opacity-100 group-hover:opacity-0 transition-opacity" />
+                                    <div className="absolute inset-0 rounded-lg border-2 border-glow-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_15px_rgba(34,211,238,0.5)]" />
+
                                     {/* Active Glitch Hover Effect - Rapid Flash */}
-                                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/50 rounded-lg pointer-events-none transition-colors duration-300" />
                                     <div className="absolute inset-0 bg-glow-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity duration-100 animate-pulse" />
                                 </motion.button>
                             </Link>
@@ -403,7 +406,7 @@ export function Hero() {
                                         transition: { duration: 0.5, repeat: Infinity }
                                     }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="relative px-8 py-4 rounded-lg bg-transparent border border-white/20 text-white font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-white/5 hover:border-white/40 transition-all duration-300 transform-none"
+                                    className="relative px-8 py-4 rounded-lg bg-transparent border border-white/20 text-white font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-white/5 transition-all duration-300 transform-none hover:border-dashed hover:border-white/50"
                                 >
                                     {/* Simplified Corner accents - Secondary Style (Only 2 corners) */}
                                     <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-white/30" />

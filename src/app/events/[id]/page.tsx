@@ -40,8 +40,21 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
             <Background3D backgroundImage="/images/new_bg7.png" />
             <FloatingNavbar />
 
-            <main className="relative z-10 min-h-screen pt-24 pb-16">
-                <div className="section-container px-6 sm:px-8">
+            <main className="relative z-10 min-h-screen pt-24 pb-16 overflow-hidden">
+                {/* Hero Background Image */}
+                <div className="absolute inset-0 z-0 h-[60vh] pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-background z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
+                    {event.image && (
+                        <img
+                            src={event.image}
+                            alt={event.title}
+                            className="w-full h-full object-cover opacity-30 blur-[2px]"
+                        />
+                    )}
+                </div>
+
+                <div className="section-container px-6 sm:px-8 relative z-10">
                     {/* Back Button */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
