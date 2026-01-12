@@ -181,26 +181,29 @@ export default function ProfilePage() {
                                     initial={{ opacity: 0, height: 0, marginTop: 0 }}
                                     animate={{ opacity: 1, height: 'auto', marginTop: 32 }}
                                     exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                                    className="overflow-hidden"
+                                    className="relative z-50"
                                 >
                                     <GlassCard className="p-6 border-glow-cyan/30" glowColor="cyan">
                                         <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
                                             <User className="w-5 h-5 text-glow-cyan" />
                                             Choose Your Avatar
                                         </h3>
-                                        <div className="flex flex-wrap gap-4 md:gap-8">
+                                        <div className="flex flex-wrap gap-4 md:gap-8 justify-center sm:justify-start">
                                             {avatars.map((avatar, index) => (
                                                 <motion.button
                                                     key={index}
-                                                    whileHover={{ scale: 1.05 }}
+                                                    whileHover={{ scale: 1.1, zIndex: 60 }}
                                                     whileTap={{ scale: 0.95 }}
-                                                    onClick={() => handleAvatarSelect(avatar)}
-                                                    className={`relative z-10 cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all ${selectedAvatar === avatar
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // Prevent propagation
+                                                        handleAvatarSelect(avatar);
+                                                    }}
+                                                    className={`relative cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all z-50 hover:z-[60] ${selectedAvatar === avatar
                                                         ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
                                                         : 'bg-white/10 hover:bg-white/30'
                                                         }`}
                                                 >
-                                                    <div className="w-full h-full rounded-full overflow-hidden relative bg-black">
+                                                    <div className="w-full h-full rounded-full overflow-hidden relative bg-black pointer-events-none">
                                                         <Image
                                                             src={avatar}
                                                             alt={`Avatar ${index + 1}`}
@@ -209,7 +212,7 @@ export default function ProfilePage() {
                                                         />
                                                     </div>
                                                     {selectedAvatar === avatar && (
-                                                        <div className="absolute top-0 right-0 w-6 h-6 rounded-full bg-glow-cyan text-black flex items-center justify-center border-2 border-black z-10">
+                                                        <div className="absolute top-0 right-0 w-6 h-6 rounded-full bg-glow-cyan text-black flex items-center justify-center border-2 border-black z-50">
                                                             <Check className="w-3 h-3" />
                                                         </div>
                                                     )}
