@@ -6,8 +6,9 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlowButton, NeonText, GlassCard } from '@/components/ui'
+import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
+import { createClient } from '@/lib/supabase'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -22,9 +23,20 @@ export default function RegisterPage() {
     const [showCart, setShowCart] = useState(false)
 
     useEffect(() => {
-        // Check if user is signed up
-        const user = localStorage.getItem('infothon_user')
-        if (user) setIsSignedUp(true)
+        const checkUser = async () => {
+            const supabase = createClient()
+            const { data: { session } } = await supabase.auth.getSession()
+
+            if (session) {
+                setIsSignedUp(true)
+            } else {
+                // Fallback to local storage if needed, or clear it if session is invalid
+                const user = localStorage.getItem('infothon_user')
+                if (user) setIsSignedUp(true)
+            }
+        }
+
+        checkUser()
 
         // Load saved selections
         const saved = localStorage.getItem('infothon_registrations')
@@ -63,13 +75,13 @@ export default function RegisterPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-center mb-12"
+                        className="flex flex-col items-center justify-center mb-12"
                     >
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.1 }}
-                            className="inline-block mb-4"
+                            className="mb-6"
                         >
                             <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                                 <span className="font-cyber text-xs text-glow-cyan tracking-widest">
@@ -79,23 +91,51 @@ export default function RegisterPage() {
                         </motion.div>
 
                         {/* Glitch Title */}
-                        <div className="relative inline-block mb-4">
-                            <h1 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-glow-cyan via-white to-glow-violet drop-shadow-[0_0_30px_rgba(34,211,238,0.4)]">
-                                Register for Events
+                        <div className="relative inline-block mb-6">
+                            <h1 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                                <ScrambleText
+                                    text="Register for Events"
+                                    revealSpeed={50}
+                                    scrambleSpeed={30}
+                                    delay={300}
+                                />
                             </h1>
+                            {/* Glitch layer - Cyan offset */}
                             <motion.h1
-                                className="absolute inset-0 text-3xl sm:text-4xl md:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                className="absolute inset-0 text-3xl sm:text-4xl md:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
                                 style={{ opacity: 0 }}
-                                animate={{ x: [0, -6, 3, -4, 0], opacity: [0, 0.8, 0, 0.6, 0] }}
-                                transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
+                                animate={{
+                                    x: [0, -8, 4, -6, 0],
+                                    y: [0, 3, -2, 0],
+                                    scale: [1, 1.03, 0.97, 1],
+                                    opacity: [0, 1, 0, 0.8, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 1,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
                             >
                                 Register for Events
                             </motion.h1>
+
+                            {/* Glitch layer - Violet offset */}
                             <motion.h1
-                                className="absolute inset-0 text-3xl sm:text-4xl md:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                className="absolute inset-0 text-3xl sm:text-4xl md:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
                                 style={{ opacity: 0 }}
-                                animate={{ x: [0, 6, -3, 4, 0], opacity: [0, 0.7, 0, 0.5, 0] }}
-                                transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.5 }}
+                                animate={{
+                                    x: [0, 8, -4, 6, 0],
+                                    y: [0, -3, 2, 0],
+                                    scale: [1, 0.97, 1.03, 1],
+                                    opacity: [0, 0.9, 0, 0.7, 0],
+                                }}
+                                transition={{
+                                    duration: 0.15,
+                                    repeat: Infinity,
+                                    repeatDelay: 0.8,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
                             >
                                 Register for Events
                             </motion.h1>
@@ -307,9 +347,9 @@ export default function RegisterPage() {
                         )}
                     </AnimatePresence>
                 </div>
-            </main>
+            </main >
 
             <Footer />
-        </SmoothScroll>
+        </SmoothScroll >
     )
 }

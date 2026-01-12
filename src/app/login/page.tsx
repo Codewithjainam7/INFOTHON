@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlowButton, NeonText, GlassCard } from '@/components/ui'
+import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { createClient } from '@/lib/supabase'
 
@@ -128,31 +128,41 @@ export default function LoginPage() {
                                 {/* Glitch Title */}
                                 <div className="relative inline-block mb-3">
                                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
-                                        System Access
+                                        <ScrambleText
+                                            text="System Access"
+                                            revealSpeed={50}
+                                            scrambleSpeed={30}
+                                            delay={300}
+                                        />
                                     </h1>
                                     {/* Glitch layer - Cyan offset */}
                                     <motion.h1
-                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
                                         style={{ opacity: 0 }}
                                         animate={{
-                                            x: [0, -6, 3, -4, 0],
-                                            opacity: [0, 0.8, 0, 0.6, 0],
+                                            x: [0, -8, 4, -6, 0],
+                                            y: [0, 3, -2, 0],
+                                            scale: [1, 1.03, 0.97, 1],
+                                            opacity: [0, 1, 0, 0.8, 0],
                                         }}
                                         transition={{
                                             duration: 0.2,
                                             repeat: Infinity,
-                                            repeatDelay: 2.5,
+                                            repeatDelay: 1,
+                                            times: [0, 0.2, 0.4, 0.6, 1],
                                         }}
                                     >
                                         System Access
                                     </motion.h1>
                                     {/* Glitch layer - Violet offset */}
                                     <motion.h1
-                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                        className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
                                         style={{ opacity: 0 }}
                                         animate={{
-                                            x: [0, 6, -3, 4, 0],
-                                            opacity: [0, 0.7, 0, 0.5, 0],
+                                            x: [0, 8, -4, 6, 0],
+                                            y: [0, -3, 2, 0],
+                                            scale: [1, 0.97, 1.03, 1],
+                                            opacity: [0, 0.9, 0, 0.7, 0],
                                         }}
                                         transition={{
                                             duration: 0.15,

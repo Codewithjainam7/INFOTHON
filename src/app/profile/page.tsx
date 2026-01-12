@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlowButton, NeonText, GlassCard } from '@/components/ui'
+import { NeonText, GlassCard, GlowButton, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { eventPackages, colorMap } from '@/data'
 import { Calendar, Clock, MapPin, QrCode, Ticket, User, Download, Share2, Edit2, Check } from 'lucide-react'
@@ -136,10 +136,15 @@ export default function ProfilePage() {
                                     {/* Glitch Username */}
                                     <div className="relative inline-block">
                                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)] mb-2">
-                                            {user?.name || 'Guest User'}
+                                            <ScrambleText
+                                                text={user?.name || 'Guest User'}
+                                                revealSpeed={50}
+                                                scrambleSpeed={30}
+                                                delay={300}
+                                            />
                                         </h1>
                                         <motion.h1
-                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
                                             style={{ opacity: 0 }}
                                             animate={{ x: [0, -5, 3, -4, 0], opacity: [0, 0.8, 0, 0.6, 0] }}
                                             transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
@@ -147,10 +152,10 @@ export default function ProfilePage() {
                                             {user?.name || 'Guest User'}
                                         </motion.h1>
                                         <motion.h1
-                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
                                             style={{ opacity: 0 }}
                                             animate={{ x: [0, 5, -3, 4, 0], opacity: [0, 0.7, 0, 0.5, 0] }}
-                                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 2 }}
+                                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 2.5 }}
                                         >
                                             {user?.name || 'Guest User'}
                                         </motion.h1>

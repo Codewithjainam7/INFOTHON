@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlowButton, NeonText, GlassCard } from '@/components/ui'
+import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { createClient } from '@/lib/supabase'
 
@@ -149,7 +149,7 @@ export default function SignUpPage() {
                                     >
                                         <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                                             <span className="font-cyber text-xs text-glow-cyan tracking-widest">
-                                                SYSTEM_ACCESS_REQUIRED
+                                                BECOME_OPERATIVE
                                             </span>
                                         </div>
                                     </motion.div>
@@ -157,31 +157,41 @@ export default function SignUpPage() {
                                     {/* Glitch Title */}
                                     <div className="relative inline-block mb-3">
                                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
-                                            Create Account
+                                            <ScrambleText
+                                                text="Create Account"
+                                                revealSpeed={50}
+                                                scrambleSpeed={30}
+                                                delay={300}
+                                            />
                                         </h1>
                                         {/* Glitch layer - Cyan offset */}
                                         <motion.h1
-                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none"
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
                                             style={{ opacity: 0 }}
                                             animate={{
-                                                x: [0, -6, 3, -4, 0],
-                                                opacity: [0, 0.8, 0, 0.6, 0],
+                                                x: [0, -8, 4, -6, 0],
+                                                y: [0, 3, -2, 0],
+                                                scale: [1, 1.03, 0.97, 1],
+                                                opacity: [0, 1, 0, 0.8, 0],
                                             }}
                                             transition={{
                                                 duration: 0.2,
                                                 repeat: Infinity,
-                                                repeatDelay: 2,
+                                                repeatDelay: 1,
+                                                times: [0, 0.2, 0.4, 0.6, 1],
                                             }}
                                         >
                                             Create Account
                                         </motion.h1>
                                         {/* Glitch layer - Violet offset */}
                                         <motion.h1
-                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none"
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
                                             style={{ opacity: 0 }}
                                             animate={{
-                                                x: [0, 6, -3, 4, 0],
-                                                opacity: [0, 0.7, 0, 0.5, 0],
+                                                x: [0, 8, -4, 6, 0],
+                                                y: [0, -3, 2, 0],
+                                                scale: [1, 0.97, 1.03, 1],
+                                                opacity: [0, 0.9, 0, 0.7, 0],
                                             }}
                                             transition={{
                                                 duration: 0.15,
@@ -285,8 +295,8 @@ export default function SignUpPage() {
 
                                         <div className="pt-4">
                                             <GlowButton
-                                                size="lg"
-                                                className="w-full justify-center"
+                                                onClick={() => { }}
+                                                className="w-full mt-6"
                                                 disabled={isSubmitting}
                                             >
                                                 {isSubmitting ? (
