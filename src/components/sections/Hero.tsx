@@ -360,20 +360,48 @@ export function Hero() {
                     >
                         <MagneticElement strength={0.15}>
                             <Link href="/register">
-                                <GlowButton size="lg">
-                                    Register Now
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </GlowButton>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="glitch-container relative px-8 py-4 rounded-lg bg-glow-cyan/10 border border-glow-cyan/30 text-glow-cyan font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-glow-cyan/20 transition-all duration-300 transform-none"
+                                >
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-glow-cyan/60" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-r-2 border-t-2 border-glow-violet/60" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-glow-violet/60" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-glow-cyan/60" />
+
+                                    {/* Link content */}
+                                    <div className="relative z-20 flex items-center gap-2">
+                                        Register Now
+                                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </div>
+
+                                    {/* Active Glitch Hover Effect */}
+                                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/50 rounded-lg pointer-events-none transition-colors duration-300" />
+                                </motion.button>
                             </Link>
                         </MagneticElement>
 
                         <MagneticElement strength={0.15}>
                             <Link href="/events">
-                                <GlowButton variant="secondary" size="lg">
-                                    Explore Events
-                                </GlowButton>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="glitch-container relative px-8 py-4 rounded-lg bg-white/5 border border-white/10 text-white font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-white/10 transition-all duration-300 transform-none"
+                                >
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-white/40" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-r-2 border-t-2 border-white/40" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-white/40" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-white/40" />
+
+                                    <div className="relative z-20">
+                                        Explore Events
+                                    </div>
+                                </motion.button>
                             </Link>
                         </MagneticElement>
                     </motion.div>
