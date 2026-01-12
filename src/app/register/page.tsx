@@ -187,108 +187,84 @@ export default function RegisterPage() {
 
                             return (
                                 <motion.div
+                                    layout
                                     key={event.id}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{ duration: 0.3 }}
                                 >
                                     <div
-                                        className={`relative group cursor-pointer rounded-2xl border-2 transition-all duration-300 overflow-hidden ${isSelected
-                                            ? `${colors.border} ${colors.glow}`
-                                            : 'border-white/10 hover:border-white/20'
+                                        className={`glitch-container group cursor-pointer rounded-2xl transition-all duration-300 overflow-hidden h-full flex flex-col relative ${isSelected
+                                            ? `border-2 ${colors.border} shadow-[0_0_30px_rgba(0,245,255,0.2)] bg-black/80`
+                                            : 'border border-white/10 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] bg-black/40 backdrop-blur-md'
                                             }`}
                                         onClick={() => isSignedUp && toggleEvent(event.id)}
                                     >
-                                        {/* Popular Badge */}
-                                        {event.popular && (
-                                            <div className="absolute top-4 right-4 z-10">
-                                                <div className="px-3 py-1 rounded-full bg-gradient-to-r from-glow-violet to-glow-cyan text-xs font-bold text-white">
-                                                    POPULAR
-                                                </div>
-                                            </div>
-                                        )}
+                                        {/* Active Glitch Hover Effect - Border Glow Pulse (From About Page) */}
+                                        <motion.div
+                                            className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-2xl pointer-events-none z-20"
+                                            animate={{ opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                        />
 
-                                        {/* Card Content */}
-                                        <div className="bg-bg-secondary/80 backdrop-blur-sm p-6">
-                                            {/* Header */}
-                                            <div className="flex items-start gap-4 mb-4">
-                                                <div className={`w-14 h-14 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center ${colors.text}`}>
+                                        {/* Corner accents */}
+                                        <div className={`absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 ${isSelected ? 'border-glow-cyan' : 'border-white/20 group-hover:border-glow-cyan/60'} transition-colors z-20`} />
+                                        <div className={`absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 ${isSelected ? 'border-glow-cyan' : 'border-white/20 group-hover:border-glow-cyan/60'} transition-colors z-20`} />
+                                        <div className={`absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 ${isSelected ? 'border-glow-cyan' : 'border-white/20 group-hover:border-glow-cyan/60'} transition-colors z-20`} />
+                                        <div className={`absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 ${isSelected ? 'border-glow-cyan' : 'border-white/20 group-hover:border-glow-cyan/60'} transition-colors z-20`} />
+
+                                        {/* Image Container with About Page Styling */}
+                                        <div className="relative h-48 w-full shrink-0 overflow-hidden border-b border-white/10">
+                                            {/* Image Inner Border/Effect */}
+                                            <div className="absolute inset-0 pointer-events-none z-10 box-border border-b border-white/5" />
+
+                                            <div className={`absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10`} />
+
+                                            {event.image ? (
+                                                <div className="w-full h-full relative group-hover:scale-110 transition-transform duration-700">
+                                                    {/* Use generic image if available */}
+                                                    <Image
+                                                        src={event.image}
+                                                        alt={event.title}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className={`w-full h-full ${colors.bg} flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
                                                     {event.icon}
                                                 </div>
-                                                <div className="flex-1">
-                                                    <span className={`text-xs font-mono ${colors.text} tracking-wider`}>
-                                                        {event.category}
-                                                    </span>
-                                                    <h3 className="text-lg font-heading font-bold text-white">
+                                            )}
+
+                                            {/* Category Badge */}
+                                            <div className="absolute top-4 right-4 z-20">
+                                                <span className={`text-[10px] font-cyber tracking-widest px-3 py-1 bg-black/60 backdrop-blur-md border ${colors.border} rounded-full ${colors.text}`}>
+                                                    {event.category}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-6 flex flex-col flex-grow relative z-10">
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div>
+                                                    <h3 className={`text-xl font-heading font-black mb-1 group-hover:translate-x-1 transition-transform ${isSelected ? 'text-white' : 'text-gray-100'}`}>
                                                         {event.title}
                                                     </h3>
+                                                    <p className="text-sm text-text-muted line-clamp-2">{event.description}</p>
                                                 </div>
-                                            </div>
-
-                                            {/* Description */}
-                                            <p className="text-text-muted text-sm mb-4 line-clamp-2">
-                                                {event.description}
-                                            </p>
-
-                                            {/* Details */}
-                                            <div className="flex flex-wrap gap-2 mb-4">
-                                                <span className="px-2 py-1 rounded-md bg-white/5 text-xs text-text-muted">
-                                                    {event.teamSize}
-                                                </span>
-                                                <span className="px-2 py-1 rounded-md bg-white/5 text-xs text-text-muted">
-                                                    {event.date}
-                                                </span>
                                             </div>
 
                                             {/* Features */}
-                                            <div className="grid grid-cols-2 gap-2 mb-6">
-                                                {event.features.map((feature, i) => (
-                                                    <div key={i} className="flex items-center gap-2 text-xs text-text-muted">
-                                                        <svg className={`w-3 h-3 ${colors.text}`} fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                        </svg>
+                                            <div className="space-y-2 mb-6 flex-grow">
+                                                {event.features.slice(0, 3).map((feature, i) => (
+                                                    <div key={i} className="flex items-center text-xs text-text-secondary/80">
+                                                        <div className={`w-1 h-1 rounded-full ${colors.bg.replace('/10', '')} mr-2`} />
                                                         {feature}
                                                     </div>
                                                 ))}
                                             </div>
 
-                                            {/* Price */}
-                                            <div className="flex items-end justify-between pt-4 border-t border-white/10">
-                                                <div>
-                                                    <div className="flex items-baseline gap-2">
-                                                        <span className={`text-2xl font-heading font-bold ${colors.text}`}>
-                                                            ₹{event.price}
-                                                        </span>
-                                                        <span className="text-sm text-text-muted line-through">
-                                                            ₹{event.originalPrice}
-                                                        </span>
-                                                    </div>
-                                                    <span className="text-xs text-green-400">
-                                                        Save ₹{event.originalPrice - event.price}
-                                                    </span>
-                                                </div>
-
-                                                <div className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition-all ${isSelected
-                                                    ? `${colors.bg} ${colors.border}`
-                                                    : 'border-white/20'
-                                                    }`}>
-                                                    {isSelected && (
-                                                        <motion.svg
-                                                            initial={{ scale: 0 }}
-                                                            animate={{ scale: 1 }}
-                                                            className={`w-5 h-5 ${colors.text}`}
-                                                            fill="currentColor"
-                                                            viewBox="0 0 20 20"
-                                                        >
-                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                        </motion.svg>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Glitch Effect on Hover */}
-                                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                                             <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent animate-pulse" />
                                         </div>
                                     </div>

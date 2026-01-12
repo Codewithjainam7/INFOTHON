@@ -192,13 +192,14 @@ export default function ProfilePage() {
                                             {avatars.map((avatar, index) => (
                                                 <motion.button
                                                     key={index}
+                                                    type="button"
                                                     whileHover={{ scale: 1.1, zIndex: 60 }}
                                                     whileTap={{ scale: 0.95 }}
                                                     onClick={(e) => {
                                                         e.stopPropagation(); // Prevent propagation
                                                         handleAvatarSelect(avatar);
                                                     }}
-                                                    className={`relative cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all z-50 hover:z-[60] ${selectedAvatar === avatar
+                                                    className={`relative cursor-pointer w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 transition-all z-50 hover:z-[60] outline-none focus:outline-none ${selectedAvatar === avatar
                                                         ? 'bg-gradient-to-r from-glow-cyan to-white shadow-[0_0_20px_rgba(0,245,255,0.5)]'
                                                         : 'bg-white/10 hover:bg-white/30'
                                                         }`}
