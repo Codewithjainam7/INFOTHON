@@ -155,20 +155,45 @@ export default function RegisterPage() {
                         </p>
                     </motion.div>
 
-                    {/* Category Filter */}
-                    <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10 sticky top-24 z-30 py-4 bg-black/20 backdrop-blur-sm rounded-xl">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setSelectedCategory(cat)}
-                                className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-cyber tracking-widest transition-all ${selectedCategory === cat
-                                    ? 'bg-glow-cyan text-black shadow-[0_0_15px_rgba(34,211,238,0.5)]'
-                                    : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white'
-                                    }`}
-                            >
-                                {cat}
-                            </button>
-                        ))}
+                    {/* Category Filter - Cyber Command Deck */}
+                    <div className="sticky top-24 z-30 mb-12 flex justify-center px-4">
+                        <div className="relative p-2 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_rgba(34,211,238,0.1)] overflow-hidden">
+                            {/* Animated Background Scanline */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-glow-cyan/5 to-transparent skew-x-12 translate-x-[-150%] animate-[scan_4s_linear_infinite]" />
+
+                            {/* Inner Border */}
+                            <div className="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none" />
+
+                            <div className="flex flex-wrap justify-center gap-2 relative z-10">
+                                {categories.map((cat) => {
+                                    const isSelected = selectedCategory === cat;
+                                    return (
+                                        <button
+                                            key={cat}
+                                            onClick={() => setSelectedCategory(cat)}
+                                            className={`
+                                                relative px-6 py-2.5 rounded-xl font-cyber text-xs tracking-[0.15em] transition-all duration-300 overflow-hidden group
+                                                ${isSelected
+                                                    ? 'bg-glow-cyan text-black font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+                                                    : 'bg-transparent text-text-secondary hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10'
+                                                }
+                                            `}
+                                        >
+                                            <span className="relative z-10 flex items-center gap-2">
+                                                {/* Glitch Dot Indicator */}
+                                                <span className={`w-1.5 h-1.5 rounded-full transition-colors ${isSelected ? 'bg-black' : 'bg-glow-cyan/50 group-hover:bg-glow-cyan'}`} />
+                                                {cat}
+                                            </span>
+
+                                            {/* Hover Glitch Effect */}
+                                            {!isSelected && (
+                                                <span className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
 
                     {/* Sign Up Prompt */}
@@ -339,44 +364,55 @@ export default function RegisterPage() {
                         })}
                     </div>
 
-                    {/* Floating Cart - Improved Popup */}
+                    {/* Floating Cart - Improved Popup / Docked Bar */}
                     <AnimatePresence>
                         {selectedEvents.length > 0 && isSignedUp && (
                             <motion.div
                                 initial={{ y: 100, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: 100, opacity: 0 }}
-                                className="fixed bottom-6 inset-x-4 sm:left-1/2 sm:translate-x-[-50%] sm:w-auto z-50 pointer-events-auto"
+                                className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6 flex justify-center pointer-events-none"
                             >
-                                {/* Glass Panel with Cyber Border */}
-                                <div className="relative rounded-2xl bg-black/90 backdrop-blur-xl border border-glow-cyan/50 shadow-[0_0_50px_rgba(34,211,238,0.3)] overflow-hidden">
-                                    {/* Animated Scanline */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-glow-cyan/10 to-transparent translate-x-[-100%] animate-[scan_3s_linear_infinite]" />
+                                {/* Glass Panel - Docked Bottom Bar */}
+                                <div className="pointer-events-auto w-full max-w-4xl bg-black/80 backdrop-blur-xl border border-glow-cyan/50 shadow-[0_0_50px_rgba(34,211,238,0.2)] rounded-2xl overflow-hidden relative group">
 
-                                    <div className="p-4 sm:p-5 flex items-center justify-between gap-6 sm:gap-12">
-                                        <div className="flex items-center gap-4">
+                                    {/* Animated Scanline & Glow */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-glow-cyan/10 to-transparent translate-x-[-100%] animate-[scan_3s_linear_infinite]" />
+                                    <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-glow-cyan to-transparent opacity-50" />
+
+                                    <div className="p-4 sm:px-8 sm:py-5 flex items-center justify-between gap-6">
+
+                                        {/* Left Side: Count & Total */}
+                                        <div className="flex items-center gap-6">
                                             {/* Counter Badge */}
-                                            <div className="relative">
-                                                <div className="w-12 h-12 rounded-xl bg-glow-cyan/20 border border-glow-cyan flex items-center justify-center">
-                                                    <span className="font-heading font-black text-xl text-glow-cyan">{selectedEvents.length}</span>
+                                            <div className="relative hidden sm:block">
+                                                <div className="w-14 h-14 rounded-xl bg-glow-cyan/10 border border-glow-cyan/30 flex items-center justify-center group-hover:border-glow-cyan transition-colors">
+                                                    <span className="font-heading font-black text-2xl text-glow-cyan">{selectedEvents.length}</span>
                                                 </div>
-                                                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+                                                <div className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-green-500 border-2 border-black animate-pulse" />
                                             </div>
 
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] font-cyber tracking-widest text-glow-cyan/60">TOTAL_AMOUNT</span>
-                                                <div className="flex items-baseline gap-2">
-                                                    <span className="text-2xl font-heading font-bold text-white">₹{totalPrice}</span>
+                                                <span className="text-[10px] font-cyber tracking-[0.2em] text-glow-cyan/70 uppercase mb-1">Total Payable</span>
+                                                <div className="flex items-baseline gap-3">
+                                                    <span className="text-3xl font-heading font-bold text-white tracking-tight">₹{totalPrice}</span>
                                                     {totalSavings > 0 && (
-                                                        <span className="text-xs text-green-400 font-mono line-through opacity-60">₹{totalPrice + totalSavings}</span>
+                                                        <span className="text-sm text-green-400 font-mono line-through opacity-60">₹{totalPrice + totalSavings}</span>
                                                     )}
                                                 </div>
+                                                <span className="text-xs text-text-muted hidden sm:block">
+                                                    {selectedEvents.length} Event{selectedEvents.length > 1 ? 's' : ''} Selected
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <GlowButton className="whitespace-nowrap shadow-[0_0_20px_rgba(34,211,238,0.4)]">
-                                            <span className="hidden sm:inline">PROCEED TO PAY</span>
-                                            <span className="sm:hidden">PAY NOW &gt;</span>
+                                        {/* Right Side: Action Button */}
+                                        <GlowButton className="whitespace-nowrap shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.6)] px-8 py-4 text-lg">
+                                            <span className="hidden sm:inline tracking-widest font-bold">PROCEED TO PAYMENT</span>
+                                            <span className="sm:hidden font-bold">PAY ₹{totalPrice}</span>
+                                            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                            </svg>
                                         </GlowButton>
                                     </div>
                                 </div>
