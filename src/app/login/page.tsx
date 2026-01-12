@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { AlertCircle, Mail } from 'lucide-react'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
@@ -25,7 +26,7 @@ function CyberInput({
     onChange,
     icon
 }: {
-    label: string
+    label?: string
     type?: string
     placeholder: string
     value: string
@@ -34,15 +35,17 @@ function CyberInput({
 }) {
     return (
         <div className="relative group">
-            <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">
-                {label}
-            </label>
+            {label && (
+                <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">
+                    {label}
+                </label>
+            )}
             <div className="relative">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors z-20 pointer-events-none">
                     {icon}
                 </div>
                 {/* Background Layer with Blur to prevent text blurring */}
-                <div className="absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300" />
+                <div className="absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 pointer-events-none" />
 
                 {/* Gradient Glow Layer */}
                 <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
@@ -66,14 +69,17 @@ export default function LoginPage() {
         password: ''
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prev => ({ ...prev, [field]: e.target.value }))
+        setError(null)
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsSubmitting(true)
+        setError(null)
 
         const supabase = createClient()
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -83,7 +89,7 @@ export default function LoginPage() {
 
         if (error) {
             console.error('Login Error:', error)
-            alert('Login failed: ' + error.message)
+            setError(error.message)
             setIsSubmitting(false)
             return
         }
@@ -109,6 +115,7 @@ export default function LoginPage() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
+                            className="w-full max-w-md"
                         >
                             {/* Header */}
                             <div className="flex flex-col items-center justify-center mb-8">
@@ -118,9 +125,9 @@ export default function LoginPage() {
                                     transition={{ delay: 0.1 }}
                                     className="mb-4"
                                 >
-                                    <div className="px-4 py-1.5 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                                    <div className="px-4 py-1 rounded-full border border-glow-cyan/50 bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                                         <span className="font-cyber text-xs text-glow-cyan tracking-widest">
-                                            AUTH_REQUIRED
+                                            SYSTEM_ACCESS_REQUIRED
                                         </span>
                                     </div>
                                 </motion.div>
@@ -128,12 +135,14 @@ export default function LoginPage() {
                                 {/* Glitch Title */}
                                 <div className="relative inline-block mb-3">
                                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
-                                        <ScrambleText
-                                            text="System Access"
-                                            revealSpeed={50}
-                                            scrambleSpeed={30}
-                                            delay={300}
-                                        />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-glow-cyan via-white to-glow-violet drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                                            <ScrambleText
+                                                text="System Access"
+                                                revealSpeed={50}
+                                                scrambleSpeed={30}
+                                                delay={300}
+                                            />
+                                        </span>
                                     </h1>
                                     {/* Glitch layer - Cyan offset */}
                                     <motion.h1
@@ -178,27 +187,44 @@ export default function LoginPage() {
                                 </p>
                             </div>
 
-                            {/* Form Card */}
-                            <GlassCard className="p-6 sm:p-8" glowColor="cyan">
-                                {/* Scan Line Effect */}
+                            {/* Login Form Container - Matching About Page "Innovation Hub" Style */}
+                            <div className="glitch-container rounded-xl p-8 relative group border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden hover:border-glow-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+                                {/* Active Glitch Hover Effect - Border Glow Pulse */}
                                 <motion.div
-                                    className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan/40 to-transparent"
-                                    animate={{ top: ['0%', '100%', '0%'] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none z-0"
+                                    animate={{ opacity: [0.5, 1, 0.5] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
                                 />
 
-                                <form onSubmit={handleSubmit} className="space-y-5">
+                                {/* Corner accents */}
+                                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-10" />
+                                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60 z-10" />
+                                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60 z-10" />
+                                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-10" />
+
+                                <form onSubmit={handleSubmit} className="space-y-6 relative z-20">
+                                    {/* Error Message */}
+                                    <AnimatePresence>
+                                        {error && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: 'auto' }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 text-red-400 text-sm flex items-center gap-2 overflow-hidden"
+                                            >
+                                                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                                                {error}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
                                     <CyberInput
                                         label="Email Address"
                                         type="email"
-                                        placeholder="your@email.com"
+                                        placeholder="operative@infothon.net"
                                         value={formData.email}
                                         onChange={handleChange('email')}
-                                        icon={
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                                            </svg>
-                                        }
+                                        icon={<Mail className="w-5 h-5" />}
                                     />
 
                                     <CyberInput
@@ -250,7 +276,7 @@ export default function LoginPage() {
                                         </Link>
                                     </p>
                                 </div>
-                            </GlassCard>
+                            </div>
 
                             {/* Corner Decorations */}
                             <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-glow-cyan/40 -translate-x-2 -translate-y-2" />

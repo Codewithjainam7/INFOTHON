@@ -495,3 +495,24 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* ===== GLITCH CONTAINER (Innovation Hub) ===== */
+.glitch-container {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  isolation: isolate;
+  transform: none !important;
+  /* Critical fix for desktop pointer events */
+}
+
+/* Ensure inputs inside are clickable */
+.glitch-container input,
+.glitch-container button,
+.glitch-container a {
+  position: relative;
+  z-index: 20;
+  pointer-events: auto !important;
+}

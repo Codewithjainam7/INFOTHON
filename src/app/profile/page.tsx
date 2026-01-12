@@ -246,16 +246,30 @@ export default function ProfilePage() {
                             ))}
                         </div>
                     ) : (
-                        <GlassCard className="text-center py-16">
-                            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
+                        <div className="glitch-container rounded-xl p-8 border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden group text-center py-16">
+                            {/* Active Glitch Hover Effect - Border Glow Pulse */}
+                            <motion.div
+                                className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none"
+                                animate={{ opacity: [0.5, 1, 0.5] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                            />
+                            {/* Corner accents */}
+                            <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60" />
+                            <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60" />
+                            <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60" />
+                            <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60" />
+
+                            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4 relative z-10">
                                 <Ticket className="w-8 h-8 text-text-muted" />
                             </div>
-                            <h3 className="text-xl font-heading font-bold mb-2">No Active Registrations</h3>
-                            <p className="text-text-secondary mb-6">You haven&apos;t registered for any events yet.</p>
-                            <Link href="/register">
-                                <GlowButton>Browse Events</GlowButton>
-                            </Link>
-                        </GlassCard>
+                            <h3 className="text-xl font-heading font-bold mb-2 relative z-10">No Active Registrations</h3>
+                            <p className="text-text-secondary mb-6 relative z-10">You haven&apos;t registered for any events yet.</p>
+                            <div className="relative z-10">
+                                <Link href="/register">
+                                    <GlowButton>Browse Events</GlowButton>
+                                </Link>
+                            </div>
+                        </div>
                     )}
                 </div>
             </main>
@@ -272,13 +286,25 @@ function StatCard({ label, value, icon, delay }: { label: string; value: string;
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay }}
         >
-            <GlassCard className="p-4 sm:p-6" hover3D={false}>
-                <div className="flex items-start justify-between mb-2">
+            <div className="glitch-container rounded-xl p-4 sm:p-6 group border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] h-full">
+                {/* Active Glitch Hover Effect - Border Glow Pulse */}
+                <motion.div
+                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
+                <div className="flex items-start justify-between mb-2 relative z-10">
                     <span className="text-text-muted text-xs uppercase tracking-wider">{label}</span>
-                    <span className="text-glow-cyan opacity-50">{icon}</span>
+                    <span className="text-glow-cyan opacity-50 group-hover:opacity-100 transition-opacity">{icon}</span>
                 </div>
-                <div className="text-2xl sm:text-3xl font-heading font-bold">{value}</div>
-            </GlassCard>
+                <div className="text-2xl sm:text-3xl font-heading font-bold relative z-10 group-hover:text-white transition-colors">{value}</div>
+            </div>
         </motion.div>
     )
 }
@@ -291,11 +317,23 @@ function TicketCard({ event, index }: { event: any; index: number }) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="group"
+            className="group h-full"
         >
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-bg-secondary/50 backdrop-blur-md flex flex-col sm:flex-row">
+            <div className="glitch-container rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] flex flex-col sm:flex-row h-full">
+                {/* Active Glitch Hover Effect - Border Glow Pulse */}
+                <motion.div
+                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-2xl pointer-events-none z-20"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+
                 {/* Left Side: Event Info */}
-                <div className="flex-1 p-6 relative">
+                <div className="flex-1 p-6 relative z-10">
                     <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${event.category === 'CODING' ? 'from-glow-cyan to-blue-500' : 'from-glow-violet to-purple-500'}`} />
 
                     <div className="flex items-start justify-between mb-4">
@@ -312,6 +350,7 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                     </h3>
 
                     <div className="space-y-2 mb-6">
+                        {/* ...keep content... */}
                         <div className="flex items-center gap-2 text-sm text-text-secondary">
                             <Calendar className="w-4 h-4 text-glow-cyan" />
                             {event.date}
@@ -338,7 +377,7 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                 </div>
 
                 {/* Right Side: QR Code Stub */}
-                <div className="relative sm:w-48 bg-black/40 border-t sm:border-t-0 sm:border-l border-white/10 p-6 flex flex-col items-center justify-center gap-4">
+                <div className="relative sm:w-48 bg-black/60 border-t sm:border-t-0 sm:border-l border-white/10 p-6 flex flex-col items-center justify-center gap-4 z-10">
                     {/* Perforated Line Visual */}
                     <div className="absolute left-0 top-0 bottom-0 w-px hidden sm:flex flex-col justify-between -ml-[1px]">
                         {[...Array(12)].map((_, i) => (
@@ -346,8 +385,14 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                         ))}
                     </div>
 
-                    <div className="w-24 h-24 bg-white p-2 rounded-lg">
+                    <div className="w-24 h-24 bg-white p-2 rounded-lg relative overflow-hidden">
                         <QrCode className="w-full h-full text-black" />
+                        {/* Shimmer on QR code for effect */}
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                            animate={{ x: ['-100%', '100%'] }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                        />
                     </div>
                     <div className="text-center">
                         <div className="text-xs text-text-muted uppercase tracking-wider mb-1">Pass Type</div>

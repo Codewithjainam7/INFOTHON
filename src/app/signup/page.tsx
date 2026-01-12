@@ -41,7 +41,7 @@ function CyberInput({
                     {icon}
                 </div>
                 {/* Background Layer with Blur to prevent text blurring */}
-                <div className="absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300" />
+                <div className="absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 pointer-events-none" />
 
                 {/* Gradient Glow Layer */}
                 <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
@@ -207,16 +207,29 @@ export default function SignUpPage() {
                                     </p>
                                 </div>
 
-                                {/* Form Card */}
-                                <GlassCard className="p-6 sm:p-8" glowColor="cyan">
+                                {/* Signup Form Container - Matching About Page "Innovation Hub" Style */}
+                                <div className="glitch-container rounded-xl p-8 relative group border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden hover:border-glow-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+                                    {/* Active Glitch Hover Effect - Border Glow Pulse */}
+                                    <motion.div
+                                        className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none z-0"
+                                        animate={{ opacity: [0.5, 1, 0.5] }}
+                                        transition={{ duration: 1.5, repeat: Infinity }}
+                                    />
+
+                                    {/* Corner accents */}
+                                    <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-10" />
+                                    <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60 z-10" />
+                                    <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60 z-10" />
+                                    <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-10" />
+
                                     {/* Scan Line Effect */}
                                     <motion.div
-                                        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan/40 to-transparent"
+                                        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan/40 to-transparent z-10 pointer-events-none"
                                         animate={{ top: ['0%', '100%', '0%'] }}
                                         transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
                                     />
 
-                                    <form onSubmit={handleSubmit} className="space-y-5">
+                                    <form onSubmit={handleSubmit} className="space-y-5 relative z-20">
                                         <CyberInput
                                             label="Full Name"
                                             placeholder="Enter your name"
@@ -329,7 +342,7 @@ export default function SignUpPage() {
                                             </Link>
                                         </p>
                                     </div>
-                                </GlassCard>
+                                </div>
 
                                 {/* Corner Decorations */}
                                 <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-glow-cyan/40 -translate-x-2 -translate-y-2" />
