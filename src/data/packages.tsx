@@ -12,7 +12,7 @@ export const eventPackages = [
         teamSize: '2-3 members',
         date: 'Feb 12, 2026',
         features: ['24hr Challenge', 'Mentorship', 'Certificates', 'Swag Kit'],
-        image: '/images/events/code.jpg',
+        image: '/images/code_sprint.png',
         color: 'cyan',
         icon: <Code className="w-8 h-8" />
     },
@@ -26,7 +26,7 @@ export const eventPackages = [
         teamSize: '3-4 members',
         date: 'Feb 12-13, 2026',
         features: ['Cloud Credits', 'Industry Mentors', 'Job Referrals', 'Swag Kit'],
-        image: '/images/events/ai.jpg',
+        image: '/images/neural_nexus.png',
         color: 'violet',
         popular: true,
         icon: <Brain className="w-8 h-8" />
@@ -41,7 +41,7 @@ export const eventPackages = [
         teamSize: '4-6 members',
         date: 'Feb 13, 2026',
         features: ['Arena Access', 'Safety Gear', 'Tools Provided', 'Trophies'],
-        image: '/images/events/robot.jpg',
+        image: '/images/robo_wars.png',
         color: 'orange',
         icon: <Bot className="w-8 h-8" />
     },
@@ -55,7 +55,7 @@ export const eventPackages = [
         teamSize: '1-2 members',
         date: 'Feb 12, 2026',
         features: ['Design Tools', 'Portfolio Review', 'Mentorship', 'Certificates'],
-        image: '/images/events/design.jpg',
+        image: '/images/pixel_perfect.png',
         color: 'pink',
         icon: <Palette className="w-8 h-8" />
     },
@@ -69,7 +69,7 @@ export const eventPackages = [
         teamSize: '5 members',
         date: 'Feb 12-13, 2026',
         features: ['Pro Setups', 'Live Stream', 'Prize Pool', 'Merchandise'],
-        image: '/images/events/gaming.jpg',
+        image: '/images/cyber_siege.png',
         color: 'green',
         icon: <Gamepad2 className="w-8 h-8" />
     },
@@ -83,7 +83,7 @@ export const eventPackages = [
         teamSize: 'Individual',
         date: 'Feb 12, 2026',
         features: ['IBM Qiskit', 'Certificate', 'Materials', 'Swag Kit'],
-        image: '/images/events/quantum.jpg',
+        image: '/images/quantum_101.png',
         color: 'blue',
         icon: <Zap className="w-8 h-8" />
     }

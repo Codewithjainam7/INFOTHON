@@ -92,56 +92,79 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                             animate={{ opacity: 1, y: 0 }}
                             className="mb-8 relative z-10"
                         >
-                            <div className={`inline-block w-fit px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-gradient-to-r ${categoryColors[event.category]} text-white mb-4`}>
-                                {event.category}
+                            <div className="grid lg:grid-cols-3 gap-8 items-start">
+                                <div className="lg:col-span-2">
+                                    <div className={`inline-block w-fit px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-gradient-to-r ${categoryColors[event.category]} text-white mb-4`}>
+                                        {event.category}
+                                    </div>
+
+                                    {/* Title with Animated Glitch Effect */}
+                                    <div className="relative mb-4">
+                                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(34,211,238,0.6)] relative z-20">
+                                            <ScrambleText text={event.title} revealSpeed={50} scrambleSpeed={30} delay={300} />
+                                        </h1>
+
+                                        {/* Glitch layer - Cyan offset */}
+                                        <motion.h1
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                            style={{ opacity: 0 }}
+                                            animate={{
+                                                x: [0, -8, 4, -6, 0],
+                                                y: [0, 3, -2, 0],
+                                                scale: [1, 1.03, 0.97, 1],
+                                                opacity: [0, 1, 0, 0.8, 0],
+                                            }}
+                                            transition={{
+                                                duration: 0.2,
+                                                repeat: Infinity,
+                                                repeatDelay: 1.5,
+                                                times: [0, 0.2, 0.4, 0.6, 1],
+                                            }}
+                                        >{event.title}</motion.h1>
+
+                                        {/* Glitch layer - Violet offset */}
+                                        <motion.h1
+                                            className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                            style={{ opacity: 0 }}
+                                            animate={{
+                                                x: [0, 8, -4, 6, 0],
+                                                y: [0, -3, 2, 0],
+                                                scale: [1, 0.97, 1.03, 1],
+                                                opacity: [0, 0.9, 0, 0.7, 0],
+                                            }}
+                                            transition={{
+                                                duration: 0.15,
+                                                repeat: Infinity,
+                                                repeatDelay: 1.2,
+                                                times: [0, 0.2, 0.4, 0.6, 1],
+                                            }}
+                                        >{event.title}</motion.h1>
+                                    </div>
+
+                                    <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
+                                        {event.longDescription}
+                                    </p>
+                                </div>
+
+                                {/* Event Image Card (Desktop) */}
+                                <div className="hidden lg:block relative group">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-glow-cyan to-glow-violet opacity-20 blur-xl group-hover:opacity-40 transition-opacity" />
+                                    <div className="relative rounded-xl overflow-hidden border border-white/20 group-hover:border-glow-cyan/50 transition-colors shadow-2xl aspect-video lg:aspect-square">
+                                        <img
+                                            src={event.image}
+                                            alt={event.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                        />
+
+                                        {/* Scanner Effect */}
+                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-glow-cyan/10 to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000" />
+
+                                        {/* Corner Accents */}
+                                        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-glow-cyan" />
+                                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-glow-violet" />
+                                    </div>
+                                </div>
                             </div>
-
-                            {/* Title with Animated Glitch Effect */}
-                            <div className="relative mb-4">
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(34,211,238,0.6)] relative z-20">
-                                    <ScrambleText text={event.title} revealSpeed={50} scrambleSpeed={30} delay={300} />
-                                </h1>
-
-                                {/* Glitch layer - Cyan offset */}
-                                <motion.h1
-                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
-                                    style={{ opacity: 0 }}
-                                    animate={{
-                                        x: [0, -8, 4, -6, 0],
-                                        y: [0, 3, -2, 0],
-                                        scale: [1, 1.03, 0.97, 1],
-                                        opacity: [0, 1, 0, 0.8, 0],
-                                    }}
-                                    transition={{
-                                        duration: 0.2,
-                                        repeat: Infinity,
-                                        repeatDelay: 1.5,
-                                        times: [0, 0.2, 0.4, 0.6, 1],
-                                    }}
-                                >{event.title}</motion.h1>
-
-                                {/* Glitch layer - Violet offset */}
-                                <motion.h1
-                                    className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
-                                    style={{ opacity: 0 }}
-                                    animate={{
-                                        x: [0, 8, -4, 6, 0],
-                                        y: [0, -3, 2, 0],
-                                        scale: [1, 0.97, 1.03, 1],
-                                        opacity: [0, 0.9, 0, 0.7, 0],
-                                    }}
-                                    transition={{
-                                        duration: 0.15,
-                                        repeat: Infinity,
-                                        repeatDelay: 1.2,
-                                        times: [0, 0.2, 0.4, 0.6, 1],
-                                    }}
-                                >{event.title}</motion.h1>
-                            </div>
-
-                            <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-3xl">
-                                {event.longDescription}
-                            </p>
                         </motion.div>
 
                         {/* HUD Dashboard */}

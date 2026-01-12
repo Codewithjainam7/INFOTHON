@@ -253,6 +253,12 @@ export default function RegisterPage() {
                                                     </h3>
                                                     <p className="text-sm text-text-muted line-clamp-2">{event.description}</p>
                                                 </div>
+                                                <div className="text-right">
+                                                    <div className={`text-xl font-bold font-mono ${isSelected ? 'text-glow-cyan' : 'text-white'}`}>₹{event.price}</div>
+                                                    {event.originalPrice > event.price && (
+                                                        <div className="text-xs text-text-muted line-through">₹{event.originalPrice}</div>
+                                                    )}
+                                                </div>
                                             </div>
 
                                             {/* Features */}
