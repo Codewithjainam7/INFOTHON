@@ -26,7 +26,7 @@ export default function SponsorsPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-center mb-16"
+                        className="flex flex-col items-center text-center mb-16"
                     >
                         <span className="inline-block px-4 py-1 rounded-full glass text-xs font-mono text-glow-cyan tracking-wider mb-4">
                             SPONSORS
