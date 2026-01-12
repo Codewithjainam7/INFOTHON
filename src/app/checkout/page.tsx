@@ -103,7 +103,7 @@ export default function CheckoutPage() {
             <main className="relative z-10 min-h-screen pt-28 pb-20">
                 <div className="section-container px-4 sm:px-6 max-w-5xl mx-auto">
 
-                    {/* Header */}
+                    {/* Header with Glitch Animation */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -122,6 +122,7 @@ export default function CheckoutPage() {
                             </div>
                         </motion.div>
 
+                        {/* Glitch Title */}
                         <div className="relative inline-block mb-6">
                             <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
                                 <ScrambleText
@@ -131,6 +132,45 @@ export default function CheckoutPage() {
                                     delay={200}
                                 />
                             </h1>
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.h1
+                                className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#00f0ff] pointer-events-none z-10"
+                                style={{ opacity: 0 }}
+                                animate={{
+                                    x: [0, -8, 4, -6, 0],
+                                    y: [0, 3, -2, 0],
+                                    scale: [1, 1.03, 0.97, 1],
+                                    opacity: [0, 1, 0, 0.8, 0],
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    repeat: Infinity,
+                                    repeatDelay: 1.5,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Checkout
+                            </motion.h1>
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.h1
+                                className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] pointer-events-none z-10"
+                                style={{ opacity: 0 }}
+                                animate={{
+                                    x: [0, 8, -4, 6, 0],
+                                    y: [0, -3, 2, 0],
+                                    scale: [1, 0.97, 1.03, 1],
+                                    opacity: [0, 0.9, 0, 0.7, 0],
+                                }}
+                                transition={{
+                                    duration: 0.15,
+                                    repeat: Infinity,
+                                    repeatDelay: 1.2,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            >
+                                Checkout
+                            </motion.h1>
                         </div>
                         <p className="text-text-secondary max-w-xl mx-auto font-cyber text-glow-cyan/70 tracking-wide text-sm text-center">
                             Review your selections and complete your registration.
@@ -185,8 +225,22 @@ export default function CheckoutPage() {
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: index * 0.1 }}
                                         >
-                                            <GlassCard className="p-4 sm:p-5" glowColor="cyan">
-                                                <div className="flex gap-4">
+                                            {/* Cyber Container with Corner Accents */}
+                                            <div className="relative rounded-2xl bg-black/40 backdrop-blur-2xl border border-white/10 overflow-hidden group hover:border-glow-cyan/30 transition-colors">
+                                                {/* Corner Accents */}
+                                                <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-glow-cyan/40 z-10" />
+                                                <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-glow-cyan/40 z-10" />
+                                                <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-glow-cyan/40 z-10" />
+                                                <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-glow-cyan/40 z-10" />
+
+                                                {/* Pulsing Border Glow */}
+                                                <motion.div
+                                                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-2xl pointer-events-none"
+                                                    animate={{ opacity: [0.5, 1, 0.5] }}
+                                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                                />
+
+                                                <div className="p-4 sm:p-5 flex gap-4 relative z-10">
                                                     {/* Event Image */}
                                                     <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-white/10">
                                                         {event.image ? (
@@ -228,7 +282,7 @@ export default function CheckoutPage() {
                                                                 <button
                                                                     onClick={() => updateQuantity(item.id, -1)}
                                                                     disabled={item.quantity <= 1}
-                                                                    className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                                                    className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-glow-cyan/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                                                                 >
                                                                     <Minus className="w-4 h-4" />
                                                                 </button>
@@ -238,7 +292,7 @@ export default function CheckoutPage() {
                                                                 <button
                                                                     onClick={() => updateQuantity(item.id, 1)}
                                                                     disabled={item.quantity >= 5}
-                                                                    className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                                                    className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-glow-cyan/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                                                                 >
                                                                     <Plus className="w-4 h-4" />
                                                                 </button>
@@ -258,7 +312,7 @@ export default function CheckoutPage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </GlassCard>
+                                            </div>
                                         </motion.div>
                                     )
                                 })}
@@ -272,87 +326,107 @@ export default function CheckoutPage() {
                                     transition={{ delay: 0.2 }}
                                     className="sticky top-28"
                                 >
-                                    <GlassCard className="p-6" glowColor="cyan">
-                                        <h3 className="font-heading font-bold text-lg text-white mb-6 flex items-center gap-2">
-                                            <Tag className="w-5 h-5 text-glow-cyan" />
-                                            Order Summary
-                                        </h3>
+                                    {/* Cyber Container with Corner Accents */}
+                                    <div className="relative rounded-2xl bg-black/40 backdrop-blur-2xl border border-glow-cyan/30 overflow-hidden shadow-[0_0_40px_rgba(34,211,238,0.15)]">
+                                        {/* Corner Accents */}
+                                        <div className="absolute top-0 left-0 w-5 h-5 border-l-2 border-t-2 border-glow-cyan z-10" />
+                                        <div className="absolute top-0 right-0 w-5 h-5 border-r-2 border-t-2 border-glow-cyan z-10" />
+                                        <div className="absolute bottom-0 left-0 w-5 h-5 border-l-2 border-b-2 border-glow-cyan z-10" />
+                                        <div className="absolute bottom-0 right-0 w-5 h-5 border-r-2 border-b-2 border-glow-cyan z-10" />
 
-                                        {/* Coupon Code Input */}
-                                        <div className="mb-6">
-                                            <label className="text-xs font-cyber tracking-widest text-text-muted mb-2 block">
-                                                COUPON_CODE
-                                            </label>
-                                            {appliedCoupon ? (
-                                                <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10 border border-green-500/30">
-                                                    <div className="flex items-center gap-2">
-                                                        <Tag className="w-4 h-4 text-green-400" />
-                                                        <span className="font-mono text-green-400">{appliedCoupon}</span>
+                                        {/* Pulsing Border Glow */}
+                                        <motion.div
+                                            className="absolute inset-0 border-2 border-glow-cyan/20 rounded-2xl pointer-events-none"
+                                            animate={{ opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 2, repeat: Infinity }}
+                                        />
+
+                                        {/* Bottom Glow Line */}
+                                        <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-glow-cyan to-transparent opacity-50" />
+
+                                        <div className="p-6 relative z-10">
+                                            <h3 className="font-heading font-bold text-lg text-white mb-6 flex items-center gap-2">
+                                                <Tag className="w-5 h-5 text-glow-cyan" />
+                                                Order Summary
+                                            </h3>
+
+                                            {/* Coupon Code Input */}
+                                            <div className="mb-6">
+                                                <label className="text-xs font-cyber tracking-widest text-glow-cyan/70 mb-2 block">
+                                                    COUPON_CODE
+                                                </label>
+                                                {appliedCoupon ? (
+                                                    <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+                                                        <div className="flex items-center gap-2">
+                                                            <Tag className="w-4 h-4 text-green-400" />
+                                                            <span className="font-mono text-green-400">{appliedCoupon}</span>
+                                                        </div>
+                                                        <button
+                                                            onClick={removeCoupon}
+                                                            className="text-xs text-red-400 hover:underline"
+                                                        >
+                                                            Remove
+                                                        </button>
                                                     </div>
-                                                    <button
-                                                        onClick={removeCoupon}
-                                                        className="text-xs text-red-400 hover:underline"
-                                                    >
-                                                        Remove
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <div className="flex gap-2">
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Enter code"
-                                                        value={couponCode}
-                                                        onChange={(e) => setCouponCode(e.target.value)}
-                                                        className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-text-muted font-mono text-sm focus:outline-none focus:border-glow-cyan/50 transition-colors"
-                                                    />
-                                                    <button
-                                                        onClick={applyCoupon}
-                                                        className="px-4 py-2.5 rounded-xl bg-glow-cyan/20 border border-glow-cyan/50 text-glow-cyan font-cyber text-xs tracking-wider hover:bg-glow-cyan/30 transition-colors"
-                                                    >
-                                                        APPLY
-                                                    </button>
-                                                </div>
-                                            )}
-                                            {couponError && (
-                                                <p className="text-xs text-red-400 mt-2">{couponError}</p>
-                                            )}
-                                        </div>
-
-                                        {/* Price Breakdown */}
-                                        <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-text-muted">Subtotal</span>
-                                                <span className="text-white font-mono">₹{subtotal}</span>
+                                                ) : (
+                                                    <div className="flex gap-2">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Enter code"
+                                                            value={couponCode}
+                                                            onChange={(e) => setCouponCode(e.target.value)}
+                                                            className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-text-muted font-mono text-sm focus:outline-none focus:border-glow-cyan/50 transition-colors"
+                                                        />
+                                                        <button
+                                                            onClick={applyCoupon}
+                                                            className="px-4 py-2.5 rounded-xl bg-glow-cyan/20 border border-glow-cyan/50 text-glow-cyan font-cyber text-xs tracking-wider hover:bg-glow-cyan/30 transition-colors"
+                                                        >
+                                                            APPLY
+                                                        </button>
+                                                    </div>
+                                                )}
+                                                {couponError && (
+                                                    <p className="text-xs text-red-400 mt-2">{couponError}</p>
+                                                )}
                                             </div>
-                                            {discount > 0 && (
+
+                                            {/* Price Breakdown */}
+                                            <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                                                 <div className="flex justify-between text-sm">
-                                                    <span className="text-green-400">Discount</span>
-                                                    <span className="text-green-400 font-mono">-₹{discount}</span>
+                                                    <span className="text-text-muted">Subtotal</span>
+                                                    <span className="text-white font-mono">₹{subtotal}</span>
                                                 </div>
-                                            )}
-                                        </div>
+                                                {discount > 0 && (
+                                                    <div className="flex justify-between text-sm">
+                                                        <span className="text-green-400">Discount</span>
+                                                        <span className="text-green-400 font-mono">-₹{discount}</span>
+                                                    </div>
+                                                )}
+                                            </div>
 
-                                        {/* Total */}
-                                        <div className="flex justify-between items-baseline mb-8">
-                                            <span className="font-cyber text-xs tracking-widest text-text-muted">TOTAL</span>
-                                            <span className="font-heading font-black text-3xl text-glow-cyan">
-                                                ₹{total}
-                                            </span>
-                                        </div>
+                                            {/* Total */}
+                                            <div className="flex justify-between items-baseline mb-8">
+                                                <span className="font-cyber text-xs tracking-widest text-glow-cyan/70">TOTAL</span>
+                                                <span className="font-heading font-black text-3xl text-glow-cyan drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                                                    ₹{total}
+                                                </span>
+                                            </div>
 
-                                        {/* Actions */}
-                                        <div className="space-y-3">
-                                            <GlowButton className="w-full justify-center py-4">
-                                                <span className="font-bold tracking-widest">PROCEED TO PAY</span>
-                                                <ArrowRight className="w-5 h-5 ml-2" />
-                                            </GlowButton>
-                                            <Link href="/register" className="block">
-                                                <button className="w-full py-3 rounded-xl border border-white/10 text-text-muted hover:text-white hover:border-white/20 font-cyber text-xs tracking-wider transition-colors">
-                                                    ← ADD MORE EVENTS
-                                                </button>
-                                            </Link>
+                                            {/* Actions */}
+                                            <div className="space-y-3">
+                                                <GlowButton className="w-full justify-center py-4 shadow-[0_0_30px_rgba(34,211,238,0.3)]">
+                                                    <span className="font-bold tracking-widest">PROCEED TO PAY</span>
+                                                    <ArrowRight className="w-5 h-5 ml-2" />
+                                                </GlowButton>
+                                                <Link href="/register" className="block">
+                                                    <button className="w-full py-3 rounded-xl border border-white/10 text-text-muted hover:text-white hover:border-glow-cyan/30 font-cyber text-sm tracking-wider transition-colors flex items-center justify-center gap-2">
+                                                        <ArrowLeft className="w-4 h-4" />
+                                                        ADD MORE EVENTS
+                                                    </button>
+                                                </Link>
+                                            </div>
                                         </div>
-                                    </GlassCard>
+                                    </div>
                                 </motion.div>
                             </div>
                         </div>
