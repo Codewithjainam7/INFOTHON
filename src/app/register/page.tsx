@@ -262,16 +262,42 @@ export default function RegisterPage() {
                                             </div>
 
                                             {/* Features */}
+                                            {/* Features */}
                                             <div className="space-y-2 mb-6 flex-grow">
                                                 {event.features.slice(0, 3).map((feature, i) => (
                                                     <div key={i} className="flex items-center text-xs text-text-secondary/80">
-                                                        <div className={`w-1 h-1 rounded-full ${colors.bg.replace('/10', '')} mr-2`} />
+                                                        {/* Fixed Bullet Point */}
+                                                        <div className={`w-1.5 h-1.5 rounded-full mr-2 ${isSelected ? 'bg-glow-cyan' : 'bg-gray-500'}`} />
                                                         {feature}
                                                     </div>
                                                 ))}
                                             </div>
 
-                                            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent animate-pulse" />
+                                            {/* Selection Button */}
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (isSignedUp) toggleEvent(event.id);
+                                                }}
+                                                className={`w-full py-3 rounded-xl font-bold font-cyber tracking-wider text-sm transition-all flex items-center justify-center gap-2 ${isSelected
+                                                    ? 'bg-glow-cyan text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                                                    : 'bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-glow-cyan/50'
+                                                    }`}
+                                            >
+                                                {isSelected ? (
+                                                    <>
+                                                        <Check className="w-4 h-4" />
+                                                        SELECTED
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Plus className="w-4 h-4" />
+                                                        SELECT EVENT
+                                                    </>
+                                                )}
+                                            </button>
+
+                                            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent animate-pulse pointer-events-none" />
                                         </div>
                                     </div>
                                 </motion.div>

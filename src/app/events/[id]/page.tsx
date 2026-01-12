@@ -45,13 +45,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                 <div className="absolute inset-0 z-0 h-[60vh] pointer-events-none">
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-background z-10" />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-                    {event.image && (
-                        <img
-                            src={event.image}
-                            alt={event.title}
-                            className="w-full h-full object-cover opacity-30 blur-[2px]"
-                        />
-                    )}
+
                 </div>
 
                 <div className="section-container px-6 sm:px-8 relative z-10">
@@ -141,13 +135,13 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                                         >{event.title}</motion.h1>
                                     </div>
 
-                                    <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
+                                    <p className="text-base sm:text-lg font-cyber text-glow-cyan/80 leading-relaxed tracking-wide">
                                         {event.longDescription}
                                     </p>
                                 </div>
 
-                                {/* Event Image Card (Desktop) */}
-                                <div className="hidden lg:block relative group">
+                                {/* Event Image Card (Responsive) */}
+                                <div className="block relative group order-first lg:order-last mb-8 lg:mb-0">
                                     <div className="absolute inset-0 bg-gradient-to-br from-glow-cyan to-glow-violet opacity-20 blur-xl group-hover:opacity-40 transition-opacity" />
                                     <div className="relative rounded-xl overflow-hidden border border-white/20 group-hover:border-glow-cyan/50 transition-colors shadow-2xl aspect-video lg:aspect-square">
                                         <img
