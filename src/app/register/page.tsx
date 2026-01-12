@@ -421,13 +421,18 @@ export default function RegisterPage() {
                                         </div>
 
                                         {/* Right Side: Action Button */}
-                                        <GlowButton className="whitespace-nowrap shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.6)] px-8 py-4 text-lg">
-                                            <span className="hidden sm:inline tracking-widest font-bold">PROCEED TO PAYMENT</span>
-                                            <span className="sm:hidden font-bold">PAY ₹{totalPrice}</span>
-                                            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                            </svg>
-                                        </GlowButton>
+                                        <Link
+                                            href="/checkout"
+                                            onClick={() => localStorage.setItem('infothon_registrations', JSON.stringify(selectedEvents))}
+                                        >
+                                            <GlowButton className="whitespace-nowrap shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.6)] px-8 py-4 text-lg">
+                                                <span className="hidden sm:inline tracking-widest font-bold">PROCEED TO PAYMENT</span>
+                                                <span className="sm:hidden font-bold">PAY ₹{totalPrice}</span>
+                                                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                </svg>
+                                            </GlowButton>
+                                        </Link>
                                     </div>
                                 </div>
                             </motion.div>
