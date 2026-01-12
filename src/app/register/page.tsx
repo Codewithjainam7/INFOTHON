@@ -332,29 +332,43 @@ export default function RegisterPage() {
                                                 ))}
                                             </div>
 
-                                            {/* Selection Button */}
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (isSignedUp) toggleEvent(event.id);
-                                                }}
-                                                className={`w-full py-3 rounded-xl font-bold font-cyber tracking-wider text-sm transition-all flex items-center justify-center gap-2 ${isSelected
-                                                    ? 'bg-glow-cyan text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]'
-                                                    : 'bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-glow-cyan/50'
-                                                    }`}
-                                            >
-                                                {isSelected ? (
-                                                    <>
-                                                        <Check className="w-4 h-4" />
-                                                        SELECTED
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Plus className="w-4 h-4" />
-                                                        SELECT EVENT
-                                                    </>
-                                                )}
-                                            </button>
+                                            <div className="flex gap-3 mt-auto">
+                                                {/* Info Button */}
+                                                <Link
+                                                    href={`/events/${event.id}`}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="flex-1 max-w-[30%] py-3 rounded-xl border border-white/10 hover:border-glow-cyan/50 hover:bg-white/5 flex items-center justify-center transition-all group/btn"
+                                                >
+                                                    <span className="sr-only">Details</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-text-secondary group-hover/btn:text-glow-cyan transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </Link>
+
+                                                {/* Selection Button */}
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (isSignedUp) toggleEvent(event.id);
+                                                    }}
+                                                    className={`flex-[2] py-3 rounded-xl font-bold font-cyber tracking-wider text-sm transition-all flex items-center justify-center gap-2 ${isSelected
+                                                        ? 'bg-glow-cyan text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                                                        : 'bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-glow-cyan/50'
+                                                        }`}
+                                                >
+                                                    {isSelected ? (
+                                                        <>
+                                                            <Check className="w-4 h-4" />
+                                                            SELECTED
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Plus className="w-4 h-4" />
+                                                            SELECT
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
 
                                             <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent animate-pulse pointer-events-none" />
                                         </div>
