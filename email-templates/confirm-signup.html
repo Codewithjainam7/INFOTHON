@@ -1,750 +1,223 @@
-<!-- 
-================================================================================
-INFOTHON 2K26 - ULTIMATE CYBERPUNK EMAIL CONFIRMATION TEMPLATE
-================================================================================
-Copy this HTML into: Supabase Dashboard → Authentication → Email Templates → Confirm signup
-SUBJECT LINE: ⚡ INFOTHON 2K26 | Initialize Your System Access
-
-NOTE: Replace {{LOGO_URL}} with your actual logo URL hosted on your domain
-================================================================================
--->
-
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
-    xmlns:o="urn:schemas-microsoft-com:office:office">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="x-apple-disable-message-reformatting">
-    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
-    <meta name="color-scheme" content="dark">
-    <meta name="supported-color-schemes" content="dark">
-    <title>Verify Your INFOTHON 2K26 Account</title>
-
-    <!--[if mso]>
-    <noscript>
-        <xml>
-            <o:OfficeDocumentSettings>
-                <o:AllowPNG/>
-                <o:PixelsPerInch>96</o:PixelsPerInch>
-            </o:OfficeDocumentSettings>
-        </xml>
-    </noscript>
-    <![endif]-->
-
+    <title>INFOTHON 2K26 - Verify Email</title>
     <style>
-        /* ================================================================
-           FONT IMPORTS - Orbitron (Cyberpunk) & Rajdhani (Body)
-           ================================================================ */
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
-
-        /* ================================================================
-           CSS RESET & BASE STYLES
-           ================================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600&display=swap');
 
         body {
-            margin: 0 !important;
-            padding: 0 !important;
-            background-color: #030304 !important;
-            font-family: 'Rajdhani', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            background: #030304;
+            font-family: 'Rajdhani', sans-serif;
         }
 
-        table {
-            border-spacing: 0;
-            border-collapse: collapse;
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(10, 10, 20, 0.98), rgba(5, 5, 15, 0.99));
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
         }
 
-        img {
-            border: 0;
-            line-height: 100%;
-            outline: none;
-            text-decoration: none;
-            -ms-interpolation-mode: bicubic;
+        .corner-tl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            border-left: 3px solid #00f5ff;
+            border-top: 3px solid #00f5ff;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* ================================================================
-           CYBERPUNK COLOR PALETTE
-           ================================================================ */
-        :root {
-            --cyber-cyan: #00f5ff;
-            --cyber-violet: #8b5cf6;
-            --cyber-pink: #ff0080;
-            --cyber-green: #00ff88;
-            --cyber-yellow: #ffd700;
-            --bg-primary: #030304;
-            --bg-secondary: #0a0a0f;
-            --bg-card: rgba(10, 10, 20, 0.95);
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --text-muted: #666666;
-        }
-
-        /* ================================================================
-           GLITCH ANIMATION (Static fallback for email clients)
-           ================================================================ */
-        .glitch-text {
-            position: relative;
-            text-shadow:
-                3px 0 0 rgba(139, 92, 246, 0.7),
-                -3px 0 0 rgba(0, 245, 255, 0.7),
-                0 0 40px rgba(0, 245, 255, 0.5),
-                0 0 80px rgba(0, 245, 255, 0.3);
-        }
-
-        /* ================================================================
-           RESPONSIVE STYLES
-           ================================================================ */
-        @media only screen and (max-width: 600px) {
-            .container {
-                width: 100% !important;
-                padding: 20px !important;
-            }
-
-            .header-title {
-                font-size: 28px !important;
-            }
-
-            .content-padding {
-                padding: 25px 20px !important;
-            }
-
-            .cta-button {
-                padding: 16px 30px !important;
-                font-size: 12px !important;
-            }
-
-            .event-info-table td {
-                display: block !important;
-                width: 100% !important;
-                border-left: none !important;
-                padding: 15px 10px !important;
-            }
-        }
-
-        /* ================================================================
-           DARK MODE SUPPORT
-           ================================================================ */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #030304 !important;
-            }
+        .corner-br {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-right: 3px solid #00f5ff;
+            border-bottom: 3px solid #00f5ff;
         }
     </style>
 </head>
 
-<body
-    style="margin: 0; padding: 0; background-color: #030304; font-family: 'Rajdhani', 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased;">
-
-    <!-- ================================================================
-         PREHEADER TEXT (Hidden preview text for email clients)
-         ================================================================ -->
-    <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">
-        Welcome to INFOTHON 2K26! Verify your email to initialize your system access. The future awaits...
-        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
-        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
-    </div>
-
-    <!-- ================================================================
-         OUTER WRAPPER - Full Width Background
-         ================================================================ -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #030304;">
+<body style="margin:0;padding:40px 15px;background:#030304;font-family:'Rajdhani',Arial,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="center" style="padding: 40px 15px;">
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0"
+                    style="max-width:600px;background:linear-gradient(180deg,rgba(10,10,20,0.98),rgba(5,5,15,0.99));border-radius:20px;border:1px solid rgba(0,245,255,0.2);box-shadow:0 0 60px rgba(0,245,255,0.1);">
 
-                <!-- ================================================================
-                     NOISE/SCANLINE OVERLAY EFFECT (Visual texture)
-                     ================================================================ -->
-                <div
-                    style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; opacity: 0.03; background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, 0.03) 2px, rgba(0, 245, 255, 0.03) 4px);">
-                </div>
-
-                <!-- ================================================================
-                     MAIN EMAIL CONTAINER - Glass Card Style
-                     ================================================================ -->
-                <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0"
-                    style="max-width: 600px; width: 100%; background: linear-gradient(180deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.99) 50%, rgba(10, 10, 20, 0.98) 100%); border-radius: 24px; border: 1px solid rgba(0, 245, 255, 0.15); box-shadow: 0 0 80px rgba(0, 245, 255, 0.08), 0 0 120px rgba(139, 92, 246, 0.05), 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03); overflow: hidden;">
-
-                    <!-- ================================================================
-                         TOP CORNER ACCENTS - Cyberpunk Frame
-                         ================================================================ -->
+                    <!-- Header -->
                     <tr>
-                        <td style="padding: 0; height: 40px; position: relative;">
-                            <!-- Top Left Corner -->
-                            <div
-                                style="position: absolute; top: 0; left: 0; width: 40px; height: 40px; border-left: 3px solid #00f5ff; border-top: 3px solid #00f5ff;">
-                            </div>
-                            <div
-                                style="position: absolute; top: 8px; left: 8px; width: 20px; height: 20px; border-left: 1px solid rgba(0, 245, 255, 0.4); border-top: 1px solid rgba(0, 245, 255, 0.4);">
-                            </div>
-
-                            <!-- Top Right Corner -->
-                            <div
-                                style="position: absolute; top: 0; right: 0; width: 40px; height: 40px; border-right: 3px solid #8b5cf6; border-top: 3px solid #8b5cf6;">
-                            </div>
-                            <div
-                                style="position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; border-right: 1px solid rgba(139, 92, 246, 0.4); border-top: 1px solid rgba(139, 92, 246, 0.4);">
-                            </div>
-
-                            <!-- Top Decorative Line -->
-                            <div
-                                style="position: absolute; top: 15px; left: 60px; right: 60px; height: 1px; background: linear-gradient(90deg, rgba(0, 245, 255, 0.3) 0%, transparent 20%, transparent 80%, rgba(139, 92, 246, 0.3) 100%);">
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         HEADER SECTION - Logo & System Badge
-                         ================================================================ -->
-                    <tr>
-                        <td align="center" class="content-padding" style="padding: 30px 50px 25px 50px;">
-
-                            <!-- INFOTHON LOGO -->
-                            <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom: 25px;">
-                                <tr>
-                                    <td align="center">
-                                        <!-- INFOTHON Logo Image -->
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAYAAAA8AXHiAAAACXBIWXMAAAsTAAALEwEAmpwYAAAgAElEQVR4nOydB3gTV9b3pVFxoWOwJbnIcqWH0FtCIGVJp7nbKpYtd2xMNU2UkGBK6BAIIb052YTl3WWzm3eXb7MJKUsCAWPAYIyNe+9FU873nDszsgyEmt19d819nvuMpBlJI+mn/zn33HPPSCQP2oP2oD1oD9qD9qA9aA/ag/agPWj/TQ0ApBKJBPuD9qD9qk0qkRC4HrQH7VdpBKaVK3f6L1mS3efffTIP2n9F4xUKoNB55LC1+VMnv7yYfzxH9m8+sQft/3azUlarlfrl/SEEoMce27LMW/0eBOqyK5cvfDmAPFNy++c9aD27SW8GlwhOgjE7MFi3rd7bez+n9XwLxoza9on4vJu9FsIqISp3K/AetP/aZrXmKB8ebn35+eeXDr+5eePN4NCgPYd9vd4FH++DtJfnW6yvz26YOuaVOdcrkzBqJDCNHpmZPnnyUsFsPgCshzQeGEvIgX6Bvm9UDh+yryE0dNuM7hDw2+i4VF1w0LYirfeboNUeZr28DzO+Pgdh5JAlhx1fS1QvAKAmj9/wqrdmJ/j7rX2X3/XALPaQxkMzdcKqhwL93rH5+f8BhgQd6pj52BazIySieZw3L/uRQN1B8PR+i/H2fgtGDH/1OwCQdx3Lw7V799tuD4/e8Lmnai+o3feD1mvVnx3fz6E9CFn8FzVpSAgxdVLR5I0c9ur8IUH/A7rAo52+PkdhxLBd9Rs2bPAWoRJMm+SDD37nMSR4Z63G+w3Qer8NkyfuPNRdifjtc09mL9H5vAYqzYF2jWYveKs3XwoJWegivj8P6gOz+F/TDAars8ViUfD3QDpsWI4Sb00a+/rSEcHHICDgaKe/7iiMHv36V/wx+OODdOzYA+Q5oXO3PBqg2wOePm8w3t5vwIihW7/ljwuRhYSEyKZPtxL1igg5ME2n3Q4qzV5WozoIfj7rG554wuKD+6ZPny4qnMRisbo+AOw/uImjuud+s2LMpNEHTj436+OFhYUGZ2G3FACUU8bt3znU/wvw9/0DDB/+Rtn+t3I8yXOJuvCKNSRww7s6n3fB2+cQ4+39Gheg3QWPTVkb1qVWvGI9/fjOTF+vPaDy2Adaz+yauXOzuvltZvPGUUN8lxz190p6TTyHf/V38qD9ao3/UceMem33uIeOw6QxOedCQg7PFPemLtqlGxn8YbO/7+8hKPATmDLh0LGEhG2eCxe+PnDeC9Zxo4bu+MRf+wb4+hzitD6Hwcf7MKf1Pgz+3ltbxo9fuzI6+vUAq/VY36dnbJkZ7PdqrafnblCrt8PwoasEeMYq0KEfM8a6See5kVUPWN8WoE172PHcHrT/yMarTkjy9N7Dh3z688ihp2Dc2Pd+BBhLzNyePW+qRo04XOvnfxT8/T9lA/w+hSD/15uH+u+rDvTbz+p8PwRf7bus1udd8NUeAq3vAfD2eYPz8nyD8/E+CFrf7A5fn1ervTRbaLXnPvDw3kur1Vtg7Mj1O8UzeGKG9RmN6lUYPGg3aLVLs/hHH0Tu/+PbdAnvAz0y4dDiUUP+CkOH/AkmTt69GR+b8cjrWcOCPwd//0/YAP8cCPD7hPX3/ZTT+XwEvj4fcFrtW4zW503w9XkHfLVvgFZ7EHy83wBv70Ocl9dBxtNzP2BXe+7i1F67OTX6Vx57QOe7pjgkKjt4zrPWEf7eGy8MGrwdtD6rGyyWnf74vreO9j9o/xFN/BFfsb7vN27UB3VDh34BI4YeYUcH/7ZiRNCRzqCAP0BAwEcQ6PcxBPh9DP669zk/3/dYnfYdzlf7Nmh93gECl/YwaH3eIN3H6xB4e70OXl6vcZ6eexAoTuO5Ezw1u0DjcYDzUu8EL681jd6q7FbPwftZ98G7YPyYddeNJh+0/4LGm55Hx3+ye8TQP8OQwGOdQ/2/RL+KDQj8gAvw/wwCdb+FAN1H4Of7Aei074FOi+bvbaJWCBYByvsQ6QiVt9dBBAs0mn2g0ewHDDEgXGrVHlB77OVU6u2cu2obO9h9E6savBqem7VlPH8uD9Tqv6ZZrUB+zJDnDkwbOfRjCA74ggsK/C0bFPgZF+B/BAJ0vxPU6kM7WL4iWFoRrMMCWK+Dt/cB0hEsYg41r4FGvQ80njtArdkKKvU2UKl2c27qbfRg9x0Q4LP85L/7O+ixDeCfOfzmnfjjx3N6PzzincIhAV9CcMARNjjgCAT5fQ4BOoTqU/DXfQx+vu/zYBG/6tZgiT6WJ1GtPaSrNTvAQ70TVKodMEi9g/ZQ7YbRQ9Zm8+fRFc/61T8hSKTwIITR1XJCJF0TuRKJ9Ph0iRxCQmRWq4T6db8o3gRNHvvmZ8MC/wJBgUeZIFQrv9+Cv1+OANf7oPNFM/g++Pq8C1qft4TO+1c8WPxWNIUIlsZzH6gx1OC5AzSaHaDy2IWdG6zazqo1W+DRR196+tf2r3BmICckREa+L2HymzweIpH1+MGBqFL4Je0EcJII0yj2/RjIDJHISMdplvsCjR8dTp96YO2w4KMQFPCH9kC/o2yA71Eu0PcIBPqiYn0IOi2awg8IWL5anHx++5fB8hZN4T7wVO8GjWYniWN5eGzj3N1fZQa672I1ntmtkXNf9RPOgbovRboJSGJ7E8D5uDCHSb63f6oF+D/eEKjLW5+1VC3z/656oUd+/SKvr+pWjtxUlD3nhfx3rV4YXLyZwh23SuSAinYXX54wVyj5zROvzx015FMIDviSRafdX3eE8dP9lvbX5TD+ug9ZnfYDTqd9n+NNIY4G3wIfASxvBAu3duedmEJOgyNDzz2sSrOPHqzeQw9S7+A83HezgwfvBG/vledzcnLsc4Z3eLpSotj4WXmQbnheYWFh//N706Zcy3o0vWZB8JGqBJ/L5QlePxcuGr3n0odbyZxnjzONVuEfd3Xdk1thYT+ANGe2M7U/cBkuAEuVHCzsA83JA9rqMzy+rVnqt7Vs3ZR5F19PGpoDQOb5bqZq+AMgdLczoTk5IJs2Ofvxh0a8/frQgLfKh/h/BEF+R7kAv6Pg5/sp6LQfg6/Px6yvz/uM1ucd2tfnHVrrfZj28T5E+3hhf4P29jpEe3u9Tnt6vsZoNK9xOCrEAKlafQA0avS1NnE+mrVnA/wyrFNmWPxvBRVRou4Q3VTVvv/+M7e67HmPVC2bsLA8PSCnLtGtjEnoA5DkwkGCM9AmV2D1LizEyKAwIeja2QMbelbMDE0abq8etoxpzhhEcykuULx63KZrO4yBReuefL5s+ZDNdQvd/96S0rcFMnsDLHPiYLErtKX0YxoWuJ+ry/Q6WLJ8ROLl7CfGfX3klxc34A8kmlHyg+WEyEh3MLfLl+92e/yRPS+OG7Uve9Tw/f8bHHSwJEB3gA7QvQX+uvfA3/cD0v183ged97uk+3q/C5g+4+OD6rUXvLy2g7d3dqvO56ULAX7rckYOW7LsmWesUwD4yW4yL4lmXHx/0bRj/wXYrADUyQMWdenyR56qSPVbVZ3q++f6BPcaNtEVINmZg+Q+HBPfDxrjB5dUpfh+cnnppIwLW0LHX14XMqfM5FUEMXIoXDj2wPU+7H91wy8Ut6UvTc2ApUqoWqo77rDb/kVf3pfoXv7S5GeLVw3fVrdY9ffGlN6NTJoLQKYzB4tdOG5Bb2hK6NNYl9b/67o0VXbFguDIi8snTvx+8zOqEIC7/jJROV63LhwYPitr1NxZ2c/MmLQpcvL4lxeMf3jL2nEPZ+8c/9DmvRMfzt4zfnR29vix2asmjt2Y9OjU9aHPPLVuRsjzqbrSkxbXe/k+co7v6f3z+heCLy8Y/UxJkn9mvdnzvYYot7zWmL40xLsCpLhykOgCLWYXujrB7XLVgsDPS1ZOWlP40hOTcnK7FFz8Xi+veCGRjXGCqxbvS7kAvcXPJvlvb+IXULFuwhrIcoGqJX57xH15m+ZMKlw1YeGVddMmHjh5Ukh14b+U3C9eH3ht3cSJJUsCQqoyNKsbk/t+2mxxvtSRqKQh0xVgcW8O0ntDW0Lv9ubEARebkty+qM3wf7Nq2fiXq9ZNz6ja8WzItXfNj505unFIYeFx1WmAXo7q9Wu3XABlMTQMzD/2ln/Z4dXj63YkPle16UVz8drpq8uWjNxdk+L5cUN8v69bY12r2i0DOEh2BUiSc6xZCS3RLk1N0coTNaa+B0sS/VMK00c/fS772UDROee/SJDm7Y4LurZsrD5/7RNJ9Z+/2R8f/nlr2OPNBheoNWqqC7791oM/FHoOWDXrxq2BpXKoytSSTICc3FxlTYbmZ0hXQmtyH7o2tf/lhnS3tyoyvBMLU4ZMLlj2RL/rX+vAgQOKgmVjfa4t8nu6JmPQipa0vp+1JPQ525TQpw1NLKQpOUh3Bsh0QfCAzRwAjQvcucYMz/qGTP8rdYsCTlQvH3KsfOVD7xctH5F9xTplTdH6GQsL1s+Mvmz9zdwL1udmX1w/95kLL8+ZdWHDnFkXXpr99Ln1c5/JW//0c/kbZ80vWD8j8uqGJ+KL1k/PurZ63PqSJQ/vrF3y8CcNmUP/0pipO9u40LusPkXTSScNBkhxA0jpg6YM/SKAhD7AxfaGVoNrRX2829cNSW6vlyW5JV9cqJtwwjpp4M2+uwsrn9QVL3/IVJ4a8Hp9gu+lWouHDcwKFtLcIX/t0+l4zNl1c3/TqHeBSnMPBati/QQrLFdAzWIt8QV+2jhrcEOycymTSAFjplhIooDLUACkKYBOcYaWZJeqhpT+x+oWuK8oWxgw/ZR1OvmH3sw/+XH3C5rLy8eMvbbAc15Zpq+1aoH3ntoUnyMNKepzTQm9atoSnBhIcgZIRfhcANKxOwMswC48ltoLIKm30F0AEhEIVJVeAAhtijNAipKcH3l+hitAuitAGh7jCpDoCqylFzSb+3Q2xPcrb0zof7LOrPqwMs5z67UUT0teRsBThdYpo4/tTOt7s89x8sABxeWsySOupXpGV6YN2l+VNPgfzXH9Osh5W+Qcp5dCm0EO7THyTtbsDJcWjyAT6xdWzpnZoHeFaxZV9ZmeCFbZ+nFWWKaE6qX+BKy8l2e7Naf0vgYpcrAlylgmUcoyiRRNJ8gZNlHO4eOQIQXIoIBOdeKak5zLmhNdvmlKcNtVkzBYX7ZAN/4b65Put3pvNCV/35c04Fz23MCCTbOmXdnwVFjpmmnxNVljV1UvGrKrNj3ocEPmsN82Lgn+c2Omz1/r07z+Xp/he6IuXft9XbrPD3UZfj80Zvh935Dh813DQt3f6pYE/6Vu+bAv6hYP+7guc+jByuUjdlSsGbu6yDol8dLLT4Wd3/rMlAtbQnTfvWvti8D/4nkdPy4/u3KK/7UkzxmVlsFpVZbB79XH9rvYbnDuhHgngEQlB3Ey4IxSaDdTTLuRopuNMrbZqOToaCkN8UooXjrGiq91avULM5oMrlBtVlee/uYb9x4HVsn6MVZYooC6JbwpPLk1YlBTWr8SSJUATcCSAZNEAc13jkmSsUwyRTNJUppNkHCQJAFIkQKkygFSKEAAWxJ6VzZYen3VEtfrtarkQfFFqT5PXEzXDj1tHeV+7Fia07/3g4M0f2dU36IlUzQX04eNLk3Vzi5NUGfVmgb8rjG275kWU+9m2ugMEOcEECsHMEiA1UuA1ksYxiClaYOM6TDKuI5YGbSaZNBipKDFqIB2A0VDvAKKM3mwfs6a9XhTjAuUmTwrf/rqq8E9DqyyDePWwBInqFuiI2Bd2GpBsEohBcGiWCZJBmxy984kU6TTCVKOtkhZxiJlmAQFr2oWOQeJFEAyBZAiA0hzAibZBVoTXNpbE13KG1P75NWn9v+2JtPzb7VLdb+rXhr0ZkXWyJ3lq8e9VPnK9CXl255ZULgzJLZwV+Tc4tfMs64dTp1Z8f7iyXUfLXuo/IOlw2s+XDq0JidrWO1HWSPqPlr1UM1HSyeVH06dWfy6eVbR7piQsp0RSSVb5yyuWv/UyvKsaVtqMh4+2JAxMqcmY8hfq1I031Ymuf3UmND/SqOlT3WLuRfNWZwALAqAWBmAWQpcrAQ6Y6WczSinGb2ctukptlNPcTYDBR0GKXQaKWg3UdBmlkNrLA9Wq1EO7QZULAVcXTyOgHVm+bNPIFjlsZ4VPROsl8avhmUuULOMBytvd4pbY2q/EgJWEsUiSFxKV0f1YpKkBCw2UQroi7EJFIBFClyCAugEJccmyFjWImXoBIoG7PEUCxYKIEEOkKQAYk6xp8oAUhUAyXKAZCeAFPSb+gKk9ANI6Q9MihvY0gZDe9pgaEp255qS3dnmZJWtOUnFNCV6cK3J7tCZ6gF06mByLKS5AaT2B0juDRgaAIsSIE4OaL4gVsp3MwUQRwGYpMAZpMAaKIZBiExy2hYrZ9rNcq7TLOcYswKYWAV0GmXQYaSg0ySDDuyxMmiPlUEbKlasHFpNCJYMoaPRXBZljluB3+PZ1c/MaDa4QqXZq/Knn3oiWBsnrIHlrt3AakrtL4AlRbNnh4p1AIzcT0K4KOASZMBZlAQsYjqTKbAlUdCZJAcGYbLIOSZezrHxcpazyBhW7PEUw8bLacYsp1mznAazgmZNcgZMUoYzShgwSlgwSFgwSjjWJAEwSTjAbYyE42KkwOklAHopBwaKZQxSljNKGUYvYViDhAajlGaNFE2bpDQTK6Vpk5yhjUqGNjozNpOCpU1yljbJOJtJBrZYOTAmGbAmBbAGJbAmOTBmOdgQIhMFHbFyaDfLSCdgoWIZKWgzyciWB4uiweIMRUvHr7SDhaPCOO/K/J9+6nlgVSBYy1yhZjHvvJfsTnGrT+VNIYNgoSIliZ03hRx2vI37hE6OS5QCmyAFNlEGbIIcOIsMWAsFbDwFtEUKTALF33foHNkvJcdw8Qpg4+VAx8n4bpYBEyfnmDgFx+LWIof6DO/8Nku/Ns4gAzAoWDApOTArOS5WCaxRDoxBDjR2k5J0xoSP87CwJgoYEwU02SJIMmBi+U7H4mMImBw6Y2XQEYcQyaEdVcqMYMmJUhG1EsBqJV1KbrcbpTRYnOBq1vhV+D2eQrBiXKCixyrWSxOssNTZAazlbk1p/UshWQI4IuQQBjtANwLVDa4EhEd642MCXAjaL3U2XkbAEjsbpwDWLAcuTo5bFk1tbdqAPDzHynTtAbDIAExyVDiAWAVw2E1y0gkwAiTMbTobqyCdjpV366hiCBQqVFssJZg+3KJ/JSNQtRgoaDZIoDWGgjY0hRYlXFkxfjWe46nVT81oinaGinifyp96omKRcMNiJ6hZ5HcQ71/YmjmoKX0gr1g3gEURsJibQfWLYKEyCeDcDCgHsBAmhAp/IB4uHiw0lZCohJJkDfnRCtODH+uI742qw9EmBYcwgVEOnFHOq5bx9mDRRpljR78KHDuvVqhMUmg1Yae6wCKqJYMWgxRaECw9Ba0IVqIzFK+aTM7x7MrfPIaKVRbXUxVLAKtaBOtA5qCmBSJYFMvZVermSmWHDI+5iZoR0ESQBPN4W8VyAAtNIGemoCm2L30ubTJZCxiSC8rahEE/oxPeaZSzjAiVAzBd6iW/ESqTHGxGGeBIj3SjTICJ96HwtghVF1hSO1i45aGSQgvu18ugVY+K5QxXBbCIKYx2htKeagorXp5ghSXOULNIZzeFzQvcSjA2xSTKfgEs/jFRncj+JPS95DfAdT1YvHqhaeyCiomT3mgKBbAYs4wBiwTqEvp/53jeVWler6CK0UYZjSBdDw+ByigDhO6XFAuh6tQjWJTdKXfs3cCKpYjzTkyiCaHC+BWaQim0xMigBcGKd4KrK3iwTq98emZTFILl2TPBqtw4fi0qVmWm9qAdrLRBJZBMQgks102BpMSJR5BugM3+GI4S5XZ1skNlB4oiIDEYwY6XE4jwNjF7gm/FxKEDj1BJ0YmnIUkJJUtHbsLzyw2RkEyCS6vHT26z9APGqCAmkUHnHR31WLyvuCVYLG5RpQwUxp94eASIsHcYJdBulECbUcI/jkpl4gOivMMuQGWUQpNeAk3RFLTESGnO4gwly6fawaqNcoZrRk3V6W/+1PMi7+Xrx66DRUqodgCrMW1QaRdYqEpiR6hEsOQOW/E2DxaJV93E7IlgEbjMvE9FlEk0ewQydNZxvxxHhRhe4NqS+kNxdsh0ct45fL46puTUJnv8BPFS6IyTsazZCWgz74hjF8FiBYiIiRTMIFErBEsMdpJYlKBQRK0kPFwm/v6NYPGB0WYTBc16CTRGS6E5RkIz8U5QvGzKGjy/0yufJ2CVmDSV+T1RscrXjydgiYpVvM06sDHV7RoxhQlSYgrt/pPd5DmYPfExoaOz7qhY3R10fmTIqxYfK+pSKv4+AofRbxuCFStnMRpek+Z7SkyPFjNV8XbZomHbIRHVTUojSKhyPFjKLrCMMjtYGOBEUDoFqDCSLpo9UYlQoRxNId7ngRKncOTQYpBBs0EGTQYKmgyoWgiYlGaJYj0iKNbzM+sQrJ6rWAiWE1Rn6gSwFg5sTBlwDcMNdIKUJX7SdVM6XIqcdDK9I8wjolkUR4a/6KA7AIbmj1ctefcQA95HBzoezRpFY4ZC6eIxGxzPGVfF4PbslnmPtSYOBCCmkOKuN3esYAqJQgmR825+lAARUSwHM8erFn+sqFBEpUxyAlQzgiSChaZQj6BRNJvgYgfrx6znHq+LdoESQ08FawP6WM72UWHx69aBDSkDSnBymQcL4ZEDl6wgnU1CoLqDhb0rZnULsAQzSG7zI75uYNm72RloixPHmSXQZBnIXc5+ehw5Z8tYBaY6H7fy6wJxRVFduvd5MMuhzUKxvL8lgqXgR4kYj4rlwcIumr9uTrqJItDw835CAFSAijjn6KgbcL+ch0qPQFHQqJdCA5pCfMwoo5kEZ7gqmkLr8zPrY1yhtKeawrKXJpEAafUi39dFU1if7FZCAqRJFOvoP3UFR7tCCxjngoQuv4r3rRz9q5uAI/hSJLLOR9e7jQa5OCUw8XIGJ7KbU31PiMvRHHPTMX8et5VLRrwEFhJ7otEEEufdrABbnAI64rqCnBgxt4/8jDLMRoA2A/pSeJ93xok6GaTQik49CYCKUGHMileqphgpNMVQ0BgjI71eL4VGPVEvGt8zf9kEO1jVMc5wzeTeM0eFZS8jWGRUSIplFO17ZUBDslsxKhY672yi/LqRYFfgkw8loEJhvx4oQaHI6O9GsIhPJapWtzCDHGiLAuh4JYPJesVLRifjeeXnH3M6v3Z62rXMgC+vLp+674fPV5KlVd+ven54g7lPOxglQMcqyOQxOvHiNExbbFcoocs55+f48L5dtWLlwtyfOP/XHSxi+mJ4sBqjJdAQTUEDgQtBw31SmjZj5F2MY70wozrGFUrM6p4JVglRLCeoWcwrVuGb1v71SW5FkCjBqRgW5/xEsG6MtFMOYN1o9kh8yg6WEPTsCnzaoerWETiLjIMEJTQnDKg7uSOElHm8lD4sHhL7AFicbJg5WrR01P+KP1R5ovsfIB5Hf3KGTMeIAU4T38m0zM3AwtuoZGQeUN4FlzACvF6xRKiIaunlAlgUNEfLoDlaSmOe/BUh3HBy5fMzq9DHMqkreiRYFS9NscJyF6hZwjvvhdut/esTebBYi4zFjAXHoCgPmBwYVLLEW0XSBbCEWJUIFT8a7O5jYXRdnM4R7tNoUiuTfT4Tz7fc5PYWGHpBq0nZBkaJrSVB3f7dG4uG4b6rKUNScCVNe6yMbjfJODtERik/cXyDT8U746hmYtYC77QLQBGfi+/NRhz58R19KoSqWc+bwcYYOTGDzVFyaI6maIyliWCdWj13RlWUCxQbVRUXLpwc1PPA2jhpDQFrGe+884o1qAgSJADdwOqaKyTmkZhIBbAJ3YOg148A0TyKSuQYABWhwtu2OApYhA33x1IcGOQ2wBHWoodM4vmWZ4xcB4n9AEyUDWNXDYv9CnOLT5DFDvkbZvs3xPZrpU0SVCGWKBGaMxOC5RBVF7b20AJOzwjTNeikNwtBTxL4tIMlI73JKCNgiX4Wr1b4GN5XoHLRjNkJriybzGc3ZL3Ag2XS9GCwMLtBUKxTb1r716EpRLDiebDQQSejPxL8dIQMAeOndm6qXA7+VPewgiNY6E/JgTPLwBavBNqiZHGhQk3igKKvdmYRE4Lt0ueHvYsXjftTfVyf4rIU35/P7Te+6Pg5rsYFfwRpfaAzTsG0m/mIebsQp7rex+Inkqmu6RkESwDKDhbGpwSlIh3hEkeEaBKJ046jQikBrIH4WM5wacU0ko91etnTMysjneCqsceCNWUNzhVWL9LeHCwLgsWbPuxEjVClMLkP76NyiaM/ok5CpgLJVhABuhGoLh8LMxhcgYlzZjEVpiZDVVSwesSTJ9MCyNL0bquUAaQHjh5wtR7vKrohrnc8sXDSwB+XTxtbt9D/E/TPWo0ypsMkITEskkOFgU779E2XaomTyahWLcQMojphOEEKTdEOHX0pNHt6wYlHc6inoF5PQV0UBfXRUtpmcoKLy6cQsH7MmvV4RYQSrhjVPTPcUIVgYbhBWP5FwEocyPtYRLGUAIkYv1KQbNBf9KlIcLPLh7J3wdx1mT/75DI/bYOxL1StODmHI7vaFE3nlXcWTSTn2L3ewQ0VcG64DUAVpQ39HhdB0CYF02bGKLvSnpjH+1YOUDncRnPXYlLwJo/4U+iUS0lvsm9RrRAsGT8qjKagLpqC2kgZ1EZKaXyvi8snErC+XzLr8fJIJwJWz3Te0RQuc4E6ITUZwaoRRoUIFgkFYC57IoKFuVKoPvIbejfzJgB1ozoJ8F0HXmccWcOI2Z0M5mKVrxxz7FR5ue+pP34w/PRXHwad/0tOcN5XHwadOf7+kIt//mzo2f/34dALxz8dcv7rI8Hnf/hjMO7Pv5bvdXXtrKg2Uy/oNEq4drOUI5F2g1wILfAxKtyKMSk+QwFHfHyAlJg7hMqAoYQuc4eQkS0qVbQIlgzqo6RQG0VBbYQcaiK6K3diW2gAACAASURBVNbJlU/PLI9UQkFPBatqAyqWiz2DtCBnU7/6FLerJNwQR7GoJgQGHNGR4CXfHUdzPCyiKvH3MbwggiSqlNjtgVF02DF7U7jdblYwEC+B6syg/4fnchIj7Tk5MoAcGVbGEZWJzBdKJNIcsg9kudYQkvFwNV43rzO+L7SYlQxC1Unm97pMX1c0HZWH95d4wIQ5QBEs4pzzUKFfRcxeDCqUDBqi5HyPVkBdlAxqImVQFUpBTThFdyJYWbzzfnIZguUMBSZNzwSrYt2UNWRKJzOA+FgnD2zqV5/Eg8USsBymXsSMToQjliK9S6X4iDcGJxmzknR+H94WwBPCDI6K5QgZbUbFkkHVohF/IufoWCEPQFEI4Jz/3bG+uMVun5gWPssli3ZWZ2wvjKaz6Fd1GrqbPgwlYEYC8Z9ILKoLLFzChUHQRiFWxXcpNERR0BCFW4RKAfVRSqgXtg3RSmIGa8JlUBshozsMTnB+2UQC1jdL0MdygctGTQ9d/mWdtAYnoWsWBbx+x2CZuxYhdIGFsOGiBN53EkFCqBAuR9XqZgoFX0vwzxiMX5UvGvYnx3M8eSBz0MWMUT9cTdVdPbti8p8vZASezc8cXv7D+hdewP251mFEsQpSA5+1xfXBqRqWjAYNQnzK0ZfC0V5Md7Dsk8p6VCURKt6fQqjqI7DLoD5STqCqjUCfSg51kXLev4qQC2A5203hdyufn4lg5RvUFSdP9sBRYQmClYlg8abwZM71YPE+EQKBCzL5xQ2yG/svPG5fsCAsjBA7K6oULr0i4Clxy0CCAkoWD/vCcT7wxMvmgProXu0dRmcoXDPDVGl0KYJEGRQsHEouQZefFkBWV19eEDiHie+LeVQMSdgzoF+FacPY5dCKE8nEv+KnaOzRdKJSvO/EAyUnnYQRIrt6PQFIjmYPaiJkpFeFS6FWUKx2Q5eP9d3Kp2eWhTvDJWNPnYReO3k1nzbDB0gRrNrEgVe7nHd+KoYschDAwu3N+s2g61oNI+wTjiFLsGIpsOFyLDShOJJDH8sih9JFw//gCNYPr5j86qJ6tbSZXCD/ldB5FXH9LuEgomRhsMkRrIIFAfNYS19MhyFgtesxH52CtmgZnz6MfpVD2MBxUrlZL7eDhZ0oVSQF9REU1AtQ1fHKRDqBK5wiYKEpRB8LTeFFIUCKYJWGOcElg6aqR4JVsXbqash07gLrwLJ+NQkDr2KeORMvZRnHrAPcotkSEvTsHdVIiF1hOjHfKQITDxZG1AW4SCgAE+/QR+MVC51sYckVA/EyKM0c/ntHsP62JVpXFd23FYfzBVtmza+2uF3GMkSF6cHG7mAFz2PMLtCilzAEKL0UWvRyApQ4FSOmvBCghPgUzvuR6ZlofsuP+Cioi5RBHZrAKN7sYUeV4uHilas6glesmggEyxnyV/D5WCeznplRGuoEF/XqnglW2dopVshUQvVCfjEFglWb5FaI6/gQLNZyY7qLmPnp6F/d4D+hr+Wwbs+xE9iE9Bbi8Avr+rrAGtYNrOOvvOjbFOPa0GJyhjPZT8+ujeufh+dXkqTtpliX04fPhfheGPBk2mJk0EYmkBV2ZUKwiPkTRn5iXIqPnCtIr49GP4rv6JzXRyuhDv2qG8CSdYHF36bb9U5waTkfecdEv4pwV8jXqyt++upYzwOrYv0kKyxSQPVCbZePlTj4Kpm6iadIHAviFdz1KS/X9xsc8tuB1WX+SCdJeCYZAav8OlP4lw2R2kazWwuXOBAurp+V3ZToUQbpAyEvY3ycI1iF6cPnsnEIFsW0o08Vw6e0ODroJFkPwwq4LwrhQqgwLoUgIVAyh67gHXQHmETlssMVycexqsOkdJve2Q7WD8uffaI8jHfeL5w8PqhnZjcQsETF2tSvNmlQISniEUexBCYHpxt9KXv0vBtcogKJI0JelXDxAlncYFaSjqklokp1CiuOiTnk404ErIqlI//oGG7IybEqczMmRRWkj0r60fps7IXFk1N+Xj494+vNen8x3oXbi6nD59qMrtAcg4rFg4W+k2O8ikzJCIrVGIVOO5+05whVLaoQAkNGfY5+VRdgojmsjkBfC8Gi6NZoJVxc6qhYCJamh4K1btoa9LEq0/1IuAGLk9UmDLqCGQRgpljep+IdccfRnOMiCD4W1WXa7CZOWBgqgoVpJfwSdgUBCheGCosm+NThWARLDlXLRv7ZsVz4nX6WyylD5tiMvRAephUd9mjMnRImj0WoYjCVWAg3CGDx0zOiYqEiIVRUF0CiGURnPQyd9a591ejEh8mhJkxGt0U7wblFU/kAKQk3uCJYlfk9MY5VYp2wBjJcoDKdT/Q7hmBZBl3BVca0ScqysddBhYFRxykbokz4OF/2h4dKDCXwysTHsZSkeguBSVAy+6pkhM1IcbZYWSeWOSrOGv8pOUcHsNAs8jXk+atCHJ8+XS5WIRZLXZ9bMPJx2tIXbCYJ3axXMO2RONKTQKMBzZ2Sn++LElKLychP7FI7WBhRR9VCuGoE5bI77uEyqCZRdgwzyKAaFStcDjWhMkGxXOC8ANb3Wc89XhrmjD5WDw03kDiWK1Qv4tNmsGZ7nQAW1iDlcCQnBkaFaDttkpLbWL2FNWKNKSnQBvSpHMAi4DmRGJXdnyJOO1/Npd2MxTUoLHIGNrOMscU6s5DYC0rTPS+d3Rb6EDlH650plmPLTxr+WicPF1cfLWUa9XKOOPI4kRyJc3tOxEnnwwoYXuBDDAgTUaxoNH3okCNAEkG5hNhVGHaESwYVoVIeLrwfQkFlmJRuQbCWCOGGZU/PLA11hosGdWUPjrz3xsi7I1gFuJ6PNglgiUpFSgBJCVCcCesjYD1OCjgDxa84FlQL1/fRxNF36hrxCXWoSMf8dJMUfSyOxiVe8QpoT+zdWbY4YOM7f/pTr3u9TIj4nDMrHp1TFe9xDQuFtEXLmKZoBVsXLYUa9LmiJZjtSfwqx7gVPxKUCQolmkIphhF4pRLjVWF8R6hIR7DCZAQsrNWQt5jPIP1u2ZMzr4Uo4XyMqof6WBggzexlrzZz5FB2n4b4QQXEFMbKWbLwUwCLqJQwcdy12lgOrEFGOjFtCE6cDGzC/CE/2uPBQmcd881tBqzpKWOYGAUDCX2hIkV98vxL08kSL7xUCvZ7/VyiWfzmnS3uBWkBbzab+nBMpARawym6PsqVbY6QEae9nsCEHc0gr1gkbiVAhVtym4DF+1SiKcReGcZ3UbUqBLDOLRIUK+uZGddCnSEvBqd0eiJY6zHy3gtqhADp14ey+9TFuxVgeUWsekfKAmFKiwAWbw4FsyZ2owCWsHS9I5bCZe+8L4XOP1E6Hq4Og4ztNOJksxM0JLoxV5eM23biRDG5eBK5/MivcPUG4TImFN4+a31m7sUkbRUuXm2LlLK10TKmIVqASfCzCGTRPFSYsUC6CJgQHCVTOGFUN7B41cIRoRyqImR0i94Vzi8V0mayXphRGtEL8vQ9FKwyrPOOPtZCflT4JU7pmN0KgaiUnOWMgjKh/yT4SHaougKbfE0Eh/sEKuwWiqzxs2HJaoOMBrOUZRJcoSJJfSz/pecnOV5v51f9fOTybxLymt//fo8qNzVgS73epRVLTTZFU3R9NMXyaTAyQDMphht41eJDDKhUYizL0ccio0ASbeePqQ1TQHWEgm42OMO5JZNIDdJvlz37GMax8ozu5d/nfe/W88BaO84K6U5QLYwKMUBaY3K7isVfaSN1S7BEFaK7RdHFqnh8SkxHPOZEObOMUUZW3jSb+5eUJntF2M/jLi+0iaPCu1E1cDCtF9PHjy6IH3yiJU4OTeEytilMwdRGURyfBiOEGQSfSgRLDDeIc4Oi814thB0w3FBLFEtON8Yo4VwmD9YPWc9NL0dTaPIo/z4vr6eCpYTqBXzOOwZIq40Dr5IFoA5gORYtcwRLzE5wmEi2w9UWq+RsRicaYiVcZ4orlC/w/+357BSN+P5iDYY7Ol9y9S677yW9m6tpAYBdvTBf/qfUwBWV0YPaaD2OAqVMcwTF4GSzCJZdscJQvRS8byWOCAXnvVbMbgiTQlWYHCrCKLopSmEH69tlLz5WHuYM502qnglW1fqJq1GxKhdo7QHSatOAQlGxWD2O/hTXgSU46qKzLtbtFLI2O40yrt0kYzqNWIZbCbUpg65eypoaen21mDttCJGoaj+vfObRcxsiteJnuFv1yhHe+8f1MUOvxPn8uSnWGVoipFxtuJSpjZRyaApJQBQzGcIVUIs+lOBXIVyVCFakQvCvKKiKoKAilILyUCndGCmHcxkTCFj/WPbiYzhXeMGsLs/riWBVIFgZLlAtRN6/dFAsm4FiyYhP9Kfs5o+PqHcY5dAhgMY79AQqttMoJVMzTYl9mWupfrtOvbm9vx2QuxjxOUKIwJelBL7BxPWFcrPHtQuZE2YLx1D3+poAID2dPlVfYFKVdBidMOeKrY5SMA0Yt4qSQ3WkEmrClSSkgEFQhKkSgYqQQ2U4iV3haJDAVh5K0c3RSjifOWWFOCpEU3jBpO6ZilWGkff0XgjWIRGsWhMPVqdRSsDC4KcYg+KnaTBuJQEbJtN1VRnmOkxyhjVTHJvUC2qSB//lshBCuBeVIr6XAEx+1mPTSxK8csHcC9hICcPqKa7d3AeKk0fuz9/5Lrm40q0uaHk79foiZ9vAc/HB22qi+nV0RkuhNlTO1ITJWRwVVobJoS4EfSmESiFAhXErCs0f30PkUB4qo5ujnOC8YAq/RrBCXOCiXtNDR4VrJq7Gq29VCmChMjTEDy7EqzjYjBRLoBLypUSz10aKbqCC4RUbcJm6nGFjJSRJr9E8oLQkdZgRl2Lh64mX8b2LU7NDWHrypOvlpOBX641uLBjkwERL6GaDlGsxKFguSs5ArBOUxXtcOrX8yafuVb1yHIA8mzrhoXz9wL80RCqgOVTG1ocqmaoQBVcWLudVSwQqVGrflmMPkUHpfCndEKGAs+n88q8Tq5+bXhbiAudjeugqnbK1E1fj5dtExfru3Z19GyyDCzGOZTPLWBoLlwlOOYYQMMjJYtTcpIR2gwtLYxnqOAl0JPZmS+K9Dp62Rrtfrzh32sQLe+Pt/PXzHi6J9z4NRifojKCYNr2MIcVoYxTQhikxegnXpJfQNKYfx/ThLscP33b05EnXe1IvcFBUvLBlXKC+NGpAKU7R1IVJmJpQikHl4gOhxJ8SwKKgPEQK5fMFsMIVcC6DVywEq3S+M+RFq6tOn+6BhddIgDS9twNY1r418W6F6CN1mGUs8adEExingHasORWr4GwGJwb0Eg4vclSW5JF/ddXjz5HX7VKcO/9hyXNC7DDkpT8U3xzbrxVDHO3RUsYWI+daY13IKptOgxw69QiXBNqxqKxeybDhFA0GVyiK9f7h+5Sng/A1cu5y1Hm9D3jeGq45a/H7uELfl8wxVoXKmMpQihUj7giY/XYI+lgyuimyK9xwImsWAetCjKaHgrVu8ir0sURTiNkN1eaBhaSGulnOdsY62VffdJiV6JzTHbEUi/sbzH1L8xeNXXb8+PHe96IU5DkOoYOT1hCfkljNZ4y5F17OjW3HhD1yxS0su62AtlihgjFeCSIaU48p6MD5vxgZ1xgtpfGilLXRro0XEoPicoTrUefcQ+DV8XP8tPTJp89Fe51siHSGhkgJVx5G0aXhcq4sVEIUqyxMDpUhCjSHdH2EEvIWTsoSnfeSeU6Qp1f1TFNY8dK0lbDAFSpSfA+Jk9C18QOvYIS60yRjScYCTuMYpWy7Uc7g1bM64vrQZYma7GNW/qqk18WY7ukHvLLwkYRK88A6XB5v0yuYDoOSbcNJZFILlK/A167HLiV5Vq3RUiBZCzH8KhzMa2+MdGLbo5zIn6Eo0fvr85uMI8X3udv5R0dTjhfPzDX6RV4x9Clpi3aBmjlKpnwOxVTNl0FZmBIq58tRteiGaFfIWzSVB2vl8zPLQpwhN8a96pueWIO0bP3ElehjVaT52hWrxux2BUi9cwRLztlMFMOaKJZNcoGShEF/L144doKj2bsXlRLfH+cmi1KGfgCmXgBRErY9RsG0G+Ucmrx2Ez9pTS6UpJdBewxFOqpVa5SU3zqsviGpMRFObEu4goEICZSbBrfnLpyUKr7nvagXifQLgH1vNajO6AMPXYtwoesw1DBXwZSFyjniZ4VI6fpoVzi/ZNoKMR8LwTrbU8EqWTOegFW5gJ/SQcWqjh1QgGC1I1gGioUEGTQk9asszQyKs9cDxX/0PUwYkx9KmCC+sHry4/WmQZfBrMQrmNId0XIWTR+WycbaoOSqWjgKxQlkvRww3Rhz2VGlWqL4Qh2ki8vlcRk8WWAqh5ZQBdMRLmE7Ypzhit7zw5NbLYO61KtbsZE7ad3+QN9mTpyWp/f4R120E5TPl7Il8ygomSeha0k+lmMcywVNYU+dK5y4ksSxFnQl+lUZESy8agPF2OL7QOWSIUdPbdN7kuc5jNzuVaVw9FaUMmRzu6kXg2GEToOMwatEYMAVY2MYxkC4ulWIwYWnBhwN8msEydItshgCVzQLlfZIzQUKanEJV5QSGiNkbFO4hGaj5FAZ6VZ4JmH0M8K5UHfr2F8/ejy2M98pN3nE6isR/ZjS2RQUz6Xomkhnu/P+j5XPPlYR6grnjeqy3OLcgT0GLHEFTNnaKSthITrv/BJ7NE2VxgFXwCAl10OuyAj6xuFp9/TFCEU8+DSWTfOmlCd4ngLMLI2RodljcBrIZsQFFQgSH83nF5tKydrANqxkHINmj4KWaPSxpNCMUEVRJLcK02BI0Q6yJB4fk0AdLjSNIOsCudowJd0U7sw1hDqzeQn++48f3cqr133kfYmAFSwav6U61AVK58g6KiOVcEqIY/1DyG64YPAoy83tgWCVWh9dAQtdoTLTn/hY5xEsEw8WFyOBuqTB18rWPbqmInPY6vOLxi86trPLYb/DtyLHWQHkeUvHrm5KUNnApIA2I1bek3E2XA2N84uoUmLFYlISG4HqKj9E/ChcBxglsfdmXGAq5KyL6wMxca+OmEN+FXM1ghYug4pwBVsfJmXYCBcoMnpdObNkrqhedxUWwe2pxU/OOZc2duvP6VPWX4jz/0f5XCcomy2xVUUo4Od0vijID1mzp5eHu8Alg6pnglW+5pEsyHCFiowusKpiB17BKR1MyrOZZQBxSg5Ba4kbaDv98uygO/23iz8EBl1LE/y/xEL/bKSMJlDFYlqzM8mPR7VCn0r0q/g6612lsVv0IlhSASqxGBpmgwq56+LCU3HVDVkWT0FDuAzqwxTQEC6B+jBnrj5EbmudL2VrItzgbOpDS4XzvLPVQMJxhXF+RwEzUcOdmOoQJyifKyM+Vk2kEs5n8D6WCFa+waPsRE8Eq3TV1CxId4byBV3LvypjBxQSsIwU22lyYpkYuc0WI2frDb1bTm6Y7X/HYAlOcsHLoeNtKYOBi3cBMLlyHVgMDSP76FORUIacd9jtCiWHFr3gUwm30TEny7jQJJLHcOm8nCw4JVBh0p6Qy056FKqZnGSA1odjtoIEaiKcoDnMGZpjlAzoZVBnCfz73aiWCFZeXEBOfYgSKuc5tVfOo9jSeVIoCpHQ1RFKOCtG3pc8N7083BUu6T1KzxQVDeixYJUJo8J8BMvc7yrGsWxGGWszYA1POcfpZdBg6tv50/qIwLtVrPPZsX2urJ+hv7b+mejyhcPfYuJdMWWZ7cQUZozo43s4gGUvhGbAmusKe+2qrhXNAmRYIUYAq2upvMPK5ig51GDaMeZSRSi45ggplOlVDcVLZywuWDQ5OXfl87Mcz/MOPg8flU/UfdYWLoeSECemOEwKZfMoKJsvpZvCnOwB0m+WPfMortLJ17uXnjlzpgeCtWZqFmQ4Q3maWBRkU7+quAGF6Ljb9PwkdIdRzrFGCTTG9+48t37uHYPl2MRR2IV1Lz7eHt8fIFrGdhjkHB0jZTCLAisXI1ytehnXEiNjm6MpFretejnZNsVQbCP2aOxytiFKRnp9JMXW45bcp5jmaBnTGCWDZiwvFCnn6iNkTGWYBB14hguXwpVU32/uYxUQn4maqPu8NQInoCmmJISC8nkUlM+X0I0RTpC3iAfrewQrxBkuRnuU/r1IBOv+8/n/c8BaPW0FKlZ1esAB0R+qihtYCHoJdMZQLH9dPzmHE89N8X06z61/9p7AEoujXdjw1KyGBFfoiJKwmKJCBgkY5ScX7SaxKg7XKnJGCemMnu8c6RSwMTiowC1edlcKnTESsMXwWzqaApxXrI2UcLWRCmiJlAONxT1CJJiox9jCKChO1BGwTkokirsNOdjBivc70hQhg9IwKQ/WfFQsCV0f5WSPvJ9YMmt6aYgL5EerSk/k8vXoe5RiXVsxNQtSnaA8la/dgOGGKvMA4rzb9DIWyy2isjAmCTTG9e48l31vYIk/4qmNc6fWxQ8ECJNwrXoXKE/2OllhGZiPmQvteiXUx7q0liZ6nCmxDP6x1OJ++ppFdbYkUX2uJEGTJ/bSBFVuSYI691qiOvdagupMUbz76aK4QaeL49y/KY0fdKnZgDnszlBt7N14NU7117Ko3nWY/dka4QT5luAjd7N8/+aKFXCkOYKCkhApU4LzhfMoKCVguUCuANa3K599rDTUBS5Eq8r+U8CSSiRWeUhIjsxqBYqPIt/9CYtgFWVNXg6pzlCWzFebIc47gmXoAqs9Bq8FKIF6cy/b6Zf57IF7iAHZz7E8eeifIEYJZfFuV3Cy+OwroQ81GnvRXKwT5K+cvByPIZPIABReSdUCoDggdLyNoQuxhzgch8/78dMt2hrToEqIksOZ9FF78LELaWM3d0TKoCiyf+upzYbR/Plb7x0si98RXJ9YGoqKJYPSeRRcm4fOuxOccQQrzBXOE7DudVQIUqvESn5j/L3xd5dI7v68f4WGb8qfAJ5ISEgImb642QcSwSrOmrYUE/1KU7SkHHc+mkLzAGIKO6Ip1oZzdgYZRxsk0GDuZTuf/ULwvQYX7UHZJeNXgdEZ6vWDz+P9kzvT/KtNA9vB7AoXX3lhDnn9uzdT5DOeBFAUxOnOQrQU8lKGbcbHLqSN2QBhSigzaK6UQ3mve/V37M67WXekKVzKgzWfgpL5crg2T0pXhyshV3Dev14iLFiNVjn4WN1/B7yPv48IzvTpCA5ei5F89n+NuiG5uJ33zJ6Jzz/11ua5z30aZor5bHpKysGg999/fwCWpb6nH3nlI4sh3QVKk3yEOu/b+1eb3YoQrPYYOUvrFRgK4Gx6CdQZe9l+Xh9y32CVL5qQhcvfa/WDC7Dy8dntMUOrYgfabPpekLfqmbn8seRil6Ts9u06HieaNlS1Aov2NMRI4Xzq0G342OWF47ZBlAxKDKqSor//fsB9gxWn+7wxXAIl86RM2XwKiuc5QdkcKV0d4mxfTPHjsicfLYpwgXMGz5JThfX970WxAE64rFi43zM8fPe4Z1/Y+sJjj76y7Knpy9Lu9rxv9zbkpCZPTnQfHvhx4Yjhf4GRIz7gHhr5XufoUR+UjRn99qnxEw4fGzfuwP7x43etnj799bhHJu999rFpm6cmm/cE4PX+bgrW8qmLIc0JqpK99+L9M/uSBlSaB13FHKiOaClLMgr0Uq5TL4HaXwuszPHLwSSHGsPgAkxJObsXwepPd+p7wekVT8+7H8VCE1pg8TkFBhnkpY7Ygo/lZ47bykVRcDXGvTT3xBcD7xesPLPv5xhwLZ4rZYrnyeDaXCkUz5EwJeEucFaYK/xm0TOPFoe5Qn704JIzZ26MY+HtV199Vz372fVjp0/b/MTMafvCp03Znjlq9MbNI0dvem/osM1/DQ7OvhTo/2qDr++rnLd2B+Ot2QX+PhkW/hXufq7zFg3NnEQydsJbCYHBxyAg6DNbUOARCA48CkEBRyEo6H8g0P9/OF/tm+Dv/2rTkOAtX459eO3GkPCNT4rJeKLE2rMblk5eDMlKKEv03Y33jxzJ7lMZ61bARUvAFiFjW/QUztlxOGqri+1ty3s57F59rK6roi6euBxiFVBr9LiMX/CpPfrhleYBjM3QC35e9ez8+wEL/S6iWEY55KWMIKbwUub4zVy0DAp/JbDOWwI+awiXQtE8KXNtjgyuzqGg+AVJJ07pnFn26CI85tuVs6cVhveGS9GDSm4WIMXbq5bteujxxxYtGDlkxUd+PuuKfLWvgpfXfk7j+QZovA6C2vMAqD13gYd6L+M++DUI8Hvl4pEjh/oIr/Brmkr+xd58883+40a+fWlo4DEIDjzCBAd+ygYF/pYJDPy00z/gE5gwZu8GMhMPv+zo2Z33pVMzINkFyhL5BavYLi8c/Q7EO0N7hJMNh/JtRilnM0mgLq5P57nse4tjOb5naea4FQSsWBWaQunpHdEjKmP7M6hYZ1c8d1+KhaawMNH3Z6JYKTxYBYvGvcJEU1Bk8Cg7efzoPa+YcQSrLlwKV+dKmcL5FFyeI2eanldAXoy2+qvdKeSPdypr5oxroUo4E+N19Xw19LkTmENC3pjmp3ulXq3exWm8dtCemp2sp+cOVq3aw/hoXoUnpm+I+CeoVXfVev6JvXOHBX4KQYG/Y4MCP+ECAz8B/4DPGZ3/URg5cv9fhYOleBI3yz8Sf7irq3/zLJfYF+piB13+KmcjSaE9ceKLgUULgn4PsUroiJHRLSaKo2Ol0EDCDfcPVsXSiavxteti1TxY+whYbKehF5xd/eJ9g3UlwfcMGBVwPm1UNj5WkDlhEx1FQaHB3QGse1ess/EBR2rDJHB1jpQpmiNnsCT3hcgB106sM0wVj/3RNGxHcygFp2OD/vBLAVn+d8HPaSGlLidNXWP28toMGtVeVqPZDRrPHaBW72E81bsh2H/tu8LT/plOPQ/KwyMO7AsKOAYBAZ/Qgf6fQqB/DvjrPmWGBH8IL7540OwI4i1Mh7IySfcjrsopyRj+Y0jFZQAAFx1JREFUgbgPfZXSBL93weyMEXFbh0ECNeZ+th+yowQf6+6HvXa/bvEEK5qqOqPqCoJ1dr/poUrzAA7BOm994b5MYQ6AsiBBexYMSriYzoN1MX1iNh0hh0LD4LK8Lz9zu28fKy7g89pICRTNlXZWhzlBfnS//C+WTwoQjzuZNTfyauhAuBjmAl8vnkGWpv1y9iqvnMeOvdt3yNBXCtTqA6DR7GM1nrtB7bmDVWn2g5fn+oI5Tya6/xNM4M1PJi3K2ndI8Os/BQYcAT/dUcbf/xMI8H+P9dP9Fh4aeehngAOKW1Euqk5e1swnm/V9baB3gSuLJrxE9iEEANLSJM99XIIr2GIkTJ3RzXZ2vXno/YJVunDsWtBTUGtSFeKoMHdP3OhyU3+uPcYZzqx6JvR+wDoG4JQf75ULMTLIS+NN4YW08RttYTIoiBpYmvtFzv37WGbdZ5WhEqiZr4D88IHnv8yY5ice878bTcMuRXnUNofL4Ju44OzbZ0/wf/xhQ9YYPD33IlSMWrMbPLw2c+6aPaxGvQ2GD8987p9oAru3EOFNHnlkw5Rg/3c7dH5HQOf3ERfg+ynodB8xAX4fw6ihr8bgMdNJYO3mTXTii9LHZ2LeeVtMH6YgcQy/lCtEQqZhrmQMeQmVqyXauePkxrlD7tt5XzJxLfpAtQaPqyRAuj/hoYrYAVyH3gXOWZ8PvV/FumzxyQW9HPJSR5JR4ZWFk15iIhVQEOlWcuZXCDdc1Pt92hYhg3Nmv/PHrWG+4vsf27mzb264+pvWcBmc1nv9rzUXlLeel+QFIiRk4UAvr62X1Z6vgUazi/XQ7AR39S7aw2MXaL1X7r6V5fknNf7NxozclhHg/wH4+n1AB2o/5fx9c1h/v99CoO5Q8W9+k6Hmj/1lhbHnGSUP3wNGJTRE9ar7OXHMI/hY7jAersIlk7ZUJHrCuVfnDb9fxSpfPHEdKlZ1zOBiAJCf2WseVR7b71dRLAQrP977LMTIIS9t+FZ87PLC8RuZCDmCde3U8c/73ytYYqzsbPyIv3wfF5T39dcf8JVzJBLpzp3WvqdDPP7cHiKDs2Gq3N/tyPIgz7nlH5D//Xx9N+xWeR4i/pRasw081DtoT9UB8PZcduK5554ji3D/ZQHTrsYvZR86dNfhQP//gQDde3SA7gPw173P+Pl+CsOH7/gdPwIi/w7p7VKHCxK1WxCuxgjnhrysaeH42HEJD8T31nnP/W3FHPW9Zgd0B0sG1UaPIgzsntsX+3BlbH9ojXKBMyufDblf573A4n0GX/9C2kgCVsGiycTHuhI1+L4US2x/2RD56E/CQAfbD2+84vdDtOb75lAJ5M3rf+6P6YKK3RIqweJMX2H08NwG7qrXWI3HTlCpdrIq9W7wVmdXzZy2aBh/7L9lGoeX02Rrcu+hgQdPBOh+B3669+lA7Yfgq82hdbr3YPL47LX8sSSaLbkdXKUWv7dB7wzN+n5MfubUdLJfgOJ+mt3HWjR+Lf7wVUb1VfSx8nYbx1QaB0BTlAuc+hXAuhTncwZiKMhL4RWrYPHEzZjlcDnK/VcBy/Gz/LAz8eGfjN6FzfNlcCF8YOGXy14kaxlvvdSMB8Vs3jHK1/eVxsGa7aBWbefUHjs5D80u1lO9mR0+fNHz/wYTePMTffxxq1+g/4Eine/n4Kf9kPH3fYvz9f6YDdDth6dnbp99uxMlsS+cHgGQX7UEvgGRCuiI6Qf5GWOsZL9Forifko7dRoUGBVQaPK5i5D1/X+zDFYb+0BztAj9b7y9AimBdjPX+GaIlkJs8jPhYlxdN3GKLkMHlyMHX7hcsfJ/cED4F6PeLQ0afi/IobZ0vgfyQAQV/TprND2xu+R3xQvBd/rt9g4I3nXIfdBA8VK8yg1Wvcm6qXbRKvR2GBC1byB/7y77xv7DxwDw2bd3EIL+Ddf7aI+Dn+zbrp32H9fH+EIYG7qs2m98mHxwnp28DF+9zpY7cxEY5Ax3jBMXxntuOi1ePd6izcDetaxppkhXjWBV6MiqUOirWaWGu8F7BwiyHywk+P4FeCnnJw8io7PLiSVvpSDlcifYoPnX8+L37WFarvfTR31OmPnkhtG9VSwgF5yM9f/zSGklGhrfJ8ZKKv9PwkRveUHkeAA/NZlql3sKpVLtpD9V28PHJ2vYvGwHeeeNPevqkV57w93ujSav9FPy832O1Pu8y3rqPYUjgzr8f2znL6Q6cefv6uYupoxc06Ht3gt4JSmMH/fGHrS96k2PuYQW0CFbJ0glWXKlTZVQV4P1zO2MfrjQNhMYoF/jxV5grvGjx/gkvapCXMoKPY2VO3I6KdSli0LXCU/cGlggUmu5vTNpFV8L7tDWGu8D3Mao/Hd9qJUHX26+05hXIP2hVnFqzA9Sq/ayH+lVOpd5Ge7nvBV/vhW8In+YX/eF/Y+NPfvhDrzym8zvQ5uvzPvhqD7PeukOMzucDGDlk+x9PFG8j5a9vtSLYEa78hY9NrzGqyjAPvkY/sPpi1nMJ5Pl3We3YHnlfMmYNRsbLY/jshstbQ8bWGN2gBad0rL+Ze79pM3lJ2tOYo3/ZwpvCSwvH7mgPl8H5CI+7NoX4uuJ5nz+0KvjH2KD/h0vqiyKc4ZRpxBax+Mjtwy+8fztl+kuJas9tnFqzl1WrdnKD1Dttaq9t4Oe17h3+OPKb/F+DqjtcEyZsDgnUHe709ckBrU8Oq/V9i/H3/RjGjd7/++I7gAubvVTjljhdmUX9VxzGY3pLQcKQw8dz9txVlRm7875s8loceZabNPl4v2CvflSpaSBbH+ME+evuT7EQrEtJPme4KBlcSHqYBEgvp4/f2B6ugAtRg4qqq7++o3k7bEJRNvL9/JAx9fkL4aqyxjAF5If2rvkmYSSZt8P9ty84wn+W6TNXJ3prt4OHeg+rUu9gPTQ7aI3qIOh0qz88CXgFM/vo/f9y4+GaOn7bnADdvnYfn3fA2/dN2lv7Du3v+yGMeWj7H0+ePOB6O5/LUeJzc0F5fsGoTS1RfWiIUEJR1KDTJ5c+Ya/Vfiv/wjH7ID9pyN8gioKqWPeqkoPLg4rWPh1Wru8POLeWm/TwTsf3vNMmxtW+3x47OT9qUHvbfAnkxQ/5BBXlXNrw95vmy+DyvL7sz6tffPx2r+9YAO7LnAP9frQE7isO7UW3zpVDbqT7P76yvjDsDv9QJNsXb8yY/rJJ670VPDwOsirNLsZDvcOmUe+CAO2qtwCIC/OfANV1cE1d92Sgbn+dr/dH4OVzmPHyfp/28/kAHh657U8HDohw3XpY61iz83zms78p03sWggkXk/Ztv2QZ/krOnpze1x/n2EToTm6aM6nC2Afa5ku5mggFlEb1b6uKdOlsmCeF5tkSKIh0rz/x1gq+TsTdVEQWC41YRn1WE+YK5S9ImJK5ruylKPeG4lBnpvw5KVM7zxlyk0d+SM5HcuM54vs5lo48njH9ifOh6rw2zL2K6Ac/mIfvOnngqOudgQ9SPiNUIpk0fn2kVpvNqVT7OLXnDkat2cF4qfZCkF+WEFX/j1Cq6xsPzLNPbXsoULs3V+v9MXhr37D5+LxlQ58rQLf1D4mJW4QJztvA5eB3Fees8MxPHv5Wc0yvVswvLw0blJuX9MizjgXPHP0OEaz8jbOmV+tdoWUexdSESbmGEArqQymubr6Ca5xLwbUot8683XFCztedBwbFqPgFo8+XdVi6ca6MqZxNcbWzpVA+W8IVz5HbqudSkJ/g9/ubzd+RWqnCYye2JXh+F6HZVRjem23B1Jcwt9xvsqbNt/uVtzF9vHvBn/vwIdY4lcf2NpV6D6g9X7WhX+Wl2soNG7Zk2X+AT3WHqTbPb/QYFrj7a53PW+DtfZj28n7D5uP5AQQFvno1ImL3ZP5Y8i+T3vZqD8KP8I8VYycUxPT/FqIU0B7RB4pNur9e3DS7e/0sDGEIkJzJDh9Xa3KH1rkSaJiHFVpkTF2khKsJVXCNcyg0r7af98XedQaFeD7nE/z/1DBXAiWzZUzZXIormydjymZL6ZrZFN0c7grfJT68t9soz0Fhc3OP9z6ZNC4rb+6g2o75UigJ79X8vdFr1fE3rc7ic26vovwfCKeqxo7ZeMBHsxvUKpxY3mXz8DgMGs2GltEjl5Mg8L80t/2fDVdOzkKXkUGbD/t5vgteXodYT599nV6eb4O/blvrY4+/HNV17K2lGeNP4g9y7Fi+00XTqEU1kb0bcNlYdeTAjovxQw5/814yX+i/q74UD2PGtLSCmMH1TJQSbKFOXH2ElCmPljNYM70oyo3J32kadq9gnbUM+3NVCK6aoWwVc6R05TwZ2xRJQX5U/7oTev9X8Opm5LVJjdIuc3Z80cz5p0J1FxpelEHVXGf4OcTnr8fSpg3r8h/vxOfjTd9L2/Z7jhj28nFPzWug0uyyqdW7bGrVQfDVbjg36ZElY/hj+Zx+yX9HQ1j4H2v86FfifL23N3mq3ga15lCnh+YQ4+WzD8aPf3mjcLDdR7jTkoqnX44Jupg45PO6qL4chLpAZbhHzeW4oGUnXt828HpT+u0HGz3OLwxeVWrod63F6ATN4XKu9kUJVxqj6ry6P+GewbqQMOSL5vkSqJ0vJTVBL0X3a8w1azf/7YBFfVOgFk8Z/VO46vOyea7QPE8B+SF9yk8kjUjES6Pc6YhXMH3k+BdmrXrYL3BL8SD1IRjkubfDXXWQUbvvAV+flb9dtmlZv/+Dwc9fEy7B73p2y4hg/83/v71zD2rqSgO4qCiKSstqbu4jCXlAJIgghFdhsVqLguuugjeBoCBocSvCoq6lyCOSEAhvowUJ4HucdjNT26GtO2tHUatOq1gRUYe4ilKstdPxsawUFXJ2Th4kgBhwd7vVPb8/4B9uyL3nu9/rfN93mlnkXsAk9zzBiPrHHGoPEPBK99G0uv8h2E1JDDogoEWxIOp6MnW6J3YiALLx4IdY147WZFHmSVWSacirtbtmzFcHi16/+N7cjBtJHi2d0qng+0S2oaM6fdZoBat/TkSG34n7q34DridQ+ovpQYWnNGn8fq1j47Cf/POi2RdiWPvvLnXu6ZVOBDdinB+2JAiL/7ZfzhjdzHhLRAf9KUWCG1HxAMNrwQyq5jEDrwdunMo+sV/WFuuzfyWFamgYDOvnZ3koS0hiWw9J7AYksfsxQe4DbHapPjKyXGatDbe/GWqrvWD5yvlNodF62Ywz3fFOAMQ7gU7Ja7evr5tdfKE2w1h6Y2sKWgGY8E2RJPzcutD1V3a8/yJVniZBfW+h5HROxNImACYP3lyHgcWZ7MULzsexDn6/zOXnHuk4cGvptIfNiZ4VRyzDTgYdKjA8lrLiMWNycvZ5znRXfkoSOwGTrOvFiepegtgOWKy8Y7GxpUHWv3/pIr8XxRq9iH1zA7iU+gyLqANMvP4pk9D2ctx2gEBx+Welys+NvpK5Gdb+lBnYKGtezEZYb5Xut0yfMP1MV5wTgHOlfpRN627/o+jA+cKVIXAT+r9yZ1DjjLEK+YXNkUsvreAd76SngCeSsaBj2ZR/XJJQGkv1p2Xys/1kJ3CwTc1ELqza6O5R2kWQewFG7nyCk7WAjZfdE7lvWG9tZvmflL38ekyjTqcbN0uYm85jb3tEErsAg9A+JfF64M6tuBMUlBtj26AxAsdzwEBYqC2aNwoXticQx3+OcwZAOtFwd7lLnz5JcEyfvSjCImD9jv5ox2ebNQ3M7lv+Z4O2YfLFVK81lxI4LXdoF9BDjwc3JS7/bIvnfGArUCM/PAret0lIZLIK3iyh6jM2WQMwrK6XiWv72OQO4OWh/iJqXqn5RYQdzq+26RuV9loh2e4j8lR/zmJvN+D4bgOG1RoIZjWYKVDraDqba77AAT60kbRR2QoY1GD6XEmMPkl07Ad62lMAD/SWTQbXpNTX+nfEyYcPa6YNuXYYX8sUmVqnMFs4mi3lf5voltu2zOXagxhH0CUdD9qjnR+0ruLubCxLnDlagTIJh+k7ACCfEBiYn8Hlqu8TxC4ABYok4AZywa3QYGWi9Xn83wvUAAZoo4gI9dtCftFJgqnpY2B7DBizDrAo1QNvr3yFXG46Ks56jV0BM2oii4mEC3A2XxLQ9q6w7lqc633Y7NAnmwjapS63Lye4VX6TEeplayYtm8GWnJhl39FCQ0PD5LPveEeeW8k+dJ127u6Dx5DQk0CzDG//NsU390RVNqv/s0Z4zo9Z2/QnMP2DcqL4/LIWEjaTEnv7oFZ3Y6nvBvkX5xw4bDqFzPYFRQzB+nCgAIhEmWEEJ/8oRpYYGIy9BpKhBRyq8GZwsGrLwYPVrw8yqSMQsIH1XKd2pBLnUzhJ+jjX0w+lTsZI8k6M4+MrsunnLm0KL2qpzxDDKgjbz4A/mgFwbqpIXNySHrinVeba/pPUEfTKJoBOqXN3m5SpO5MiXtL0pc5loECNZNGtGgoSHb0taqa7upHAq58w8QOAZNYCFlbWKeQqNm3YsMF10EuJsA9cTPOBAQA4+HpnL+CQWxtwTP2YgdUAWJvt7q64GR5WuNHGhDmM2MmHk3BszBj0wy5kBIdeTmLX3JS4PuiVOIJHsgmGjvgZfdcT+Ucvr5+9+lS9nDhfvk6gT5mT2ZbAu/pjPJy1NbavCw6SjWPcakkWyI/nmCI8CyP02RxM3UzW7x0To3prtnfJERZVZcCIvQYmWQMoSqUX8XM30hFyG4Gyn1BGPJOBDy4gYIsvn59/AMdLu2cwtIDEa4CAo77p412RIpfLpwwOyYHdLP7Qo1NOaAvw1rSQVP1K8vQdiXMvgEJGjwffxU69913s1K4eehx4unwc6JQ4PbqymvjkXEbY8q8PHO73z4x5KNr+FowpRzdQ0859o1gsFFQeolgawMTqDDijBvAFZRe9feSraJqeNNoXCDFKE/F7WiEUiQqUPG7RVRyvAjgGW5aK7wqFqi00XWCsULAuGJzXZd9UDtYuRi1WQAdeSvMv+/sKdnsXPQXcjX0NXE7itTWl+uadLTbtKw53vZ1Muc2QDq1jSGDFYndu5TE3shZQxD5AUeUPhQK1LixEtbSxcY/TKH1KxL8rYB0duknh8wuW8Lj5+5lYcQfOrAY4pnnK5RT9xdtTGX716qfmCSkW4DTC5+/qw3ySbeoAov/JMK05Z8nvzsmjo26bE6BW7QQj1OE/D8D80yANA/02aYKG78ZS/IlNqTo4VBVgM3d089jq42Jx8WaZTGlOGxhBJu+Xw5p9tqDRpE2k3DLDMUxRxcQK7rDwCsBnq7v8fEo+jJbsWgCAztjhYgVe//y8GEwpPLvGy552ko8dtNlr/K0s+4T11tsfbPYWlVzlcUoAial6CWzrSYrKSQ4IWMcc5h6RQP3ywGz0QC0G0WpTHOfMKQxxoxQqkpHXyiFze4W8vBsiYV7lm2HlcxsbGy3mxQbT6MRnLSQMIIyayRhVDtEcDpbRi8/SKmviP6b8fcvWeHpsPSLkKbo5pPwehSsbBFx58rJFcmrw/SD/6deHeVGG7i3+VqxkeQiUq9258o9mcnObhLyssz6i/Dp/32za2zuN+k+ameDg8klBfrn+PqKcTG/PvL96eWxtEfK3fuXprqz09yqep0nTDJhwiITp5cLs6A4tHoSt9WEBhR4BfgpJsDgrL8Q/q2RBeFZe1PzMVYkSVeiWDeWkTqezRGDPBW5FabVal7VJKtEfFr0fFTk/KzVirkIVIs4pDgrI2/SGv2reu7KD5nybLRYnHgnTS44ltH92IlGt/tIlfe1u97Uryn3KivbNOfThFx5abf8opmFpbGyc/tH+j30yUov90pJ2ijIytDgATY7DV3Ugn+mVxjQJ2r7z/uLQxs9+0Vn4iFeHfgd8uPn0w2F7HRIiBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQiDEvCf8CrgDEzMbEPw0AAAAASUVORK5CYII=" alt="INFOTHON"
-                                            width="180" style="max-width: 180px; height: auto; display: block;">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="padding-top: 15px;">
-                                        <!-- 2K26 Logo Image -->
-                                        <img src="data:image/png;base64,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" alt="2K26"
-                                            width="160" style="max-width: 160px; height: auto; display: block;">
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Tagline -->
+                        <td align="center" style="padding:40px 30px 20px;">
+                            <!-- Logos -->
+                            <img src="https://infothon-2026.vercel.app/images/INFOTHON.png" alt="INFOTHON" width="160"
+                                style="max-width:160px;height:auto;display:block;">
+                            <img src="https://infothon-2026.vercel.app/images/2k26.png" alt="2K26" width="100"
+                                style="max-width:100px;height:auto;display:block;margin-top:10px;">
                             <p
-                                style="margin: 0 0 25px 0; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #555555; letter-spacing: 4px; text-transform: uppercase;">
-                                // THE_FUTURE_IS_NOW //
-                            </p>
-
-                            <!-- System Status Badge -->
-                            <table role="presentation" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td align="center">
-                                        <div
-                                            style="display: inline-block; padding: 12px 28px; border: 1px solid rgba(0, 245, 255, 0.4); border-radius: 50px; background: linear-gradient(135deg, rgba(0, 245, 255, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%); box-shadow: 0 0 25px rgba(0, 245, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);">
-                                            <table role="presentation" cellpadding="0" cellspacing="0">
-                                                <tr>
-                                                    <!-- Status Indicator Dot -->
-                                                    <td style="padding-right: 10px;">
-                                                        <div
-                                                            style="width: 8px; height: 8px; background: #00f5ff; border-radius: 50%; box-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff;">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span
-                                                            style="font-family: 'Orbitron', monospace; font-size: 11px; color: #00f5ff; letter-spacing: 3px; text-transform: uppercase;">
-                                                            VERIFICATION_REQUIRED
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                                style="margin:15px 0 0;font-size:11px;color:#555;letter-spacing:3px;font-family:'Orbitron',monospace;">
+                                // THE_FUTURE_IS_NOW //</p>
                         </td>
                     </tr>
 
-                    <!-- ================================================================
-                         ANIMATED SCAN LINE DIVIDER
-                         ================================================================ -->
+                    <!-- Divider -->
                     <tr>
-                        <td style="padding: 0 50px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                        <td style="padding:0 30px;">
+                            <div
+                                style="height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.5),transparent);">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Badge -->
+                    <tr>
+                        <td align="center" style="padding:25px 30px;">
+                            <div
+                                style="display:inline-block;padding:10px 25px;border:1px solid rgba(0,245,255,0.4);border-radius:50px;background:rgba(0,245,255,0.05);">
+                                <span
+                                    style="font-family:'Orbitron',monospace;font-size:11px;color:#00f5ff;letter-spacing:2px;">●
+                                    VERIFICATION_REQUIRED</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Title -->
+                    <tr>
+                        <td align="center" style="padding:0 30px;">
+                            <h1
+                                style="margin:0;font-family:'Orbitron',monospace;font-size:24px;color:#fff;letter-spacing:3px;text-shadow:0 0 20px rgba(0,245,255,0.4);">
+                                INITIALIZE ACCESS</h1>
+                            <p style="margin:15px 0 0;font-size:15px;color:#888;">Complete identity verification to
+                                activate your INFOTHON 2K26 account.</p>
+                        </td>
+                    </tr>
+
+                    <!-- Message Box -->
+                    <tr>
+                        <td style="padding:25px 30px;">
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:rgba(0,0,0,0.4);border-radius:12px;border:1px solid rgba(0,245,255,0.1);">
                                 <tr>
                                     <td
-                                        style="height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(0, 245, 255, 0.1) 10%, rgba(0, 245, 255, 0.6) 50%, rgba(0, 245, 255, 0.1) 90%, transparent 100%);">
+                                        style="padding:12px 20px;background:rgba(0,245,255,0.05);border-bottom:1px solid rgba(0,245,255,0.1);">
+                                        <span
+                                            style="display:inline-block;width:10px;height:10px;background:#ff5f56;border-radius:50%;margin-right:6px;"></span>
+                                        <span
+                                            style="display:inline-block;width:10px;height:10px;background:#ffbd2e;border-radius:50%;margin-right:6px;"></span>
+                                        <span
+                                            style="display:inline-block;width:10px;height:10px;background:#27c93f;border-radius:50%;margin-right:10px;"></span>
+                                        <span style="font-size:11px;color:#555;">system://verify</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:20px;">
+                                        <p style="margin:0 0 10px;font-size:12px;color:#00f5ff;font-family:monospace;">>
+                                            OPERATIVE_DETECTED</p>
+                                        <p style="margin:0;font-size:15px;color:#d0d0d0;line-height:1.7;">Welcome to
+                                            <strong style="color:#fff;">INFOTHON 2K26</strong> — the ultimate cyberpunk
+                                            tech odyssey. Click the button below to verify your email.</p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <!-- ================================================================
-                         MAIN TITLE SECTION
-                         ================================================================ -->
+                    <!-- CTA Button -->
                     <tr>
-                        <td align="center" class="content-padding" style="padding: 40px 50px 30px 50px;">
-                            <!-- Section Label -->
-                            <p
-                                style="margin: 0 0 15px 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #666666; letter-spacing: 3px;">
-                                [SYSTEM.AUTH.INITIALIZE]
-                            </p>
-
-                            <!-- Main Heading -->
-                            <h2
-                                style="margin: 0; font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: 4px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);">
-                                INITIALIZE ACCESS
-                            </h2>
-
-                            <!-- Subtitle -->
-                            <p
-                                style="margin: 20px 0 0 0; font-size: 16px; color: #888888; line-height: 1.7; max-width: 400px;">
-                                Complete your identity verification to activate your INFOTHON 2K26 operative status.
-                            </p>
+                        <td align="center" style="padding:10px 30px 30px;">
+                            <a href="{{ .ConfirmationURL }}"
+                                style="display:inline-block;padding:16px 45px;background:linear-gradient(135deg,#00f5ff,#00d4aa);color:#000;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;text-decoration:none;border-radius:10px;letter-spacing:3px;box-shadow:0 0 40px rgba(0,245,255,0.4);">VERIFY
+                                IDENTITY</a>
+                            <p style="margin:15px 0 0;font-size:10px;color:#444;letter-spacing:1px;">[CLICK TO
+                                INITIALIZE]</p>
                         </td>
                     </tr>
 
-                    <!-- ================================================================
-                         WELCOME MESSAGE SECTION
-                         ================================================================ -->
+                    <!-- Fallback Link -->
                     <tr>
-                        <td class="content-padding" style="padding: 20px 50px 35px 50px;">
-                            <!-- Terminal-style Message Box -->
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                style="background: rgba(0, 0, 0, 0.4); border-radius: 12px; border: 1px solid rgba(0, 245, 255, 0.1); overflow: hidden;">
-                                <!-- Terminal Header -->
-                                <tr>
-                                    <td
-                                        style="padding: 12px 20px; background: rgba(0, 245, 255, 0.05); border-bottom: 1px solid rgba(0, 245, 255, 0.1);">
-                                        <table role="presentation" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <!-- Terminal Dots -->
-                                                <td style="padding-right: 8px;">
-                                                    <div
-                                                        style="width: 10px; height: 10px; background: #ff5f56; border-radius: 50%;">
-                                                    </div>
-                                                </td>
-                                                <td style="padding-right: 8px;">
-                                                    <div
-                                                        style="width: 10px; height: 10px; background: #ffbd2e; border-radius: 50%;">
-                                                    </div>
-                                                </td>
-                                                <td style="padding-right: 15px;">
-                                                    <div
-                                                        style="width: 10px; height: 10px; background: #27c93f; border-radius: 50%;">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        style="font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #555555;">system://verification/init</span>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <!-- Terminal Content -->
-                                <tr>
-                                    <td style="padding: 25px;">
-                                        <p
-                                            style="margin: 0 0 15px 0; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #00f5ff;">
-                                            > OPERATIVE_DETECTED
-                                        </p>
-                                        <p
-                                            style="margin: 0 0 20px 0; font-size: 16px; color: #d0d0d0; line-height: 1.8;">
-                                            Welcome to <strong style="color: #ffffff;">INFOTHON 2K26</strong> — the
-                                            ultimate cyberpunk tech odyssey where innovation meets the future.
-                                        </p>
-                                        <p style="margin: 0; font-size: 15px; color: #888888; line-height: 1.7;">
-                                            Your registration request has been logged. To complete system initialization
-                                            and gain full access to the event portal, verify your identity using the
-                                            secure link below.
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         CTA BUTTON SECTION
-                         ================================================================ -->
-                    <tr>
-                        <td align="center" class="content-padding" style="padding: 10px 50px 40px 50px;">
-                            <!-- Button Container with Glow -->
-                            <table role="presentation" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td align="center" style="position: relative;">
-                                        <!-- Glow Effect Behind Button -->
-                                        <div
-                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 60px; background: radial-gradient(ellipse at center, rgba(0, 245, 255, 0.3) 0%, transparent 70%); filter: blur(15px);">
-                                        </div>
-
-                                        <!-- Main CTA Button -->
-                                        <a href="{{ .ConfirmationURL }}" class="cta-button"
-                                            style="display: inline-block; position: relative; padding: 20px 55px; background: linear-gradient(135deg, #00f5ff 0%, #00d4aa 50%, #00f5ff 100%); color: #000000; font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 800; text-decoration: none; border-radius: 12px; letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 0 50px rgba(0, 245, 255, 0.5), 0 0 100px rgba(0, 245, 255, 0.2), 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); border: 1px solid rgba(255, 255, 255, 0.2);">
-                                            VERIFY IDENTITY
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Button Hint -->
-                            <p
-                                style="margin: 20px 0 0 0; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #444444; letter-spacing: 2px;">
-                                [CLICK TO INITIALIZE SECURE CONNECTION]
-                            </p>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         FALLBACK URL SECTION
-                         ================================================================ -->
-                    <tr>
-                        <td class="content-padding" style="padding: 0 50px 35px 50px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                style="background: rgba(0, 245, 255, 0.03); border-radius: 10px; border: 1px solid rgba(0, 245, 255, 0.1);">
-                                <tr>
-                                    <td style="padding: 20px;">
-                                        <p
-                                            style="margin: 0 0 12px 0; font-family: 'Orbitron', monospace; font-size: 10px; color: #555555; letter-spacing: 2px;">
-                                            [ALTERNATIVE_ACCESS_LINK]
-                                        </p>
-                                        <p
-                                            style="margin: 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #00f5ff; word-break: break-all; line-height: 1.6;">
-                                            {{ .ConfirmationURL }}
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         GRADIENT DIVIDER
-                         ================================================================ -->
-                    <tr>
-                        <td style="padding: 0 50px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td
-                                        style="height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.4) 50%, transparent 100%);">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         EVENT INFORMATION SECTION
-                         ================================================================ -->
-                    <tr>
-                        <td class="content-padding" style="padding: 40px 50px;">
-                            <!-- Section Header -->
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                style="margin-bottom: 25px;">
-                                <tr>
-                                    <td>
-                                        <p
-                                            style="margin: 0; font-family: 'Orbitron', monospace; font-size: 10px; color: #8b5cf6; letter-spacing: 3px;">
-                                            [EVENT.DATA]
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Event Info Card -->
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(139, 92, 246, 0.03) 100%); border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.2); overflow: hidden;">
-                                <tr>
-                                    <td style="padding: 25px;">
-                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                            class="event-info-table">
-                                            <tr>
-                                                <!-- Date Column -->
-                                                <td width="50%" style="padding: 15px; vertical-align: top;">
-                                                    <table role="presentation" cellpadding="0" cellspacing="0">
-                                                        <tr>
-                                                            <td>
-                                                                <!-- Calendar Icon -->
-                                                                <div
-                                                                    style="width: 40px; height: 40px; background: rgba(139, 92, 246, 0.15); border-radius: 10px; display: inline-block; text-align: center; line-height: 40px; margin-bottom: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                                                                    <span
-                                                                        style="font-size: 18px; color: #8b5cf6;">◈</span>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <p
-                                                                    style="margin: 0 0 5px 0; font-family: 'Orbitron', monospace; font-size: 10px; color: #8b5cf6; letter-spacing: 2px;">
-                                                                    [DATE]
-                                                                </p>
-                                                                <p
-                                                                    style="margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: #ffffff;">
-                                                                    February 12-13
-                                                                </p>
-                                                                <p
-                                                                    style="margin: 5px 0 0 0; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #888888;">
-                                                                    2K26
-                                                                </p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-
-                                                <!-- Location Column -->
-                                                <td width="50%"
-                                                    style="padding: 15px; vertical-align: top; border-left: 1px solid rgba(139, 92, 246, 0.2);">
-                                                    <table role="presentation" cellpadding="0" cellspacing="0">
-                                                        <tr>
-                                                            <td>
-                                                                <!-- Location Icon -->
-                                                                <div
-                                                                    style="width: 40px; height: 40px; background: rgba(0, 245, 255, 0.1); border-radius: 10px; display: inline-block; text-align: center; line-height: 40px; margin-bottom: 12px; border: 1px solid rgba(0, 245, 255, 0.3);">
-                                                                    <span
-                                                                        style="font-size: 18px; color: #00f5ff;">◉</span>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <p
-                                                                    style="margin: 0 0 5px 0; font-family: 'Orbitron', monospace; font-size: 10px; color: #00f5ff; letter-spacing: 2px;">
-                                                                    [LOCATION]
-                                                                </p>
-                                                                <p
-                                                                    style="margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: #ffffff;">
-                                                                    TCSC Campus
-                                                                </p>
-                                                                <p
-                                                                    style="margin: 5px 0 0 0; font-family: 'Rajdhani', sans-serif; font-size: 12px; color: #888888; line-height: 1.5;">
-                                                                    Thakur College of Science & Commerce<br>
-                                                                    Kandivali East, Mumbai
-                                                                </p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         FEATURES/HIGHLIGHTS SECTION
-                         ================================================================ -->
-                    <tr>
-                        <td class="content-padding" style="padding: 0 50px 40px 50px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <!-- Feature 1 -->
-                                    <td width="33%" style="padding: 10px; text-align: center; vertical-align: top;">
-                                        <div
-                                            style="width: 50px; height: 50px; margin: 0 auto 12px auto; background: linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(0, 245, 255, 0.05) 100%); border-radius: 12px; border: 1px solid rgba(0, 245, 255, 0.2); display: flex; align-items: center; justify-content: center;">
-                                            <span style="font-size: 24px; color: #00f5ff; line-height: 50px;">⬡</span>
-                                        </div>
-                                        <p
-                                            style="margin: 0; font-family: 'Orbitron', monospace; font-size: 9px; color: #00f5ff; letter-spacing: 1px;">
-                                            WORKSHOPS</p>
-                                    </td>
-
-                                    <!-- Feature 2 -->
-                                    <td width="33%" style="padding: 10px; text-align: center; vertical-align: top;">
-                                        <div
-                                            style="width: 50px; height: 50px; margin: 0 auto 12px auto; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2); display: flex; align-items: center; justify-content: center;">
-                                            <span style="font-size: 24px; color: #8b5cf6; line-height: 50px;">◇</span>
-                                        </div>
-                                        <p
-                                            style="margin: 0; font-family: 'Orbitron', monospace; font-size: 9px; color: #8b5cf6; letter-spacing: 1px;">
-                                            HACKATHONS</p>
-                                    </td>
-
-                                    <!-- Feature 3 -->
-                                    <td width="33%" style="padding: 10px; text-align: center; vertical-align: top;">
-                                        <div
-                                            style="width: 50px; height: 50px; margin: 0 auto 12px auto; background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%); border-radius: 12px; border: 1px solid rgba(0, 255, 136, 0.2); display: flex; align-items: center; justify-content: center;">
-                                            <span style="font-size: 24px; color: #00ff88; line-height: 50px;">△</span>
-                                        </div>
-                                        <p
-                                            style="margin: 0; font-family: 'Orbitron', monospace; font-size: 9px; color: #00ff88; letter-spacing: 1px;">
-                                            PRIZES</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         SECURITY NOTICE SECTION
-                         ================================================================ -->
-                    <tr>
-                        <td class="content-padding" style="padding: 0 50px 40px 50px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-                                style="background: rgba(255, 80, 80, 0.05); border-radius: 12px; border: 1px solid rgba(255, 80, 80, 0.15);">
-                                <tr>
-                                    <td style="padding: 20px;">
-                                        <table role="presentation" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="padding-right: 15px; vertical-align: top;">
-                                                    <div
-                                                        style="width: 30px; height: 30px; background: rgba(255, 80, 80, 0.1); border-radius: 8px; text-align: center; line-height: 30px; border: 1px solid rgba(255, 80, 80, 0.2);">
-                                                        <span style="font-size: 14px; color: #ff5050;">!</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p
-                                                        style="margin: 0 0 5px 0; font-family: 'Orbitron', monospace; font-size: 10px; color: #ff5050; letter-spacing: 2px;">
-                                                        [SECURITY_NOTICE]
-                                                    </p>
-                                                    <p
-                                                        style="margin: 0; font-size: 13px; color: #888888; line-height: 1.6;">
-                                                        If you didn't create an account with INFOTHON 2K26, you can
-                                                        safely ignore this email. This verification link will expire in
-                                                        24 hours.
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         FOOTER DIVIDER
-                         ================================================================ -->
-                    <tr>
-                        <td style="padding: 0 50px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td
-                                        style="height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         FOOTER SECTION - Branding & Social
-                         ================================================================ -->
-                    <tr>
-                        <td align="center" class="content-padding" style="padding: 40px 50px 30px 50px;">
-                            <!-- Footer Logo -->
-                            <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
-                                <tr>
-                                    <td align="center">
-                                        <p
-                                            style="margin: 0; font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; letter-spacing: 6px;">
-                                            <span
-                                                style="color: #00f5ff; text-shadow: 3px 0 0 rgba(139, 92, 246, 0.6), -3px 0 0 rgba(0, 245, 255, 0.6), 0 0 40px rgba(0, 245, 255, 0.6);">INFOTHON</span>
-                                            <span
-                                                style="color: #8b5cf6; text-shadow: 0 0 25px rgba(139, 92, 246, 0.7);">
-                                                2K26</span>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Tagline -->
-                            <p
-                                style="margin: 0 0 25px 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #444444; letter-spacing: 4px;">
-                                // THE_FUTURE_IS_NOW //
-                            </p>
-
-                            <!-- Social Links (Optional placeholders) -->
-                            <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom: 25px;">
-                                <tr>
-                                    <td style="padding: 0 8px;">
-                                        <div
-                                            style="width: 36px; height: 36px; background: rgba(0, 245, 255, 0.1); border-radius: 8px; border: 1px solid rgba(0, 245, 255, 0.2); text-align: center; line-height: 36px;">
-                                            <span style="font-size: 14px; color: #00f5ff;">◈</span>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 0 8px;">
-                                        <div
-                                            style="width: 36px; height: 36px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.2); text-align: center; line-height: 36px;">
-                                            <span style="font-size: 14px; color: #8b5cf6;">◇</span>
-                                        </div>
-                                    </td>
-                                    <td style="padding: 0 8px;">
-                                        <div
-                                            style="width: 36px; height: 36px; background: rgba(0, 255, 136, 0.1); border-radius: 8px; border: 1px solid rgba(0, 255, 136, 0.2); text-align: center; line-height: 36px;">
-                                            <span style="font-size: 14px; color: #00ff88;">△</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- College Info -->
-                            <p
-                                style="margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 13px; color: #555555; line-height: 1.6;">
-                                Organized by<br>
-                                <strong style="color: #888888;">Thakur College of Science & Commerce</strong>
-                            </p>
-                        </td>
-                    </tr>
-
-                    <!-- ================================================================
-                         BOTTOM CORNER ACCENTS
-                         ================================================================ -->
-                    <tr>
-                        <td style="padding: 0; height: 40px; position: relative;">
-                            <!-- Bottom Decorative Line -->
+                        <td style="padding:0 30px 25px;">
                             <div
-                                style="position: absolute; bottom: 15px; left: 60px; right: 60px; height: 1px; background: linear-gradient(90deg, rgba(139, 92, 246, 0.3) 0%, transparent 20%, transparent 80%, rgba(0, 245, 255, 0.3) 100%);">
+                                style="background:rgba(0,245,255,0.03);padding:15px;border-radius:8px;border:1px solid rgba(0,245,255,0.1);">
+                                <p style="margin:0 0 8px;font-size:10px;color:#555;letter-spacing:1px;">
+                                    [ALTERNATIVE_LINK]</p>
+                                <p
+                                    style="margin:0;font-size:10px;color:#00f5ff;word-break:break-all;font-family:monospace;">
+                                    {{ .ConfirmationURL }}</p>
                             </div>
+                        </td>
+                    </tr>
 
-                            <!-- Bottom Left Corner -->
+                    <!-- Divider -->
+                    <tr>
+                        <td style="padding:0 30px;">
                             <div
-                                style="position: absolute; bottom: 0; left: 0; width: 40px; height: 40px; border-left: 3px solid #8b5cf6; border-bottom: 3px solid #8b5cf6;">
+                                style="height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,0.4),transparent);">
                             </div>
-                            <div
-                                style="position: absolute; bottom: 8px; left: 8px; width: 20px; height: 20px; border-left: 1px solid rgba(139, 92, 246, 0.4); border-bottom: 1px solid rgba(139, 92, 246, 0.4);">
-                            </div>
+                        </td>
+                    </tr>
 
-                            <!-- Bottom Right Corner -->
+                    <!-- Event Info -->
+                    <tr>
+                        <td style="padding:25px 30px;">
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:rgba(139,92,246,0.05);border-radius:12px;border:1px solid rgba(139,92,246,0.2);">
+                                <tr>
+                                    <td width="50%" style="padding:20px;vertical-align:top;">
+                                        <p
+                                            style="margin:0 0 5px;font-size:10px;color:#8b5cf6;letter-spacing:2px;font-family:'Orbitron',monospace;">
+                                            [DATE]</p>
+                                        <p style="margin:0;font-size:16px;color:#fff;font-weight:600;">February 12-13,
+                                            2K26</p>
+                                    </td>
+                                    <td width="50%"
+                                        style="padding:20px;vertical-align:top;border-left:1px solid rgba(139,92,246,0.2);">
+                                        <p
+                                            style="margin:0 0 5px;font-size:10px;color:#00f5ff;letter-spacing:2px;font-family:'Orbitron',monospace;">
+                                            [LOCATION]</p>
+                                        <p style="margin:0;font-size:16px;color:#fff;font-weight:600;">TCSC Campus</p>
+                                        <p style="margin:5px 0 0;font-size:12px;color:#888;">Thakur College, Kandivali
+                                            East, Mumbai</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Security Notice -->
+                    <tr>
+                        <td style="padding:0 30px 25px;">
                             <div
-                                style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; border-right: 3px solid #00f5ff; border-bottom: 3px solid #00f5ff;">
+                                style="background:rgba(255,80,80,0.05);padding:15px;border-radius:8px;border:1px solid rgba(255,80,80,0.15);">
+                                <p style="margin:0;font-size:12px;color:#888;"><span
+                                        style="color:#ff5050;font-weight:600;">[SECURITY]</span> If you didn't create an
+                                    account, ignore this email. Link expires in 24 hours.</p>
                             </div>
-                            <div
-                                style="position: absolute; bottom: 8px; right: 8px; width: 20px; height: 20px; border-right: 1px solid rgba(0, 245, 255, 0.4); border-bottom: 1px solid rgba(0, 245, 255, 0.4);">
-                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding:25px 30px;border-top:1px solid rgba(255,255,255,0.05);">
+                            <p style="margin:0;font-family:'Orbitron',monospace;font-size:18px;letter-spacing:4px;">
+                                <span
+                                    style="color:#00f5ff;text-shadow:2px 0 0 rgba(139,92,246,0.5),-2px 0 0 rgba(0,245,255,0.5);">INFOTHON</span>
+                                <span style="color:#8b5cf6;"> 2K26</span>
+                            </p>
+                            <p style="margin:10px 0 0;font-size:10px;color:#444;">© 2K26 INFOTHON | Thakur College of
+                                Science & Commerce</p>
                         </td>
                     </tr>
 
                 </table>
-                <!-- END MAIN CONTAINER -->
-
-                <!-- ================================================================
-                     COPYRIGHT FOOTER
-                     ================================================================ -->
-                <table role="presentation" width="600" cellpadding="0" cellspacing="0"
-                    style="max-width: 600px; margin-top: 30px;">
-                    <tr>
-                        <td align="center" style="padding: 20px;">
-                            <p
-                                style="margin: 0 0 10px 0; font-family: 'Orbitron', monospace; font-size: 9px; color: #333333; letter-spacing: 2px;">
-                                © 2K26 INFOTHON | ALL RIGHTS RESERVED
-                            </p>
-                            <p style="margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 11px; color: #333333;">
-                                Thakur College of Science & Commerce, Kandivali East, Mumbai
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-
             </td>
         </tr>
     </table>
-
 </body>
 
 </html>
