@@ -90,12 +90,22 @@ export default function SignUpPage() {
 
         if (error) {
             console.error('Signup Error:', error)
-            alert('Signup failed: ' + error.message) // Simple alert for now
+            alert('Signup failed: ' + error.message)
             setIsSubmitting(false)
             return
         }
 
-        // Store basic user info in local storage as a fallback/cache
+        // Check if email confirmation is required
+        // When "Confirm email" is enabled in Supabase, user.identities will be empty
+        if (data.user && data.user.identities && data.user.identities.length === 0) {
+            // Email confirmation required - don't log in yet
+            console.log('Email confirmation required')
+            setSubmitted(true)
+            setIsSubmitting(false)
+            return
+        }
+
+        // If email confirmation is disabled OR user confirmed, store user info
         if (data.user) {
             localStorage.setItem('infothon_user', JSON.stringify({
                 name: formData.name,
