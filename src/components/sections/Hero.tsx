@@ -361,7 +361,11 @@ export function Hero() {
                         <MagneticElement strength={0.15}>
                             <Link href="/register">
                                 <motion.button
-                                    whileHover={{ scale: 1.05 }}
+                                    whileHover={{
+                                        scale: 1.05,
+                                        x: [0, -2, 2, -2, 0],
+                                        transition: { duration: 0.2, repeat: Infinity }
+                                    }}
                                     whileTap={{ scale: 0.95 }}
                                     className="glitch-container relative px-8 py-4 rounded-lg bg-glow-cyan/10 border border-glow-cyan/30 text-glow-cyan font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-glow-cyan/20 transition-all duration-300 transform-none"
                                 >
@@ -371,16 +375,21 @@ export function Hero() {
                                     <div className="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-glow-violet/60" />
                                     <div className="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-glow-cyan/60" />
 
-                                    {/* Link content */}
-                                    <div className="relative z-20 flex items-center gap-2">
-                                        Register Now
+                                    {/* Link content - Intense Glitch Text on Hover */}
+                                    <div className="relative z-20 flex items-center gap-2 group-hover:animate-pulse">
+                                        <span className="relative inline-block">
+                                            Register Now
+                                            <span className="absolute top-0 left-0 -ml-0.5 translate-x-[2px] text-glow-violet opacity-0 group-hover:opacity-70 animate-pulse">Register Now</span>
+                                            <span className="absolute top-0 left-0 -ml-0.5 -translate-x-[2px] text-glow-cyan opacity-0 group-hover:opacity-70 animate-pulse delay-75">Register Now</span>
+                                        </span>
                                         <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                         </svg>
                                     </div>
 
-                                    {/* Active Glitch Hover Effect */}
+                                    {/* Active Glitch Hover Effect - Rapid Flash */}
                                     <div className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/50 rounded-lg pointer-events-none transition-colors duration-300" />
+                                    <div className="absolute inset-0 bg-glow-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity duration-100 animate-pulse" />
                                 </motion.button>
                             </Link>
                         </MagneticElement>
@@ -388,7 +397,11 @@ export function Hero() {
                         <MagneticElement strength={0.15}>
                             <Link href="/events">
                                 <motion.button
-                                    whileHover={{ scale: 1.05 }}
+                                    whileHover={{
+                                        scale: 1.05,
+                                        opacity: [1, 0.8, 1],
+                                        transition: { duration: 0.5, repeat: Infinity }
+                                    }}
                                     whileTap={{ scale: 0.95 }}
                                     className="relative px-8 py-4 rounded-lg bg-transparent border border-white/20 text-white font-heading font-bold uppercase tracking-wider overflow-hidden group hover:bg-white/5 hover:border-white/40 transition-all duration-300 transform-none"
                                 >
@@ -396,8 +409,11 @@ export function Hero() {
                                     <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-white/30" />
                                     <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-white/30" />
 
+                                    {/* Link content - Subtle Scan on Hover */}
                                     <div className="relative z-20 flex items-center gap-2 group-hover:text-glow-violet transition-colors">
                                         Explore Events
+                                        {/* Subtle scanline */}
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
                                     </div>
                                 </motion.button>
                             </Link>
