@@ -28,6 +28,10 @@ const avatars = [
     '/images/new_avatar_8.png',
     '/images/new_avatar_9.png',
     '/images/new_avatar_10.png',
+    '/images/boy_avatar_1.325Z.png',
+    '/images/girl_avatar_1.851Z.png',
+    '/images/boy_avatar_2.325Z.png',
+    '/images/girl_avatar_2.851Z.png',
 ]
 
 import { createClient } from '@/lib/supabase'
@@ -144,27 +148,70 @@ export default function ProfilePage() {
                     >
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                                {/* Avatar Section */}
+                                {/* Avatar Section with Glitch Frame */}
                                 <div className="relative group">
-                                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-br from-glow-cyan to-glow-violet shadow-[0_0_30px_rgba(0,245,255,0.3)]">
-                                        <div className="w-full h-full rounded-full bg-black overflow-hidden relative">
-                                            {selectedAvatar ? (
-                                                <Image
-                                                    src={selectedAvatar}
-                                                    alt="Profile Avatar"
-                                                    fill
-                                                    className="object-cover"
-                                                />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center bg-white/5">
-                                                    <User className="w-10 h-10 text-white/50" />
-                                                </div>
-                                            )}
+                                    {/* Outer Hexagon Frame */}
+                                    <div className="relative w-28 h-28 sm:w-36 sm:h-36">
+                                        {/* Corner Accents */}
+                                        <div className="absolute -top-1 -left-1 w-5 h-5 border-l-2 border-t-2 border-glow-cyan z-20" />
+                                        <div className="absolute -top-1 -right-1 w-5 h-5 border-r-2 border-t-2 border-glow-violet z-20" />
+                                        <div className="absolute -bottom-1 -left-1 w-5 h-5 border-l-2 border-b-2 border-glow-violet z-20" />
+                                        <div className="absolute -bottom-1 -right-1 w-5 h-5 border-r-2 border-b-2 border-glow-cyan z-20" />
+
+                                        {/* Animated Glow Ring */}
+                                        <motion.div
+                                            className="absolute inset-0 rounded-2xl"
+                                            animate={{
+                                                boxShadow: [
+                                                    '0 0 20px rgba(0,245,255,0.3), inset 0 0 15px rgba(0,245,255,0.1)',
+                                                    '0 0 40px rgba(0,245,255,0.5), inset 0 0 25px rgba(139,92,246,0.2)',
+                                                    '0 0 20px rgba(139,92,246,0.3), inset 0 0 15px rgba(139,92,246,0.1)',
+                                                    '0 0 20px rgba(0,245,255,0.3), inset 0 0 15px rgba(0,245,255,0.1)',
+                                                ]
+                                            }}
+                                            transition={{ duration: 3, repeat: Infinity }}
+                                        />
+
+                                        {/* Main Container */}
+                                        <div className="absolute inset-0 rounded-2xl p-1 bg-gradient-to-br from-glow-cyan via-glow-violet to-glow-cyan overflow-hidden">
+                                            <div className="w-full h-full rounded-xl bg-black overflow-hidden relative">
+                                                {selectedAvatar ? (
+                                                    <Image
+                                                        src={selectedAvatar}
+                                                        alt="Profile Avatar"
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center bg-white/5">
+                                                        <User className="w-12 h-12 text-white/50" />
+                                                    </div>
+                                                )}
+
+                                                {/* Scanline overlay */}
+                                                <div className="absolute inset-0 pointer-events-none opacity-20" style={{
+                                                    background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,245,255,0.05) 2px, rgba(0,245,255,0.05) 4px)'
+                                                }} />
+                                            </div>
                                         </div>
+
+                                        {/* Glitch Copies */}
+                                        <motion.div
+                                            className="absolute inset-0 rounded-2xl border-2 border-[#00f0ff] opacity-0 pointer-events-none"
+                                            animate={{ x: [-3, 3, -2, 0], opacity: [0, 0.6, 0, 0.4, 0] }}
+                                            transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
+                                        />
+                                        <motion.div
+                                            className="absolute inset-0 rounded-2xl border-2 border-[#8b5cf6] opacity-0 pointer-events-none"
+                                            animate={{ x: [3, -3, 2, 0], opacity: [0, 0.5, 0, 0.3, 0] }}
+                                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 2 }}
+                                        />
                                     </div>
+
+                                    {/* Edit Button */}
                                     <button
                                         onClick={() => setShowAvatarSelection(!showAvatarSelection)}
-                                        className="absolute bottom-0 right-0 z-20 p-2 rounded-full bg-bg-primary border border-glow-cyan text-glow-cyan shadow-lg hover:bg-glow-cyan hover:text-black transition-all cursor-pointer"
+                                        className="absolute -bottom-1 -right-1 z-30 p-2.5 rounded-xl bg-black border-2 border-glow-cyan text-glow-cyan shadow-[0_0_15px_rgba(0,245,255,0.3)] hover:bg-glow-cyan hover:text-black hover:shadow-[0_0_25px_rgba(0,245,255,0.5)] transition-all cursor-pointer"
                                     >
                                         <Edit2 className="w-4 h-4" />
                                     </button>

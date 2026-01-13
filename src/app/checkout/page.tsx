@@ -1,14 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Trash2, Plus, Minus, Tag, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Trash2, Plus, Minus, Tag, ArrowLeft, ArrowRight, Check, Zap } from 'lucide-react'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
-import { GlowButton, GlassCard, ScrambleText } from '@/components/ui'
+import { GlowButton, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { eventPackages, colorMap } from '@/data'
 
@@ -22,12 +22,210 @@ interface CartItem {
     quantity: number
 }
 
+declare global {
+    interface Window {
+        Razorpay: new (options: RazorpayOptions) => RazorpayInstance
+    }
+}
+
+interface RazorpayOptions {
+    key: string
+    amount: number
+    currency: string
+    name: string
+    description: string
+    order_id?: string
+    handler: (response: RazorpayResponse) => void
+    prefill?: {
+        name?: string
+        email?: string
+        contact?: string
+    }
+    theme?: {
+        color?: string
+    }
+}
+
+interface RazorpayInstance {
+    open: () => void
+    close: () => void
+}
+
+interface RazorpayResponse {
+    razorpay_payment_id: string
+    razorpay_order_id: string
+    razorpay_signature: string
+}
+
+// Payment Success Animation Component
+function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
+    useEffect(() => {
+        const timer = setTimeout(onComplete, 4000)
+        return () => clearTimeout(timer)
+    }, [onComplete])
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center"
+        >
+            {/* Scanlines */}
+            <div className="absolute inset-0 pointer-events-none z-10 opacity-20">
+                <div className="w-full h-full" style={{
+                    background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, 0.03) 2px, rgba(0, 245, 255, 0.03) 4px)'
+                }} />
+            </div>
+
+            {/* Glitch Lines */}
+            <motion.div
+                className="absolute inset-0 pointer-events-none"
+                animate={{
+                    background: [
+                        'linear-gradient(0deg, transparent 0%, transparent 100%)',
+                        'linear-gradient(0deg, transparent 0%, rgba(0,245,255,0.1) 50%, transparent 51%, transparent 100%)',
+                        'linear-gradient(0deg, transparent 0%, transparent 100%)',
+                    ]
+                }}
+                transition={{ duration: 0.1, repeat: 10, repeatDelay: 0.3 }}
+            />
+
+            <div className="relative z-20 text-center">
+                {/* Success Icon with Glitch */}
+                <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', damping: 15, delay: 0.2 }}
+                    className="relative mb-8"
+                >
+                    {/* Outer Ring */}
+                    <motion.div
+                        className="w-32 h-32 mx-auto rounded-full border-4 border-glow-cyan flex items-center justify-center"
+                        animate={{
+                            boxShadow: [
+                                '0 0 20px rgba(0,245,255,0.3), inset 0 0 20px rgba(0,245,255,0.1)',
+                                '0 0 60px rgba(0,245,255,0.6), inset 0 0 40px rgba(0,245,255,0.3)',
+                                '0 0 20px rgba(0,245,255,0.3), inset 0 0 20px rgba(0,245,255,0.1)',
+                            ]
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            <Check className="w-16 h-16 text-glow-cyan" strokeWidth={3} />
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Glitch copies */}
+                    <motion.div
+                        className="absolute inset-0 w-32 h-32 mx-auto rounded-full border-4 border-[#00f0ff] opacity-0"
+                        animate={{ x: [-5, 5, -3, 0], opacity: [0, 0.8, 0, 0.5, 0] }}
+                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
+                    />
+                    <motion.div
+                        className="absolute inset-0 w-32 h-32 mx-auto rounded-full border-4 border-[#8b5cf6] opacity-0"
+                        animate={{ x: [5, -5, 3, 0], opacity: [0, 0.7, 0, 0.4, 0] }}
+                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.8 }}
+                    />
+                </motion.div>
+
+                {/* Success Text */}
+                <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                >
+                    <div className="relative inline-block mb-4">
+                        <h2 className="text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(0,245,255,0.5)]">
+                            <ScrambleText text="PAYMENT SUCCESSFUL" revealSpeed={30} scrambleSpeed={20} delay={800} />
+                        </h2>
+                        {/* Glitch layers */}
+                        <motion.h2
+                            className="absolute inset-0 text-4xl md:text-5xl font-heading font-black text-[#00f0ff] opacity-0"
+                            animate={{ x: [-8, 8, -4, 0], opacity: [0, 0.8, 0, 0] }}
+                            transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 1.5 }}
+                        >
+                            PAYMENT SUCCESSFUL
+                        </motion.h2>
+                        <motion.h2
+                            className="absolute inset-0 text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] opacity-0"
+                            animate={{ x: [8, -8, 4, 0], opacity: [0, 0.7, 0, 0] }}
+                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.2 }}
+                        >
+                            PAYMENT SUCCESSFUL
+                        </motion.h2>
+                    </div>
+                </motion.div>
+
+                <motion.p
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 1 }}
+                    className="text-text-secondary font-mono text-sm mb-8"
+                >
+                    Transaction verified. Access granted.
+                </motion.p>
+
+                {/* Energy Pulses */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.2 }}
+                    className="flex items-center justify-center gap-3"
+                >
+                    {[...Array(5)].map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="w-2 h-8 bg-glow-cyan rounded-full"
+                            animate={{
+                                scaleY: [0.3, 1, 0.3],
+                                opacity: [0.3, 1, 0.3],
+                            }}
+                            transition={{
+                                duration: 0.6,
+                                repeat: Infinity,
+                                delay: i * 0.1,
+                            }}
+                        />
+                    ))}
+                </motion.div>
+
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5 }}
+                    className="text-glow-cyan/60 font-cyber text-xs tracking-widest mt-6"
+                >
+                    REDIRECTING TO PROFILE...
+                </motion.p>
+            </div>
+        </motion.div>
+    )
+}
+
 export default function CheckoutPage() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [couponCode, setCouponCode] = useState('')
     const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
     const [couponError, setCouponError] = useState('')
     const [discount, setDiscount] = useState(0)
+    const [isProcessing, setIsProcessing] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
+
+    // Load Razorpay script
+    useEffect(() => {
+        const script = document.createElement('script')
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+        script.async = true
+        document.body.appendChild(script)
+        return () => {
+            document.body.removeChild(script)
+        }
+    }, [])
 
     // Load cart from localStorage
     useEffect(() => {
@@ -94,11 +292,81 @@ export default function CheckoutPage() {
         }))
     }
 
+    const handlePaymentSuccess = useCallback(() => {
+        // Save purchased events
+        localStorage.setItem('infothon_purchased', JSON.stringify(cartItems.map(i => i.id)))
+        // Clear cart
+        localStorage.removeItem('infothon_registrations')
+        setCartItems([])
+        // Redirect
+        window.location.href = '/profile'
+    }, [cartItems])
+
+    const initiatePayment = async () => {
+        if (total <= 0) return
+
+        setIsProcessing(true)
+
+        try {
+            // Create order
+            const response = await fetch('/api/razorpay/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: total,
+                    currency: 'INR',
+                    receipt: `INFOTHON_${Date.now()}`
+                })
+            })
+
+            const data = await response.json()
+
+            if (!data.success) {
+                throw new Error('Failed to create order')
+            }
+
+            const options: RazorpayOptions = {
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
+                amount: data.order.amount,
+                currency: data.order.currency,
+                name: 'INFOTHON 2026',
+                description: `Registration for ${cartItems.length} event(s)`,
+                order_id: data.order.id,
+                handler: function () {
+                    setShowSuccess(true)
+                },
+                prefill: {
+                    name: '',
+                    email: '',
+                    contact: ''
+                },
+                theme: {
+                    color: '#00F5FF'
+                }
+            }
+
+            const razorpay = new window.Razorpay(options)
+            razorpay.open()
+        } catch (error) {
+            console.error('Payment error:', error)
+            alert('Payment failed. Please try again.')
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
     return (
         <SmoothScroll>
             <GlowCursor />
             <Background3D backgroundImage="/images/new_bg6.png" />
             <FloatingNavbar />
+
+            {/* Payment Success Overlay */}
+            <AnimatePresence>
+                {showSuccess && (
+                    <PaymentSuccessOverlay onComplete={handlePaymentSuccess} />
+                )}
+            </AnimatePresence>
 
             <main className="relative z-10 min-h-screen pt-28 pb-20 overflow-x-hidden">
                 <div className="section-container px-4 sm:px-6 max-w-5xl mx-auto overflow-hidden">
@@ -414,9 +682,26 @@ export default function CheckoutPage() {
 
                                             {/* Actions */}
                                             <div className="space-y-3">
-                                                <GlowButton className="w-full justify-center py-4 shadow-[0_0_30px_rgba(34,211,238,0.3)]">
-                                                    <span className="font-bold tracking-widest">PROCEED TO PAY</span>
-                                                    <ArrowRight className="w-5 h-5 ml-2" />
+                                                <GlowButton
+                                                    onClick={initiatePayment}
+                                                    disabled={isProcessing}
+                                                    className="w-full justify-center py-4 shadow-[0_0_30px_rgba(34,211,238,0.3)]"
+                                                >
+                                                    {isProcessing ? (
+                                                        <>
+                                                            <motion.div
+                                                                className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                                                                animate={{ rotate: 360 }}
+                                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                                            />
+                                                            Processing...
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Zap className="w-5 h-5 mr-2" />
+                                                            <span className="font-bold tracking-widest">PAY WITH RAZORPAY</span>
+                                                        </>
+                                                    )}
                                                 </GlowButton>
                                                 <Link href="/register" className="block">
                                                     <button className="w-full py-3 rounded-xl border border-white/10 text-text-muted hover:text-white hover:border-glow-cyan/30 font-cyber text-sm tracking-wider transition-colors flex items-center justify-center gap-2">

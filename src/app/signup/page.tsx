@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { Eye, EyeOff, Check, X } from 'lucide-react'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
@@ -15,14 +16,16 @@ const Background3D = dynamic(
     { ssr: false }
 )
 
-// Cyberpunk Input Component
+// Cyberpunk Input Component with Password Toggle
 function CyberInput({
     label,
     type = 'text',
     placeholder,
     value,
     onChange,
-    icon
+    icon,
+    error,
+    showPasswordToggle = false
 }: {
     label: string
     type?: string
@@ -30,7 +33,12 @@ function CyberInput({
     value: string
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     icon: React.ReactNode
+    error?: string
+    showPasswordToggle?: boolean
 }) {
+    const [showPassword, setShowPassword] = useState(false)
+    const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type
+
     return (
         <div className="relative group">
             <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">
@@ -41,18 +49,71 @@ function CyberInput({
                     {icon}
                 </div>
                 {/* Background Layer with Blur to prevent text blurring */}
-                <div className="absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 pointer-events-none" />
+                <div className={`absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border rounded-lg transition-all duration-300 pointer-events-none ${error ? 'border-red-500/50' : 'border-glow-cyan/30 group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)]'}`} />
 
                 {/* Gradient Glow Layer */}
                 <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
 
                 <input
-                    type={type}
+                    type={inputType}
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-                    className="relative z-10 w-full bg-transparent px-12 py-3.5 text-white placeholder-text-muted focus:outline-none font-mono text-sm"
+                    className={`relative z-10 w-full bg-transparent px-12 py-3.5 text-white placeholder-text-muted focus:outline-none font-mono text-sm ${showPasswordToggle ? 'pr-12' : ''}`}
                 />
+
+                {/* Password Toggle Button */}
+                {showPasswordToggle && (
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-glow-cyan/60 hover:text-glow-cyan transition-colors"
+                    >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                )}
+            </div>
+            {error && (
+                <p className="text-xs text-red-400 mt-1 font-mono">{error}</p>
+            )}
+        </div>
+    )
+}
+
+// Password Strength Indicator
+function PasswordStrength({ password }: { password: string }) {
+    const checks = [
+        { label: 'Min 8 characters', valid: password.length >= 8 },
+        { label: 'Uppercase letter', valid: /[A-Z]/.test(password) },
+        { label: 'Lowercase letter', valid: /[a-z]/.test(password) },
+        { label: 'Number', valid: /[0-9]/.test(password) },
+        { label: 'Special char (!@#$%)', valid: /[!@#$%^&*(),.?":{}|<>]/.test(password) },
+    ]
+
+    const strength = checks.filter(c => c.valid).length
+    const strengthColor = strength <= 2 ? 'bg-red-500' : strength <= 3 ? 'bg-yellow-500' : 'bg-green-500'
+
+    if (!password) return null
+
+    return (
+        <div className="mt-3 space-y-2">
+            {/* Strength Bar */}
+            <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((i) => (
+                    <div
+                        key={i}
+                        className={`h-1 flex-1 rounded-full transition-all ${i <= strength ? strengthColor : 'bg-white/10'}`}
+                    />
+                ))}
+            </div>
+            {/* Checks */}
+            <div className="grid grid-cols-2 gap-1">
+                {checks.map((check, i) => (
+                    <div key={i} className={`flex items-center gap-1 text-xs font-mono ${check.valid ? 'text-green-400' : 'text-text-muted'}`}>
+                        {check.valid ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                        {check.label}
+                    </div>
+                ))}
             </div>
         </div>
     )
@@ -319,15 +380,17 @@ export default function SignUpPage() {
                                         <CyberInput
                                             label="Password"
                                             type="password"
-                                            placeholder="Create a password"
+                                            placeholder="Create a strong password"
                                             value={formData.password}
                                             onChange={handleChange('password')}
+                                            showPasswordToggle
                                             icon={
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                                                 </svg>
                                             }
                                         />
+                                        <PasswordStrength password={formData.password} />
 
                                         <CyberInput
                                             label="Confirm Password"
@@ -335,6 +398,8 @@ export default function SignUpPage() {
                                             placeholder="Confirm your password"
                                             value={formData.confirmPassword}
                                             onChange={handleChange('confirmPassword')}
+                                            showPasswordToggle
+                                            error={formData.confirmPassword && formData.password !== formData.confirmPassword ? 'Passwords do not match' : undefined}
                                             icon={
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
