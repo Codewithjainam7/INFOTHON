@@ -18,10 +18,16 @@ const Background3D = dynamic(
 )
 
 const avatars = [
-    '/images/boy_avatar_1.325Z.png',
-    '/images/girl_avatar_1.851Z.png',
-    '/images/boy_avatar_2.325Z.png',
-    '/images/girl_avatar_2.851Z.png',
+    '/images/new_avatar_1.png',
+    '/images/new_avatar_2.png',
+    '/images/new_avatar_3.png',
+    '/images/new_avatar_4.png',
+    '/images/new_avatar_5.png',
+    '/images/new_avatar_6.png',
+    '/images/new_avatar_7.png',
+    '/images/new_avatar_8.png',
+    '/images/new_avatar_9.png',
+    '/images/new_avatar_10.png',
 ]
 
 import { createClient } from '@/lib/supabase'
@@ -32,7 +38,7 @@ export default function ProfilePage() {
     const router = useRouter()
     const supabase = useMemo(() => createClient(), [])
     const [purchasedEvents, setPurchasedEvents] = useState<string[]>([])
-    const [user, setUser] = useState<{ name: string; email: string; college: string; cc: string } | null>(null)
+    const [user, setUser] = useState<{ name: string; email: string; phone: string; college: string; cc: string } | null>(null)
     const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
     const [showAvatarSelection, setShowAvatarSelection] = useState(false)
 
@@ -50,6 +56,7 @@ export default function ProfilePage() {
                 setUser({
                     name: user.user_metadata.full_name || 'Cyber Nomad',
                     email: user.email || '',
+                    phone: user.user_metadata.phone || '',
                     college: user.user_metadata.college || '',
                     cc: user.user_metadata.cc || ''
                 })
@@ -61,7 +68,7 @@ export default function ProfilePage() {
                 const userData = localStorage.getItem('infothon_user')
                 if (userData) {
                     const parsed = JSON.parse(userData)
-                    setUser({ ...parsed, college: '', cc: '' })
+                    setUser({ ...parsed, phone: '', college: '', cc: '' })
                 } else {
                     router.push('/login')
                 }
@@ -197,6 +204,14 @@ export default function ProfilePage() {
                                     <div className="flex items-center gap-2 text-text-secondary font-mono text-sm">
                                         <span>{user?.email || 'Not logged in'}</span>
                                     </div>
+                                    {user?.phone && (
+                                        <div className="flex items-center gap-2 text-text-muted font-mono text-xs mt-1">
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                                            </svg>
+                                            <span>{user.phone}</span>
+                                        </div>
+                                    )}
                                     {user?.college && (
                                         <div className="flex items-center gap-2 text-text-muted font-mono text-xs mt-1">
                                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

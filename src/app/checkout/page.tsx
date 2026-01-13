@@ -52,7 +52,7 @@ export default function CheckoutPage() {
     // Coupon validation (hardcoded for demo)
     const validCoupons: Record<string, number> = {
         'INFOTHON10': 10,
-        'TECHFEST20': 20,
+        'INFOTHON20': 20,
         'EARLY50': 50,
     }
 

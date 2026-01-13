@@ -416,7 +416,7 @@ export function BootSequence({ onComplete, duration = 4000 }: BootSequenceProps)
                                 }}
                                 className="text-text-muted text-sm mb-6 tracking-widest"
                             >
-                                <GlitchText intensity="normal">HACKATHON 2026 • TECHFEST</GlitchText>
+                                <GlitchText intensity="normal">HACKATHON 2026 • INFOTHON</GlitchText>
                             </motion.p>
 
                             {/* Progress Bar with Glitch */}
