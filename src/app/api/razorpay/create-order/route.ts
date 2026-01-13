@@ -1,13 +1,14 @@
 import Razorpay from 'razorpay'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const razorpay = new Razorpay({
-    key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
-    key_secret: process.env.RAZORPAY_KEY_SECRET!,
-})
-
 export async function POST(request: NextRequest) {
     try {
+        // Initialize Razorpay inside the handler to avoid build-time errors
+        const razorpay = new Razorpay({
+            key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+            key_secret: process.env.RAZORPAY_KEY_SECRET!,
+        })
+
         const { amount, currency = 'INR', receipt } = await request.json()
 
         const options = {
