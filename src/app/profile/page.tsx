@@ -80,19 +80,36 @@ export default function ProfilePage() {
         }
         getUser()
 
-        // Load purchased events
-        const saved = localStorage.getItem('infothon_purchased')
-        if (saved) {
-            setPurchasedEvents(JSON.parse(saved))
+        // Load purchased events from Supabase user_metadata
+        const loadEvents = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (user?.user_metadata?.purchased_events) {
+                setPurchasedEvents(user.user_metadata.purchased_events)
+            } else {
+                // Fallback to localStorage
+                const saved = localStorage.getItem('infothon_purchased')
+                if (saved) {
+                    setPurchasedEvents(JSON.parse(saved))
+                }
+            }
         }
+        loadEvents()
 
-        // Load avatar
-        const savedAvatar = localStorage.getItem('infothon_avatar')
-        if (savedAvatar) {
-            setSelectedAvatar(savedAvatar)
-        } else {
-            setShowAvatarSelection(true)
+        // Load avatar from Supabase or localStorage
+        const loadAvatar = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (user?.user_metadata?.avatar) {
+                setSelectedAvatar(user.user_metadata.avatar)
+            } else {
+                const savedAvatar = localStorage.getItem('infothon_avatar')
+                if (savedAvatar) {
+                    setSelectedAvatar(savedAvatar)
+                } else {
+                    setShowAvatarSelection(true)
+                }
+            }
         }
+        loadAvatar()
     }, [router, supabase])
 
     const handleSignOut = async () => {
@@ -102,10 +119,17 @@ export default function ProfilePage() {
         router.refresh()
     }
 
-    const handleAvatarSelect = (avatar: string) => {
+    const handleAvatarSelect = async (avatar: string) => {
         setSelectedAvatar(avatar)
-        localStorage.setItem('infothon_avatar', avatar)
         setShowAvatarSelection(false)
+
+        // Save to Supabase
+        await supabase.auth.updateUser({
+            data: { avatar }
+        })
+
+        // Also save to localStorage as backup
+        localStorage.setItem('infothon_avatar', avatar)
     }
 
     const handleSaveProfile = async () => {
@@ -453,7 +477,7 @@ export default function ProfilePage() {
                     {myTickets.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {myTickets.map((ticket, index) => (
-                                <TicketCard key={ticket.id} event={ticket} index={index} />
+                                <TicketCard key={ticket.id} event={ticket} index={index} userName={user?.name || 'Guest'} />
                             ))}
                         </div>
                     ) : (
@@ -520,8 +544,95 @@ function StatCard({ label, value, icon, delay }: { label: string; value: string;
     )
 }
 
-function TicketCard({ event, index }: { event: any; index: number }) {
+function TicketCard({ event, index, userName }: { event: any; index: number; userName: string }) {
     const colors = colorMap[event.color] || colorMap.cyan
+    const ticketId = `INFOTHON-${event.id.toUpperCase().slice(0, 4)}-${Date.now().toString(36).toUpperCase().slice(-4)}`
+
+    const handleDownload = async () => {
+        // Create a simple ticket image using canvas
+        const canvas = document.createElement('canvas')
+        canvas.width = 800
+        canvas.height = 400
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        // Background
+        const gradient = ctx.createLinearGradient(0, 0, 800, 400)
+        gradient.addColorStop(0, '#0a0a0a')
+        gradient.addColorStop(1, '#1a1a2e')
+        ctx.fillStyle = gradient
+        ctx.fillRect(0, 0, 800, 400)
+
+        // Border
+        ctx.strokeStyle = '#00f5ff'
+        ctx.lineWidth = 3
+        ctx.strokeRect(10, 10, 780, 380)
+
+        // Corner accents
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillRect(10, 10, 30, 3)
+        ctx.fillRect(10, 10, 3, 30)
+        ctx.fillRect(760, 10, 30, 3)
+        ctx.fillRect(787, 10, 3, 30)
+        ctx.fillRect(10, 387, 30, 3)
+        ctx.fillRect(10, 360, 3, 30)
+        ctx.fillRect(760, 387, 30, 3)
+        ctx.fillRect(787, 360, 3, 30)
+
+        // Event Title
+        ctx.font = 'bold 36px Arial'
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText(event.title, 40, 80)
+
+        // Category
+        ctx.font = '14px Arial'
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText(event.category, 40, 110)
+
+        // Details
+        ctx.font = '18px Arial'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText(`Attendee: ${userName}`, 40, 160)
+        ctx.fillText(`Date: ${event.date}`, 40, 190)
+        ctx.fillText(`Venue: Main Auditorium`, 40, 220)
+        ctx.fillText(`Time: 10:00 AM IST`, 40, 250)
+
+        // Ticket ID
+        ctx.font = 'bold 16px monospace'
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText(`Ticket ID: ${ticketId}`, 40, 300)
+
+        // INFOTHON branding
+        ctx.font = 'bold 48px Arial'
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.1)'
+        ctx.fillText('INFOTHON 2026', 400, 360)
+
+        // Download
+        const link = document.createElement('a')
+        link.download = `infothon-ticket-${event.id}.png`
+        link.href = canvas.toDataURL('image/png')
+        link.click()
+    }
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `INFOTHON 2026 - ${event.title}`,
+                    text: `I'm attending ${event.title} at INFOTHON 2026! Join me!`,
+                    url: window.location.origin,
+                })
+            } catch {
+                // User cancelled or error
+            }
+        } else {
+            // Fallback: copy to clipboard
+            await navigator.clipboard.writeText(
+                `I'm attending ${event.title} at INFOTHON 2026! Join me at ${window.location.origin}`
+            )
+            alert('Link copied to clipboard!')
+        }
+    }
 
     return (
         <motion.div
@@ -552,7 +663,7 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                             {event.category}
                         </div>
                         <div className="text-xs font-mono text-text-muted">
-                            #{event.id.toUpperCase().slice(0, 8)}
+                            #{ticketId.slice(-8)}
                         </div>
                     </div>
 
@@ -561,7 +672,6 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                     </h3>
 
                     <div className="space-y-2 mb-6">
-                        {/* ...keep content... */}
                         <div className="flex items-center gap-2 text-sm text-text-secondary">
                             <Calendar className="w-4 h-4 text-glow-cyan" />
                             {event.date}
@@ -577,11 +687,14 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <GlowButton size="sm" variant="secondary">
+                        <GlowButton size="sm" variant="secondary" onClick={handleDownload}>
                             <Download className="w-4 h-4 mr-2" />
                             Ticket
                         </GlowButton>
-                        <button className="p-2 rounded-lg glass hover:bg-white/10 transition-colors">
+                        <button
+                            onClick={handleShare}
+                            className="p-2 rounded-lg glass hover:bg-white/10 transition-colors"
+                        >
                             <Share2 className="w-4 h-4 text-white" />
                         </button>
                     </div>
@@ -610,7 +723,7 @@ function TicketCard({ event, index }: { event: any; index: number }) {
                         <div className="text-sm font-bold text-white">General Entry</div>
                     </div>
                     <div className="text-[10px] font-mono text-text-muted text-center">
-                        Non-Transferable
+                        Valid for {userName}
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -11,6 +11,7 @@ import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { eventPackages, colorMap } from '@/data'
+import { createClient } from '@/lib/supabase'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -292,9 +293,31 @@ export default function CheckoutPage() {
         }))
     }
 
-    const handlePaymentSuccess = useCallback(() => {
-        // Save purchased events
-        localStorage.setItem('infothon_purchased', JSON.stringify(cartItems.map(i => i.id)))
+    const handlePaymentSuccess = useCallback(async () => {
+        // Get current user and their existing purchased events
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (user) {
+            // Get existing purchased events and append new ones
+            const existingEvents = user.user_metadata?.purchased_events || []
+            const newEventIds = cartItems.map(i => i.id)
+            const allEvents = [...new Set([...existingEvents, ...newEventIds])] // Dedupe
+
+            // Save to Supabase user_metadata
+            await supabase.auth.updateUser({
+                data: {
+                    purchased_events: allEvents
+                }
+            })
+        }
+
+        // Also save to localStorage as backup
+        const existingLocal = JSON.parse(localStorage.getItem('infothon_purchased') || '[]')
+        const newEventIds = cartItems.map(i => i.id)
+        const allLocal = [...new Set([...existingLocal, ...newEventIds])]
+        localStorage.setItem('infothon_purchased', JSON.stringify(allLocal))
+
         // Clear cart
         localStorage.removeItem('infothon_registrations')
         setCartItems([])
