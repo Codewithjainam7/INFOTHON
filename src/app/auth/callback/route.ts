@@ -10,7 +10,9 @@ export async function GET(request: NextRequest) {
         const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
         const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-        const response = NextResponse.redirect(`${origin}/profile`)
+        // Create a temporary response to hold cookies
+        let redirectUrl = `${origin}/profile`
+        const tempResponse = NextResponse.next()
 
         const supabase = createServerClient(
             supabaseUrl,
@@ -22,7 +24,7 @@ export async function GET(request: NextRequest) {
                     },
                     setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
                         cookiesToSet.forEach(({ name, value, options }) =>
-                            response.cookies.set(name, value, options)
+                            tempResponse.cookies.set(name, value, options)
                         )
                     },
                 },
@@ -30,7 +32,24 @@ export async function GET(request: NextRequest) {
         )
 
         // Exchange the code for a session
-        await supabase.auth.exchangeCodeForSession(code)
+        const { data: { session } } = await supabase.auth.exchangeCodeForSession(code)
+
+        // Check if user has completed their profile (has college info)
+        if (session?.user) {
+            const userMetadata = session.user.user_metadata
+            if (!userMetadata?.college) {
+                // New user - redirect to onboarding
+                redirectUrl = `${origin}/onboarding`
+            }
+        }
+
+        // Create final response with redirect
+        const response = NextResponse.redirect(redirectUrl)
+
+        // Copy cookies from temp response
+        tempResponse.cookies.getAll().forEach((cookie) => {
+            response.cookies.set(cookie.name, cookie.value)
+        })
 
         return response
     }

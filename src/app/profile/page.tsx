@@ -32,9 +32,16 @@ export default function ProfilePage() {
     const router = useRouter()
     const supabase = useMemo(() => createClient(), [])
     const [purchasedEvents, setPurchasedEvents] = useState<string[]>([])
-    const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+    const [user, setUser] = useState<{ name: string; email: string; college: string; cc: string } | null>(null)
     const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
     const [showAvatarSelection, setShowAvatarSelection] = useState(false)
+
+    // Edit states
+    const [showEditProfile, setShowEditProfile] = useState(false)
+    const [editName, setEditName] = useState('')
+    const [editCollege, setEditCollege] = useState('')
+    const [editCC, setEditCC] = useState('')
+    const [isSaving, setIsSaving] = useState(false)
 
     useEffect(() => {
         const getUser = async () => {
@@ -42,14 +49,19 @@ export default function ProfilePage() {
             if (user) {
                 setUser({
                     name: user.user_metadata.full_name || 'Cyber Nomad',
-                    email: user.email || ''
+                    email: user.email || '',
+                    college: user.user_metadata.college || '',
+                    cc: user.user_metadata.cc || ''
                 })
+                setEditName(user.user_metadata.full_name || '')
+                setEditCollege(user.user_metadata.college || '')
+                setEditCC(user.user_metadata.cc || '')
             } else {
                 // Fallback to local storage for demo/testing without backend
                 const userData = localStorage.getItem('infothon_user')
                 if (userData) {
                     const parsed = JSON.parse(userData)
-                    setUser(parsed)
+                    setUser({ ...parsed, college: '', cc: '' })
                 } else {
                     router.push('/login')
                 }
@@ -83,6 +95,28 @@ export default function ProfilePage() {
         setSelectedAvatar(avatar)
         localStorage.setItem('infothon_avatar', avatar)
         setShowAvatarSelection(false)
+    }
+
+    const handleSaveProfile = async () => {
+        setIsSaving(true)
+        const { error } = await supabase.auth.updateUser({
+            data: {
+                full_name: editName,
+                college: editCollege,
+                cc: editCC
+            }
+        })
+
+        if (!error && user) {
+            setUser({
+                ...user,
+                name: editName,
+                college: editCollege,
+                cc: editCC
+            })
+            setShowEditProfile(false)
+        }
+        setIsSaving(false)
     }
 
     const myTickets = eventPackages.filter(pkg => purchasedEvents.includes(pkg.id))
@@ -163,16 +197,118 @@ export default function ProfilePage() {
                                     <div className="flex items-center gap-2 text-text-secondary font-mono text-sm">
                                         <span>{user?.email || 'Not logged in'}</span>
                                     </div>
+                                    {user?.college && (
+                                        <div className="flex items-center gap-2 text-text-muted font-mono text-xs mt-1">
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41" />
+                                            </svg>
+                                            <span>{user.college}</span>
+                                            {user.cc && <span className="text-glow-cyan">• CC: {user.cc}</span>}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
-                            <GlowButton onClick={handleSignOut} className="border-red-500/50 hover:bg-red-500/20 text-red-400">
-                                Sign Out
-                                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
-                            </GlowButton>
+                            <div className="flex gap-3 flex-wrap">
+                                <GlowButton onClick={() => setShowEditProfile(!showEditProfile)} size="sm">
+                                    <Edit2 className="w-4 h-4 mr-1" />
+                                    Edit Profile
+                                </GlowButton>
+                                <GlowButton onClick={handleSignOut} className="border-red-500/50 hover:bg-red-500/20 text-red-400">
+                                    Sign Out
+                                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                </GlowButton>
+                            </div>
                         </div>
+
+                        {/* Edit Profile Panel */}
+                        <AnimatePresence>
+                            {showEditProfile && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                                    animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
+                                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                    className="relative z-50"
+                                >
+                                    <div className="glitch-container rounded-xl p-6 sm:p-8 relative group border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden hover:border-glow-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+                                        <motion.div
+                                            className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none z-0"
+                                            animate={{ opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                        />
+                                        <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-10" />
+                                        <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60 z-10" />
+                                        <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60 z-10" />
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-10" />
+
+                                        <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2 relative z-20">
+                                            <Edit2 className="w-5 h-5 text-glow-cyan" />
+                                            Edit Profile
+                                        </h3>
+                                        
+                                        <div className="space-y-4 relative z-20">
+                                            <div>
+                                                <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">Name</label>
+                                                <input
+                                                    type="text"
+                                                    value={editName}
+                                                    onChange={(e) => setEditName(e.target.value)}
+                                                    className="w-full bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg px-4 py-3 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan focus:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 font-mono text-sm"
+                                                    placeholder="Your name"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">College / Institution</label>
+                                                <input
+                                                    type="text"
+                                                    value={editCollege}
+                                                    onChange={(e) => setEditCollege(e.target.value)}
+                                                    className="w-full bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg px-4 py-3 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan focus:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 font-mono text-sm"
+                                                    placeholder="Your college name"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">Campus Coordinator Code</label>
+                                                <input
+                                                    type="text"
+                                                    value={editCC}
+                                                    onChange={(e) => setEditCC(e.target.value)}
+                                                    className="w-full bg-bg-primary/60 backdrop-blur-sm border border-glow-cyan/30 rounded-lg px-4 py-3 text-white placeholder-text-muted focus:outline-none focus:border-glow-cyan focus:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all duration-300 font-mono text-sm"
+                                                    placeholder="Enter CC code (optional)"
+                                                />
+                                            </div>
+                                            <div className="flex gap-3 pt-2">
+                                                <GlowButton onClick={handleSaveProfile} disabled={isSaving}>
+                                                    {isSaving ? (
+                                                        <>
+                                                            <motion.div
+                                                                className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                                                                animate={{ rotate: 360 }}
+                                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                                            />
+                                                            Saving...
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Check className="w-4 h-4 mr-1" />
+                                                            Save Changes
+                                                        </>
+                                                    )}
+                                                </GlowButton>
+                                                <button
+                                                    onClick={() => setShowEditProfile(false)}
+                                                    className="px-4 py-2 rounded-lg border border-white/20 text-text-muted hover:bg-white/10 transition-colors font-mono text-sm"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
                         {/* Avatar Selection Panel */}
                         <AnimatePresence>

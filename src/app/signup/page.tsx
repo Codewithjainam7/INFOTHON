@@ -64,6 +64,7 @@ export default function SignUpPage() {
         email: '',
         phone: '',
         college: '',
+        cc: '',
         password: '',
         confirmPassword: ''
     })
@@ -110,6 +111,7 @@ export default function SignUpPage() {
                     full_name: formData.name,
                     phone: formData.phone,
                     college: formData.college,
+                    cc: formData.cc || '',
                     role: 'user', // Default role
                 }
             }
@@ -298,6 +300,18 @@ export default function SignUpPage() {
                                             icon={
                                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342" />
+                                                </svg>
+                                            }
+                                        />
+
+                                        <CyberInput
+                                            label="Campus Coordinator Code (Optional)"
+                                            placeholder="Enter CC code if you have one"
+                                            value={formData.cc}
+                                            onChange={handleChange('cc')}
+                                            icon={
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
                                                 </svg>
                                             }
                                         />
