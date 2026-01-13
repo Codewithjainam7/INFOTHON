@@ -60,6 +60,7 @@ export default function OnboardingPage() {
     const router = useRouter()
     const supabase = useMemo(() => createClient(), [])
     const [formData, setFormData] = useState({
+        phone: '',
         college: '',
         cc: ''
     })
@@ -95,6 +96,11 @@ export default function OnboardingPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
+        if (!formData.phone.trim()) {
+            setError('Phone number is required')
+            return
+        }
+
         if (!formData.college.trim()) {
             setError('College name is required')
             return
@@ -105,6 +111,7 @@ export default function OnboardingPage() {
 
         const { error } = await supabase.auth.updateUser({
             data: {
+                phone: formData.phone,
                 college: formData.college,
                 cc: formData.cc || ''
             }
@@ -196,6 +203,20 @@ export default function OnboardingPage() {
                                     )}
 
                                     <CyberInput
+                                        label="Phone Number"
+                                        type="tel"
+                                        placeholder="+91 XXXXX XXXXX"
+                                        value={formData.phone}
+                                        onChange={handleChange('phone')}
+                                        required
+                                        icon={
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                                            </svg>
+                                        }
+                                    />
+
+                                    <CyberInput
                                         label="College / Institution"
                                         placeholder="Your college name"
                                         value={formData.college}
@@ -203,13 +224,13 @@ export default function OnboardingPage() {
                                         required
                                         icon={
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                                             </svg>
                                         }
                                     />
 
                                     <CyberInput
-                                        label="Campus Coordinator Code (Optional)"
+                                        label="Contingent Code (Optional)"
                                         placeholder="Enter CC code if you have one"
                                         value={formData.cc}
                                         onChange={handleChange('cc')}

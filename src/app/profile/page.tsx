@@ -200,7 +200,7 @@ export default function ProfilePage() {
                                     {user?.college && (
                                         <div className="flex items-center gap-2 text-text-muted font-mono text-xs mt-1">
                                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                                             </svg>
                                             <span>{user.college}</span>
                                             {user.cc && <span className="text-glow-cyan">• CC: {user.cc}</span>}
@@ -247,7 +247,7 @@ export default function ProfilePage() {
                                             <Edit2 className="w-5 h-5 text-glow-cyan" />
                                             Edit Profile
                                         </h3>
-                                        
+
                                         <div className="space-y-4 relative z-20">
                                             <div>
                                                 <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">Name</label>
@@ -270,7 +270,7 @@ export default function ProfilePage() {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">Campus Coordinator Code</label>
+                                                <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">Contingent Code</label>
                                                 <input
                                                     type="text"
                                                     value={editCC}
