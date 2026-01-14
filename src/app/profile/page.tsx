@@ -47,12 +47,27 @@ export default function ProfilePage() {
     const [showAvatarSelection, setShowAvatarSelection] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
+    // Registrations from database (for multi-ticket support)
+    const [registrations, setRegistrations] = useState<{
+        id: string
+        ticket_id: string
+        attendee_name: string
+        event_id: string
+        event_name: string
+        event_date: string
+        verified: boolean
+    }[]>([])
+
     // Edit states
     const [showEditProfile, setShowEditProfile] = useState(false)
     const [editName, setEditName] = useState('')
     const [editCollege, setEditCollege] = useState('')
     const [editCC, setEditCC] = useState('')
     const [isSaving, setIsSaving] = useState(false)
+
+    // Attendee name editing
+    const [editingTicketId, setEditingTicketId] = useState<string | null>(null)
+    const [editingAttendeeName, setEditingAttendeeName] = useState('')
 
     // Load ALL data from Supabase in one consolidated call
     useEffect(() => {
@@ -96,6 +111,17 @@ export default function ProfilePage() {
                     } else {
                         setShowAvatarSelection(true)
                     }
+                }
+
+                // Fetch registrations from database (for multi-ticket support)
+                const { data: regData, error: regError } = await supabase
+                    .from('registrations')
+                    .select('id, ticket_id, attendee_name, event_id, event_name, event_date, verified')
+                    .eq('user_id', authUser.id)
+                    .order('created_at', { ascending: true })
+
+                if (!regError && regData) {
+                    setRegistrations(regData)
                 }
             } else {
                 // Not logged in - fallback to localStorage or redirect
@@ -161,6 +187,25 @@ export default function ProfilePage() {
             setShowEditProfile(false)
         }
         setIsSaving(false)
+    }
+
+    // Save attendee name to registrations table
+    const saveAttendeeName = async (ticketId: string, newName: string) => {
+        const { error } = await supabase
+            .from('registrations')
+            .update({ attendee_name: newName })
+            .eq('ticket_id', ticketId)
+
+        if (!error) {
+            // Update local state
+            setRegistrations(prev => prev.map(reg =>
+                reg.ticket_id === ticketId
+                    ? { ...reg, attendee_name: newName }
+                    : reg
+            ))
+            setEditingTicketId(null)
+            setEditingAttendeeName('')
+        }
     }
 
     const myTickets = eventPackages.filter(pkg => purchasedEvents.includes(pkg.id))
@@ -550,6 +595,109 @@ export default function ProfilePage() {
                                 </Link>
                             </div>
                         </div>
+                    )}
+
+                    {/* Manage Attendees Section - for multi-ticket purchases */}
+                    {registrations.length > 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="mt-12"
+                        >
+                            <h2 className="text-2xl font-heading font-bold mb-6 flex items-center gap-3">
+                                <span className="text-glow-violet">///</span> Manage Attendees
+                                <span className="text-sm font-normal text-text-muted ml-2">
+                                    ({registrations.length} ticket{registrations.length > 1 ? 's' : ''})
+                                </span>
+                            </h2>
+
+                            <div className="glitch-container rounded-xl p-6 border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden">
+                                {/* Corner accents */}
+                                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60" />
+                                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60" />
+                                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60" />
+                                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60" />
+
+                                <p className="text-text-muted text-sm mb-6">
+                                    Edit attendee names for your tickets. Each ticket needs a unique attendee name for event check-in.
+                                </p>
+
+                                <div className="space-y-4">
+                                    {registrations.map((reg, index) => (
+                                        <motion.div
+                                            key={reg.ticket_id}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: index * 0.05 }}
+                                            className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-glow-cyan/30 transition-all"
+                                        >
+                                            {/* Ticket Info */}
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <Ticket className="w-4 h-4 text-glow-cyan flex-shrink-0" />
+                                                    <span className="text-sm font-mono text-glow-cyan truncate">
+                                                        {reg.ticket_id}
+                                                    </span>
+                                                    {reg.verified && (
+                                                        <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
+                                                            ✓ Verified
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-text-muted">{reg.event_name} • {reg.event_date}</p>
+                                            </div>
+
+                                            {/* Attendee Name - Editable */}
+                                            <div className="flex items-center gap-2 sm:w-64">
+                                                {editingTicketId === reg.ticket_id ? (
+                                                    <>
+                                                        <input
+                                                            type="text"
+                                                            value={editingAttendeeName}
+                                                            onChange={(e) => setEditingAttendeeName(e.target.value)}
+                                                            className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                                            placeholder="Enter attendee name"
+                                                            autoFocus
+                                                        />
+                                                        <button
+                                                            onClick={() => saveAttendeeName(reg.ticket_id, editingAttendeeName)}
+                                                            className="p-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors"
+                                                        >
+                                                            <Check className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => { setEditingTicketId(null); setEditingAttendeeName(''); }}
+                                                            className="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
+                                                        >
+                                                            ✕
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                                                            <User className="w-4 h-4 text-text-muted flex-shrink-0" />
+                                                            <span className="text-sm text-white truncate">
+                                                                {reg.attendee_name || 'No name set'}
+                                                            </span>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => {
+                                                                setEditingTicketId(reg.ticket_id);
+                                                                setEditingAttendeeName(reg.attendee_name || '');
+                                                            }}
+                                                            className="p-2 rounded-lg bg-white/10 text-text-muted hover:bg-white/20 hover:text-white transition-colors"
+                                                        >
+                                                            <Edit2 className="w-4 h-4" />
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
                     )}
                 </div>
             </main>
