@@ -11,8 +11,8 @@ export const eventPackages = [
         description: 'A 2-day innovation challenge where teams build next-gen solutions in Gen AI and Agentic AI from scratch.',
         price: 1000,
         originalPrice: 1499,
-        teamSize: '4-5 members',
-        teamMinSize: 4,
+        teamSize: '1-5 members',
+        teamMinSize: 1,
         teamMaxSize: 5,
         isTeamEvent: true, // Only team event
         date: 'Day 1 & Day 2',

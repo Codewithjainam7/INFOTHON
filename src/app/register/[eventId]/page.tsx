@@ -310,9 +310,9 @@ export default function TeamRegistrationPage() {
                 setErrors(['Payment cancelled or failed. You can complete payment from your Profile page.'])
             });
             razor.open()
-        } catch (error) {
+        } catch (error: any) {
             console.error('Payment error:', error)
-            setErrors(['Payment initialization failed. Please try again.'])
+            setErrors([error.message || 'Payment initialization failed. Please try again.'])
         } finally {
             setIsLoading(false)
         }
@@ -419,21 +419,24 @@ export default function TeamRegistrationPage() {
                         <motion.div
                             className="relative rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_rgba(0,245,255,0.05)] group/form"
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                                skewX: [0, 0, 0, 1, -1, 0],
+                                x: [0, 0, 0, 2, -2, 0]
+                            }}
+                            transition={{
+                                delay: 0.2,
+                                // Continuous glitch loop for the card itself
+                                skewX: { duration: 0.5, repeat: Infinity, repeatDelay: 5 },
+                                x: { duration: 0.5, repeat: Infinity, repeatDelay: 5 }
+                            }}
                         >
                             {/* Random Glitch Overlay on Form */}
                             <motion.div
                                 className="absolute inset-0 bg-white/5 pointer-events-none z-50 mix-blend-overlay"
                                 animate={{ opacity: [0, 0.05, 0, 0.02, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            />
-
-                            {/* Scanning Line */}
-                            <motion.div
-                                className="absolute top-0 left-0 w-full h-1 bg-glow-cyan/30 shadow-[0_0_15px_rgba(34,211,238,0.5)] z-40 pointer-events-none"
-                                animate={{ top: ["0%", "100%", "0%"] }}
-                                transition={{ duration: 10, ease: "linear", repeat: Infinity }}
                             />
 
                             {/* Corner Accents - Glitching */}
@@ -644,84 +647,85 @@ export default function TeamRegistrationPage() {
 
                                             {/* Bill */}
                                             <div className="space-y-4 mb-8">
-                                                <div className="p-6 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden backdrop-blur-sm">
-                                                    <div className="absolute top-0 right-0 p-4 opacity-10">
-                                                        <CreditCard className="w-24 h-24" />
+                                                <div className="p-6 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden backdrop-blur-sm group/summary hover:border-glow-cyan/30 transition-colors">
+                                                    <div className="absolute inset-0 bg-[url('/images/grid.png')] opacity-10" />
+
+                                                    <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
+                                                        <span className="text-glow-cyan font-mono text-xs uppercase tracking-widest">Operation</span>
+                                                        <span className="text-white font-cyber font-bold tracking-wide uppercase">{event.title}</span>
                                                     </div>
 
-                                                    <div className="flex justify-between items-center mb-4 relative z-10">
-                                                        <span className="text-text-secondary text-sm uppercase tracking-wider font-mono">Operation</span>
-                                                        <span className="text-white font-bold">{event.title}</span>
-                                                    </div>
-                                                    <div className="flex justify-between items-center mb-4 relative z-10">
-                                                        <span className="text-text-secondary text-sm uppercase tracking-wider font-mono">Squad ID</span>
-                                                        <span className="text-glow-cyan font-bold font-mono">{teamName}</span>
-                                                    </div>
-                                                    <div className="flex justify-between items-center mb-4 relative z-10">
-                                                        <span className="text-text-secondary text-sm uppercase tracking-wider font-mono">Unit Count</span>
-                                                        <span className="text-white">{members.length} Operatives</span>
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="text-text-muted font-mono text-xs uppercase tracking-widest">Squad ID</span>
+                                                        <span className="text-white font-mono uppercase truncate max-w-[200px] text-right text-sm">{teamName}</span>
                                                     </div>
 
-                                                    <div className="border-t border-dashed border-white/20 my-4" />
+                                                    <div className="flex justify-between items-center mb-6">
+                                                        <span className="text-text-muted font-mono text-xs uppercase tracking-widest">Unit Count</span>
+                                                        <span className="text-white font-mono uppercase text-sm">{members.length} Operatives</span>
+                                                    </div>
 
-                                                    <div className="flex justify-between items-center relative z-10">
-                                                        <span className="text-lg font-bold font-mono text-glow-cyan">TOTAL_ACCESS_FEE</span>
-                                                        <span className="text-3xl font-heading font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">₹{event.price}</span>
+                                                    <div className="flex justify-between items-center pt-4 border-t border-dashed border-white/10">
+                                                        <span className="text-glow-cyan font-cyber font-bold text-lg tracking-widest">TOTAL_ACCESS_FEE</span>
+                                                        <span className="text-4xl font-heading font-black text-white tracking-tighter">₹{event.price}</span>
                                                     </div>
                                                 </div>
+                                            </div>
+
+                                        </div>
 
                                                 {/* Errors */}
-                                                {errors.length > 0 && (
-                                                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 animate-pulse">
-                                                        <div className="flex items-center gap-2 text-red-400 mb-2">
-                                                            <AlertTriangle className="w-5 h-5" />
-                                                            <span className="font-bold">CRITICAL_ERROR</span>
-                                                        </div>
-                                                        <ul className="text-sm text-red-300 space-y-1 list-disc list-inside font-mono">
-                                                            {errors.map((err, i) => (
-                                                                <li key={i}>{err}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                )}
+                                    {errors.length > 0 && (
+                                        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 animate-pulse">
+                                            <div className="flex items-center gap-2 text-red-400 mb-2">
+                                                <AlertTriangle className="w-5 h-5" />
+                                                <span className="font-bold">CRITICAL_ERROR</span>
                                             </div>
-
-                                            <div className="flex justify-between items-center">
-                                                <button
-                                                    onClick={() => setCurrentStep(2)}
-                                                    className="px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10"
-                                                >
-                                                    BACK
-                                                </button>
-                                                <button
-                                                    onClick={handlePayment}
-                                                    disabled={isLoading || !razorpayLoaded}
-                                                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group"
-                                                >
-                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
-                                                    {isLoading ? (
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                                                            PROCESSING...
-                                                        </div>
-                                                    ) : (
-                                                        <>
-                                                            <Zap className="w-5 h-5 fill-current" />
-                                                            INITIATE PAYMENT
-                                                        </>
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </motion.div>
+                                            <ul className="text-sm text-red-300 space-y-1 list-disc list-inside font-mono">
+                                                {errors.map((err, i) => (
+                                                    <li key={i}>{err}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     )}
-                                </AnimatePresence>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <button
+                                    onClick={() => setCurrentStep(2)}
+                                    className="px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10"
+                                >
+                                    BACK
+                                </button>
+                                <button
+                                    onClick={handlePayment}
+                                    disabled={isLoading || !razorpayLoaded}
+                                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group"
+                                >
+                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                                    {isLoading ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                                            PROCESSING...
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Zap className="w-5 h-5 fill-current" />
+                                            INITIATE PAYMENT
+                                        </>
+                                    )}
+                                </button>
                             </div>
                         </motion.div>
-                    </div>
-                </main>
+                                    )}
+                    </AnimatePresence>
+                </div>
+            </motion.div>
+        </div >
+                </main >
 
-                <Footer />
-            </SmoothScroll>
+        <Footer />
+            </SmoothScroll >
         </>
     )
 }
