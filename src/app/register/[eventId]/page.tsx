@@ -28,13 +28,60 @@ interface TeamMember {
     college: string
 }
 
-// Local GlitchText Component
-const GlitchText = ({ text, className = "", as: Component = "h1" }: { text: string, className?: string, as?: any }) => {
+// Local Intense Glitch Text
+const IntenseGlitchText = ({ text, className = "", as: Component = "h1" }: { text: string, className?: string, as?: any }) => {
     return (
-        <Component className={`relative inline-block ${className}`}>
+        <Component className={`relative inline-block ${className} group`}>
+            {/* Main Text */}
             <span className="relative z-10">{text}</span>
-            <span className="absolute top-0 left-0 -ml-[2px] text-glow-cyan opacity-70 animate-pulse">{text}</span>
-            <span className="absolute top-0 left-0 ml-[2px] text-glow-violet opacity-70 animate-pulse delay-75">{text}</span>
+
+            {/* Glitch Layer 1 - Cyan - Constant Jitter */}
+            <motion.span
+                className="absolute top-0 left-0 -ml-[2px] text-[#00f0ff] opacity-70 mix-blend-screen pointer-events-none"
+                animate={{
+                    x: [-2, 2, -1, 3, 0],
+                    y: [1, -1, 0, 2, 0],
+                    filter: ["blur(0px)", "blur(2px)", "blur(0px)"]
+                }}
+                transition={{
+                    duration: 0.2,
+                    repeat: Infinity,
+                    repeatType: "mirror"
+                }}
+            >
+                {text}
+            </motion.span>
+
+            {/* Glitch Layer 2 - Violet - Random Jumps */}
+            <motion.span
+                className="absolute top-0 left-0 ml-[2px] text-[#8b5cf6] opacity-70 mix-blend-screen pointer-events-none"
+                animate={{
+                    x: [0, -3, 3, 0],
+                    y: [0, 2, -2, 0]
+                }}
+                transition={{
+                    duration: 0.4,
+                    repeat: Infinity,
+                    repeatType: "mirror"
+                }}
+            >
+                {text}
+            </motion.span>
+
+            {/* Glitch Layer 3 - White Flash */}
+            <motion.span
+                className="absolute inset-0 text-white mix-blend-overlay pointer-events-none"
+                animate={{
+                    opacity: [0, 1, 0, 0.5, 0]
+                }}
+                transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3
+                }}
+            >
+                {text}
+            </motion.span>
         </Component>
     )
 }
@@ -326,22 +373,27 @@ export default function TeamRegistrationPage() {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-center mb-12"
+                            className="text-center mb-12 relative"
                         >
-                            <div className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-4 border ${colors.border} bg-black/40 backdrop-blur-md text-glow-cyan shadow-[0_0_15px_rgba(34,211,238,0.3)]`}>
-                                TEAM PROTOCOL: {event.category}
+                            <div className="flex flex-col items-center">
+                                <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-6 border ${colors.border} bg-black/40 backdrop-blur-md text-glow-cyan shadow-[0_0_15px_rgba(34,211,238,0.3)]`}>
+                                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                    TEAM PROTOCOL: {event.category}
+                                </div>
+
+                                <IntenseGlitchText
+                                    text={event.title}
+                                    className="text-6xl md:text-8xl font-heading font-black mb-6 uppercase tracking-tighter block text-white drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                                />
+
+                                <div className="h-0.5 w-24 bg-gradient-to-r from-transparent via-glow-cyan to-transparent mb-6 opacity-50" />
+
+                                <p className="text-text-secondary text-base md:text-lg max-w-2xl mx-auto font-mono leading-relaxed relative">
+                                    <span className="text-glow-cyan font-bold">&gt;_</span> Initialize team sequence. required: {event.teamMinSize}-{event.teamMaxSize} units.
+                                    <br />
+                                    <span className="text-glow-cyan font-bold">&gt;_</span> Secure channel established.
+                                </p>
                             </div>
-
-                            <GlitchText
-                                text={event.title}
-                                className="text-5xl md:text-7xl font-heading font-black mb-4 uppercase tracking-tighter block text-white"
-                            />
-
-                            <p className="text-text-secondary text-base md:text-lg max-w-2xl mx-auto font-mono leading-relaxed">
-                                <span className="text-glow-cyan">&gt;</span> Initialize team sequence. required: {event.teamMinSize}-{event.teamMaxSize} units.
-                                <br />
-                                <span className="text-glow-cyan">&gt;</span> Secure channel established.
-                            </p>
                         </motion.div>
 
                         {/* Progress Steps */}
@@ -365,18 +417,32 @@ export default function TeamRegistrationPage() {
 
                         {/* Form Container */}
                         <motion.div
-                            className="relative rounded-2xl border border-white/10 bg-black/60 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_rgba(0,245,255,0.1)]"
+                            className="relative rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_rgba(0,245,255,0.05)] group/form"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
                         >
-                            {/* Corner Accents */}
-                            <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-glow-cyan" />
-                            <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-glow-violet" />
-                            <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-glow-violet" />
-                            <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-glow-cyan" />
+                            {/* Random Glitch Overlay on Form */}
+                            <motion.div
+                                className="absolute inset-0 bg-white/5 pointer-events-none z-50 mix-blend-overlay"
+                                animate={{ opacity: [0, 0.05, 0, 0.02, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                            />
 
-                            <div className="p-6 md:p-10">
+                            {/* Scanning Line */}
+                            <motion.div
+                                className="absolute top-0 left-0 w-full h-1 bg-glow-cyan/30 shadow-[0_0_15px_rgba(34,211,238,0.5)] z-40 pointer-events-none"
+                                animate={{ top: ["0%", "100%", "0%"] }}
+                                transition={{ duration: 10, ease: "linear", repeat: Infinity }}
+                            />
+
+                            {/* Corner Accents - Glitching */}
+                            <motion.div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-glow-cyan" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.5, repeat: Infinity }} />
+                            <motion.div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-glow-violet" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.7, repeat: Infinity }} />
+                            <motion.div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-glow-violet" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.6, repeat: Infinity }} />
+                            <motion.div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-glow-cyan" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.4, repeat: Infinity }} />
+
+                            <div className="p-6 md:p-10 relative z-10">
                                 <AnimatePresence mode="wait">
                                     {/* Step 1: Team Info */}
                                     {currentStep === 1 && (
@@ -386,47 +452,94 @@ export default function TeamRegistrationPage() {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
                                         >
-                                            <h2 className="text-2xl font-heading font-bold mb-8 flex items-center gap-3 text-white border-b border-white/10 pb-4">
-                                                <Users className="w-6 h-6 text-glow-cyan" />
-                                                SQUAD CONFIGURATION
+                                            <h2 className="text-3xl font-heading font-bold mb-8 flex items-center gap-3 text-white border-b border-white/10 pb-4 tracking-tight">
+                                                <Users className="w-8 h-8 text-glow-cyan" />
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-glow-cyan">SQUAD CONFIGURATION</span>
                                             </h2>
 
                                             <div className="space-y-8">
-                                                <div>
-                                                    <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase">
+                                                <div className="group/input relative">
+                                                    <label className="block text-xs font-mono text-glow-cyan mb-2 tracking-wider uppercase group-hover/input:text-white transition-colors relative z-10">
                                                         Identity Designation (Team Name)
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        value={teamName}
-                                                        onChange={(e) => setTeamName(e.target.value)}
-                                                        placeholder="ENTER_TEAM_NAME"
-                                                        className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-text-muted/50 focus:border-glow-cyan focus:outline-none focus:shadow-[0_0_20px_rgba(0,245,255,0.2)] transition-all font-mono text-lg"
-                                                    />
+                                                    <motion.div
+                                                        className="relative z-10"
+                                                        whileHover={{ scale: 1.01 }}
+                                                        whileTap={{ scale: 0.99 }}
+                                                    >
+                                                        <motion.input
+                                                            type="text"
+                                                            value={teamName}
+                                                            onChange={(e) => setTeamName(e.target.value)}
+                                                            placeholder="ENTER_TEAM_NAME"
+                                                            className="w-full px-6 py-5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-text-muted/30 focus:border-glow-cyan focus:outline-none focus:bg-glow-cyan/5 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all font-mono text-xl tracking-wider uppercase relative z-20"
+                                                            whileFocus={{
+                                                                x: [0, -2, 2, -1, 1, 0],
+                                                                transition: { repeat: Infinity, duration: 0.2, repeatDelay: 3 }
+                                                            }}
+                                                        />
+                                                        {/* Glitch Border on Input */}
+                                                        <motion.div
+                                                            className="absolute inset-0 rounded-xl border-2 border-glow-violet opacity-0 pointer-events-none"
+                                                            animate={{
+                                                                opacity: [0, 0, 1, 0],
+                                                                x: [-2, 2, -2, 2],
+                                                                y: [-2, 2, -2, 2]
+                                                            }}
+                                                            transition={{
+                                                                duration: 0.2,
+                                                                repeat: Infinity,
+                                                                repeatDelay: 4
+                                                            }}
+                                                        />
+                                                        {/* Input Crosshair Decorative */}
+                                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20 pointer-events-none group-focus-within/input:text-glow-cyan transition-colors z-30">
+                                                            [<span className="w-2 h-2 bg-current inline-block mx-1 animate-pulse" />]
+                                                        </div>
+                                                    </motion.div>
                                                 </div>
 
-                                                <div className="p-5 rounded-xl bg-glow-cyan/5 border border-glow-cyan/20 relative overflow-hidden">
+                                                <div className="p-5 rounded-xl bg-glow-cyan/5 border border-glow-cyan/20 relative overflow-hidden backdrop-blur-md group/info hover:border-glow-cyan/50 transition-colors">
                                                     <div className="absolute inset-0 bg-scanlines opacity-10 pointer-events-none" />
+                                                    {/* Info Box Glitch Effect */}
+                                                    <motion.div
+                                                        className="absolute inset-0 bg-glow-cyan/10 mix-blend-overlay opacity-0"
+                                                        animate={{ opacity: [0, 0.4, 0] }}
+                                                        transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 5 }}
+                                                    />
+
                                                     <div className="flex items-center gap-3 text-glow-cyan mb-2 relative z-10">
-                                                        <Shield className="w-5 h-5" />
+                                                        <Shield className="w-5 h-5 group-hover/info:rotate-12 transition-transform" />
                                                         <span className="font-bold font-cyber tracking-wide">MANDATORY PROTOCOLS</span>
                                                     </div>
-                                                    <p className="text-text-secondary text-sm leading-relaxed relative z-10">
+                                                    <p className="text-text-secondary text-sm leading-relaxed relative z-10 font-mono">
                                                         REQUIRED UNITS: <span className="text-white font-bold">{event.teamMinSize}-{event.teamMaxSize}</span><br />
                                                         VERIFICATION: Valid College ID + Aadhar Card required at entry point.
                                                     </p>
                                                 </div>
                                             </div>
 
-                                            <div className="flex justify-end mt-10">
-                                                <button
+                                            <div className="flex justify-end mt-12">
+                                                <motion.button
                                                     onClick={() => teamName.trim() && setCurrentStep(2)}
                                                     disabled={!teamName.trim()}
-                                                    className="px-8 py-3 rounded-xl bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 disabled:opacity-50 disabled:cursor-not-allowed font-bold transition-all flex items-center gap-2 border border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(0,245,255,0.3)] group"
+                                                    className="relative px-8 py-4 bg-glow-cyan/10 text-glow-cyan font-bold font-cyber tracking-widest text-sm border border-glow-cyan/50 hover:bg-glow-cyan hover:text-black transition-all group/btn overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    whileHover={{
+                                                        skewX: [0, -10, 10, -5, 5, 0],
+                                                        scale: 1.05,
+                                                        transition: { duration: 0.3 }
+                                                    }}
+                                                    whileTap={{ scale: 0.95 }}
                                                 >
-                                                    INITIALIZE OPERATIVES
-                                                    <Zap className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                                                </button>
+                                                    {/* Button Glitch Layers */}
+                                                    <div className="absolute inset-0 bg-glow-violet mix-blend-color-dodge opacity-0 group-hover/btn:opacity-50 transition-opacity" />
+                                                    <div className="absolute inset-0 translate-x-[100%] group-hover/btn:translate-x-[-100%] bg-white/20 skew-x-12 transition-transform duration-700" />
+
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        INITIALIZE OPERATIVES
+                                                        <Zap className="w-4 h-4 fill-current group-hover/btn:animate-ping" />
+                                                    </span>
+                                                </motion.button>
                                             </div>
                                         </motion.div>
                                     )}

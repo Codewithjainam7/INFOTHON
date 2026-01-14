@@ -77,24 +77,7 @@ export const eventPackages = [
         prizePool: '₹10,000',
         icon: <HelpCircle className="w-8 h-8" />
     },
-    {
-        id: 'offline-treasure',
-        title: 'Offline Treasure',
-        category: 'FUN',
-        description: 'A fun, logic-based treasure hunt involving clues, puzzles, and teamwork across the campus.',
-        price: 100,
-        originalPrice: 199,
-        teamSize: 'Individual',
-        teamMinSize: 1,
-        teamMaxSize: 1,
-        isTeamEvent: false,
-        date: 'Day 1',
-        features: ['Campus Adventure', 'Puzzles', 'Exploration', 'Prizes'],
-        image: '/images/treasure_hunt.png',
-        color: 'green',
-        prizePool: '₹10,000',
-        icon: <Search className="w-8 h-8" />
-    },
+
     {
         id: 'ai-debate',
         title: 'AI Debate',

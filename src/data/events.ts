@@ -147,37 +147,7 @@ export const events: Event[] = [
             { time: '5:30 PM', activity: 'Prize Distribution' }
         ]
     },
-    {
-        id: 'offline-treasure',
-        title: 'Offline Treasure',
-        category: 'fun',
-        description: 'A fun, logic-based treasure hunt involving clues, puzzles, and teamwork across the campus.',
-        longDescription: 'Get ready for an adrenaline-pumping treasure hunt across the campus! Solve cryptic clues, decode puzzles, find hidden checkpoints, and race against time. Physical fitness and mental agility both required!',
-        date: 'Day 1',
-        time: '11:00 AM - 1:00 PM',
-        venue: 'Campus Wide',
-        prize: '₹10,000',
-        teamSize: 'Individual',
-        teamMinSize: 1,
-        teamMaxSize: 1,
-        isTeamEvent: false,
-        registrationFee: 100,
-        registrationDeadline: 'February 10, 2026',
-        image: '/images/offline_treasure.png',
-        rules: [
-            'Individual participation',
-            'Follow all clues in order',
-            'No damaging campus property',
-            'GPS and maps allowed on phone',
-            'First to complete all checkpoints wins'
-        ],
-        timeline: [
-            { time: '11:00 AM', activity: 'Briefing & First Clue' },
-            { time: '11:15 AM', activity: 'Hunt Begins' },
-            { time: '12:45 PM', activity: 'Final Checkpoint' },
-            { time: '1:00 PM', activity: 'Results' }
-        ]
-    },
+
     {
         id: 'ai-debate',
         title: 'AI Debate',
