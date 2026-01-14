@@ -747,7 +747,7 @@ function TicketCard({ event, index, userName, userEmail }: { event: any; index: 
 
         // === HEADER SECTION ===
         // INFOTHON text with glow
-        ctx.font = 'bold 52px Arial, sans-serif'
+        ctx.font = 'bold 48px Arial, sans-serif'
         ctx.shadowColor = '#00f5ff'
         ctx.shadowBlur = 20
         ctx.fillStyle = '#00f5ff'
@@ -761,21 +761,21 @@ function TicketCard({ event, index, userName, userEmail }: { event: any; index: 
         ctx.fillStyle = lineGrad
         ctx.fillRect(60, 105, 220, 2)
 
-        // × symbol
-        ctx.font = 'bold 36px Arial'
+        // × symbol - positioned after INFOTHON with proper spacing
+        ctx.font = 'bold 32px Arial'
         ctx.fillStyle = '#8b5cf6'
-        ctx.fillText('×', 300, 85)
+        ctx.fillText('×', 340, 85)
 
-        // 2K26 with gradient
-        ctx.font = 'bold 48px Arial'
-        const grad2k = ctx.createLinearGradient(340, 50, 480, 95)
+        // 2K26 with gradient - positioned after × symbol
+        ctx.font = 'bold 44px Arial'
+        const grad2k = ctx.createLinearGradient(380, 50, 520, 95)
         grad2k.addColorStop(0, '#8b5cf6')
         grad2k.addColorStop(0.5, '#00f5ff')
         grad2k.addColorStop(1, '#8b5cf6')
         ctx.fillStyle = grad2k
         ctx.shadowColor = '#8b5cf6'
         ctx.shadowBlur = 15
-        ctx.fillText('2K26', 340, 90)
+        ctx.fillText('2K26', 380, 90)
         ctx.shadowBlur = 0
 
         // Subtitle
