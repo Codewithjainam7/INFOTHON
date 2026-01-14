@@ -243,7 +243,6 @@ export default function TeamRegistrationPage() {
             member_5_college: members[4]?.college || '',
             member_5_verified: false,
             details_locked: true,
-            amount_paid: event.price,
             payment_status: 'pending'
         }
 
@@ -419,18 +418,8 @@ export default function TeamRegistrationPage() {
                         <motion.div
                             className="relative rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_rgba(0,245,255,0.05)] group/form"
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{
-                                opacity: 1,
-                                y: 0,
-                                skewX: [0, 0, 0, 1, -1, 0],
-                                x: [0, 0, 0, 2, -2, 0]
-                            }}
-                            transition={{
-                                delay: 0.2,
-                                // Continuous glitch loop for the card itself
-                                skewX: { duration: 0.5, repeat: Infinity, repeatDelay: 5 },
-                                x: { duration: 0.5, repeat: Infinity, repeatDelay: 5 }
-                            }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
                         >
                             {/* Random Glitch Overlay on Form */}
                             <motion.div
