@@ -413,6 +413,39 @@ export default function CheckoutPage() {
             } else {
                 console.log('Successfully saved events to Supabase')
             }
+
+            // IMPORTANT: Insert each registration into the registrations table for scanner verification
+            for (const item of cartItems) {
+                const eventDetails = eventPackages.find(e => e.id === item.id)
+                if (!eventDetails) continue
+
+                // Generate unique ticket ID for each quantity
+                for (let q = 0; q < item.quantity; q++) {
+                    const ticketId = `INFOTHON-${item.id.toUpperCase().slice(0, 4)}-${btoa(`${user.email}-${item.id}-${q}`).slice(0, 8).toUpperCase()}`
+
+                    // Insert into registrations table
+                    const { error: regError } = await supabase
+                        .from('registrations')
+                        .upsert({
+                            ticket_id: ticketId,
+                            user_id: user.id,
+                            user_email: user.email,
+                            attendee_name: user.user_metadata?.full_name || 'Guest',
+                            event_id: item.id,
+                            event_name: eventDetails.title,
+                            event_date: eventDetails.date,
+                            quantity: 1,
+                            verified: false,
+                            created_at: new Date().toISOString()
+                        }, { onConflict: 'ticket_id' })
+
+                    if (regError) {
+                        console.error('Failed to insert registration:', regError)
+                    } else {
+                        console.log('Inserted registration:', ticketId)
+                    }
+                }
+            }
         }
 
         // Also save to localStorage as backup
