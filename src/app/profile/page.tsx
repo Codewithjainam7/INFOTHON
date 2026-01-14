@@ -631,77 +631,239 @@ function TicketCard({ event, index, userName, userEmail }: { event: any; index: 
     }, [ticketId, event, userName, userEmail])
 
     const handleDownload = async () => {
-        // Create a simple ticket image using canvas
+        // Create premium ticket with INFOTHON branding
         const canvas = document.createElement('canvas')
-        canvas.width = 800
-        canvas.height = 400
+        canvas.width = 900
+        canvas.height = 450
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        // Background
-        const gradient = ctx.createLinearGradient(0, 0, 800, 400)
-        gradient.addColorStop(0, '#0a0a0a')
-        gradient.addColorStop(1, '#1a1a2e')
-        ctx.fillStyle = gradient
-        ctx.fillRect(0, 0, 800, 400)
+        // Background gradient
+        const bgGradient = ctx.createLinearGradient(0, 0, 900, 450)
+        bgGradient.addColorStop(0, '#0a0a0f')
+        bgGradient.addColorStop(0.5, '#0f0f1a')
+        bgGradient.addColorStop(1, '#0a0a0f')
+        ctx.fillStyle = bgGradient
+        ctx.fillRect(0, 0, 900, 450)
 
-        // Border
+        // Grid pattern overlay
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.05)'
+        ctx.lineWidth = 1
+        for (let x = 0; x < 900; x += 30) {
+            ctx.beginPath()
+            ctx.moveTo(x, 0)
+            ctx.lineTo(x, 450)
+            ctx.stroke()
+        }
+        for (let y = 0; y < 450; y += 30) {
+            ctx.beginPath()
+            ctx.moveTo(0, y)
+            ctx.lineTo(900, y)
+            ctx.stroke()
+        }
+
+        // Outer glow border
+        ctx.shadowColor = '#00f5ff'
+        ctx.shadowBlur = 20
         ctx.strokeStyle = '#00f5ff'
-        ctx.lineWidth = 3
-        ctx.strokeRect(10, 10, 780, 380)
+        ctx.lineWidth = 2
+        ctx.strokeRect(15, 15, 870, 420)
+        ctx.shadowBlur = 0
 
-        // Corner accents
+        // Inner border
+        ctx.strokeStyle = 'rgba(139, 92, 246, 0.5)'
+        ctx.lineWidth = 1
+        ctx.strokeRect(25, 25, 850, 400)
+
+        // Corner accents (L-shaped brackets)
+        const drawCorner = (x: number, y: number, flipX: boolean, flipY: boolean) => {
+            ctx.fillStyle = '#00f5ff'
+            const dx = flipX ? -1 : 1
+            const dy = flipY ? -1 : 1
+            ctx.fillRect(x, y, 40 * dx, 3)
+            ctx.fillRect(x, y, 3, 40 * dy)
+            ctx.fillStyle = '#8b5cf6'
+            ctx.fillRect(x + 5 * dx, y + 5 * dy, 25 * dx, 2)
+            ctx.fillRect(x + 5 * dx, y + 5 * dy, 2, 25 * dy)
+        }
+        drawCorner(15, 15, false, false)
+        drawCorner(885, 15, true, false)
+        drawCorner(15, 435, false, true)
+        drawCorner(885, 435, true, true)
+
+        // Scanlines effect
+        for (let y = 0; y < 450; y += 4) {
+            ctx.fillStyle = `rgba(0, 0, 0, ${y % 8 === 0 ? 0.1 : 0.05})`
+            ctx.fillRect(0, y, 900, 2)
+        }
+
+        // INFOTHON Text (top left)
+        ctx.font = 'bold 42px Arial, sans-serif'
         ctx.fillStyle = '#00f5ff'
-        ctx.fillRect(10, 10, 30, 3)
-        ctx.fillRect(10, 10, 3, 30)
-        ctx.fillRect(760, 10, 30, 3)
-        ctx.fillRect(787, 10, 3, 30)
-        ctx.fillRect(10, 387, 30, 3)
-        ctx.fillRect(10, 360, 3, 30)
-        ctx.fillRect(760, 387, 30, 3)
-        ctx.fillRect(787, 360, 3, 30)
+        ctx.shadowColor = '#00f5ff'
+        ctx.shadowBlur = 15
+        ctx.fillText('INFOTHON', 50, 75)
+        ctx.shadowBlur = 0
+
+        // X symbol
+        ctx.font = 'bold 28px Arial'
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText('×', 265, 72)
+
+        // 2K26 Text
+        ctx.font = 'bold 36px Arial'
+        const gradient2k26 = ctx.createLinearGradient(290, 45, 400, 75)
+        gradient2k26.addColorStop(0, '#8b5cf6')
+        gradient2k26.addColorStop(1, '#00f5ff')
+        ctx.fillStyle = gradient2k26
+        ctx.fillText('2K26', 290, 75)
+
+        // HACKATHON subtitle
+        ctx.font = '12px monospace'
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.6)'
+        ctx.fillText('NATIONAL LEVEL HACKATHON', 50, 95)
+
+        // Divider line
+        ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)'
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.moveTo(50, 115)
+        ctx.lineTo(550, 115)
+        ctx.stroke()
 
         // Event Title
-        ctx.font = 'bold 36px Arial'
-        ctx.fillStyle = '#00f5ff'
-        ctx.fillText(event.title, 40, 80)
-
-        // Category
-        ctx.font = '14px Arial'
-        ctx.fillStyle = '#8b5cf6'
-        ctx.fillText(event.category, 40, 110)
-
-        // Details
-        ctx.font = '18px Arial'
+        ctx.font = 'bold 32px Arial'
         ctx.fillStyle = '#ffffff'
-        ctx.fillText(`Attendee: ${userName}`, 40, 160)
-        ctx.fillText(`Date: ${event.date}`, 40, 190)
-        ctx.fillText(`Venue: Main Auditorium`, 40, 220)
-        ctx.fillText(`Time: 10:00 AM IST`, 40, 250)
+        ctx.shadowColor = '#00f5ff'
+        ctx.shadowBlur = 10
+        ctx.fillText(event.title, 50, 160)
+        ctx.shadowBlur = 0
+
+        // Category badge
+        ctx.fillStyle = event.category === 'CODING' ? '#00f5ff' : '#8b5cf6'
+        ctx.font = 'bold 11px Arial'
+        const catWidth = ctx.measureText(event.category).width + 20
+        ctx.fillStyle = 'rgba(139, 92, 246, 0.3)'
+        ctx.fillRect(50, 175, catWidth, 22)
+        ctx.strokeStyle = '#8b5cf6'
+        ctx.strokeRect(50, 175, catWidth, 22)
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText(event.category, 60, 190)
+
+        // Attendee info
+        ctx.font = '16px Arial'
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+        ctx.fillText('ATTENDEE', 50, 235)
+        ctx.font = 'bold 20px Arial'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText(userName, 50, 260)
+
+        // Date & Venue
+        ctx.font = '14px Arial'
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'
+        ctx.fillText('DATE', 50, 300)
+        ctx.fillText('VENUE', 250, 300)
+        ctx.fillText('TIME', 450, 300)
+        ctx.font = 'bold 16px Arial'
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText(event.date, 50, 322)
+        ctx.fillText('Main Auditorium', 250, 322)
+        ctx.fillText('10:00 AM IST', 450, 322)
 
         // Ticket ID
-        ctx.font = 'bold 16px monospace'
-        ctx.fillStyle = '#00f5ff'
-        ctx.fillText(`Ticket ID: ${ticketId}`, 40, 300)
+        ctx.font = 'bold 12px monospace'
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.8)'
+        ctx.fillText(`TICKET ID: ${ticketId}`, 50, 380)
 
-        // INFOTHON branding
-        ctx.font = 'bold 48px Arial'
-        ctx.fillStyle = 'rgba(0, 245, 255, 0.1)'
-        ctx.fillText('INFOTHON 2026', 400, 360)
+        // Holographic stripe effect
+        const holoGradient = ctx.createLinearGradient(50, 395, 300, 410)
+        holoGradient.addColorStop(0, 'rgba(0, 245, 255, 0.3)')
+        holoGradient.addColorStop(0.3, 'rgba(139, 92, 246, 0.3)')
+        holoGradient.addColorStop(0.6, 'rgba(0, 245, 255, 0.3)')
+        holoGradient.addColorStop(1, 'rgba(139, 92, 246, 0.3)')
+        ctx.fillStyle = holoGradient
+        ctx.fillRect(50, 395, 250, 8)
+
+        // QR Code section (right side)
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.3)'
+        ctx.lineWidth = 1
+        ctx.setLineDash([5, 5])
+        ctx.beginPath()
+        ctx.moveTo(620, 50)
+        ctx.lineTo(620, 400)
+        ctx.stroke()
+        ctx.setLineDash([])
+
+        // QR section header
+        ctx.font = '11px monospace'
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+        ctx.fillText('SCAN TO VERIFY', 710, 80)
+
+        // Draw QR code if available
+        if (qrDataUrl) {
+            const qrImg = new window.Image()
+            qrImg.src = qrDataUrl
+            await new Promise<void>((resolve) => {
+                qrImg.onload = () => {
+                    ctx.drawImage(qrImg, 680, 100, 160, 160)
+                    resolve()
+                }
+                qrImg.onerror = () => resolve()
+            })
+        }
+
+        // VIP Pass text
+        ctx.font = 'bold 14px Arial'
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText('VIP ACCESS PASS', 710, 290)
+
+        ctx.font = '11px Arial'
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+        ctx.fillText('Valid for single entry', 700, 310)
+        ctx.fillText('Non-transferable', 715, 330)
+
+        // VERIFIED stamp
+        ctx.save()
+        ctx.translate(760, 380)
+        ctx.rotate(-0.1)
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.5)'
+        ctx.lineWidth = 2
+        ctx.strokeRect(-35, -12, 70, 24)
+        ctx.font = 'bold 12px Arial'
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText('VERIFIED', -30, 4)
+        ctx.restore()
 
         // Download
         const link = document.createElement('a')
-        link.download = `infothon-ticket-${event.id}.png`
+        link.download = `INFOTHON_2K26_${event.id}_${ticketId}.png`
         link.href = canvas.toDataURL('image/png')
         link.click()
     }
 
     const handleShare = async () => {
+        const shareText = `🚀 I'm registered for ${event.title} at INFOTHON × HACKATHON 2K26!
+
+🗓️ Date: ${event.date}
+📍 Venue: Main Auditorium
+🎫 Ticket: ${ticketId}
+
+INFOTHON 2K26 is the ultimate national-level hackathon featuring:
+⚡ Cutting-edge tech challenges
+🏆 Amazing prizes worth ₹1,00,000+
+👥 500+ participants
+🔥 48 hours of non-stop innovation
+
+Join us at the biggest tech fest of 2026!
+🔗 Register now: ${window.location.origin}/register
+
+#INFOTHON2K26 #Hackathon #TechFest #Coding #Innovation`
+
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `INFOTHON 2026 - ${event.title}`,
-                    text: `I'm attending ${event.title} at INFOTHON 2026! Join me!`,
+                    title: `INFOTHON × HACKATHON 2K26 - ${event.title}`,
+                    text: shareText,
                     url: window.location.origin,
                 })
             } catch {
@@ -709,10 +871,8 @@ function TicketCard({ event, index, userName, userEmail }: { event: any; index: 
             }
         } else {
             // Fallback: copy to clipboard
-            await navigator.clipboard.writeText(
-                `I'm attending ${event.title} at INFOTHON 2026! Join me at ${window.location.origin}`
-            )
-            alert('Link copied to clipboard!')
+            await navigator.clipboard.writeText(shareText)
+            alert('Event details copied to clipboard!')
         }
     }
 

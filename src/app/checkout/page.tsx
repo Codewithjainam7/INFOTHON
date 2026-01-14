@@ -61,7 +61,7 @@ interface RazorpayResponse {
 // Payment Success Animation Component
 function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
     useEffect(() => {
-        const timer = setTimeout(onComplete, 4000)
+        const timer = setTimeout(onComplete, 5000)
         return () => clearTimeout(timer)
     }, [onComplete])
 
@@ -70,14 +70,68 @@ function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center"
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden"
         >
+            {/* Animated Background Gradient */}
+            <motion.div
+                className="absolute inset-0"
+                animate={{
+                    background: [
+                        'radial-gradient(circle at 50% 50%, rgba(0,245,255,0.1) 0%, transparent 50%, rgba(0,0,0,1) 100%)',
+                        'radial-gradient(circle at 50% 50%, rgba(139,92,246,0.1) 0%, transparent 50%, rgba(0,0,0,1) 100%)',
+                        'radial-gradient(circle at 50% 50%, rgba(0,245,255,0.1) 0%, transparent 50%, rgba(0,0,0,1) 100%)',
+                    ]
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
             {/* Scanlines */}
-            <div className="absolute inset-0 pointer-events-none z-10 opacity-20">
+            <div className="absolute inset-0 pointer-events-none z-10 opacity-30">
                 <div className="w-full h-full" style={{
                     background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, 0.03) 2px, rgba(0, 245, 255, 0.03) 4px)'
                 }} />
             </div>
+
+            {/* Expanding Rings */}
+            {[...Array(3)].map((_, i) => (
+                <motion.div
+                    key={i}
+                    className="absolute w-32 h-32 rounded-full border border-glow-cyan/30"
+                    initial={{ scale: 0, opacity: 1 }}
+                    animate={{ scale: [0, 8], opacity: [0.5, 0] }}
+                    transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        delay: i * 0.8,
+                        ease: 'easeOut'
+                    }}
+                />
+            ))}
+
+            {/* Floating Particles */}
+            {[...Array(20)].map((_, i) => (
+                <motion.div
+                    key={`particle-${i}`}
+                    className="absolute w-1 h-1 rounded-full"
+                    style={{
+                        background: i % 2 === 0 ? '#00f5ff' : '#8b5cf6',
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                    }}
+                    animate={{
+                        y: [0, -100, -200],
+                        opacity: [0, 1, 0],
+                        scale: [0, 1.5, 0],
+                    }}
+                    transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: Math.random() * 2,
+                        ease: 'easeOut',
+                    }}
+                />
+            ))}
 
             {/* Glitch Lines */}
             <motion.div
@@ -85,77 +139,93 @@ function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
                 animate={{
                     background: [
                         'linear-gradient(0deg, transparent 0%, transparent 100%)',
-                        'linear-gradient(0deg, transparent 0%, rgba(0,245,255,0.1) 50%, transparent 51%, transparent 100%)',
+                        'linear-gradient(0deg, transparent 0%, rgba(0,245,255,0.15) 50%, transparent 51%, transparent 100%)',
                         'linear-gradient(0deg, transparent 0%, transparent 100%)',
                     ]
                 }}
-                transition={{ duration: 0.1, repeat: 10, repeatDelay: 0.3 }}
+                transition={{ duration: 0.15, repeat: 8, repeatDelay: 0.5 }}
             />
 
             <div className="relative z-20 text-center">
-                {/* Success Icon with Glitch */}
+                {/* Success Icon with Enhanced Effects */}
                 <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: 'spring', damping: 15, delay: 0.2 }}
-                    className="relative mb-8"
+                    transition={{ type: 'spring', damping: 12, stiffness: 100, delay: 0.3 }}
+                    className="relative mb-10"
                 >
-                    {/* Outer Ring */}
+                    {/* Background glow */}
                     <motion.div
-                        className="w-32 h-32 mx-auto rounded-full border-4 border-glow-cyan flex items-center justify-center"
+                        className="absolute inset-0 w-36 h-36 mx-auto rounded-full"
                         animate={{
-                            boxShadow: [
-                                '0 0 20px rgba(0,245,255,0.3), inset 0 0 20px rgba(0,245,255,0.1)',
-                                '0 0 60px rgba(0,245,255,0.6), inset 0 0 40px rgba(0,245,255,0.3)',
-                                '0 0 20px rgba(0,245,255,0.3), inset 0 0 20px rgba(0,245,255,0.1)',
+                            background: [
+                                'radial-gradient(circle, rgba(0,245,255,0.4) 0%, transparent 70%)',
+                                'radial-gradient(circle, rgba(139,92,246,0.4) 0%, transparent 70%)',
+                                'radial-gradient(circle, rgba(0,245,255,0.4) 0%, transparent 70%)',
                             ]
                         }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                    />
+
+                    {/* Outer Ring */}
+                    <motion.div
+                        className="w-36 h-36 mx-auto rounded-full border-4 border-glow-cyan flex items-center justify-center relative"
+                        animate={{
+                            boxShadow: [
+                                '0 0 30px rgba(0,245,255,0.4), inset 0 0 30px rgba(0,245,255,0.1)',
+                                '0 0 60px rgba(0,245,255,0.7), inset 0 0 50px rgba(0,245,255,0.3)',
+                                '0 0 30px rgba(0,245,255,0.4), inset 0 0 30px rgba(0,245,255,0.1)',
+                            ]
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                     >
+                        {/* Inner gradient circle */}
+                        <div className="absolute inset-2 rounded-full bg-gradient-to-br from-glow-cyan/20 to-glow-violet/20" />
+
                         <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.5 }}
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.6, type: 'spring', damping: 10 }}
                         >
-                            <Check className="w-16 h-16 text-glow-cyan" strokeWidth={3} />
+                            <Check className="w-16 h-16 text-glow-cyan relative z-10" strokeWidth={3} />
                         </motion.div>
                     </motion.div>
 
                     {/* Glitch copies */}
                     <motion.div
-                        className="absolute inset-0 w-32 h-32 mx-auto rounded-full border-4 border-[#00f0ff] opacity-0"
-                        animate={{ x: [-5, 5, -3, 0], opacity: [0, 0.8, 0, 0.5, 0] }}
-                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
+                        className="absolute inset-0 w-36 h-36 mx-auto rounded-full border-4 border-[#00f0ff] opacity-0"
+                        animate={{ x: [-6, 6, -3, 0], opacity: [0, 0.7, 0, 0.4, 0] }}
+                        transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
                     />
                     <motion.div
-                        className="absolute inset-0 w-32 h-32 mx-auto rounded-full border-4 border-[#8b5cf6] opacity-0"
-                        animate={{ x: [5, -5, 3, 0], opacity: [0, 0.7, 0, 0.4, 0] }}
-                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.8 }}
+                        className="absolute inset-0 w-36 h-36 mx-auto rounded-full border-4 border-[#8b5cf6] opacity-0"
+                        animate={{ x: [6, -6, 3, 0], opacity: [0, 0.6, 0, 0.3, 0] }}
+                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 2.2 }}
                     />
                 </motion.div>
 
-                {/* Success Text */}
+                {/* Success Text with Enhanced Animation */}
                 <motion.div
-                    initial={{ y: 20, opacity: 0 }}
+                    initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.7 }}
+                    transition={{ delay: 0.9, duration: 0.6, ease: 'easeOut' }}
                 >
                     <div className="relative inline-block mb-4">
-                        <h2 className="text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_30px_rgba(0,245,255,0.5)]">
-                            <ScrambleText text="PAYMENT SUCCESSFUL" revealSpeed={30} scrambleSpeed={20} delay={800} />
+                        <h2 className="text-4xl md:text-5xl font-heading font-black text-glow-cyan drop-shadow-[0_0_40px_rgba(0,245,255,0.6)]">
+                            <ScrambleText text="PAYMENT SUCCESSFUL" revealSpeed={25} scrambleSpeed={15} delay={1000} />
                         </h2>
                         {/* Glitch layers */}
                         <motion.h2
                             className="absolute inset-0 text-4xl md:text-5xl font-heading font-black text-[#00f0ff] opacity-0"
-                            animate={{ x: [-8, 8, -4, 0], opacity: [0, 0.8, 0, 0] }}
-                            transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 1.5 }}
+                            animate={{ x: [-6, 6, -3, 0], opacity: [0, 0.7, 0, 0] }}
+                            transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
                         >
                             PAYMENT SUCCESSFUL
                         </motion.h2>
                         <motion.h2
                             className="absolute inset-0 text-4xl md:text-5xl font-heading font-black text-[#8b5cf6] opacity-0"
-                            animate={{ x: [8, -8, 4, 0], opacity: [0, 0.7, 0, 0] }}
-                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.2 }}
+                            animate={{ x: [6, -6, 3, 0], opacity: [0, 0.6, 0, 0] }}
+                            transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 1.7 }}
                         >
                             PAYMENT SUCCESSFUL
                         </motion.h2>
@@ -165,44 +235,63 @@ function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
                 <motion.p
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1 }}
-                    className="text-text-secondary font-mono text-sm mb-8"
+                    transition={{ delay: 1.3, duration: 0.5 }}
+                    className="text-text-secondary font-mono text-sm mb-10"
                 >
-                    Transaction verified. Access granted.
+                    Transaction verified • Access granted • Ticket generated
                 </motion.p>
 
-                {/* Energy Pulses */}
+                {/* Energy Wave Bars */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2 }}
-                    className="flex items-center justify-center gap-3"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    transition={{ delay: 1.6, duration: 0.4 }}
+                    className="flex items-center justify-center gap-2"
                 >
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(9)].map((_, i) => (
                         <motion.div
                             key={i}
-                            className="w-2 h-8 bg-glow-cyan rounded-full"
+                            className="w-1.5 rounded-full"
+                            style={{ background: i % 2 === 0 ? '#00f5ff' : '#8b5cf6' }}
                             animate={{
-                                scaleY: [0.3, 1, 0.3],
-                                opacity: [0.3, 1, 0.3],
+                                height: [12, 32, 12],
+                                opacity: [0.4, 1, 0.4],
                             }}
                             transition={{
-                                duration: 0.6,
+                                duration: 0.8,
                                 repeat: Infinity,
-                                delay: i * 0.1,
+                                delay: i * 0.08,
+                                ease: 'easeInOut',
                             }}
                         />
                     ))}
                 </motion.div>
 
-                <motion.p
+                <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                    className="text-glow-cyan/60 font-cyber text-xs tracking-widest mt-6"
+                    transition={{ delay: 2 }}
+                    className="mt-8"
                 >
-                    REDIRECTING TO PROFILE...
-                </motion.p>
+                    <motion.p
+                        className="text-glow-cyan/70 font-mono text-xs tracking-[0.3em]"
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                        REDIRECTING TO PROFILE...
+                    </motion.p>
+                    {/* Progress bar */}
+                    <motion.div
+                        className="w-48 h-0.5 bg-white/10 rounded-full mx-auto mt-3 overflow-hidden"
+                    >
+                        <motion.div
+                            className="h-full bg-gradient-to-r from-glow-cyan to-glow-violet"
+                            initial={{ width: '0%' }}
+                            animate={{ width: '100%' }}
+                            transition={{ duration: 3, delay: 2, ease: 'linear' }}
+                        />
+                    </motion.div>
+                </motion.div>
             </div>
         </motion.div>
     )
