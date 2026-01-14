@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { events, eventCategories, type Event } from '@/data'
+import { events, eventCategories, eventPackages, type Event } from '@/data'
 import { GlowButton, ScrambleText } from '@/components/ui'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
@@ -224,7 +224,7 @@ export default function EventsPage() {
 
                                                 {/* Price Badge */}
                                                 <div className="absolute top-3 right-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-sm border border-glow-cyan/50 shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-                                                    <span className="text-lg font-heading font-black text-glow-cyan">₹{event.price}</span>
+                                                    <span className="text-lg font-heading font-black text-glow-cyan">₹{eventPackages.find(p => p.id === event.id)?.price || 0}</span>
                                                 </div>
 
                                                 {/* Category Badge */}
