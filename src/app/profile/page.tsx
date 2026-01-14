@@ -52,6 +52,11 @@ export default function ProfilePage() {
         id: string
         ticket_id: string
         attendee_name: string
+        attendee_email: string
+        attendee_phone: string
+        attendee_college: string
+        attendee_cc: string
+        details_locked: boolean
         event_id: string
         event_name: string
         event_date: string
@@ -65,9 +70,15 @@ export default function ProfilePage() {
     const [editCC, setEditCC] = useState('')
     const [isSaving, setIsSaving] = useState(false)
 
-    // Attendee name editing
+    // Attendee editing - complete details
     const [editingTicketId, setEditingTicketId] = useState<string | null>(null)
-    const [editingAttendeeName, setEditingAttendeeName] = useState('')
+    const [editingAttendee, setEditingAttendee] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        college: '',
+        cc: ''
+    })
 
     // Load ALL data from Supabase in one consolidated call
     useEffect(() => {
@@ -116,12 +127,19 @@ export default function ProfilePage() {
                 // Fetch registrations from database (for multi-ticket support)
                 const { data: regData, error: regError } = await supabase
                     .from('registrations')
-                    .select('id, ticket_id, attendee_name, event_id, event_name, event_date, verified')
+                    .select('id, ticket_id, attendee_name, attendee_email, attendee_phone, attendee_college, attendee_cc, details_locked, event_id, event_name, event_date, verified')
                     .eq('user_id', authUser.id)
                     .order('created_at', { ascending: true })
 
                 if (!regError && regData) {
-                    setRegistrations(regData)
+                    setRegistrations(regData.map(r => ({
+                        ...r,
+                        attendee_email: r.attendee_email || '',
+                        attendee_phone: r.attendee_phone || '',
+                        attendee_college: r.attendee_college || '',
+                        attendee_cc: r.attendee_cc || '',
+                        details_locked: r.details_locked || false
+                    })))
                 }
             } else {
                 // Not logged in - fallback to localStorage or redirect
@@ -189,22 +207,37 @@ export default function ProfilePage() {
         setIsSaving(false)
     }
 
-    // Save attendee name to registrations table
-    const saveAttendeeName = async (ticketId: string, newName: string) => {
+    // Save attendee details to registrations table (ONE TIME ONLY)
+    const saveAttendeeDetails = async (ticketId: string, details: { name: string; email: string; phone: string; college: string; cc: string }) => {
         const { error } = await supabase
             .from('registrations')
-            .update({ attendee_name: newName })
+            .update({
+                attendee_name: details.name,
+                attendee_email: details.email,
+                attendee_phone: details.phone,
+                attendee_college: details.college,
+                attendee_cc: details.cc,
+                details_locked: true  // Lock after first save
+            })
             .eq('ticket_id', ticketId)
 
         if (!error) {
             // Update local state
             setRegistrations(prev => prev.map(reg =>
                 reg.ticket_id === ticketId
-                    ? { ...reg, attendee_name: newName }
+                    ? {
+                        ...reg,
+                        attendee_name: details.name,
+                        attendee_email: details.email,
+                        attendee_phone: details.phone,
+                        attendee_college: details.college,
+                        attendee_cc: details.cc,
+                        details_locked: true
+                    }
                     : reg
             ))
             setEditingTicketId(null)
-            setEditingAttendeeName('')
+            setEditingAttendee({ name: '', email: '', phone: '', college: '', cc: '' })
         }
     }
 
@@ -579,15 +612,15 @@ export default function ProfilePage() {
                                         registration={reg}
                                         eventDetails={eventDetails}
                                         index={index}
-                                        onEditName={(ticketId, name) => {
+                                        onStartEdit={(ticketId, attendee) => {
                                             setEditingTicketId(ticketId)
-                                            setEditingAttendeeName(name)
+                                            setEditingAttendee(attendee)
                                         }}
                                         isEditing={editingTicketId === reg.ticket_id}
-                                        editingName={editingAttendeeName}
-                                        onNameChange={setEditingAttendeeName}
-                                        onSaveName={() => saveAttendeeName(reg.ticket_id, editingAttendeeName)}
-                                        onCancelEdit={() => { setEditingTicketId(null); setEditingAttendeeName('') }}
+                                        editingAttendee={editingAttendee}
+                                        onAttendeeChange={setEditingAttendee}
+                                        onSaveAttendee={() => saveAttendeeDetails(reg.ticket_id, editingAttendee)}
+                                        onCancelEdit={() => { setEditingTicketId(null); setEditingAttendee({ name: '', email: '', phone: '', college: '', cc: '' }) }}
                                     />
                                 )
                             })}
@@ -1157,30 +1190,48 @@ Join us at the biggest tech fest of 2026!
     )
 }
 
-// New component for registration-based passes with inline name editing
+// Component for registration-based passes with complete attendee details (ONE TIME EDIT)
 function RegistrationPassCard({
     registration,
     eventDetails,
     index,
-    onEditName,
+    onStartEdit,
     isEditing,
-    editingName,
-    onNameChange,
-    onSaveName,
+    editingAttendee,
+    onAttendeeChange,
+    onSaveAttendee,
     onCancelEdit
 }: {
-    registration: { ticket_id: string; attendee_name: string; event_id: string; event_name: string; event_date: string; verified: boolean }
+    registration: {
+        ticket_id: string
+        attendee_name: string
+        attendee_email: string
+        attendee_phone: string
+        attendee_college: string
+        attendee_cc: string
+        details_locked: boolean
+        event_id: string
+        event_name: string
+        event_date: string
+        verified: boolean
+    }
     eventDetails: any
     index: number
-    onEditName: (ticketId: string, name: string) => void
+    onStartEdit: (ticketId: string, attendee: { name: string; email: string; phone: string; college: string; cc: string }) => void
     isEditing: boolean
-    editingName: string
-    onNameChange: (name: string) => void
-    onSaveName: () => void
+    editingAttendee: { name: string; email: string; phone: string; college: string; cc: string }
+    onAttendeeChange: (attendee: { name: string; email: string; phone: string; college: string; cc: string }) => void
+    onSaveAttendee: () => void
     onCancelEdit: () => void
 }) {
     const colors = eventDetails ? (colorMap[eventDetails.color] || colorMap.cyan) : colorMap.cyan
     const [qrDataUrl, setQrDataUrl] = useState<string>('')
+
+    // Check if details are not filled yet (placeholder names or empty)
+    const isPlaceholderName = !registration.attendee_name ||
+        registration.attendee_name.startsWith('Attendee ') ||
+        registration.attendee_name === 'Guest'
+    const canEdit = !registration.details_locked && isPlaceholderName
 
     // Generate QR code with registration data
     useEffect(() => {
@@ -1190,6 +1241,8 @@ function RegistrationPassCard({
                 event: registration.event_id,
                 eventName: registration.event_name,
                 attendee: registration.attendee_name,
+                phone: registration.attendee_phone,
+                college: registration.attendee_college,
                 date: registration.event_date,
                 verified: registration.verified
             })
@@ -1209,91 +1262,72 @@ function RegistrationPassCard({
     }, [registration])
 
     const handleDownload = async () => {
-        // Create premium ticket canvas
         const canvas = document.createElement('canvas')
         canvas.width = 1000
-        canvas.height = 500
+        canvas.height = 550
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        // Background gradient
-        const bgGradient = ctx.createRadialGradient(500, 250, 0, 500, 250, 600)
+        // Background
+        const bgGradient = ctx.createRadialGradient(500, 275, 0, 500, 275, 600)
         bgGradient.addColorStop(0, '#0d0d15')
-        bgGradient.addColorStop(0.5, '#080810')
         bgGradient.addColorStop(1, '#050508')
         ctx.fillStyle = bgGradient
-        ctx.fillRect(0, 0, 1000, 500)
+        ctx.fillRect(0, 0, 1000, 550)
 
-        // Grid pattern
+        // Grid
         ctx.strokeStyle = 'rgba(0, 245, 255, 0.08)'
-        ctx.lineWidth = 1
-        for (let x = 0; x < 1000; x += 30) {
-            ctx.beginPath()
-            ctx.moveTo(x, 0)
-            ctx.lineTo(x, 500)
-            ctx.stroke()
-        }
-        for (let y = 0; y < 500; y += 30) {
-            ctx.beginPath()
-            ctx.moveTo(0, y)
-            ctx.lineTo(1000, y)
-            ctx.stroke()
-        }
+        for (let x = 0; x < 1000; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 550); ctx.stroke() }
+        for (let y = 0; y < 550; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1000, y); ctx.stroke() }
 
-        // Header with INFOTHON × 2K26
+        // Header
         ctx.font = 'bold 42px Inter, sans-serif'
         ctx.fillStyle = '#00f5ff'
         ctx.textAlign = 'center'
-        ctx.fillText('INFOTHON', 280, 60)
-        ctx.font = 'bold 28px Inter, sans-serif'
-        ctx.fillStyle = '#8b5cf6'
-        ctx.fillText('×', 370, 60)
-        ctx.font = 'bold 38px Inter, sans-serif'
-        ctx.fillStyle = '#a855f7'
-        ctx.fillText('2K26', 430, 60)
+        ctx.fillText('INFOTHON × 2K26', 350, 55)
 
-        // Event name
-        ctx.font = 'bold 36px Inter, sans-serif'
+        // Event
+        ctx.font = 'bold 32px Inter, sans-serif'
         ctx.fillStyle = '#ffffff'
         ctx.textAlign = 'left'
-        ctx.fillText(registration.event_name, 50, 140)
-
-        // Category badge
-        if (eventDetails?.category) {
-            ctx.font = 'bold 12px Inter, sans-serif'
-            ctx.fillStyle = '#00f5ff'
-            ctx.fillText(eventDetails.category, 50, 170)
-        }
+        ctx.fillText(registration.event_name, 50, 120)
 
         // Details
         ctx.font = '16px Inter, sans-serif'
         ctx.fillStyle = '#cbd5e1'
-        ctx.fillText(`📅 ${registration.event_date}`, 50, 220)
-        ctx.fillText('🕐 10:00 AM IST', 50, 250)
-        ctx.fillText('📍 Main Auditorium', 50, 280)
+        ctx.fillText(`📅 ${registration.event_date}  •  🕐 10:00 AM IST  •  📍 Main Auditorium`, 50, 160)
 
         // Ticket ID
         ctx.font = 'bold 14px monospace'
         ctx.fillStyle = '#00f5ff'
-        ctx.fillText(`TICKET: ${registration.ticket_id}`, 50, 330)
+        ctx.fillText(`TICKET: ${registration.ticket_id}`, 50, 200)
 
-        // Attendee
-        ctx.font = 'bold 20px Inter, sans-serif'
+        // Attendee Details
+        ctx.font = 'bold 18px Inter, sans-serif'
         ctx.fillStyle = '#ffffff'
-        ctx.fillText(`ATTENDEE: ${registration.attendee_name}`, 50, 380)
+        ctx.fillText(`NAME: ${registration.attendee_name}`, 50, 250)
+        ctx.font = '14px Inter, sans-serif'
+        ctx.fillStyle = '#cbd5e1'
+        ctx.fillText(`EMAIL: ${registration.attendee_email || 'N/A'}`, 50, 280)
+        ctx.fillText(`PHONE: ${registration.attendee_phone || 'N/A'}`, 50, 305)
+        ctx.fillText(`COLLEGE: ${registration.attendee_college || 'N/A'}`, 50, 330)
+        if (registration.attendee_cc) ctx.fillText(`CC: ${registration.attendee_cc}`, 50, 355)
 
-        // Verified badge
+        // IMPORTANT NOTICE
+        ctx.font = 'bold 14px Inter, sans-serif'
+        ctx.fillStyle = '#f59e0b'
+        ctx.fillText('⚠️ BRING AADHAR CARD FOR VERIFICATION', 50, 400)
+
+        // Verified
         if (registration.verified) {
-            ctx.font = 'bold 14px Inter, sans-serif'
             ctx.fillStyle = '#22c55e'
-            ctx.fillText('✓ VERIFIED', 50, 420)
+            ctx.fillText('✓ VERIFIED', 50, 430)
         }
 
-        // QR Code placeholder area
+        // QR Code area
         ctx.fillStyle = '#ffffff'
         ctx.fillRect(780, 180, 180, 180)
 
-        // Draw QR code if available
         if (qrDataUrl) {
             const qrImg = new window.Image()
             qrImg.onload = () => {
@@ -1319,132 +1353,161 @@ function RegistrationPassCard({
             transition={{ delay: index * 0.1 }}
             className="group h-full"
         >
-            <div className="glitch-container rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] flex flex-col sm:flex-row h-full">
+            <div className="glitch-container rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] flex flex-col h-full">
                 {/* Corner accents */}
                 <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20" />
                 <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-cyan/60 z-20" />
                 <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-cyan/60 z-20" />
                 <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-20" />
 
-                {/* Left Side: Event Info */}
-                <div className="flex-1 p-6 relative z-10">
-                    <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${eventDetails?.category === 'CODING' ? 'from-glow-cyan to-blue-500' : 'from-glow-violet to-purple-500'}`} />
-
-                    <div className="flex items-start justify-between mb-4">
+                {/* Header with Event Info */}
+                <div className="p-5 border-b border-white/10">
+                    <div className="flex items-start justify-between mb-3">
                         {eventDetails?.category && (
                             <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${colors.border} ${colors.text} bg-white/5`}>
                                 {eventDetails.category}
                             </div>
                         )}
                         <div className="flex items-center gap-2">
+                            {registration.details_locked && (
+                                <span className="px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">
+                                    🔒 LOCKED
+                                </span>
+                            )}
                             {registration.verified && (
                                 <span className="px-2 py-0.5 text-[10px] bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
                                     ✓ VERIFIED
                                 </span>
                             )}
-                            <span className="text-xs font-mono text-text-muted">
-                                #{registration.ticket_id.slice(-8)}
-                            </span>
                         </div>
                     </div>
-
-                    <h3 className="text-2xl font-heading font-bold mb-2 group-hover:text-glow-cyan transition-colors">
+                    <h3 className="text-xl font-heading font-bold mb-2 group-hover:text-glow-cyan transition-colors">
                         {registration.event_name}
                     </h3>
-
-                    <div className="space-y-2 mb-4">
-                        <div className="flex items-center gap-2 text-sm text-text-secondary">
-                            <Calendar className="w-4 h-4 text-glow-cyan" />
-                            {registration.event_date}
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-text-secondary">
-                            <Clock className="w-4 h-4 text-glow-cyan" />
-                            10:00 AM IST
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-text-secondary">
-                            <MapPin className="w-4 h-4 text-glow-cyan" />
-                            Main Auditorium
-                        </div>
+                    <div className="flex flex-wrap gap-3 text-xs text-text-secondary">
+                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{registration.event_date}</span>
+                        <span className="flex items-center gap-1"><Clock className="w-3 h-3" />10:00 AM</span>
+                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />Main Auditorium</span>
                     </div>
+                    <div className="mt-2 text-[10px] font-mono text-text-muted">#{registration.ticket_id}</div>
+                </div>
 
-                    {/* Attendee Name - Editable */}
-                    <div className="mb-4 p-3 rounded-lg bg-white/5 border border-white/10">
-                        <div className="text-xs text-text-muted uppercase tracking-wider mb-2">Attendee</div>
-                        {isEditing ? (
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="text"
-                                    value={editingName}
-                                    onChange={(e) => onNameChange(e.target.value)}
-                                    className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
-                                    placeholder="Enter attendee name"
-                                    autoFocus
-                                />
+                {/* Attendee Details Section */}
+                <div className="flex-1 p-5">
+                    {isEditing ? (
+                        // Editing Form
+                        <div className="space-y-3">
+                            <div className="text-xs text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
+                                ⚠️ Fill details carefully - Can only be set ONCE
+                            </div>
+                            <input
+                                type="text"
+                                value={editingAttendee.name}
+                                onChange={(e) => onAttendeeChange({ ...editingAttendee, name: e.target.value })}
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                placeholder="Full Name *"
+                                required
+                            />
+                            <input
+                                type="email"
+                                value={editingAttendee.email}
+                                onChange={(e) => onAttendeeChange({ ...editingAttendee, email: e.target.value })}
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                placeholder="Email Address *"
+                                required
+                            />
+                            <input
+                                type="tel"
+                                value={editingAttendee.phone}
+                                onChange={(e) => onAttendeeChange({ ...editingAttendee, phone: e.target.value })}
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                placeholder="Phone Number *"
+                                required
+                            />
+                            <input
+                                type="text"
+                                value={editingAttendee.college}
+                                onChange={(e) => onAttendeeChange({ ...editingAttendee, college: e.target.value })}
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                placeholder="College Name *"
+                                required
+                            />
+                            <input
+                                type="text"
+                                value={editingAttendee.cc}
+                                onChange={(e) => onAttendeeChange({ ...editingAttendee, cc: e.target.value })}
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/30 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                placeholder="CC (Optional)"
+                            />
+                            <div className="flex gap-2 pt-2">
                                 <button
-                                    onClick={onSaveName}
-                                    className="p-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors"
+                                    onClick={onSaveAttendee}
+                                    disabled={!editingAttendee.name || !editingAttendee.email || !editingAttendee.phone || !editingAttendee.college}
+                                    className="flex-1 py-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm"
                                 >
-                                    <Check className="w-4 h-4" />
+                                    ✓ Save & Lock
                                 </button>
                                 <button
                                     onClick={onCancelEdit}
-                                    className="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
+                                    className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors text-sm"
                                 >
-                                    ✕
+                                    Cancel
                                 </button>
                             </div>
-                        ) : (
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <User className="w-4 h-4 text-glow-cyan" />
-                                    <span className="text-white font-medium">{registration.attendee_name || 'No name set'}</span>
-                                </div>
-                                <button
-                                    onClick={() => onEditName(registration.ticket_id, registration.attendee_name || '')}
-                                    className="p-2 rounded-lg bg-white/10 text-text-muted hover:bg-white/20 hover:text-white transition-colors"
-                                    title="Edit name"
-                                >
-                                    <Edit2 className="w-4 h-4" />
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    ) : registration.details_locked || !isPlaceholderName ? (
+                        // Locked - Show Details
+                        <div className="space-y-2">
+                            <div className="text-xs text-text-muted uppercase tracking-wider mb-2">Attendee Details</div>
+                            <div className="flex items-center gap-2"><User className="w-4 h-4 text-glow-cyan" /><span className="text-white font-medium">{registration.attendee_name}</span></div>
+                            {registration.attendee_email && <div className="text-sm text-text-secondary">📧 {registration.attendee_email}</div>}
+                            {registration.attendee_phone && <div className="text-sm text-text-secondary">📱 {registration.attendee_phone}</div>}
+                            {registration.attendee_college && <div className="text-sm text-text-secondary">🏫 {registration.attendee_college}</div>}
+                            {registration.attendee_cc && <div className="text-sm text-text-secondary">CC: {registration.attendee_cc}</div>}
+                        </div>
+                    ) : (
+                        // Not filled - Show prompt to fill
+                        <div className="flex flex-col items-center justify-center h-full py-4">
+                            <div className="text-amber-400 text-sm font-bold mb-2">⚠️ Attendee details not set</div>
+                            <p className="text-text-muted text-xs text-center mb-4">Please fill attendee details for entry verification</p>
+                            <button
+                                onClick={() => onStartEdit(registration.ticket_id, {
+                                    name: '',
+                                    email: '',
+                                    phone: '',
+                                    college: '',
+                                    cc: ''
+                                })}
+                                className="px-4 py-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors text-sm font-bold"
+                            >
+                                <Edit2 className="w-4 h-4 inline mr-2" />
+                                Fill Details
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-                    <div className="flex items-center gap-3">
-                        <GlowButton size="sm" variant="secondary" onClick={handleDownload}>
-                            <Download className="w-4 h-4 mr-2" />
-                            Ticket
-                        </GlowButton>
+                {/* Aadhar Notice Banner */}
+                <div className="px-5 py-3 bg-amber-500/10 border-t border-amber-500/30">
+                    <div className="flex items-center gap-2 text-amber-400 text-xs font-bold">
+                        <span>⚠️</span>
+                        <span>BRING AADHAR CARD FOR VERIFICATION AT ENTRY</span>
                     </div>
                 </div>
 
-                {/* Right Side: QR Code */}
-                <div className="relative sm:w-48 bg-black/60 border-t sm:border-t-0 sm:border-l border-white/10 p-6 flex flex-col items-center justify-center gap-4 z-10">
-                    <div className="absolute left-0 top-0 bottom-0 w-px hidden sm:flex flex-col justify-between -ml-[1px]">
-                        {[...Array(12)].map((_, i) => (
-                            <div key={i} className="w-[2px] h-2 bg-text-muted/20 my-1" />
-                        ))}
-                    </div>
-
-                    <div className="w-24 h-24 bg-white p-1 rounded-lg relative overflow-hidden">
+                {/* Footer with QR and Download */}
+                <div className="p-5 border-t border-white/10 flex items-center justify-between">
+                    <div className="w-16 h-16 bg-white p-1 rounded-lg relative overflow-hidden">
                         {qrDataUrl ? (
-                            <img src={qrDataUrl} alt="Ticket QR Code" className="w-full h-full" />
+                            <img src={qrDataUrl} alt="QR" className="w-full h-full" />
                         ) : (
-                            <QrCode className="w-full h-full text-black p-2" />
+                            <QrCode className="w-full h-full text-black p-1" />
                         )}
-                        <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
-                            animate={{ x: ['-100%', '100%'] }}
-                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                        />
                     </div>
-                    <div className="text-center">
-                        <div className="text-xs text-text-muted uppercase tracking-wider mb-1">Pass Type</div>
-                        <div className="text-sm font-bold text-white">Event Entry</div>
-                    </div>
-                    <div className="text-[10px] font-mono text-text-muted text-center">
-                        {registration.ticket_id}
-                    </div>
+                    <GlowButton size="sm" variant="secondary" onClick={handleDownload}>
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Pass
+                    </GlowButton>
                 </div>
             </div>
         </motion.div>
