@@ -243,6 +243,7 @@ export default function TeamRegistrationPage() {
             member_5_college: members[4]?.college || '',
             member_5_verified: false,
             details_locked: true,
+            amount_paid: event.price,
             payment_status: 'pending'
         }
 
