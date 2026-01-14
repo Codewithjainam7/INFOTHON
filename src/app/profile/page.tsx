@@ -672,7 +672,7 @@ function StatCard({ label, value, icon, delay }: { label: string; value: string;
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay }}
         >
-            <div className="glitch-container rounded-xl p-4 sm:p-6 group border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] h-full">
+            <div className="glitch-container rounded-xl p-4 sm:p-6 group border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] h-full min-h-[120px]">
                 {/* Active Glitch Hover Effect - Border Glow Pulse */}
                 <motion.div
                     className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-xl pointer-events-none"
@@ -685,11 +685,11 @@ function StatCard({ label, value, icon, delay }: { label: string; value: string;
                 <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
                 <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
 
-                <div className="flex items-start justify-between mb-2 relative z-10">
-                    <span className="text-text-muted text-xs uppercase tracking-wider">{label}</span>
-                    <span className="text-glow-cyan opacity-50 group-hover:opacity-100 transition-opacity">{icon}</span>
+                <div className="flex items-center justify-between mb-3 relative z-10">
+                    <span className="text-slate-400 text-xs uppercase tracking-wider font-medium">{label}</span>
+                    <span className="text-glow-cyan w-5 h-5">{icon}</span>
                 </div>
-                <div className="text-2xl sm:text-3xl font-heading font-bold relative z-10 group-hover:text-white transition-colors">{value}</div>
+                <div className="text-2xl sm:text-3xl font-heading font-bold relative z-10 text-white group-hover:text-glow-cyan transition-colors">{value}</div>
             </div>
         </motion.div>
     )
@@ -1264,74 +1264,202 @@ function RegistrationPassCard({
     const handleDownload = async () => {
         const canvas = document.createElement('canvas')
         canvas.width = 1000
-        canvas.height = 550
+        canvas.height = 500
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        // Background
-        const bgGradient = ctx.createRadialGradient(500, 275, 0, 500, 275, 600)
-        bgGradient.addColorStop(0, '#0d0d15')
-        bgGradient.addColorStop(1, '#050508')
+        // === BACKGROUND ===
+        // Dark gradient background
+        const bgGradient = ctx.createRadialGradient(500, 250, 0, 500, 250, 600)
+        bgGradient.addColorStop(0, '#0a1628')
+        bgGradient.addColorStop(0.5, '#071018')
+        bgGradient.addColorStop(1, '#050a10')
         ctx.fillStyle = bgGradient
-        ctx.fillRect(0, 0, 1000, 550)
+        ctx.fillRect(0, 0, 1000, 500)
 
-        // Grid
-        ctx.strokeStyle = 'rgba(0, 245, 255, 0.08)'
-        for (let x = 0; x < 1000; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 550); ctx.stroke() }
-        for (let y = 0; y < 550; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1000, y); ctx.stroke() }
-
-        // Header
-        ctx.font = 'bold 42px Inter, sans-serif'
-        ctx.fillStyle = '#00f5ff'
-        ctx.textAlign = 'center'
-        ctx.fillText('INFOTHON × 2K26', 350, 55)
-
-        // Event
-        ctx.font = 'bold 32px Inter, sans-serif'
-        ctx.fillStyle = '#ffffff'
-        ctx.textAlign = 'left'
-        ctx.fillText(registration.event_name, 50, 120)
-
-        // Details
-        ctx.font = '16px Inter, sans-serif'
-        ctx.fillStyle = '#cbd5e1'
-        ctx.fillText(`📅 ${registration.event_date}  •  🕐 10:00 AM IST  •  📍 Main Auditorium`, 50, 160)
-
-        // Ticket ID
-        ctx.font = 'bold 14px monospace'
-        ctx.fillStyle = '#00f5ff'
-        ctx.fillText(`TICKET: ${registration.ticket_id}`, 50, 200)
-
-        // Attendee Details
-        ctx.font = 'bold 18px Inter, sans-serif'
-        ctx.fillStyle = '#ffffff'
-        ctx.fillText(`NAME: ${registration.attendee_name}`, 50, 250)
-        ctx.font = '14px Inter, sans-serif'
-        ctx.fillStyle = '#cbd5e1'
-        ctx.fillText(`EMAIL: ${registration.attendee_email || 'N/A'}`, 50, 280)
-        ctx.fillText(`PHONE: ${registration.attendee_phone || 'N/A'}`, 50, 305)
-        ctx.fillText(`COLLEGE: ${registration.attendee_college || 'N/A'}`, 50, 330)
-        if (registration.attendee_cc) ctx.fillText(`CC: ${registration.attendee_cc}`, 50, 355)
-
-        // IMPORTANT NOTICE
-        ctx.font = 'bold 14px Inter, sans-serif'
-        ctx.fillStyle = '#f59e0b'
-        ctx.fillText('⚠️ BRING AADHAR CARD FOR VERIFICATION', 50, 400)
-
-        // Verified
-        if (registration.verified) {
-            ctx.fillStyle = '#22c55e'
-            ctx.fillText('✓ VERIFIED', 50, 430)
+        // Subtle grid pattern
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.03)'
+        ctx.lineWidth = 1
+        for (let x = 0; x < 1000; x += 25) {
+            ctx.beginPath()
+            ctx.moveTo(x, 0)
+            ctx.lineTo(x, 500)
+            ctx.stroke()
+        }
+        for (let y = 0; y < 500; y += 25) {
+            ctx.beginPath()
+            ctx.moveTo(0, y)
+            ctx.lineTo(1000, y)
+            ctx.stroke()
         }
 
-        // QR Code area
-        ctx.fillStyle = '#ffffff'
-        ctx.fillRect(780, 180, 180, 180)
+        // === BORDER ===
+        // Outer glow border
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.6)'
+        ctx.lineWidth = 2
+        ctx.strokeRect(15, 15, 970, 470)
 
+        // Corner accents
+        ctx.strokeStyle = '#00f5ff'
+        ctx.lineWidth = 3
+        // Top-left
+        ctx.beginPath(); ctx.moveTo(15, 40); ctx.lineTo(15, 15); ctx.lineTo(40, 15); ctx.stroke()
+        // Top-right
+        ctx.beginPath(); ctx.moveTo(960, 15); ctx.lineTo(985, 15); ctx.lineTo(985, 40); ctx.stroke()
+        // Bottom-left
+        ctx.beginPath(); ctx.moveTo(15, 460); ctx.lineTo(15, 485); ctx.lineTo(40, 485); ctx.stroke()
+        // Bottom-right
+        ctx.beginPath(); ctx.moveTo(960, 485); ctx.lineTo(985, 485); ctx.lineTo(985, 460); ctx.stroke()
+
+        // === HEADER - INFOTHON × 2K26 ===
+        ctx.font = 'bold italic 48px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#00f5ff'
+        ctx.textAlign = 'left'
+        ctx.fillText('INFOTHON', 40, 70)
+
+        ctx.font = 'bold 36px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#a855f7'
+        ctx.fillText('×', 270, 70)
+
+        ctx.font = 'bold italic 48px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#a855f7'
+        ctx.fillText('2K26', 310, 70)
+
+        // Subtitle
+        ctx.font = '12px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('NATIONAL LEVEL HACKATHON', 40, 95)
+
+        // === EVENT NAME ===
+        ctx.font = 'bold 36px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText(registration.event_name.toUpperCase(), 40, 150)
+
+        // === CATEGORY BADGE ===
+        const category = eventDetails?.category || 'EVENT'
+        const badgeColor = category === 'CODING' ? '#00f5ff' : '#a855f7'
+        ctx.fillStyle = badgeColor
+        ctx.fillRect(40, 165, ctx.measureText(category).width + 24, 28)
+        ctx.font = 'bold 12px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#000000'
+        ctx.fillText(category, 52, 184)
+
+        // === ATTENDEE SECTION ===
+        ctx.font = '11px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('ATTENDEE', 40, 230)
+
+        ctx.font = 'bold 28px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText(registration.attendee_name.toUpperCase(), 40, 265)
+
+        // === DATE / VENUE / TIME - Columns ===
+        const colY = 310
+
+        // DATE
+        ctx.font = '10px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('DATE', 40, colY)
+        ctx.font = 'bold 16px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText(registration.event_date, 40, colY + 22)
+
+        // Separator
+        ctx.fillStyle = '#1e293b'
+        ctx.fillRect(200, colY - 10, 1, 40)
+
+        // VENUE
+        ctx.font = '10px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('VENUE', 220, colY)
+        ctx.font = 'bold 16px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText('Main Auditorium', 220, colY + 22)
+
+        // Separator
+        ctx.fillStyle = '#1e293b'
+        ctx.fillRect(400, colY - 10, 1, 40)
+
+        // TIME
+        ctx.font = '10px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('TIME', 420, colY)
+        ctx.font = 'bold 16px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText('10:00 AM IST', 420, colY + 22)
+
+        // === TICKET ID ===
+        ctx.font = '11px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('TICKET:', 40, 390)
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText(registration.ticket_id, 100, 390)
+
+        // === GRADIENT PROGRESS BAR ===
+        const barGradient = ctx.createLinearGradient(40, 0, 560, 0)
+        barGradient.addColorStop(0, '#00f5ff')
+        barGradient.addColorStop(0.5, '#a855f7')
+        barGradient.addColorStop(1, '#06b6d4')
+        ctx.fillStyle = barGradient
+        ctx.fillRect(40, 415, 520, 8)
+
+        // === AADHAR NOTICE ===
+        ctx.font = '10px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#f59e0b'
+        ctx.fillText('⚠ BRING AADHAR CARD FOR VERIFICATION', 40, 455)
+
+        // === RIGHT SIDE - QR SECTION ===
+        // QR Box border
+        ctx.strokeStyle = '#00f5ff'
+        ctx.lineWidth = 2
+        ctx.strokeRect(700, 80, 250, 250)
+
+        // Inner glow
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.3)'
+        ctx.lineWidth = 1
+        ctx.strokeRect(705, 85, 240, 240)
+
+        // "SCAN TO VERIFY" label
+        ctx.font = '10px monospace'
+        ctx.fillStyle = '#64748b'
+        ctx.textAlign = 'center'
+        ctx.fillText('< SCAN TO VERIFY >', 825, 70)
+
+        // QR Code white background
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(725, 105, 200, 200)
+
+        // === VIP ACCESS PASS ===
+        ctx.strokeStyle = '#a855f7'
+        ctx.lineWidth = 2
+        ctx.strokeRect(725, 350, 200, 35)
+        ctx.font = 'bold 14px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#a855f7'
+        ctx.textAlign = 'center'
+        ctx.fillText('VIP ACCESS PASS', 825, 373)
+
+        // Valid for text
+        ctx.font = '10px Inter, Arial, sans-serif'
+        ctx.fillStyle = '#64748b'
+        ctx.fillText('Valid for single entry', 825, 405)
+        ctx.fillText('Non-transferable', 825, 420)
+
+        // === VERIFIED BADGE (if verified) ===
+        if (registration.verified || registration.details_locked) {
+            ctx.fillStyle = '#22c55e'
+            ctx.beginPath()
+            ctx.roundRect(760, 440, 130, 35, 5)
+            ctx.fill()
+            ctx.font = 'bold 14px Inter, Arial, sans-serif'
+            ctx.fillStyle = '#ffffff'
+            ctx.fillText('✓ VERIFIED', 825, 463)
+        }
+
+        // === DRAW QR CODE ===
         if (qrDataUrl) {
             const qrImg = new window.Image()
             qrImg.onload = () => {
-                ctx.drawImage(qrImg, 785, 185, 170, 170)
+                ctx.drawImage(qrImg, 730, 110, 190, 190)
                 const link = document.createElement('a')
                 link.download = `INFOTHON_2K26_${registration.ticket_id}.png`
                 link.href = canvas.toDataURL('image/png')
