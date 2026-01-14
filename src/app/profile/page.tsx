@@ -561,10 +561,38 @@ export default function ProfilePage() {
 
                     {/* Tickets Section */}
                     <h2 className="text-2xl font-heading font-bold mb-6 flex items-center gap-3">
-                        <span className="text-glow-cyan">///</span> My Tickets
+                        <span className="text-glow-cyan">///</span> My Passes
+                        {registrations.length > 0 && (
+                            <span className="text-sm font-normal text-text-muted ml-2">
+                                ({registrations.length} total)
+                            </span>
+                        )}
                     </h2>
 
-                    {myTickets.length > 0 ? (
+                    {registrations.length > 0 ? (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {registrations.map((reg, index) => {
+                                const eventDetails = eventPackages.find(e => e.id === reg.event_id)
+                                return (
+                                    <RegistrationPassCard
+                                        key={reg.ticket_id}
+                                        registration={reg}
+                                        eventDetails={eventDetails}
+                                        index={index}
+                                        onEditName={(ticketId, name) => {
+                                            setEditingTicketId(ticketId)
+                                            setEditingAttendeeName(name)
+                                        }}
+                                        isEditing={editingTicketId === reg.ticket_id}
+                                        editingName={editingAttendeeName}
+                                        onNameChange={setEditingAttendeeName}
+                                        onSaveName={() => saveAttendeeName(reg.ticket_id, editingAttendeeName)}
+                                        onCancelEdit={() => { setEditingTicketId(null); setEditingAttendeeName('') }}
+                                    />
+                                )
+                            })}
+                        </div>
+                    ) : myTickets.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {myTickets.map((ticket, index) => (
                                 <TicketCard key={ticket.id} event={ticket} index={index} userName={user?.name || 'Guest'} userEmail={user?.email || ''} />
@@ -587,7 +615,7 @@ export default function ProfilePage() {
                             <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4 relative z-10">
                                 <Ticket className="w-8 h-8 text-text-muted" />
                             </div>
-                            <h3 className="text-xl font-heading font-bold mb-2 relative z-10">No Active Registrations</h3>
+                            <h3 className="text-xl font-heading font-bold mb-2 relative z-10">No Active Passes</h3>
                             <p className="text-text-secondary mb-6 relative z-10">You haven&apos;t registered for any events yet.</p>
                             <div className="relative z-10">
                                 <Link href="/register">
@@ -595,109 +623,6 @@ export default function ProfilePage() {
                                 </Link>
                             </div>
                         </div>
-                    )}
-
-                    {/* Manage Attendees Section - for multi-ticket purchases */}
-                    {registrations.length > 0 && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="mt-12"
-                        >
-                            <h2 className="text-2xl font-heading font-bold mb-6 flex items-center gap-3">
-                                <span className="text-glow-violet">///</span> Manage Attendees
-                                <span className="text-sm font-normal text-text-muted ml-2">
-                                    ({registrations.length} ticket{registrations.length > 1 ? 's' : ''})
-                                </span>
-                            </h2>
-
-                            <div className="glitch-container rounded-xl p-6 border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden">
-                                {/* Corner accents */}
-                                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60" />
-                                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-violet/60" />
-                                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-violet/60" />
-                                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60" />
-
-                                <p className="text-text-muted text-sm mb-6">
-                                    Edit attendee names for your tickets. Each ticket needs a unique attendee name for event check-in.
-                                </p>
-
-                                <div className="space-y-4">
-                                    {registrations.map((reg, index) => (
-                                        <motion.div
-                                            key={reg.ticket_id}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-glow-cyan/30 transition-all"
-                                        >
-                                            {/* Ticket Info */}
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <Ticket className="w-4 h-4 text-glow-cyan flex-shrink-0" />
-                                                    <span className="text-sm font-mono text-glow-cyan truncate">
-                                                        {reg.ticket_id}
-                                                    </span>
-                                                    {reg.verified && (
-                                                        <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
-                                                            ✓ Verified
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <p className="text-xs text-text-muted">{reg.event_name} • {reg.event_date}</p>
-                                            </div>
-
-                                            {/* Attendee Name - Editable */}
-                                            <div className="flex items-center gap-2 sm:w-64">
-                                                {editingTicketId === reg.ticket_id ? (
-                                                    <>
-                                                        <input
-                                                            type="text"
-                                                            value={editingAttendeeName}
-                                                            onChange={(e) => setEditingAttendeeName(e.target.value)}
-                                                            className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
-                                                            placeholder="Enter attendee name"
-                                                            autoFocus
-                                                        />
-                                                        <button
-                                                            onClick={() => saveAttendeeName(reg.ticket_id, editingAttendeeName)}
-                                                            className="p-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors"
-                                                        >
-                                                            <Check className="w-4 h-4" />
-                                                        </button>
-                                                        <button
-                                                            onClick={() => { setEditingTicketId(null); setEditingAttendeeName(''); }}
-                                                            className="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
-                                                        >
-                                                            ✕
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <div className="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
-                                                            <User className="w-4 h-4 text-text-muted flex-shrink-0" />
-                                                            <span className="text-sm text-white truncate">
-                                                                {reg.attendee_name || 'No name set'}
-                                                            </span>
-                                                        </div>
-                                                        <button
-                                                            onClick={() => {
-                                                                setEditingTicketId(reg.ticket_id);
-                                                                setEditingAttendeeName(reg.attendee_name || '');
-                                                            }}
-                                                            className="p-2 rounded-lg bg-white/10 text-text-muted hover:bg-white/20 hover:text-white transition-colors"
-                                                        >
-                                                            <Edit2 className="w-4 h-4" />
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                        </motion.div>
                     )}
                 </div>
             </main>
@@ -1225,6 +1150,300 @@ Join us at the biggest tech fest of 2026!
                     </div>
                     <div className="text-[10px] font-mono text-text-muted text-center">
                         Valid for {userName}
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    )
+}
+
+// New component for registration-based passes with inline name editing
+function RegistrationPassCard({
+    registration,
+    eventDetails,
+    index,
+    onEditName,
+    isEditing,
+    editingName,
+    onNameChange,
+    onSaveName,
+    onCancelEdit
+}: {
+    registration: { ticket_id: string; attendee_name: string; event_id: string; event_name: string; event_date: string; verified: boolean }
+    eventDetails: any
+    index: number
+    onEditName: (ticketId: string, name: string) => void
+    isEditing: boolean
+    editingName: string
+    onNameChange: (name: string) => void
+    onSaveName: () => void
+    onCancelEdit: () => void
+}) {
+    const colors = eventDetails ? (colorMap[eventDetails.color] || colorMap.cyan) : colorMap.cyan
+    const [qrDataUrl, setQrDataUrl] = useState<string>('')
+
+    // Generate QR code with registration data
+    useEffect(() => {
+        const generateQR = async () => {
+            const ticketData = JSON.stringify({
+                ticketId: registration.ticket_id,
+                event: registration.event_id,
+                eventName: registration.event_name,
+                attendee: registration.attendee_name,
+                date: registration.event_date,
+                verified: registration.verified
+            })
+
+            try {
+                const qrUrl = await QRCode.toDataURL(ticketData, {
+                    width: 200,
+                    margin: 1,
+                    color: { dark: '#000000', light: '#FFFFFF' }
+                })
+                setQrDataUrl(qrUrl)
+            } catch (err) {
+                console.error('QR generation failed:', err)
+            }
+        }
+        generateQR()
+    }, [registration])
+
+    const handleDownload = async () => {
+        // Create premium ticket canvas
+        const canvas = document.createElement('canvas')
+        canvas.width = 1000
+        canvas.height = 500
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        // Background gradient
+        const bgGradient = ctx.createRadialGradient(500, 250, 0, 500, 250, 600)
+        bgGradient.addColorStop(0, '#0d0d15')
+        bgGradient.addColorStop(0.5, '#080810')
+        bgGradient.addColorStop(1, '#050508')
+        ctx.fillStyle = bgGradient
+        ctx.fillRect(0, 0, 1000, 500)
+
+        // Grid pattern
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.08)'
+        ctx.lineWidth = 1
+        for (let x = 0; x < 1000; x += 30) {
+            ctx.beginPath()
+            ctx.moveTo(x, 0)
+            ctx.lineTo(x, 500)
+            ctx.stroke()
+        }
+        for (let y = 0; y < 500; y += 30) {
+            ctx.beginPath()
+            ctx.moveTo(0, y)
+            ctx.lineTo(1000, y)
+            ctx.stroke()
+        }
+
+        // Header with INFOTHON × 2K26
+        ctx.font = 'bold 42px Inter, sans-serif'
+        ctx.fillStyle = '#00f5ff'
+        ctx.textAlign = 'center'
+        ctx.fillText('INFOTHON', 280, 60)
+        ctx.font = 'bold 28px Inter, sans-serif'
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText('×', 370, 60)
+        ctx.font = 'bold 38px Inter, sans-serif'
+        ctx.fillStyle = '#a855f7'
+        ctx.fillText('2K26', 430, 60)
+
+        // Event name
+        ctx.font = 'bold 36px Inter, sans-serif'
+        ctx.fillStyle = '#ffffff'
+        ctx.textAlign = 'left'
+        ctx.fillText(registration.event_name, 50, 140)
+
+        // Category badge
+        if (eventDetails?.category) {
+            ctx.font = 'bold 12px Inter, sans-serif'
+            ctx.fillStyle = '#00f5ff'
+            ctx.fillText(eventDetails.category, 50, 170)
+        }
+
+        // Details
+        ctx.font = '16px Inter, sans-serif'
+        ctx.fillStyle = '#cbd5e1'
+        ctx.fillText(`📅 ${registration.event_date}`, 50, 220)
+        ctx.fillText('🕐 10:00 AM IST', 50, 250)
+        ctx.fillText('📍 Main Auditorium', 50, 280)
+
+        // Ticket ID
+        ctx.font = 'bold 14px monospace'
+        ctx.fillStyle = '#00f5ff'
+        ctx.fillText(`TICKET: ${registration.ticket_id}`, 50, 330)
+
+        // Attendee
+        ctx.font = 'bold 20px Inter, sans-serif'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText(`ATTENDEE: ${registration.attendee_name}`, 50, 380)
+
+        // Verified badge
+        if (registration.verified) {
+            ctx.font = 'bold 14px Inter, sans-serif'
+            ctx.fillStyle = '#22c55e'
+            ctx.fillText('✓ VERIFIED', 50, 420)
+        }
+
+        // QR Code placeholder area
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(780, 180, 180, 180)
+
+        // Draw QR code if available
+        if (qrDataUrl) {
+            const qrImg = new window.Image()
+            qrImg.onload = () => {
+                ctx.drawImage(qrImg, 785, 185, 170, 170)
+                const link = document.createElement('a')
+                link.download = `INFOTHON_2K26_${registration.ticket_id}.png`
+                link.href = canvas.toDataURL('image/png')
+                link.click()
+            }
+            qrImg.src = qrDataUrl
+        } else {
+            const link = document.createElement('a')
+            link.download = `INFOTHON_2K26_${registration.ticket_id}.png`
+            link.href = canvas.toDataURL('image/png')
+            link.click()
+        }
+    }
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="group h-full"
+        >
+            <div className="glitch-container rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] flex flex-col sm:flex-row h-full">
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-cyan/60 z-20" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-cyan/60 z-20" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-20" />
+
+                {/* Left Side: Event Info */}
+                <div className="flex-1 p-6 relative z-10">
+                    <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${eventDetails?.category === 'CODING' ? 'from-glow-cyan to-blue-500' : 'from-glow-violet to-purple-500'}`} />
+
+                    <div className="flex items-start justify-between mb-4">
+                        {eventDetails?.category && (
+                            <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${colors.border} ${colors.text} bg-white/5`}>
+                                {eventDetails.category}
+                            </div>
+                        )}
+                        <div className="flex items-center gap-2">
+                            {registration.verified && (
+                                <span className="px-2 py-0.5 text-[10px] bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
+                                    ✓ VERIFIED
+                                </span>
+                            )}
+                            <span className="text-xs font-mono text-text-muted">
+                                #{registration.ticket_id.slice(-8)}
+                            </span>
+                        </div>
+                    </div>
+
+                    <h3 className="text-2xl font-heading font-bold mb-2 group-hover:text-glow-cyan transition-colors">
+                        {registration.event_name}
+                    </h3>
+
+                    <div className="space-y-2 mb-4">
+                        <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <Calendar className="w-4 h-4 text-glow-cyan" />
+                            {registration.event_date}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <Clock className="w-4 h-4 text-glow-cyan" />
+                            10:00 AM IST
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <MapPin className="w-4 h-4 text-glow-cyan" />
+                            Main Auditorium
+                        </div>
+                    </div>
+
+                    {/* Attendee Name - Editable */}
+                    <div className="mb-4 p-3 rounded-lg bg-white/5 border border-white/10">
+                        <div className="text-xs text-text-muted uppercase tracking-wider mb-2">Attendee</div>
+                        {isEditing ? (
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="text"
+                                    value={editingName}
+                                    onChange={(e) => onNameChange(e.target.value)}
+                                    className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                    placeholder="Enter attendee name"
+                                    autoFocus
+                                />
+                                <button
+                                    onClick={onSaveName}
+                                    className="p-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors"
+                                >
+                                    <Check className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={onCancelEdit}
+                                    className="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <User className="w-4 h-4 text-glow-cyan" />
+                                    <span className="text-white font-medium">{registration.attendee_name || 'No name set'}</span>
+                                </div>
+                                <button
+                                    onClick={() => onEditName(registration.ticket_id, registration.attendee_name || '')}
+                                    className="p-2 rounded-lg bg-white/10 text-text-muted hover:bg-white/20 hover:text-white transition-colors"
+                                    title="Edit name"
+                                >
+                                    <Edit2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <GlowButton size="sm" variant="secondary" onClick={handleDownload}>
+                            <Download className="w-4 h-4 mr-2" />
+                            Ticket
+                        </GlowButton>
+                    </div>
+                </div>
+
+                {/* Right Side: QR Code */}
+                <div className="relative sm:w-48 bg-black/60 border-t sm:border-t-0 sm:border-l border-white/10 p-6 flex flex-col items-center justify-center gap-4 z-10">
+                    <div className="absolute left-0 top-0 bottom-0 w-px hidden sm:flex flex-col justify-between -ml-[1px]">
+                        {[...Array(12)].map((_, i) => (
+                            <div key={i} className="w-[2px] h-2 bg-text-muted/20 my-1" />
+                        ))}
+                    </div>
+
+                    <div className="w-24 h-24 bg-white p-1 rounded-lg relative overflow-hidden">
+                        {qrDataUrl ? (
+                            <img src={qrDataUrl} alt="Ticket QR Code" className="w-full h-full" />
+                        ) : (
+                            <QrCode className="w-full h-full text-black p-2" />
+                        )}
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                            animate={{ x: ['-100%', '100%'] }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                        />
+                    </div>
+                    <div className="text-center">
+                        <div className="text-xs text-text-muted uppercase tracking-wider mb-1">Pass Type</div>
+                        <div className="text-sm font-bold text-white">Event Entry</div>
+                    </div>
+                    <div className="text-[10px] font-mono text-text-muted text-center">
+                        {registration.ticket_id}
                     </div>
                 </div>
             </div>
