@@ -673,19 +673,58 @@ export default function AdminScannerPage() {
             }} />
 
             <div className="relative z-10 container mx-auto px-4 py-12">
-                {/* Header */}
+                {/* Header with Logos */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-12"
                 >
-                    <h1 className="text-4xl md:text-5xl font-heading font-black mb-4">
-                        <span className="text-glow-cyan">INFOTHON</span>
-                        <span className="text-white"> × </span>
-                        <span className="text-glow-violet">2K26</span>
-                    </h1>
-                    <p className="text-text-muted font-mono uppercase tracking-widest">
+                    {/* Logo Images */}
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="relative"
+                        >
+                            <img
+                                src="/images/INFOTHON_glitch.png"
+                                alt="INFOTHON"
+                                className="h-16 md:h-20 w-auto object-contain"
+                            />
+                            {/* Glow effect */}
+                            <motion.div
+                                className="absolute inset-0 pointer-events-none"
+                                animate={{
+                                    boxShadow: ['0 0 20px rgba(0,245,255,0.3)', '0 0 40px rgba(0,245,255,0.5)', '0 0 20px rgba(0,245,255,0.3)']
+                                }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                            />
+                        </motion.div>
+                        <span className="text-3xl md:text-4xl font-bold text-glow-violet">×</span>
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="relative"
+                        >
+                            <img
+                                src="/images/2k26_glitch.png"
+                                alt="2K26"
+                                className="h-16 md:h-20 w-auto object-contain"
+                            />
+                            {/* Glow effect */}
+                            <motion.div
+                                className="absolute inset-0 pointer-events-none"
+                                animate={{
+                                    boxShadow: ['0 0 20px rgba(139,92,246,0.3)', '0 0 40px rgba(139,92,246,0.5)', '0 0 20px rgba(139,92,246,0.3)']
+                                }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                            />
+                        </motion.div>
+                    </div>
+
+                    <p className="text-text-muted font-mono uppercase tracking-widest text-sm">
                         Ticket Verification System
+                    </p>
+                    <p className="text-glow-cyan/60 font-mono text-xs mt-2">
+                        EVENT COORDINATOR ACCESS ONLY
                     </p>
                 </motion.div>
 
