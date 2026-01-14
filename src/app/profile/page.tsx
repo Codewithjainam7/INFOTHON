@@ -248,16 +248,34 @@ export default function ProfilePage() {
     }
 
     // Computed tickets from registrations (Single Source of Truth)
-    const myTickets = registrations.map(reg => {
-        const eventDef = eventPackages.find(e => e.id === reg.event_id)
-        if (!eventDef) return null
-        return {
-            ...eventDef,
-            // Use actual paid amount if available, otherwise fallback to event price
-            price: reg.amount_paid !== undefined ? reg.amount_paid : eventDef.price,
-            registration_id: reg.id // Keep track of unique registration
-        }
-    }).filter(item => item !== null) as (typeof eventPackages[0] & { registration_id: string })[]
+    // Computed tickets from registrations AND legacy metadata
+    const myTickets = useMemo(() => {
+        // 1. Get tickets from DB registrations (Confirmed only)
+        const dbTickets = registrations
+            .filter(r => r.payment_status !== 'pending')
+            .map(reg => {
+                const eventDef = eventPackages.find(e => e.id === reg.event_id)
+                if (!eventDef) return null
+                return {
+                    ...eventDef,
+                    price: reg.amount_paid !== undefined ? reg.amount_paid : eventDef.price,
+                    registration_id: reg.id,
+                    source: 'db'
+                }
+            }).filter(item => item !== null) as (typeof eventPackages[0] & { registration_id: string, source: 'db' | 'legacy' })[]
+
+        // 2. Get tickets from legacy purchasedEvents (that are NOT in DB)
+        const legacyTickets = eventPackages
+            .filter(pkg => purchasedEvents.includes(pkg.id))
+            .filter(pkg => !registrations.some(r => r.event_id === pkg.id))
+            .map(pkg => ({
+                ...pkg,
+                registration_id: `legacy-${pkg.id}`,
+                source: 'legacy'
+            })) as (typeof eventPackages[0] & { registration_id: string, source: 'db' | 'legacy' })[]
+
+        return [...dbTickets, ...legacyTickets]
+    }, [registrations, purchasedEvents])
 
     // Calculate Totals
     const totalSpent = myTickets.reduce((sum, t) => sum + t.price, 0)
@@ -623,35 +641,45 @@ export default function ProfilePage() {
                         )}
                     </h2>
 
-                    {registrations.length > 0 ? (
+                    {myTickets.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {registrations.filter(r => r.payment_status !== 'pending').map((reg, index) => {
-                                const eventDetails = eventPackages.find(e => e.id === reg.event_id)
+                            {myTickets.map((ticket, index) => {
+                                if (ticket.source === 'db') {
+                                    const reg = registrations.find(r => r.id === ticket.registration_id)
+                                    if (!reg) return null
 
-                                return (
-                                    <RegistrationPassCard
-                                        key={reg.ticket_id}
-                                        registration={reg}
-                                        eventDetails={eventDetails}
-                                        index={index}
-                                        onStartEdit={(ticketId, attendee) => {
-                                            setEditingTicketId(ticketId)
-                                            setEditingAttendee(attendee)
-                                        }}
-                                        isEditing={editingTicketId === reg.ticket_id}
-                                        editingAttendee={editingAttendee}
-                                        onAttendeeChange={setEditingAttendee}
-                                        onSaveAttendee={() => saveAttendeeDetails(reg.ticket_id, editingAttendee)}
-                                        onCancelEdit={() => { setEditingTicketId(null); setEditingAttendee({ name: '', email: '', phone: '', college: '', cc: '' }) }}
-                                    />
-                                )
+                                    const eventDetails = eventPackages.find(e => e.id === reg.event_id)
+
+                                    return (
+                                        <RegistrationPassCard
+                                            key={reg.ticket_id}
+                                            registration={reg}
+                                            eventDetails={eventDetails}
+                                            index={index}
+                                            onStartEdit={(ticketId, attendee) => {
+                                                setEditingTicketId(ticketId)
+                                                setEditingAttendee(attendee)
+                                            }}
+                                            isEditing={editingTicketId === reg.ticket_id}
+                                            editingAttendee={editingAttendee}
+                                            onAttendeeChange={setEditingAttendee}
+                                            onSaveAttendee={() => saveAttendeeDetails(reg.ticket_id, editingAttendee)}
+                                            onCancelEdit={() => { setEditingTicketId(null); setEditingAttendee({ name: '', email: '', phone: '', college: '', cc: '' }) }}
+                                        />
+                                    )
+                                } else {
+                                    // Legacy Ticket Card
+                                    return (
+                                        <TicketCard
+                                            key={ticket.id}
+                                            event={ticket}
+                                            index={index}
+                                            userName={user?.name || 'Guest'}
+                                            userEmail={user?.email || ''}
+                                        />
+                                    )
+                                }
                             })}
-                        </div>
-                    ) : myTickets.length > 0 ? (
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {myTickets.map((ticket, index) => (
-                                <TicketCard key={ticket.id} event={ticket} index={index} userName={user?.name || 'Guest'} userEmail={user?.email || ''} />
-                            ))}
                         </div>
                     ) : (
                         <div className="glitch-container rounded-xl p-8 border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden group text-center py-16">
@@ -1123,7 +1151,7 @@ Join us at the biggest tech fest of 2026!
                 <motion.div
                     className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-2xl pointer-events-none z-20"
                     animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    transition={{ duration: 2.5, repeat: Infinity }}
                 />
                 {/* Corner accents */}
                 <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
@@ -1196,7 +1224,7 @@ Join us at the biggest tech fest of 2026!
                         <motion.div
                             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
                             animate={{ x: ['-100%', '100%'] }}
-                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 5 }}
                         />
                     </div>
                     <div className="text-center">
@@ -1631,7 +1659,7 @@ INFOTHON 2K26 - The Ultimate Tech Fest!
                 <motion.div
                     className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-2xl pointer-events-none z-20"
                     animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    transition={{ duration: 2.5, repeat: Infinity }}
                 />
                 {/* Corner accents */}
                 <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
@@ -1814,7 +1842,7 @@ INFOTHON 2K26 - The Ultimate Tech Fest!
                         <motion.div
                             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
                             animate={{ x: ['-100%', '100%'] }}
-                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 5 }}
                         />
                     </div>
 
