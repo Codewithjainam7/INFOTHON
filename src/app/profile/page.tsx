@@ -1346,6 +1346,39 @@ function RegistrationPassCard({
         }
     }
 
+    const handleShare = async () => {
+        const shareText = `🚀 I'm attending ${registration.event_name} at INFOTHON × 2K26!
+
+🎫 Ticket: ${registration.ticket_id}
+🗓️ Date: ${registration.event_date}
+📍 Venue: Main Auditorium
+
+INFOTHON 2K26 - The Ultimate Tech Fest!
+🔗 Register: ${typeof window !== 'undefined' ? window.location.origin : ''}/register
+
+#INFOTHON2K26 #TechFest #Hackathon`
+
+        if (typeof navigator !== 'undefined' && navigator.share) {
+            try {
+                await navigator.share({
+                    title: `INFOTHON × 2K26 - ${registration.event_name}`,
+                    text: shareText,
+                    url: typeof window !== 'undefined' ? window.location.origin : '',
+                })
+                return
+            } catch (err) {
+                console.log('Share cancelled:', err)
+            }
+        }
+
+        try {
+            await navigator.clipboard.writeText(shareText)
+            alert('✓ Ticket details copied to clipboard!')
+        } catch (err) {
+            console.error('Clipboard failed:', err)
+        }
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -1353,16 +1386,25 @@ function RegistrationPassCard({
             transition={{ delay: index * 0.1 }}
             className="group h-full"
         >
-            <div className="glitch-container rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] flex flex-col h-full">
+            <div className="glitch-container rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] flex flex-col sm:flex-row h-full">
+                {/* Glow pulse on hover */}
+                <motion.div
+                    className="absolute inset-0 border-2 border-transparent group-hover:border-glow-cyan/30 rounded-2xl pointer-events-none z-20"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                />
                 {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20" />
-                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-cyan/60 z-20" />
-                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-cyan/60 z-20" />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-20" />
+                <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/60 z-20 transition-colors group-hover:border-glow-cyan" />
 
-                {/* Header with Event Info */}
-                <div className="p-5 border-b border-white/10">
-                    <div className="flex items-start justify-between mb-3">
+                {/* Left Side: Event Info */}
+                <div className="flex-1 p-6 relative z-10">
+                    <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${eventDetails?.category === 'CODING' ? 'from-glow-cyan to-blue-500' : 'from-glow-violet to-purple-500'}`} />
+
+                    {/* Category & Badges */}
+                    <div className="flex items-start justify-between mb-4">
                         {eventDetails?.category && (
                             <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${colors.border} ${colors.text} bg-white/5`}>
                                 {eventDetails.category}
@@ -1370,82 +1412,92 @@ function RegistrationPassCard({
                         )}
                         <div className="flex items-center gap-2">
                             {registration.details_locked && (
-                                <span className="px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">
-                                    🔒 LOCKED
+                                <span className="px-2 py-0.5 text-[10px] bg-green-500/20 text-green-400 rounded-full border border-green-500/30 flex items-center gap-1">
+                                    <Check className="w-3 h-3" /> LOCKED
                                 </span>
                             )}
                             {registration.verified && (
                                 <span className="px-2 py-0.5 text-[10px] bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
-                                    ✓ VERIFIED
+                                    <Check className="w-3 h-3 inline" /> VERIFIED
                                 </span>
                             )}
                         </div>
                     </div>
-                    <h3 className="text-xl font-heading font-bold mb-2 group-hover:text-glow-cyan transition-colors">
+
+                    {/* Ticket ID */}
+                    <div className="text-xs font-mono text-glow-cyan mb-3">
+                        #{registration.ticket_id}
+                    </div>
+
+                    {/* Event Name */}
+                    <h3 className="text-2xl font-heading font-bold mb-3 group-hover:text-glow-cyan transition-colors">
                         {registration.event_name}
                     </h3>
-                    <div className="flex flex-wrap gap-3 text-xs text-text-secondary">
-                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{registration.event_date}</span>
-                        <span className="flex items-center gap-1"><Clock className="w-3 h-3" />10:00 AM</span>
-                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />Main Auditorium</span>
-                    </div>
-                    <div className="mt-2 text-[10px] font-mono text-text-muted">#{registration.ticket_id}</div>
-                </div>
 
-                {/* Attendee Details Section */}
-                <div className="flex-1 p-5">
+                    {/* Event Details with Icons */}
+                    <div className="space-y-2 mb-5">
+                        <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <Calendar className="w-4 h-4 text-glow-cyan" />
+                            {registration.event_date}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <Clock className="w-4 h-4 text-glow-cyan" />
+                            10:00 AM IST
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <MapPin className="w-4 h-4 text-glow-cyan" />
+                            Main Auditorium
+                        </div>
+                    </div>
+
+                    {/* Attendee Section */}
                     {isEditing ? (
-                        // Editing Form
-                        <div className="space-y-3">
-                            <div className="text-xs text-amber-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
-                                ⚠️ Fill details carefully - Can only be set ONCE
+                        <div className="space-y-3 p-4 rounded-lg bg-white/5 border border-glow-cyan/30">
+                            <div className="text-xs text-amber-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                                <Ticket className="w-4 h-4" /> Fill details carefully - ONE TIME ONLY
                             </div>
                             <input
                                 type="text"
                                 value={editingAttendee.name}
                                 onChange={(e) => onAttendeeChange({ ...editingAttendee, name: e.target.value })}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm"
                                 placeholder="Full Name *"
-                                required
                             />
                             <input
                                 type="email"
                                 value={editingAttendee.email}
                                 onChange={(e) => onAttendeeChange({ ...editingAttendee, email: e.target.value })}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm"
                                 placeholder="Email Address *"
-                                required
                             />
                             <input
                                 type="tel"
                                 value={editingAttendee.phone}
                                 onChange={(e) => onAttendeeChange({ ...editingAttendee, phone: e.target.value })}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm"
                                 placeholder="Phone Number *"
-                                required
                             />
                             <input
                                 type="text"
                                 value={editingAttendee.college}
                                 onChange={(e) => onAttendeeChange({ ...editingAttendee, college: e.target.value })}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-glow-cyan/50 text-white text-sm"
                                 placeholder="College Name *"
-                                required
                             />
                             <input
                                 type="text"
                                 value={editingAttendee.cc}
                                 onChange={(e) => onAttendeeChange({ ...editingAttendee, cc: e.target.value })}
-                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/30 text-white text-sm focus:outline-none focus:border-glow-cyan"
+                                className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/30 text-white text-sm"
                                 placeholder="CC (Optional)"
                             />
                             <div className="flex gap-2 pt-2">
                                 <button
                                     onClick={onSaveAttendee}
                                     disabled={!editingAttendee.name || !editingAttendee.email || !editingAttendee.phone || !editingAttendee.college}
-                                    className="flex-1 py-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm"
+                                    className="flex-1 py-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors disabled:opacity-50 font-bold text-sm flex items-center justify-center gap-2"
                                 >
-                                    ✓ Save & Lock
+                                    <Check className="w-4 h-4" /> Save & Lock
                                 </button>
                                 <button
                                     onClick={onCancelEdit}
@@ -1456,58 +1508,83 @@ function RegistrationPassCard({
                             </div>
                         </div>
                     ) : registration.details_locked || !isPlaceholderName ? (
-                        // Locked - Show Details
-                        <div className="space-y-2">
-                            <div className="text-xs text-text-muted uppercase tracking-wider mb-2">Attendee Details</div>
-                            <div className="flex items-center gap-2"><User className="w-4 h-4 text-glow-cyan" /><span className="text-white font-medium">{registration.attendee_name}</span></div>
-                            {registration.attendee_email && <div className="text-sm text-text-secondary">📧 {registration.attendee_email}</div>}
-                            {registration.attendee_phone && <div className="text-sm text-text-secondary">📱 {registration.attendee_phone}</div>}
-                            {registration.attendee_college && <div className="text-sm text-text-secondary">🏫 {registration.attendee_college}</div>}
-                            {registration.attendee_cc && <div className="text-sm text-text-secondary">CC: {registration.attendee_cc}</div>}
+                        // Locked - Show only Name + ID
+                        <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+                            <div className="text-[10px] text-text-muted uppercase tracking-wider mb-2">ATTENDEE</div>
+                            <div className="flex items-center gap-2">
+                                <User className="w-5 h-5 text-glow-cyan" />
+                                <span className="text-lg text-white font-bold">{registration.attendee_name}</span>
+                            </div>
                         </div>
                     ) : (
-                        // Not filled - Show prompt to fill
-                        <div className="flex flex-col items-center justify-center h-full py-4">
-                            <div className="text-amber-400 text-sm font-bold mb-2">⚠️ Attendee details not set</div>
-                            <p className="text-text-muted text-xs text-center mb-4">Please fill attendee details for entry verification</p>
+                        // Not filled - Prompt
+                        <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/30 text-center">
+                            <Ticket className="w-8 h-8 text-amber-400 mx-auto mb-2" />
+                            <div className="text-amber-400 text-sm font-bold mb-2">Attendee details not set</div>
                             <button
-                                onClick={() => onStartEdit(registration.ticket_id, {
-                                    name: '',
-                                    email: '',
-                                    phone: '',
-                                    college: '',
-                                    cc: ''
-                                })}
+                                onClick={() => onStartEdit(registration.ticket_id, { name: '', email: '', phone: '', college: '', cc: '' })}
                                 className="px-4 py-2 rounded-lg bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 transition-colors text-sm font-bold"
                             >
-                                <Edit2 className="w-4 h-4 inline mr-2" />
-                                Fill Details
+                                <Edit2 className="w-4 h-4 inline mr-2" /> Fill Details
                             </button>
                         </div>
                     )}
-                </div>
 
-                {/* Aadhar Notice Banner */}
-                <div className="px-5 py-3 bg-amber-500/10 border-t border-amber-500/30">
-                    <div className="flex items-center gap-2 text-amber-400 text-xs font-bold">
-                        <span>⚠️</span>
-                        <span>BRING AADHAR CARD FOR VERIFICATION AT ENTRY</span>
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-3 mt-5">
+                        <GlowButton size="sm" variant="secondary" onClick={handleDownload}>
+                            <Download className="w-4 h-4 mr-2" /> Ticket
+                        </GlowButton>
+                        <button
+                            onClick={handleShare}
+                            className="p-2 rounded-lg glass hover:bg-white/10 transition-colors"
+                            title="Share"
+                        >
+                            <Share2 className="w-4 h-4 text-white" />
+                        </button>
                     </div>
                 </div>
 
-                {/* Footer with QR and Download */}
-                <div className="p-5 border-t border-white/10 flex items-center justify-between">
-                    <div className="w-16 h-16 bg-white p-1 rounded-lg relative overflow-hidden">
+                {/* Right Side: QR Code Stub */}
+                <div className="relative sm:w-48 bg-black/60 border-t sm:border-t-0 sm:border-l border-white/10 p-6 flex flex-col items-center justify-center gap-4 z-10">
+                    {/* Perforated Line */}
+                    <div className="absolute left-0 top-0 bottom-0 w-px hidden sm:flex flex-col justify-between -ml-[1px]">
+                        {[...Array(12)].map((_, i) => (
+                            <div key={i} className="w-[2px] h-2 bg-text-muted/20 my-1" />
+                        ))}
+                    </div>
+
+                    {/* QR Code */}
+                    <div className="w-24 h-24 bg-white p-1 rounded-lg relative overflow-hidden">
                         {qrDataUrl ? (
-                            <img src={qrDataUrl} alt="QR" className="w-full h-full" />
+                            <img src={qrDataUrl} alt="Ticket QR Code" className="w-full h-full" />
                         ) : (
-                            <QrCode className="w-full h-full text-black p-1" />
+                            <QrCode className="w-full h-full text-black p-2" />
                         )}
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                            animate={{ x: ['-100%', '100%'] }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                        />
                     </div>
-                    <GlowButton size="sm" variant="secondary" onClick={handleDownload}>
-                        <Download className="w-4 h-4 mr-2" />
-                        Download Pass
-                    </GlowButton>
+
+                    {/* Pass Type */}
+                    <div className="text-center">
+                        <div className="text-xs text-text-muted uppercase tracking-wider mb-1">Pass Type</div>
+                        <div className="text-sm font-bold text-white">General Entry</div>
+                    </div>
+
+                    {/* Valid For */}
+                    <div className="text-[10px] font-mono text-text-muted text-center">
+                        Valid for {registration.attendee_name || 'Attendee'}
+                    </div>
+
+                    {/* Aadhar Notice */}
+                    <div className="absolute bottom-2 left-0 right-0 text-center">
+                        <div className="flex items-center justify-center gap-1 text-amber-400 text-[9px] font-bold">
+                            <Ticket className="w-3 h-3" /> AADHAR REQUIRED
+                        </div>
+                    </div>
                 </div>
             </div>
         </motion.div>
