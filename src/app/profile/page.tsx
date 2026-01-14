@@ -945,20 +945,41 @@ Join us at the biggest tech fest of 2026!
 
 #INFOTHON2K26 #Hackathon #TechFest #Coding #Innovation`
 
-        if (navigator.share) {
+        // Try native share API first (mobile)
+        if (typeof navigator !== 'undefined' && navigator.share) {
             try {
                 await navigator.share({
                     title: `INFOTHON × HACKATHON 2K26 - ${event.title}`,
                     text: shareText,
                     url: window.location.origin,
                 })
-            } catch {
-                // User cancelled or error
+                return // Success, exit
+            } catch (err) {
+                // User cancelled or error, try clipboard fallback
+                console.log('Share cancelled or failed:', err)
             }
-        } else {
-            // Fallback: copy to clipboard
-            await navigator.clipboard.writeText(shareText)
-            alert('Event details copied to clipboard!')
+        }
+
+        // Fallback: copy to clipboard
+        try {
+            if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                await navigator.clipboard.writeText(shareText)
+                alert('✅ Event details copied to clipboard!')
+            } else {
+                // Final fallback: use execCommand (deprecated but works)
+                const textArea = document.createElement('textarea')
+                textArea.value = shareText
+                textArea.style.position = 'fixed'
+                textArea.style.left = '-999999px'
+                document.body.appendChild(textArea)
+                textArea.select()
+                document.execCommand('copy')
+                document.body.removeChild(textArea)
+                alert('✅ Event details copied to clipboard!')
+            }
+        } catch (err) {
+            console.error('Clipboard failed:', err)
+            alert('❌ Could not share. Please try again.')
         }
     }
 
