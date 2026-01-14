@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import QRCode from 'qrcode'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -36,7 +37,6 @@ const avatars = [
 
 import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
 
 export default function ProfilePage() {
     const router = useRouter()
@@ -45,6 +45,7 @@ export default function ProfilePage() {
     const [user, setUser] = useState<{ name: string; email: string; phone: string; college: string; cc: string } | null>(null)
     const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null)
     const [showAvatarSelection, setShowAvatarSelection] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     // Edit states
     const [showEditProfile, setShowEditProfile] = useState(false)
@@ -53,63 +54,71 @@ export default function ProfilePage() {
     const [editCC, setEditCC] = useState('')
     const [isSaving, setIsSaving] = useState(false)
 
+    // Load ALL data from Supabase in one consolidated call
     useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user) {
+        const loadAllUserData = async () => {
+            setIsLoading(true)
+
+            const { data: { user: authUser } } = await supabase.auth.getUser()
+
+            if (authUser) {
+                const metadata = authUser.user_metadata || {}
+
+                // Set user profile data
                 setUser({
-                    name: user.user_metadata.full_name || 'Cyber Nomad',
-                    email: user.email || '',
-                    phone: user.user_metadata.phone || '',
-                    college: user.user_metadata.college || '',
-                    cc: user.user_metadata.cc || ''
+                    name: metadata.full_name || 'Cyber Nomad',
+                    email: authUser.email || '',
+                    phone: metadata.phone || '',
+                    college: metadata.college || '',
+                    cc: metadata.cc || ''
                 })
-                setEditName(user.user_metadata.full_name || '')
-                setEditCollege(user.user_metadata.college || '')
-                setEditCC(user.user_metadata.cc || '')
+                setEditName(metadata.full_name || '')
+                setEditCollege(metadata.college || '')
+                setEditCC(metadata.cc || '')
+
+                // Load purchased events from Supabase
+                if (metadata.purchased_events && Array.isArray(metadata.purchased_events)) {
+                    setPurchasedEvents(metadata.purchased_events)
+                    // Sync to localStorage as backup
+                    localStorage.setItem('infothon_purchased', JSON.stringify(metadata.purchased_events))
+                }
+
+                // Load avatar from Supabase
+                if (metadata.avatar) {
+                    setSelectedAvatar(metadata.avatar)
+                    localStorage.setItem('infothon_avatar', metadata.avatar)
+                } else {
+                    const savedAvatar = localStorage.getItem('infothon_avatar')
+                    if (savedAvatar) {
+                        setSelectedAvatar(savedAvatar)
+                        // Sync localStorage avatar to Supabase
+                        await supabase.auth.updateUser({ data: { avatar: savedAvatar } })
+                    } else {
+                        setShowAvatarSelection(true)
+                    }
+                }
             } else {
-                // Fallback to local storage for demo/testing without backend
+                // Not logged in - fallback to localStorage or redirect
                 const userData = localStorage.getItem('infothon_user')
                 if (userData) {
                     const parsed = JSON.parse(userData)
                     setUser({ ...parsed, phone: '', college: '', cc: '' })
+
+                    const saved = localStorage.getItem('infothon_purchased')
+                    if (saved) setPurchasedEvents(JSON.parse(saved))
+
+                    const savedAvatar = localStorage.getItem('infothon_avatar')
+                    if (savedAvatar) setSelectedAvatar(savedAvatar)
+                    else setShowAvatarSelection(true)
                 } else {
                     router.push('/login')
                 }
             }
-        }
-        getUser()
 
-        // Load purchased events from Supabase user_metadata
-        const loadEvents = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user?.user_metadata?.purchased_events) {
-                setPurchasedEvents(user.user_metadata.purchased_events)
-            } else {
-                // Fallback to localStorage
-                const saved = localStorage.getItem('infothon_purchased')
-                if (saved) {
-                    setPurchasedEvents(JSON.parse(saved))
-                }
-            }
+            setIsLoading(false)
         }
-        loadEvents()
 
-        // Load avatar from Supabase or localStorage
-        const loadAvatar = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user?.user_metadata?.avatar) {
-                setSelectedAvatar(user.user_metadata.avatar)
-            } else {
-                const savedAvatar = localStorage.getItem('infothon_avatar')
-                if (savedAvatar) {
-                    setSelectedAvatar(savedAvatar)
-                } else {
-                    setShowAvatarSelection(true)
-                }
-            }
-        }
-        loadAvatar()
+        loadAllUserData()
     }, [router, supabase])
 
     const handleSignOut = async () => {
@@ -477,7 +486,7 @@ export default function ProfilePage() {
                     {myTickets.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {myTickets.map((ticket, index) => (
-                                <TicketCard key={ticket.id} event={ticket} index={index} userName={user?.name || 'Guest'} />
+                                <TicketCard key={ticket.id} event={ticket} index={index} userName={user?.name || 'Guest'} userEmail={user?.email || ''} />
                             ))}
                         </div>
                     ) : (
@@ -544,9 +553,46 @@ function StatCard({ label, value, icon, delay }: { label: string; value: string;
     )
 }
 
-function TicketCard({ event, index, userName }: { event: any; index: number; userName: string }) {
+function TicketCard({ event, index, userName, userEmail }: { event: any; index: number; userName: string; userEmail: string }) {
     const colors = colorMap[event.color] || colorMap.cyan
-    const ticketId = `INFOTHON-${event.id.toUpperCase().slice(0, 4)}-${Date.now().toString(36).toUpperCase().slice(-4)}`
+    // Generate a stable unique ticket ID based on user email and event
+    const ticketId = useMemo(() => {
+        const hash = btoa(`${userEmail}-${event.id}`).slice(0, 8).toUpperCase()
+        return `INFOTHON-${event.id.toUpperCase().slice(0, 4)}-${hash}`
+    }, [userEmail, event.id])
+
+    const [qrDataUrl, setQrDataUrl] = useState<string>('')
+
+    // Generate QR code with verifiable ticket data
+    useEffect(() => {
+        const generateQR = async () => {
+            const ticketData = JSON.stringify({
+                ticketId,
+                event: event.id,
+                eventName: event.title,
+                attendee: userName,
+                email: userEmail,
+                date: event.date,
+                verified: true,
+                issuedAt: new Date().toISOString()
+            })
+
+            try {
+                const qrUrl = await QRCode.toDataURL(ticketData, {
+                    width: 200,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                })
+                setQrDataUrl(qrUrl)
+            } catch (err) {
+                console.error('QR generation failed:', err)
+            }
+        }
+        generateQR()
+    }, [ticketId, event, userName, userEmail])
 
     const handleDownload = async () => {
         // Create a simple ticket image using canvas
@@ -709,8 +755,12 @@ function TicketCard({ event, index, userName }: { event: any; index: number; use
                         ))}
                     </div>
 
-                    <div className="w-24 h-24 bg-white p-2 rounded-lg relative overflow-hidden">
-                        <QrCode className="w-full h-full text-black" />
+                    <div className="w-24 h-24 bg-white p-1 rounded-lg relative overflow-hidden">
+                        {qrDataUrl ? (
+                            <img src={qrDataUrl} alt="Ticket QR Code" className="w-full h-full" />
+                        ) : (
+                            <QrCode className="w-full h-full text-black p-2" />
+                        )}
                         {/* Shimmer on QR code for effect */}
                         <motion.div
                             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
