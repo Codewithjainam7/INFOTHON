@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -298,7 +298,7 @@ function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
     )
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
     const searchParams = useSearchParams()
     const eventId = searchParams.get('event')
 
@@ -904,5 +904,18 @@ export default function CheckoutPage() {
 
             <Footer />
         </SmoothScroll>
+    )
+}
+
+// Wrapper with Suspense for Next.js 16 useSearchParams
+export default function CheckoutPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <div className="text-glow-cyan font-mono animate-pulse">LOADING_CHECKOUT...</div>
+            </div>
+        }>
+            <CheckoutContent />
+        </Suspense>
     )
 }
