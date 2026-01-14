@@ -558,7 +558,7 @@ export default function TeamRegistrationPage() {
                                                 <span className="truncate">OPERATIVE DETAILS ({members.length}/{event.teamMaxSize})</span>
                                             </h2>
 
-                                            <div className="space-y-4 max-h-[60vh] md:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                                            <div className="space-y-4">
                                                 {members.map((member, index) => (
                                                     <motion.div
                                                         key={index}
