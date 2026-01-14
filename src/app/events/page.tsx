@@ -81,7 +81,7 @@ export default function EventsPage() {
                                 <ScrambleText
                                     text="Competitions"
                                     revealSpeed={50}
-                                    scrambleSpeed={30}
+                                    scrambleSpeed={60}
                                     delay={300}
                                 />
                             </h1>
@@ -99,7 +99,7 @@ export default function EventsPage() {
                                 transition={{
                                     duration: 0.2,
                                     repeat: Infinity,
-                                    repeatDelay: 1,
+                                    repeatDelay: 7,
                                     times: [0, 0.2, 0.4, 0.6, 1],
                                 }}
                             >
@@ -214,7 +214,7 @@ export default function EventsPage() {
                                     <Link href={`/events/${event.id}`}>
                                         <div className="glitch-container rounded-lg h-full group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden">
                                             {/* Event Image */}
-                                            <div className="relative h-40 overflow-hidden">
+                                            <div className="relative h-64 overflow-hidden">
                                                 <img
                                                     src={event.image}
                                                     alt={event.title}
@@ -224,7 +224,12 @@ export default function EventsPage() {
 
                                                 {/* Price Badge */}
                                                 <div className="absolute top-3 right-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-sm border border-glow-cyan/50 shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-                                                    <span className="text-lg font-heading font-black text-glow-cyan">₹{eventPackages.find(p => p.id === event.id)?.price || 0}</span>
+                                                    <span className="text-lg font-heading font-black text-glow-cyan">
+                                                        {(eventPackages.find(p => p.id === event.id)?.price || 0) === 0
+                                                            ? 'FREE'
+                                                            : `₹${eventPackages.find(p => p.id === event.id)?.price}`
+                                                        }
+                                                    </span>
                                                 </div>
 
                                                 {/* Category Badge */}

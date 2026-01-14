@@ -277,7 +277,7 @@ export default function SignUpPage() {
                                             <ScrambleText
                                                 text="Create Account"
                                                 revealSpeed={50}
-                                                scrambleSpeed={30}
+                                                scrambleSpeed={60}
                                                 delay={300}
                                             />
                                         </h1>
@@ -294,7 +294,7 @@ export default function SignUpPage() {
                                             transition={{
                                                 duration: 0.2,
                                                 repeat: Infinity,
-                                                repeatDelay: 1,
+                                                repeatDelay: 5,
                                                 times: [0, 0.2, 0.4, 0.6, 1],
                                             }}
                                         >
@@ -313,7 +313,7 @@ export default function SignUpPage() {
                                             transition={{
                                                 duration: 0.15,
                                                 repeat: Infinity,
-                                                repeatDelay: 1.5,
+                                                repeatDelay: 7,
                                             }}
                                         >
                                             Create Account
@@ -395,7 +395,6 @@ export default function SignUpPage() {
                                             placeholder="Create a strong password"
                                             value={formData.password}
                                             onChange={handleChange('password')}
-                                            showPasswordToggle
                                             icon={<Lock className="w-5 h-5" />}
                                         />
                                         <PasswordStrength password={formData.password} />
@@ -406,7 +405,6 @@ export default function SignUpPage() {
                                             placeholder="Confirm your password"
                                             value={formData.confirmPassword}
                                             onChange={handleChange('confirmPassword')}
-                                            showPasswordToggle
                                             error={formData.confirmPassword && formData.password !== formData.confirmPassword ? 'Passwords do not match' : undefined}
                                             icon={<ShieldCheck className="w-5 h-5" />}
                                         />

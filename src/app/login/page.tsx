@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { AlertCircle, Mail } from 'lucide-react'
+import { AlertCircle, Mail, Lock } from 'lucide-react'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
@@ -172,7 +172,7 @@ export default function LoginPage() {
                                             <ScrambleText
                                                 text="System Access"
                                                 revealSpeed={50}
-                                                scrambleSpeed={30}
+                                                scrambleSpeed={60}
                                                 delay={300}
                                             />
                                         </span>
@@ -190,7 +190,7 @@ export default function LoginPage() {
                                         transition={{
                                             duration: 0.2,
                                             repeat: Infinity,
-                                            repeatDelay: 1,
+                                            repeatDelay: 5,
                                             times: [0, 0.2, 0.4, 0.6, 1],
                                         }}
                                     >
@@ -209,7 +209,7 @@ export default function LoginPage() {
                                         transition={{
                                             duration: 0.15,
                                             repeat: Infinity,
-                                            repeatDelay: 1.8,
+                                            repeatDelay: 7,
                                         }}
                                     >
                                         System Access
@@ -266,11 +266,7 @@ export default function LoginPage() {
                                         placeholder="Enter your password"
                                         value={formData.password}
                                         onChange={handleChange('password')}
-                                        icon={
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                                            </svg>
-                                        }
+                                        icon={<Lock className="w-5 h-5" />}
                                     />
 
                                     <div className="pt-4">

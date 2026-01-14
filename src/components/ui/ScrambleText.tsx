@@ -17,8 +17,8 @@ const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*'
 export function ScrambleText({
     text,
     className,
-    scrambleSpeed = 30, // ms per scramble
-    revealSpeed = 50, // ms per character reveal
+    scrambleSpeed = 60, // ms per scramble
+    revealSpeed = 80, // ms per character reveal
     delay = 0,
 }: ScrambleTextProps) {
     const [displayText, setDisplayText] = useState('')
