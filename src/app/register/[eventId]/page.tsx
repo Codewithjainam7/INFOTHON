@@ -372,7 +372,7 @@ export default function TeamRegistrationPage() {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-center mb-12 relative"
+                            className="text-center mb-8 md:mb-12 relative"
                         >
                             <div className="flex flex-col items-center">
                                 <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-6 border ${colors.border} bg-black/40 backdrop-blur-md text-glow-cyan shadow-[0_0_15px_rgba(34,211,238,0.3)]`}>
@@ -382,7 +382,7 @@ export default function TeamRegistrationPage() {
 
                                 <IntenseGlitchText
                                     text={event.title}
-                                    className="text-6xl md:text-8xl font-heading font-black mb-6 uppercase tracking-tighter block text-white drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                                    className="text-4xl sm:text-6xl md:text-8xl font-heading font-black mb-4 md:mb-6 uppercase tracking-tighter block text-white drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"
                                 />
 
                                 <div className="h-0.5 w-24 bg-gradient-to-r from-transparent via-glow-cyan to-transparent mb-6 opacity-50" />
@@ -396,7 +396,7 @@ export default function TeamRegistrationPage() {
                         </motion.div>
 
                         {/* Progress Steps */}
-                        <div className="flex justify-center mb-12">
+                        <div className="flex justify-center mb-8 md:mb-12">
                             {[1, 2, 3].map((step) => (
                                 <div key={step} className="flex items-center">
                                     <motion.div
@@ -444,8 +444,8 @@ export default function TeamRegistrationPage() {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
                                         >
-                                            <h2 className="text-3xl font-heading font-bold mb-8 flex items-center gap-3 text-white border-b border-white/10 pb-4 tracking-tight">
-                                                <Users className="w-8 h-8 text-glow-cyan" />
+                                            <h2 className="text-xl md:text-3xl font-heading font-bold mb-6 md:mb-8 flex items-center gap-3 text-white border-b border-white/10 pb-4 tracking-tight">
+                                                <Users className="w-6 h-6 md:w-8 md:h-8 text-glow-cyan" />
                                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-glow-cyan">SQUAD CONFIGURATION</span>
                                             </h2>
 
@@ -459,16 +459,12 @@ export default function TeamRegistrationPage() {
                                                         whileHover={{ scale: 1.01 }}
                                                         whileTap={{ scale: 0.99 }}
                                                     >
-                                                        <motion.input
+                                                        <input
                                                             type="text"
                                                             value={teamName}
                                                             onChange={(e) => setTeamName(e.target.value)}
                                                             placeholder="ENTER_TEAM_NAME"
-                                                            className="w-full px-6 py-5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-text-muted/30 focus:border-glow-cyan focus:outline-none focus:bg-glow-cyan/5 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all font-mono text-xl tracking-wider uppercase relative z-20"
-                                                            whileFocus={{
-                                                                x: [0, -2, 2, -1, 1, 0],
-                                                                transition: { repeat: Infinity, duration: 0.2, repeatDelay: 3 }
-                                                            }}
+                                                            className="w-full px-4 py-4 md:px-6 md:py-5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-text-muted/30 focus:border-glow-cyan focus:outline-none focus:bg-glow-cyan/5 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all font-mono text-base md:text-xl tracking-wider uppercase"
                                                         />
                                                         {/* Glitch Border on Input */}
                                                         <motion.div
@@ -544,9 +540,9 @@ export default function TeamRegistrationPage() {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
                                         >
-                                            <h2 className="text-2xl font-heading font-bold mb-6 flex items-center gap-3 text-white border-b border-white/10 pb-4">
-                                                <User className="w-6 h-6 text-glow-cyan" />
-                                                OPERATIVE DETAILS ({members.length}/{event.teamMaxSize})
+                                            <h2 className="text-lg md:text-2xl font-heading font-bold mb-4 md:mb-6 flex items-center gap-2 md:gap-3 text-white border-b border-white/10 pb-4">
+                                                <User className="w-5 h-5 md:w-6 md:h-6 text-glow-cyan" />
+                                                <span className="truncate">OPERATIVE DETAILS ({members.length}/{event.teamMaxSize})</span>
                                             </h2>
 
                                             <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
@@ -603,16 +599,16 @@ export default function TeamRegistrationPage() {
                                                 )}
                                             </div>
 
-                                            <div className="flex justify-between mt-8">
+                                            <div className="flex flex-col sm:flex-row gap-3 sm:justify-between mt-6 md:mt-8">
                                                 <button
                                                     onClick={() => setCurrentStep(1)}
-                                                    className="px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10"
+                                                    className="px-4 md:px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10 text-sm md:text-base order-2 sm:order-1"
                                                 >
                                                     BACK
                                                 </button>
                                                 <button
                                                     onClick={() => setCurrentStep(3)}
-                                                    className="px-6 py-3 rounded-xl bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 font-bold transition-all flex items-center gap-2 border border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(0,245,255,0.3)]"
+                                                    className="px-4 md:px-6 py-3 rounded-xl bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 font-bold transition-all flex items-center justify-center gap-2 border border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(0,245,255,0.3)] text-sm md:text-base order-1 sm:order-2"
                                                 >
                                                     PROCEED TO SUMMARY
                                                     <CreditCard className="w-4 h-4" />
@@ -629,14 +625,14 @@ export default function TeamRegistrationPage() {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
                                         >
-                                            <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-3 text-white border-b border-white/10 pb-4">
-                                                <CreditCard className="w-6 h-6 text-glow-cyan" />
+                                            <h2 className="text-lg md:text-xl font-heading font-bold mb-4 md:mb-6 flex items-center gap-2 md:gap-3 text-white border-b border-white/10 pb-4">
+                                                <CreditCard className="w-5 h-5 md:w-6 md:h-6 text-glow-cyan" />
                                                 MISSION SUMMARY
                                             </h2>
 
                                             {/* Bill */}
-                                            <div className="space-y-4 mb-8">
-                                                <div className="p-6 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden backdrop-blur-sm group/summary hover:border-glow-cyan/30 transition-colors">
+                                            <div className="space-y-4 mb-6 md:mb-8">
+                                                <div className="p-4 md:p-6 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden backdrop-blur-sm group/summary hover:border-glow-cyan/30 transition-colors">
                                                     <div className="absolute inset-0 bg-[url('/images/grid.png')] opacity-10" />
 
                                                     <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
@@ -654,9 +650,9 @@ export default function TeamRegistrationPage() {
                                                         <span className="text-white font-mono uppercase text-sm">{members.length} Operatives</span>
                                                     </div>
 
-                                                    <div className="flex justify-between items-center pt-4 border-t border-dashed border-white/10">
-                                                        <span className="text-glow-cyan font-cyber font-bold text-lg tracking-widest">TOTAL_ACCESS_FEE</span>
-                                                        <span className="text-4xl font-heading font-black text-white tracking-tighter">₹{event.price}</span>
+                                                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-4 border-t border-dashed border-white/10 gap-2">
+                                                        <span className="text-glow-cyan font-cyber font-bold text-sm md:text-lg tracking-widest">TOTAL_ACCESS_FEE</span>
+                                                        <span className="text-3xl md:text-4xl font-heading font-black text-white tracking-tighter">₹{event.price}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -679,27 +675,27 @@ export default function TeamRegistrationPage() {
                                             )}
 
 
-                                            <div className="flex justify-between items-center">
+                                            <div className="flex flex-col sm:flex-row gap-3 sm:justify-between mt-4 md:mt-6">
                                                 <button
                                                     onClick={() => setCurrentStep(2)}
-                                                    className="px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10"
+                                                    className="px-4 md:px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10 text-sm md:text-base order-2 sm:order-1"
                                                 >
                                                     BACK
                                                 </button>
                                                 <button
                                                     onClick={handlePayment}
                                                     disabled={isLoading || !razorpayLoaded}
-                                                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group"
+                                                    className="px-6 md:px-8 py-3 md:py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center justify-center gap-2 md:gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group text-sm md:text-base order-1 sm:order-2"
                                                 >
                                                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
                                                     {isLoading ? (
                                                         <div className="flex items-center gap-2">
-                                                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                                                            <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
                                                             PROCESSING...
                                                         </div>
                                                     ) : (
                                                         <>
-                                                            <Zap className="w-5 h-5 fill-current" />
+                                                            <Zap className="w-4 h-4 md:w-5 md:h-5 fill-current" />
                                                             INITIATE PAYMENT
                                                         </>
                                                     )}
