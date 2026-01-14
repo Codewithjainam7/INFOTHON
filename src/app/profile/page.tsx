@@ -631,173 +631,252 @@ function TicketCard({ event, index, userName, userEmail }: { event: any; index: 
     }, [ticketId, event, userName, userEmail])
 
     const handleDownload = async () => {
-        // Create premium ticket with INFOTHON branding
+        // Create ULTRA PREMIUM ticket with INFOTHON branding
         const canvas = document.createElement('canvas')
-        canvas.width = 900
-        canvas.height = 450
+        canvas.width = 1000
+        canvas.height = 500
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        // Background gradient
-        const bgGradient = ctx.createLinearGradient(0, 0, 900, 450)
-        bgGradient.addColorStop(0, '#0a0a0f')
-        bgGradient.addColorStop(0.5, '#0f0f1a')
-        bgGradient.addColorStop(1, '#0a0a0f')
+        // === BACKGROUND ===
+        // Deep space gradient
+        const bgGradient = ctx.createRadialGradient(500, 250, 0, 500, 250, 600)
+        bgGradient.addColorStop(0, '#0d0d15')
+        bgGradient.addColorStop(0.5, '#080810')
+        bgGradient.addColorStop(1, '#050508')
         ctx.fillStyle = bgGradient
-        ctx.fillRect(0, 0, 900, 450)
+        ctx.fillRect(0, 0, 1000, 500)
 
-        // Grid pattern overlay
-        ctx.strokeStyle = 'rgba(0, 245, 255, 0.05)'
+        // === CIRCUIT BOARD PATTERN ===
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.08)'
         ctx.lineWidth = 1
-        for (let x = 0; x < 900; x += 30) {
-            ctx.beginPath()
-            ctx.moveTo(x, 0)
-            ctx.lineTo(x, 450)
-            ctx.stroke()
-        }
-        for (let y = 0; y < 450; y += 30) {
+
+        // Horizontal circuit lines
+        const circuitY = [60, 120, 380, 440]
+        circuitY.forEach(y => {
             ctx.beginPath()
             ctx.moveTo(0, y)
-            ctx.lineTo(900, y)
+            for (let x = 0; x < 1000; x += 50) {
+                if (Math.random() > 0.7) {
+                    ctx.lineTo(x, y)
+                    ctx.lineTo(x, y + (Math.random() > 0.5 ? 15 : -15))
+                    ctx.lineTo(x + 25, y + (Math.random() > 0.5 ? 15 : -15))
+                    ctx.lineTo(x + 25, y)
+                }
+                ctx.lineTo(x + 50, y)
+            }
             ctx.stroke()
+        })
+
+        // Circuit nodes
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.15)'
+        for (let i = 0; i < 20; i++) {
+            const x = Math.random() * 1000
+            const y = Math.random() * 500
+            ctx.beginPath()
+            ctx.arc(x, y, 3, 0, Math.PI * 2)
+            ctx.fill()
         }
 
-        // Outer glow border
+        // === HEX PATTERN OVERLAY ===
+        ctx.strokeStyle = 'rgba(139, 92, 246, 0.05)'
+        for (let row = 0; row < 10; row++) {
+            for (let col = 0; col < 15; col++) {
+                const x = col * 80 + (row % 2) * 40
+                const y = row * 70
+                ctx.beginPath()
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * 60 - 30) * Math.PI / 180
+                    const px = x + 25 * Math.cos(angle)
+                    const py = y + 25 * Math.sin(angle)
+                    if (i === 0) ctx.moveTo(px, py)
+                    else ctx.lineTo(px, py)
+                }
+                ctx.closePath()
+                ctx.stroke()
+            }
+        }
+
+        // === MAIN FRAME ===
+        // Outer glow frame
+        ctx.shadowColor = '#00f5ff'
+        ctx.shadowBlur = 25
+        ctx.strokeStyle = '#00f5ff'
+        ctx.lineWidth = 3
+        ctx.strokeRect(20, 20, 960, 460)
+        ctx.shadowBlur = 0
+
+        // Inner violet frame
+        ctx.strokeStyle = 'rgba(139, 92, 246, 0.6)'
+        ctx.lineWidth = 1
+        ctx.strokeRect(30, 30, 940, 440)
+
+        // === CORNER DECORATIONS ===
+        const corners = [[20, 20, 1, 1], [980, 20, -1, 1], [20, 480, 1, -1], [980, 480, -1, -1]]
+        corners.forEach(([x, y, dx, dy]) => {
+            // Large L bracket
+            ctx.fillStyle = '#00f5ff'
+            ctx.fillRect(x, y, 50 * dx, 4 * dy)
+            ctx.fillRect(x, y, 4 * dx, 50 * dy)
+            // Small inner bracket
+            ctx.fillStyle = '#8b5cf6'
+            ctx.fillRect(x + 8 * dx, y + 8 * dy, 30 * dx, 2 * dy)
+            ctx.fillRect(x + 8 * dx, y + 8 * dy, 2 * dx, 30 * dy)
+            // Corner dot
+            ctx.beginPath()
+            ctx.arc(x + 6 * dx, y + 6 * dy, 4, 0, Math.PI * 2)
+            ctx.fillStyle = '#00f5ff'
+            ctx.fill()
+        })
+
+        // === DATA MATRIX DECORATION ===
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.1)'
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                if (Math.random() > 0.5) {
+                    ctx.fillRect(850 + col * 8, 350 + row * 8, 6, 6)
+                }
+            }
+        }
+
+        // === SCANLINES ===
+        for (let y = 0; y < 500; y += 3) {
+            ctx.fillStyle = `rgba(0, 0, 0, ${y % 6 === 0 ? 0.15 : 0.08})`
+            ctx.fillRect(0, y, 1000, 1)
+        }
+
+        // === HEADER SECTION ===
+        // INFOTHON text with glow
+        ctx.font = 'bold 52px Arial, sans-serif'
         ctx.shadowColor = '#00f5ff'
         ctx.shadowBlur = 20
-        ctx.strokeStyle = '#00f5ff'
-        ctx.lineWidth = 2
-        ctx.strokeRect(15, 15, 870, 420)
-        ctx.shadowBlur = 0
-
-        // Inner border
-        ctx.strokeStyle = 'rgba(139, 92, 246, 0.5)'
-        ctx.lineWidth = 1
-        ctx.strokeRect(25, 25, 850, 400)
-
-        // Corner accents (L-shaped brackets)
-        const drawCorner = (x: number, y: number, flipX: boolean, flipY: boolean) => {
-            ctx.fillStyle = '#00f5ff'
-            const dx = flipX ? -1 : 1
-            const dy = flipY ? -1 : 1
-            ctx.fillRect(x, y, 40 * dx, 3)
-            ctx.fillRect(x, y, 3, 40 * dy)
-            ctx.fillStyle = '#8b5cf6'
-            ctx.fillRect(x + 5 * dx, y + 5 * dy, 25 * dx, 2)
-            ctx.fillRect(x + 5 * dx, y + 5 * dy, 2, 25 * dy)
-        }
-        drawCorner(15, 15, false, false)
-        drawCorner(885, 15, true, false)
-        drawCorner(15, 435, false, true)
-        drawCorner(885, 435, true, true)
-
-        // Scanlines effect
-        for (let y = 0; y < 450; y += 4) {
-            ctx.fillStyle = `rgba(0, 0, 0, ${y % 8 === 0 ? 0.1 : 0.05})`
-            ctx.fillRect(0, y, 900, 2)
-        }
-
-        // INFOTHON Text (top left)
-        ctx.font = 'bold 42px Arial, sans-serif'
         ctx.fillStyle = '#00f5ff'
-        ctx.shadowColor = '#00f5ff'
-        ctx.shadowBlur = 15
-        ctx.fillText('INFOTHON', 50, 75)
+        ctx.fillText('INFOTHON', 60, 90)
         ctx.shadowBlur = 0
 
-        // X symbol
-        ctx.font = 'bold 28px Arial'
-        ctx.fillStyle = '#8b5cf6'
-        ctx.fillText('×', 265, 72)
+        // Decorative line under INFOTHON
+        const lineGrad = ctx.createLinearGradient(60, 100, 280, 100)
+        lineGrad.addColorStop(0, '#00f5ff')
+        lineGrad.addColorStop(1, 'transparent')
+        ctx.fillStyle = lineGrad
+        ctx.fillRect(60, 105, 220, 2)
 
-        // 2K26 Text
+        // × symbol
         ctx.font = 'bold 36px Arial'
-        const gradient2k26 = ctx.createLinearGradient(290, 45, 400, 75)
-        gradient2k26.addColorStop(0, '#8b5cf6')
-        gradient2k26.addColorStop(1, '#00f5ff')
-        ctx.fillStyle = gradient2k26
-        ctx.fillText('2K26', 290, 75)
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText('×', 300, 85)
 
-        // HACKATHON subtitle
-        ctx.font = '12px monospace'
-        ctx.fillStyle = 'rgba(0, 245, 255, 0.6)'
-        ctx.fillText('NATIONAL LEVEL HACKATHON', 50, 95)
+        // 2K26 with gradient
+        ctx.font = 'bold 48px Arial'
+        const grad2k = ctx.createLinearGradient(340, 50, 480, 95)
+        grad2k.addColorStop(0, '#8b5cf6')
+        grad2k.addColorStop(0.5, '#00f5ff')
+        grad2k.addColorStop(1, '#8b5cf6')
+        ctx.fillStyle = grad2k
+        ctx.shadowColor = '#8b5cf6'
+        ctx.shadowBlur = 15
+        ctx.fillText('2K26', 340, 90)
+        ctx.shadowBlur = 0
 
-        // Divider line
+        // Subtitle
+        ctx.font = '14px monospace'
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.7)'
+        ctx.fillText('NATIONAL LEVEL HACKATHON', 60, 130)
+
+        // Horizontal divider
         ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)'
         ctx.lineWidth = 1
+        ctx.setLineDash([10, 5])
         ctx.beginPath()
-        ctx.moveTo(50, 115)
-        ctx.lineTo(550, 115)
-        ctx.stroke()
-
-        // Event Title
-        ctx.font = 'bold 32px Arial'
-        ctx.fillStyle = '#ffffff'
-        ctx.shadowColor = '#00f5ff'
-        ctx.shadowBlur = 10
-        ctx.fillText(event.title, 50, 160)
-        ctx.shadowBlur = 0
-
-        // Category badge
-        ctx.fillStyle = event.category === 'CODING' ? '#00f5ff' : '#8b5cf6'
-        ctx.font = 'bold 11px Arial'
-        const catWidth = ctx.measureText(event.category).width + 20
-        ctx.fillStyle = 'rgba(139, 92, 246, 0.3)'
-        ctx.fillRect(50, 175, catWidth, 22)
-        ctx.strokeStyle = '#8b5cf6'
-        ctx.strokeRect(50, 175, catWidth, 22)
-        ctx.fillStyle = '#8b5cf6'
-        ctx.fillText(event.category, 60, 190)
-
-        // Attendee info
-        ctx.font = '16px Arial'
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
-        ctx.fillText('ATTENDEE', 50, 235)
-        ctx.font = 'bold 20px Arial'
-        ctx.fillStyle = '#ffffff'
-        ctx.fillText(userName, 50, 260)
-
-        // Date & Venue
-        ctx.font = '14px Arial'
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'
-        ctx.fillText('DATE', 50, 300)
-        ctx.fillText('VENUE', 250, 300)
-        ctx.fillText('TIME', 450, 300)
-        ctx.font = 'bold 16px Arial'
-        ctx.fillStyle = '#00f5ff'
-        ctx.fillText(event.date, 50, 322)
-        ctx.fillText('Main Auditorium', 250, 322)
-        ctx.fillText('10:00 AM IST', 450, 322)
-
-        // Ticket ID
-        ctx.font = 'bold 12px monospace'
-        ctx.fillStyle = 'rgba(0, 245, 255, 0.8)'
-        ctx.fillText(`TICKET ID: ${ticketId}`, 50, 380)
-
-        // Holographic stripe effect
-        const holoGradient = ctx.createLinearGradient(50, 395, 300, 410)
-        holoGradient.addColorStop(0, 'rgba(0, 245, 255, 0.3)')
-        holoGradient.addColorStop(0.3, 'rgba(139, 92, 246, 0.3)')
-        holoGradient.addColorStop(0.6, 'rgba(0, 245, 255, 0.3)')
-        holoGradient.addColorStop(1, 'rgba(139, 92, 246, 0.3)')
-        ctx.fillStyle = holoGradient
-        ctx.fillRect(50, 395, 250, 8)
-
-        // QR Code section (right side)
-        ctx.strokeStyle = 'rgba(0, 245, 255, 0.3)'
-        ctx.lineWidth = 1
-        ctx.setLineDash([5, 5])
-        ctx.beginPath()
-        ctx.moveTo(620, 50)
-        ctx.lineTo(620, 400)
+        ctx.moveTo(60, 150)
+        ctx.lineTo(600, 150)
         ctx.stroke()
         ctx.setLineDash([])
 
-        // QR section header
-        ctx.font = '11px monospace'
+        // === EVENT DETAILS ===
+        // Event name with glow
+        ctx.font = 'bold 38px Arial'
+        ctx.fillStyle = '#ffffff'
+        ctx.shadowColor = '#00f5ff'
+        ctx.shadowBlur = 12
+        ctx.fillText(event.title.toUpperCase(), 60, 200)
+        ctx.shadowBlur = 0
+
+        // Category badge
+        ctx.fillStyle = 'rgba(139, 92, 246, 0.3)'
+        ctx.strokeStyle = '#8b5cf6'
+        ctx.lineWidth = 1
+        const catText = event.category
+        ctx.font = 'bold 12px Arial'
+        const catW = ctx.measureText(catText).width + 24
+        ctx.fillRect(60, 215, catW, 26)
+        ctx.strokeRect(60, 215, catW, 26)
+        ctx.fillStyle = '#8b5cf6'
+        ctx.fillText(catText, 72, 233)
+
+        // Attendee section
+        ctx.font = '13px Arial'
         ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
-        ctx.fillText('SCAN TO VERIFY', 710, 80)
+        ctx.fillText('ATTENDEE', 60, 280)
+        ctx.font = 'bold 24px Arial'
+        ctx.fillStyle = '#ffffff'
+        ctx.fillText(userName.toUpperCase(), 60, 310)
+
+        // Info grid
+        const infoItems = [
+            { label: 'DATE', value: event.date },
+            { label: 'VENUE', value: 'Main Auditorium' },
+            { label: 'TIME', value: '10:00 AM IST' }
+        ]
+        infoItems.forEach((item, i) => {
+            const xPos = 60 + i * 180
+            ctx.font = '11px Arial'
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'
+            ctx.fillText(item.label, xPos, 360)
+            ctx.font = 'bold 16px Arial'
+            ctx.fillStyle = '#00f5ff'
+            ctx.fillText(item.value, xPos, 382)
+        })
+
+        // Ticket ID
+        ctx.font = 'bold 13px monospace'
+        ctx.fillStyle = 'rgba(0, 245, 255, 0.8)'
+        ctx.fillText(`TICKET: ${ticketId}`, 60, 435)
+
+        // Holographic stripe
+        const holoGrad = ctx.createLinearGradient(60, 455, 350, 465)
+        holoGrad.addColorStop(0, 'rgba(0, 245, 255, 0.4)')
+        holoGrad.addColorStop(0.25, 'rgba(139, 92, 246, 0.4)')
+        holoGrad.addColorStop(0.5, 'rgba(0, 245, 255, 0.4)')
+        holoGrad.addColorStop(0.75, 'rgba(139, 92, 246, 0.4)')
+        holoGrad.addColorStop(1, 'rgba(0, 245, 255, 0.4)')
+        ctx.fillStyle = holoGrad
+        ctx.fillRect(60, 450, 290, 10)
+
+        // === QR SECTION (RIGHT SIDE) ===
+        // Dashed divider
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.3)'
+        ctx.lineWidth = 2
+        ctx.setLineDash([8, 8])
+        ctx.beginPath()
+        ctx.moveTo(660, 50)
+        ctx.lineTo(660, 450)
+        ctx.stroke()
+        ctx.setLineDash([])
+
+        // "SCAN TO VERIFY" header
+        ctx.font = '12px monospace'
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+        ctx.textAlign = 'center'
+        ctx.fillText('< SCAN TO VERIFY >', 820, 80)
+
+        // QR code container with glow
+        ctx.shadowColor = '#00f5ff'
+        ctx.shadowBlur = 15
+        ctx.strokeStyle = '#00f5ff'
+        ctx.lineWidth = 2
+        ctx.strokeRect(730, 100, 180, 180)
+        ctx.shadowBlur = 0
 
         // Draw QR code if available
         if (qrDataUrl) {
@@ -805,34 +884,41 @@ function TicketCard({ event, index, userName, userEmail }: { event: any; index: 
             qrImg.src = qrDataUrl
             await new Promise<void>((resolve) => {
                 qrImg.onload = () => {
-                    ctx.drawImage(qrImg, 680, 100, 160, 160)
+                    ctx.drawImage(qrImg, 740, 110, 160, 160)
                     resolve()
                 }
                 qrImg.onerror = () => resolve()
             })
         }
 
-        // VIP Pass text
+        // VIP Access badge
+        ctx.fillStyle = 'rgba(139, 92, 246, 0.2)'
+        ctx.strokeStyle = '#8b5cf6'
+        ctx.fillRect(740, 300, 160, 35)
+        ctx.strokeRect(740, 300, 160, 35)
         ctx.font = 'bold 14px Arial'
         ctx.fillStyle = '#8b5cf6'
-        ctx.fillText('VIP ACCESS PASS', 710, 290)
+        ctx.fillText('VIP ACCESS PASS', 820, 323)
 
+        // Additional info
         ctx.font = '11px Arial'
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
-        ctx.fillText('Valid for single entry', 700, 310)
-        ctx.fillText('Non-transferable', 715, 330)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'
+        ctx.fillText('Valid for single entry', 820, 365)
+        ctx.fillText('Non-transferable', 820, 385)
 
         // VERIFIED stamp
         ctx.save()
-        ctx.translate(760, 380)
-        ctx.rotate(-0.1)
-        ctx.strokeStyle = 'rgba(0, 245, 255, 0.5)'
-        ctx.lineWidth = 2
-        ctx.strokeRect(-35, -12, 70, 24)
-        ctx.font = 'bold 12px Arial'
+        ctx.translate(820, 430)
+        ctx.rotate(-0.15)
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.6)'
+        ctx.lineWidth = 3
+        ctx.strokeRect(-45, -15, 90, 30)
+        ctx.font = 'bold 14px Arial'
         ctx.fillStyle = '#00f5ff'
-        ctx.fillText('VERIFIED', -30, 4)
+        ctx.fillText('✓ VERIFIED', 0, 6)
         ctx.restore()
+
+        ctx.textAlign = 'left' // Reset
 
         // Download
         const link = document.createElement('a')
