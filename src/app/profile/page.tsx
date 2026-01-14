@@ -654,7 +654,7 @@ export default function ProfilePage() {
                                                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-red-500/20">
                                                     <span className="text-xl font-bold text-white">₹{reg.amount_paid}</span>
                                                     <button
-                                                        onClick={() => router.push(`/register/${reg.event_id}`)}
+                                                        onClick={() => router.push(reg.is_team_pass ? `/register/${reg.event_id}` : '/checkout')}
                                                         className="px-6 py-2 rounded-lg bg-red-500 text-black font-bold hover:bg-red-400 transition-colors flex items-center gap-2"
                                                     >
                                                         Pay Now

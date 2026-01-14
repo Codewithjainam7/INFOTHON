@@ -444,6 +444,9 @@ export default function CheckoutPage() {
                             event_date: eventDetails.date,
                             quantity: 1,
                             verified: false,
+                            is_team_pass: false,
+                            payment_status: 'paid',
+                            amount_paid: eventDetails.price,
                             created_at: new Date().toISOString()
                         })
 
