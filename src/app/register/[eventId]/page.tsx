@@ -211,6 +211,7 @@ export default function TeamRegistrationPage() {
 
         const regData = {
             user_id: user.id,
+            user_email: user.email,
             event_id: event.id,
             event_name: event.title,
             event_date: event.date,
