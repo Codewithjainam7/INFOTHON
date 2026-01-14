@@ -315,13 +315,13 @@ export default function RegisterPage() {
                                         <div className="p-6 flex flex-col flex-grow relative z-10">
                                             <div className="flex justify-between items-start mb-4">
                                                 <div>
-                                                    <h3 className={`text-xl font-cyber font-bold tracking-wide mb-1 group-hover:translate-x-1 transition-transform ${isSelected ? 'text-white' : 'text-gray-100'}`}>
+                                                    <h3 className={`text-xl font-cyber font-bold tracking-wide mb-1 group-hover:translate-x-1 transition-all duration-300 ${isSelected ? 'text-white' : 'text-gray-100'} group-hover:text-glow-cyan group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]`}>
                                                         {event.title}
                                                     </h3>
                                                     <p className="text-sm text-text-muted line-clamp-2 font-mono tracking-tight">{event.description}</p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className={`text-xl font-bold font-mono ${isSelected ? 'text-glow-cyan' : 'text-white'}`}>₹{event.price}</div>
+                                                    <div className={`text-xl font-bold font-mono transition-colors duration-300 ${isSelected ? 'text-glow-cyan' : 'text-white'} group-hover:text-glow-cyan group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]`}>₹{event.price}</div>
                                                     {event.originalPrice > event.price && (
                                                         <div className="text-xs text-text-muted line-through">₹{event.originalPrice}</div>
                                                     )}
@@ -354,6 +354,7 @@ export default function RegisterPage() {
                                                 </Link>
 
                                                 {/* Selection Button */}
+                                                {/* Selection / Register Button */}
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
@@ -361,10 +362,17 @@ export default function RegisterPage() {
                                                     }}
                                                     className={`flex-[2] py-3 rounded-xl font-bold font-cyber tracking-wider text-sm transition-all flex items-center justify-center gap-2 ${isSelected
                                                         ? 'bg-glow-cyan text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]'
-                                                        : 'bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-glow-cyan/50'
+                                                        : event.isTeamEvent
+                                                            ? 'bg-glow-cyan/20 text-glow-cyan border border-glow-cyan/50 hover:bg-glow-cyan hover:text-black'
+                                                            : 'bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-glow-cyan/50'
                                                         }`}
                                                 >
-                                                    {isSelected ? (
+                                                    {event.isTeamEvent ? (
+                                                        <>
+                                                            REGISTER
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                                        </>
+                                                    ) : isSelected ? (
                                                         <>
                                                             <Check className="w-4 h-4" />
                                                             SELECTED
