@@ -181,33 +181,69 @@ export default function ProfilePage() {
                     >
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                                {/* Avatar Section with Glitch Frame */}
+                                {/* Avatar Section with Animated Dotted Frame */}
                                 <div className="relative group">
-                                    {/* Outer Hexagon Frame */}
+                                    {/* Square Frame with Animated Dotted Border */}
                                     <div className="relative w-28 h-28 sm:w-36 sm:h-36">
-                                        {/* Corner Accents */}
-                                        <div className="absolute -top-1 -left-1 w-5 h-5 border-l-2 border-t-2 border-glow-cyan z-20" />
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 border-r-2 border-t-2 border-glow-violet z-20" />
-                                        <div className="absolute -bottom-1 -left-1 w-5 h-5 border-l-2 border-b-2 border-glow-violet z-20" />
-                                        <div className="absolute -bottom-1 -right-1 w-5 h-5 border-r-2 border-b-2 border-glow-cyan z-20" />
+                                        {/* Animated Dotted Border - Top */}
+                                        <div className="absolute -top-1 left-0 right-0 h-[2px] overflow-hidden">
+                                            <motion.div
+                                                className="w-[200%] h-full"
+                                                style={{ background: 'repeating-linear-gradient(90deg, #00f5ff 0px, #00f5ff 8px, transparent 8px, transparent 16px)' }}
+                                                animate={{ x: [0, -32] }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                            />
+                                        </div>
+                                        {/* Animated Dotted Border - Right */}
+                                        <div className="absolute top-0 -right-1 bottom-0 w-[2px] overflow-hidden">
+                                            <motion.div
+                                                className="w-full h-[200%]"
+                                                style={{ background: 'repeating-linear-gradient(180deg, #8b5cf6 0px, #8b5cf6 8px, transparent 8px, transparent 16px)' }}
+                                                animate={{ y: [0, -32] }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                            />
+                                        </div>
+                                        {/* Animated Dotted Border - Bottom */}
+                                        <div className="absolute -bottom-1 left-0 right-0 h-[2px] overflow-hidden">
+                                            <motion.div
+                                                className="w-[200%] h-full"
+                                                style={{ background: 'repeating-linear-gradient(90deg, #00f5ff 0px, #00f5ff 8px, transparent 8px, transparent 16px)' }}
+                                                animate={{ x: [-32, 0] }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                            />
+                                        </div>
+                                        {/* Animated Dotted Border - Left */}
+                                        <div className="absolute top-0 -left-1 bottom-0 w-[2px] overflow-hidden">
+                                            <motion.div
+                                                className="w-full h-[200%]"
+                                                style={{ background: 'repeating-linear-gradient(180deg, #8b5cf6 0px, #8b5cf6 8px, transparent 8px, transparent 16px)' }}
+                                                animate={{ y: [-32, 0] }}
+                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                            />
+                                        </div>
 
-                                        {/* Animated Glow Ring */}
+                                        {/* Corner Accents */}
+                                        <div className="absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 border-glow-cyan z-20" />
+                                        <div className="absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 border-glow-violet z-20" />
+                                        <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-glow-violet z-20" />
+                                        <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-glow-cyan z-20" />
+
+                                        {/* Animated Glow */}
                                         <motion.div
-                                            className="absolute inset-0 rounded-2xl"
+                                            className="absolute inset-0 rounded-lg"
                                             animate={{
                                                 boxShadow: [
-                                                    '0 0 20px rgba(0,245,255,0.3), inset 0 0 15px rgba(0,245,255,0.1)',
-                                                    '0 0 40px rgba(0,245,255,0.5), inset 0 0 25px rgba(139,92,246,0.2)',
-                                                    '0 0 20px rgba(139,92,246,0.3), inset 0 0 15px rgba(139,92,246,0.1)',
-                                                    '0 0 20px rgba(0,245,255,0.3), inset 0 0 15px rgba(0,245,255,0.1)',
+                                                    '0 0 15px rgba(0,245,255,0.2)',
+                                                    '0 0 30px rgba(139,92,246,0.3)',
+                                                    '0 0 15px rgba(0,245,255,0.2)',
                                                 ]
                                             }}
-                                            transition={{ duration: 3, repeat: Infinity }}
+                                            transition={{ duration: 2, repeat: Infinity }}
                                         />
 
-                                        {/* Main Container */}
-                                        <div className="absolute inset-0 rounded-2xl p-1 bg-gradient-to-br from-glow-cyan via-glow-violet to-glow-cyan overflow-hidden">
-                                            <div className="w-full h-full rounded-xl bg-black overflow-hidden relative">
+                                        {/* Main Container - Square */}
+                                        <div className="absolute inset-0 rounded-lg p-0.5 bg-gradient-to-br from-glow-cyan via-glow-violet to-glow-cyan overflow-hidden">
+                                            <div className="w-full h-full rounded-md bg-black overflow-hidden relative">
                                                 {selectedAvatar ? (
                                                     <Image
                                                         src={selectedAvatar}
