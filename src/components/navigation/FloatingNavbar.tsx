@@ -154,7 +154,7 @@ export function FloatingNavbar() {
                         {/* CTA */}
                         <div className="hidden lg:block">
                             <MagneticElement strength={0.2}>
-                                <Link href="/register">
+                                <Link href="/events">
                                     <GlowButton size="sm">Register Now</GlowButton>
                                 </Link>
                             </MagneticElement>
@@ -317,7 +317,7 @@ export function FloatingNavbar() {
                                     transition={{ delay: 0.5 }}
                                     className="mt-8 pt-6 border-t border-white/10"
                                 >
-                                    <Link href="/register">
+                                    <Link href="/events">
                                         <GlowButton className="w-full justify-center py-4 shadow-[0_0_30px_rgba(34,211,238,0.3)]">
                                             <span className="font-bold tracking-widest">REGISTER NOW</span>
                                         </GlowButton>

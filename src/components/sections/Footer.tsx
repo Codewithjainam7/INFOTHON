@@ -12,7 +12,7 @@ const footerLinks = {
         { label: 'Sponsors', href: '/sponsors' },
     ],
     participate: [
-        { label: 'Register', href: '/register' },
+        { label: 'Register', href: '/events' },
         { label: 'Speakers', href: '/speakers' },
         { label: 'Campus Ambassador', href: '#' },
         { label: 'Volunteer', href: '#' },

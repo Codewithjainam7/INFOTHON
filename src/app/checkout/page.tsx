@@ -642,7 +642,7 @@ function CheckoutContent() {
                             </div>
                             <h2 className="font-heading text-2xl text-white mb-2">Your cart is empty</h2>
                             <p className="text-text-muted mb-8">Add some events to get started!</p>
-                            <Link href="/register">
+                            <Link href="/events">
                                 <GlowButton>
                                     <ArrowLeft className="w-4 h-4 mr-2" />
                                     Browse Events
@@ -658,7 +658,7 @@ function CheckoutContent() {
                                     <h2 className="font-heading text-xl text-white">
                                         Selected Events ({cartItems.length})
                                     </h2>
-                                    <Link href="/register" className="text-glow-cyan text-sm font-cyber hover:underline flex items-center gap-1">
+                                    <Link href="/events" className="text-glow-cyan text-sm font-cyber hover:underline flex items-center gap-1">
                                         <Plus className="w-4 h-4" />
                                         ADD MORE
                                     </Link>

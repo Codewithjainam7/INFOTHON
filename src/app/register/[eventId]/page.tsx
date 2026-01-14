@@ -385,7 +385,7 @@ export default function TeamRegistrationPage() {
                     </div>
 
                     <div className="max-w-4xl mx-auto relative z-10">
-                        <Link href="/register" className="inline-flex items-center gap-2 text-text-muted hover:text-glow-cyan transition-colors mb-8 group font-mono text-sm">
+                        <Link href="/events" className="inline-flex items-center gap-2 text-text-muted hover:text-glow-cyan transition-colors mb-8 group font-mono text-sm">
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                             ABORT / RETURN TO EVENTS
                         </Link>

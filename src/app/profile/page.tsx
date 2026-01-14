@@ -658,7 +658,7 @@ export default function ProfilePage() {
                             <h3 className="text-xl font-heading font-bold mb-2 relative z-10">No Active Passes</h3>
                             <p className="text-text-secondary mb-6 relative z-10">You haven&apos;t registered for any events yet.</p>
                             <div className="relative z-10">
-                                <Link href="/register">
+                                <Link href="/events">
                                     <GlowButton>Browse Events</GlowButton>
                                 </Link>
                             </div>
@@ -1054,7 +1054,7 @@ INFOTHON 2K26 is the ultimate national-level hackathon featuring:
 🔥 48 hours of non-stop innovation
 
 Join us at the biggest tech fest of 2026!
-🔗 Register now: ${window.location.origin}/register
+🔗 Register now: ${window.location.origin}/events
 
 #INFOTHON2K26 #Hackathon #TechFest #Coding #Innovation`
 
@@ -1579,7 +1579,7 @@ function RegistrationPassCard({
 📍 Venue: Main Auditorium
 
 INFOTHON 2K26 - The Ultimate Tech Fest!
-🔗 Register: ${typeof window !== 'undefined' ? window.location.origin : ''}/register
+🔗 Register: ${typeof window !== 'undefined' ? window.location.origin : ''}/events
 
 #INFOTHON2K26 #TechFest #Hackathon`
 

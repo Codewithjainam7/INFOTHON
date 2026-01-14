@@ -38,7 +38,7 @@ const quickLinks = [
     { Icon: TrophyIcon, title: 'Events', description: '50+ competitions', href: '/events' },
     { Icon: MicrophoneIcon, title: 'Speakers', description: 'Industry leaders', href: '/speakers' },
     { Icon: CalendarIcon, title: 'Schedule', description: '2 days packed', href: '/schedule' },
-    { Icon: SparklesIcon, title: 'Register', description: 'Limited spots', href: '/register' },
+    { Icon: SparklesIcon, title: 'Register', description: 'Limited spots', href: '/events' },
 ]
 
 const highlights = [
@@ -359,7 +359,7 @@ export function Hero() {
                         className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 px-4"
                     >
                         <MagneticElement strength={0.15}>
-                            <Link href="/register">
+                            <Link href="/events">
                                 <motion.button
                                     whileHover={{
                                         scale: 1.05,
