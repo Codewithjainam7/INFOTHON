@@ -296,27 +296,41 @@ export default function CheckoutPage() {
     const handlePaymentSuccess = useCallback(async () => {
         // Get current user and their existing purchased events
         const supabase = createClient()
+
+        // Force refresh the session to get the latest user_metadata
+        await supabase.auth.refreshSession()
         const { data: { user } } = await supabase.auth.getUser()
+
+        const newEventIds = cartItems.map(i => i.id)
+        console.log('New events to add:', newEventIds)
 
         if (user) {
             // Get existing purchased events and append new ones
             const existingEvents = user.user_metadata?.purchased_events || []
-            const newEventIds = cartItems.map(i => i.id)
+            console.log('Existing events from Supabase:', existingEvents)
+
             const allEvents = [...new Set([...existingEvents, ...newEventIds])] // Dedupe
+            console.log('All events after merge:', allEvents)
 
             // Save to Supabase user_metadata
-            await supabase.auth.updateUser({
+            const { error } = await supabase.auth.updateUser({
                 data: {
                     purchased_events: allEvents
                 }
             })
+
+            if (error) {
+                console.error('Failed to save events to Supabase:', error)
+            } else {
+                console.log('Successfully saved events to Supabase')
+            }
         }
 
         // Also save to localStorage as backup
         const existingLocal = JSON.parse(localStorage.getItem('infothon_purchased') || '[]')
-        const newEventIds = cartItems.map(i => i.id)
         const allLocal = [...new Set([...existingLocal, ...newEventIds])]
         localStorage.setItem('infothon_purchased', JSON.stringify(allLocal))
+        console.log('Saved to localStorage:', allLocal)
 
         // Clear cart
         localStorage.removeItem('infothon_registrations')
