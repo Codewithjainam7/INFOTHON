@@ -80,8 +80,20 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        setIsSubmitting(true)
         setError(null)
+
+        if (!formData.email.trim() || !formData.password) {
+            setError('Please enter both email and password')
+            return
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(formData.email)) {
+            setError('Invalid email address')
+            return
+        }
+
+        setIsSubmitting(true)
 
         const supabase = createClient()
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -129,7 +141,7 @@ export default function LoginPage() {
             <Background3D backgroundImage="/images/new_bg4.png" />
             <FloatingNavbar />
 
-            <main className="relative z-10 min-h-screen pt-28 pb-16 flex items-center">
+            <main className="relative z-10 min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-x-hidden">
                 <div className="section-container px-4 sm:px-6 w-full">
                     <div className="max-w-lg mx-auto">
                         <motion.div

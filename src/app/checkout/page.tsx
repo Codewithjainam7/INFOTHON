@@ -865,45 +865,43 @@ function CheckoutContent() {
 
                                             {/* Actions */}
                                             <div className="space-y-3">
-                                                <GlowButton
+                                                <button
                                                     onClick={initiatePayment}
                                                     disabled={isProcessing}
-                                                    className="w-full justify-center py-4 shadow-[0_0_30px_rgba(34,211,238,0.3)]"
+                                                    className="w-full relative px-8 py-4 bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-bold font-cyber tracking-widest text-sm hover:scale-105 transition-all group overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(34,211,238,0.4)] rounded-xl flex items-center justify-center"
                                                 >
-                                                    {isProcessing ? (
-                                                        <>
-                                                            <motion.div
-                                                                className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
-                                                                animate={{ rotate: 360 }}
-                                                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                                                            />
-                                                            Processing...
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <Zap className="w-5 h-5 mr-2" />
-                                                            <span className="font-bold tracking-widest">PAY WITH RAZORPAY</span>
-                                                        </>
-                                                    )}
-                                                </GlowButton>
-                                                <Link href="/register" className="block">
-                                                    <button className="w-full py-3 rounded-xl border border-white/10 text-text-muted hover:text-white hover:border-glow-cyan/30 font-cyber text-sm tracking-wider transition-colors flex items-center justify-center gap-2">
-                                                        <ArrowLeft className="w-4 h-4" />
-                                                        ADD MORE EVENTS
-                                                    </button>
-                                                </Link>
+                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        {isProcessing ? (
+                                                            <>
+                                                                <motion.div
+                                                                    className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full"
+                                                                    animate={{ rotate: 360 }}
+                                                                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                                                />
+                                                                PROCESSING...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Zap className="w-5 h-5 fill-current" />
+                                                                INITIATE PAYMENT
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                </motion.div>
                             </div>
-                        </div>
+                        </motion.div>
+                            </div>
+            </div>
                     )}
-                </div>
-            </main>
+        </div>
+            </main >
 
-            <Footer />
-        </SmoothScroll>
+        <Footer />
+        </SmoothScroll >
     )
 }
 

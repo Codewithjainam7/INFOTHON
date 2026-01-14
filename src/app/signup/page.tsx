@@ -162,6 +162,36 @@ export default function SignUpPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError(null)
+
+        // Validation
+        if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.college.trim() || !formData.password || !formData.confirmPassword) {
+            setError('All fields are required')
+            return
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(formData.email)) {
+            setError('Invalid email address')
+            return
+        }
+
+        const phoneRegex = /^[0-9]{10}$/
+        if (!phoneRegex.test(formData.phone)) {
+            setError('Phone number must be 10 digits')
+            return
+        }
+
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match')
+            return
+        }
+
+        if (formData.password.length < 8) {
+            setError('Password must be at least 8 characters')
+            return
+        }
+
         setIsSubmitting(true)
 
         const supabase = createClient()
@@ -217,7 +247,7 @@ export default function SignUpPage() {
             <Background3D backgroundImage="/images/new_bg4.png" />
             <FloatingNavbar />
 
-            <main className="relative z-10 min-h-screen pt-28 pb-16 flex items-center">
+            <main className="relative z-10 min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-x-hidden">
                 <div className="section-container px-4 sm:px-6 w-full">
                     <div className="max-w-lg mx-auto">
                         {!submitted ? (

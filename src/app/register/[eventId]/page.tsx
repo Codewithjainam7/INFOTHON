@@ -182,18 +182,37 @@ export default function TeamRegistrationPage() {
         const newErrors: string[] = []
         if (!teamName.trim()) newErrors.push('Team name is required')
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const phoneRegex = /^[0-9]{10}$/
+
         members.forEach((member, i) => {
             if (i === 0) {
                 if (!member.name.trim()) newErrors.push(`Team Leader: Name is required`)
-                if (!member.email.trim()) newErrors.push(`Team Leader: Email is required`)
-                if (!member.phone.trim()) newErrors.push(`Team Leader: Phone is required`)
+                if (!member.email.trim()) {
+                    newErrors.push(`Team Leader: Email is required`)
+                } else if (!emailRegex.test(member.email.trim())) {
+                    newErrors.push(`Team Leader: Valid email is required (e.g., name@example.com)`)
+                }
+                if (!member.phone.trim()) {
+                    newErrors.push(`Team Leader: Phone is required`)
+                } else if (!phoneRegex.test(member.phone.trim())) {
+                    newErrors.push(`Team Leader: Phone must be 10 digits`)
+                }
                 if (!member.college.trim()) newErrors.push(`Team Leader: College is required`)
             } else {
                 const isPartiallyFilled = member.name.trim() || member.email.trim() || member.phone.trim() || member.college.trim()
                 if (isPartiallyFilled) {
                     if (!member.name.trim()) newErrors.push(`Member ${i + 1}: Name is required`)
-                    if (!member.email.trim()) newErrors.push(`Member ${i + 1}: Email is required`)
-                    if (!member.phone.trim()) newErrors.push(`Member ${i + 1}: Phone is required`)
+                    if (!member.email.trim()) {
+                        newErrors.push(`Member ${i + 1}: Email is required`)
+                    } else if (!emailRegex.test(member.email.trim())) {
+                        newErrors.push(`Member ${i + 1}: Valid email required`)
+                    }
+                    if (!member.phone.trim()) {
+                        newErrors.push(`Member ${i + 1}: Phone is required`)
+                    } else if (!phoneRegex.test(member.phone.trim())) {
+                        newErrors.push(`Member ${i + 1}: Phone must be 10 digits`)
+                    }
                     if (!member.college.trim()) newErrors.push(`Member ${i + 1}: College is required`)
                 }
             }
@@ -212,6 +231,7 @@ export default function TeamRegistrationPage() {
         const regData = {
             user_id: user.id,
             user_email: user.email,
+            attendee_name: members[0]?.name || 'Team Leader',
             event_id: event.id,
             event_name: event.title,
             event_date: event.date,
@@ -357,7 +377,7 @@ export default function TeamRegistrationPage() {
                 <Background3D backgroundImage="/images/bg_img.540Z.png" />
                 <FloatingNavbar />
 
-                <main className="min-h-screen relative z-10 pt-24 pb-20 px-4">
+                <main className="min-h-screen relative z-10 pt-24 pb-20 px-4 overflow-x-hidden">
                     {/* Decorative Elements matching Landing Page */}
                     <div className="fixed inset-0 pointer-events-none z-0">
                         {/* Scanlines */}
@@ -510,26 +530,17 @@ export default function TeamRegistrationPage() {
                                             </div>
 
                                             <div className="flex justify-end mt-12">
-                                                <motion.button
+                                                <button
                                                     onClick={() => teamName.trim() && setCurrentStep(2)}
                                                     disabled={!teamName.trim()}
-                                                    className="relative px-8 py-4 bg-glow-cyan/10 text-glow-cyan font-bold font-cyber tracking-widest text-sm border border-glow-cyan/50 hover:bg-glow-cyan hover:text-black transition-all group/btn overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-                                                    whileHover={{
-                                                        skewX: [0, -10, 10, -5, 5, 0],
-                                                        scale: 1.05,
-                                                        transition: { duration: 0.3 }
-                                                    }}
-                                                    whileTap={{ scale: 0.95 }}
+                                                    className="relative px-8 py-4 bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-bold font-cyber tracking-widest text-sm hover:scale-105 transition-all group/btn overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(34,211,238,0.4)] rounded-xl"
                                                 >
-                                                    {/* Button Glitch Layers */}
-                                                    <div className="absolute inset-0 bg-glow-violet mix-blend-color-dodge opacity-0 group-hover/btn:opacity-50 transition-opacity" />
-                                                    <div className="absolute inset-0 translate-x-[100%] group-hover/btn:translate-x-[-100%] bg-white/20 skew-x-12 transition-transform duration-700" />
-
+                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500" />
                                                     <span className="relative z-10 flex items-center gap-2">
                                                         INITIALIZE OPERATIVES
                                                         <Zap className="w-4 h-4 fill-current group-hover/btn:animate-ping" />
                                                     </span>
-                                                </motion.button>
+                                                </button>
                                             </div>
                                         </motion.div>
                                     )}
@@ -547,7 +558,7 @@ export default function TeamRegistrationPage() {
                                                 <span className="truncate">OPERATIVE DETAILS ({members.length}/{event.teamMaxSize})</span>
                                             </h2>
 
-                                            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                                            <div className="space-y-4 max-h-[60vh] md:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                                                 {members.map((member, index) => (
                                                     <motion.div
                                                         key={index}
@@ -610,7 +621,7 @@ export default function TeamRegistrationPage() {
                                                 </button>
                                                 <button
                                                     onClick={() => setCurrentStep(3)}
-                                                    className="px-4 md:px-6 py-3 rounded-xl bg-glow-cyan/20 text-glow-cyan hover:bg-glow-cyan/30 font-bold transition-all flex items-center justify-center gap-2 border border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(0,245,255,0.3)] text-sm md:text-base order-1 sm:order-2"
+                                                    className="px-4 md:px-6 py-3 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black hover:scale-105 font-bold transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,245,255,0.3)] text-sm md:text-base order-1 sm:order-2"
                                                 >
                                                     PROCEED TO SUMMARY
                                                     <CreditCard className="w-4 h-4" />
