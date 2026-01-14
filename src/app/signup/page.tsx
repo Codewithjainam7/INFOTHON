@@ -45,31 +45,31 @@ function CyberInput({
                 {label}
             </label>
             <div className="relative">
-                {/* Left Icon */}
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors z-20 pointer-events-none">
-                    {icon}
-                </div>
-
-                {/* Background Layer with Blur to prevent text blurring */}
+                {/* Background Layer with Blur */}
                 <div className={`absolute inset-0 z-0 bg-bg-primary/60 backdrop-blur-sm border rounded-lg transition-all duration-300 pointer-events-none ${error ? 'border-red-500/50' : 'border-glow-cyan/30 group-focus-within:border-glow-cyan group-focus-within:shadow-[0_0_20px_rgba(0,245,255,0.3)]'}`} />
 
                 {/* Gradient Glow Layer */}
                 <div className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-glow-cyan/0 via-glow-cyan/5 to-glow-cyan/0 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
+
+                {/* Left Icon */}
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-glow-cyan/60 group-focus-within:text-glow-cyan transition-colors z-20 pointer-events-none">
+                    {icon}
+                </div>
 
                 <input
                     type={inputType}
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-                    className="relative z-10 w-full bg-transparent pl-12 pr-12 py-3.5 text-white placeholder-text-muted focus:outline-none font-mono text-sm"
+                    className={`relative z-10 w-full bg-transparent pl-12 ${showPasswordToggle ? 'pr-12' : 'pr-4'} py-3.5 text-white placeholder-text-muted focus:outline-none font-mono text-sm`}
                 />
 
-                {/* Password Toggle Button - Right Side */}
+                {/* Password Toggle Button - Right Side Inside Input */}
                 {showPasswordToggle && (
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 text-glow-cyan/60 hover:text-glow-cyan transition-colors cursor-pointer"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 text-glow-cyan/60 hover:text-glow-cyan transition-colors p-1"
                     >
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>

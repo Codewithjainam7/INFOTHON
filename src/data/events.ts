@@ -1,7 +1,7 @@
 export interface Event {
     id: string
     title: string
-    category: 'coding' | 'ai' | 'robotics' | 'design' | 'gaming' | 'workshop'
+    category: 'coding' | 'ai' | 'hackathon' | 'quiz' | 'fun' | 'debate' | 'showcase' | 'speed' | 'design'
     description: string
     longDescription: string
     date: string
@@ -9,9 +9,9 @@ export interface Event {
     venue: string
     prize: string
     teamSize: string
-    teamMinSize: number  // For team pass logic
-    teamMaxSize: number  // For team pass logic
-    isTeamEvent: boolean // True = single team pass, False = individual passes
+    teamMinSize: number
+    teamMaxSize: number
+    isTeamEvent: boolean
     registrationFee: number
     registrationDeadline: string
     image: string
@@ -21,211 +21,333 @@ export interface Event {
 
 export const events: Event[] = [
     {
-        id: 'code-sprint',
-        title: 'Code Sprint',
-        category: 'coding',
-        description: 'A 24-hour competitive programming challenge that pushes the limits of algorithmic thinking.',
-        longDescription: 'Code Sprint is the flagship coding competition of NEXUS 2026. Teams of 2-3 compete in a grueling 24-hour marathon of algorithmic challenges, testing their problem-solving skills, coding efficiency, and mental endurance. From dynamic programming to graph theory, participants face a diverse array of problems designed by experts from leading tech companies.',
-        date: 'February 12, 2026',
-        time: '10:00 AM - 10:00 AM (Next Day)',
-        venue: 'Tech Hub Arena',
-        prize: '₹50,000',
-        teamSize: '2-3 members',
-        teamMinSize: 2,
-        teamMaxSize: 3,
-        isTeamEvent: true,
-        registrationFee: 500,
-        registrationDeadline: 'February 10, 2026',
-        image: '/images/code_sprint.png',
-        rules: [
-            'Teams must consist of 2-3 members from the same institution',
-            'All standard programming languages are allowed',
-            'Internet access is restricted to documentation only',
-            'Any form of cheating leads to immediate disqualification',
-            'Decisions of the judges are final'
-        ],
-        timeline: [
-            { time: '09:00 AM', activity: 'Registration & Setup' },
-            { time: '10:00 AM', activity: 'Competition Begins' },
-            { time: '02:00 PM', activity: 'Lunch Break' },
-            { time: '08:00 PM', activity: 'Dinner Break' },
-            { time: '10:00 AM', activity: 'Competition Ends' },
-            { time: '12:00 PM', activity: 'Results & Prize Distribution' }
-        ]
-    },
-    {
-        id: 'neural-nexus',
-        title: 'Neural Nexus',
-        category: 'ai',
-        description: 'Build and train AI models to solve real-world problems in this intensive ML hackathon.',
-        longDescription: 'Neural Nexus brings together the brightest minds in artificial intelligence for a 36-hour hackathon focused on creating impactful ML solutions. Participants will work with real datasets provided by our industry partners to develop models that address pressing challenges in healthcare, sustainability, and urban planning.',
-        date: 'March 16-17, 2026',
-        time: '9:00 AM Day 1 - 9:00 PM Day 2',
-        venue: 'AI Research Center',
+        id: 'hackathon',
+        title: 'Hackathon',
+        category: 'hackathon',
+        description: 'A 2-day innovation challenge where teams build next-gen solutions in Gen AI and Agentic AI from scratch.',
+        longDescription: 'The flagship 36-hour hackathon of INFOTHON × 2K26. Teams of 1-5 members ideate, design, and build innovative solutions using Generative AI and Agentic AI technologies. Work with cutting-edge tools, get mentorship from industry experts, and compete for massive prizes. Cloud credits, APIs, and development resources will be provided.',
+        date: 'Day 1 & Day 2',
+        time: '36 Hours Non-Stop',
+        venue: 'Main Tech Arena',
         prize: '₹1,00,000',
-        teamSize: '4-5 members',
-        teamMinSize: 4,
+        teamSize: '1-5 members',
+        teamMinSize: 1,
         teamMaxSize: 5,
         isTeamEvent: true,
         registrationFee: 1000,
         registrationDeadline: 'February 10, 2026',
-        image: '/images/neural_nexus.png',
+        image: '/images/hackathon.png',
         rules: [
-            'Pre-trained models are allowed but must be disclosed',
-            'Cloud computing resources will be provided',
-            'Solution must be reproducible with clear documentation',
-            'Plagiarism detection will be conducted on all submissions',
-            'Final presentation is mandatory for all finalists'
+            'Teams can have 1-5 members',
+            'All code must be written during the hackathon',
+            'Pre-built templates and libraries are allowed',
+            'Projects must incorporate AI/ML components',
+            'Final submission must include working demo and documentation'
         ],
         timeline: [
-            { time: 'Day 1 - 9:00 AM', activity: 'Opening Ceremony & Problem Reveal' },
+            { time: 'Day 1 - 9:00 AM', activity: 'Opening Ceremony & Problem Statement Release' },
             { time: 'Day 1 - 10:00 AM', activity: 'Hacking Begins' },
             { time: 'Day 1 - 6:00 PM', activity: 'Mentor Sessions' },
-            { time: 'Day 2 - 3:00 PM', activity: 'Submission Deadline' },
-            { time: 'Day 2 - 5:00 PM', activity: 'Final Presentations' },
-            { time: 'Day 2 - 8:00 PM', activity: 'Awards Ceremony' }
+            { time: 'Day 2 - 3:00 PM', activity: 'Code Freeze & Submission' },
+            { time: 'Day 2 - 4:00 PM', activity: 'Final Presentations' },
+            { time: 'Day 2 - 7:00 PM', activity: 'Awards Ceremony' }
         ]
     },
     {
-        id: 'robo-wars',
-        title: 'Robo Wars',
-        category: 'robotics',
-        description: 'Design and build combat robots to battle it out in the ultimate arena showdown.',
-        longDescription: 'Robo Wars is the most anticipated robotics competition where engineering meets combat. Teams design, build, and operate combat robots in a tournament-style elimination. From spinners to flippers, witness the clash of metal as robots battle for supremacy in our purpose-built arena.',
-        date: 'March 17, 2026',
-        time: '11:00 AM - 7:00 PM',
-        venue: 'Main Arena',
-        prize: '₹75,000',
-        teamSize: '2-3 members',
-        teamMinSize: 2,
-        teamMaxSize: 3,
-        isTeamEvent: true,
-        registrationFee: 500,
-        registrationDeadline: 'February 10, 2026',
-        image: '/images/robo_wars.png',
-        rules: [
-            'Robots must weigh under 60kg',
-            'No projectile weapons or flame-based attacks',
-            'Robots must pass safety inspection before competing',
-            'Remote control only - no autonomous operation',
-            'Arena damage beyond normal combat may result in penalties'
-        ],
-        timeline: [
-            { time: '10:00 AM', activity: 'Weigh-in & Safety Check' },
-            { time: '11:00 AM', activity: 'Preliminary Rounds Begin' },
-            { time: '02:00 PM', activity: 'Lunch Break' },
-            { time: '03:00 PM', activity: 'Quarter Finals' },
-            { time: '05:00 PM', activity: 'Semi Finals & Finals' },
-            { time: '06:30 PM', activity: 'Prize Distribution' }
-        ]
-    },
-    {
-        id: 'pixel-perfect',
-        title: 'Pixel Perfect',
-        category: 'design',
-        description: 'A UI/UX design competition where creativity meets functionality.',
-        longDescription: 'Pixel Perfect challenges designers to create stunning, user-centric interfaces for given problem statements. Judged by industry professionals from top design studios, this competition emphasizes both aesthetic excellence and usability. Winners get mentorship opportunities with leading design firms.',
-        date: 'February 12, 2026',
-        time: '10:00 AM - 6:00 PM',
-        venue: 'Design Studio Hall',
-        prize: '₹30,000',
-        teamSize: '1-2 members',
+        id: 'blind-coding',
+        title: 'Blind Coding',
+        category: 'coding',
+        description: 'Test your logical thinking by solving coding problems without seeing the output on the screen.',
+        longDescription: 'Can you code without seeing your output? This unique challenge tests your pure programming logic and mental debugging skills. Write code, submit, and hope your logic is flawless - because you won\'t see any output until the final evaluation!',
+        date: 'Day 1',
+        time: '2:00 PM - 4:00 PM',
+        venue: 'Computer Lab A',
+        prize: '₹15,000',
+        teamSize: 'Individual',
         teamMinSize: 1,
-        teamMaxSize: 2,
+        teamMaxSize: 1,
         isTeamEvent: false,
-        registrationFee: 200,
+        registrationFee: 100,
         registrationDeadline: 'February 10, 2026',
-        image: '/images/pixel_perfect.png',
+        image: '/images/blind_coding.png',
         rules: [
-            'Any design tool is permitted (Figma, Sketch, Adobe XD, etc.)',
-            'Submissions must include interactive prototypes',
-            'Design must be original and created during the event',
-            'Participants must present their design process',
-            'Accessibility considerations will be evaluated'
+            'Individual participation only',
+            'Languages allowed: C, C++, Python, Java',
+            'No output visible during coding',
+            'Multiple problems with increasing difficulty',
+            'Time-based scoring'
         ],
         timeline: [
-            { time: '10:00 AM', activity: 'Problem Statement Reveal' },
-            { time: '10:30 AM', activity: 'Design Phase Begins' },
-            { time: '01:00 PM', activity: 'Lunch Break' },
-            { time: '04:00 PM', activity: 'Submission Deadline' },
-            { time: '04:30 PM', activity: 'Presentations Begin' },
-            { time: '06:00 PM', activity: 'Results & Networking' }
+            { time: '2:00 PM', activity: 'Registration & Briefing' },
+            { time: '2:15 PM', activity: 'Competition Starts' },
+            { time: '3:45 PM', activity: 'Submission Deadline' },
+            { time: '4:00 PM', activity: 'Results & Prizes' }
         ]
     },
     {
-        id: 'cyber-siege',
-        title: 'Cyber Siege',
-        category: 'gaming',
-        description: 'Competitive esports tournament featuring top games in multiple formats.',
-        longDescription: 'Cyber Siege is the ultimate gaming showdown featuring tournaments in Valorant, CS2, and Rocket League. With professional-grade setups and live streaming, experience esports at its finest. Top teams compete for massive prize pools and bragging rights.',
-        date: 'March 16-17, 2026',
-        time: 'All Day Event',
-        venue: 'Gaming Arena',
-        prize: '₹40,000',
-        teamSize: '2-5 members',
-        teamMinSize: 2,
-        teamMaxSize: 5,
-        isTeamEvent: true,
-        registrationFee: 300,
+        id: 'prompt-ai',
+        title: 'Prompt AI',
+        category: 'ai',
+        description: 'Craft powerful and creative prompts to get the best results from AI tools and models.',
+        longDescription: 'Master the art of prompt engineering! Participants will be given tasks that require crafting the perfect prompts to get desired outputs from AI models like GPT, Claude, and image generators. The one who extracts the best results wins!',
+        date: 'Day 1',
+        time: '10:00 AM - 12:00 PM',
+        venue: 'AI Lab',
+        prize: '₹15,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 100,
         registrationDeadline: 'February 10, 2026',
-        image: '/images/cyber_siege.png',
+        image: '/images/prompt_ai.png',
         rules: [
-            'Teams must register for specific game tournaments',
-            'All participants must be 16 years or older',
-            'Personal peripherals allowed, no custom software',
-            'Match schedules are final and non-negotiable',
-            'Tournament rules follow official game league standards'
+            'Individual participation',
+            'Multiple AI tools will be provided',
+            'Tasks include text, code, and image generation',
+            'Judged on creativity and accuracy',
+            'Time limit per challenge'
         ],
         timeline: [
-            { time: 'Day 1 - 10:00 AM', activity: 'Group Stage Matches' },
-            { time: 'Day 1 - 6:00 PM', activity: 'Group Stage Ends' },
-            { time: 'Day 2 - 10:00 AM', activity: 'Knockout Rounds' },
-            { time: 'Day 2 - 4:00 PM', activity: 'Semi Finals' },
-            { time: 'Day 2 - 6:00 PM', activity: 'Grand Finals' },
-            { time: 'Day 2 - 8:00 PM', activity: 'Prize Ceremony' }
+            { time: '10:00 AM', activity: 'Introduction to Challenge' },
+            { time: '10:15 AM', activity: 'Round 1: Text Prompts' },
+            { time: '10:45 AM', activity: 'Round 2: Code Generation' },
+            { time: '11:15 AM', activity: 'Round 3: Creative Tasks' },
+            { time: '12:00 PM', activity: 'Judging & Results' }
         ]
     },
     {
-        id: 'quantum-computing-101',
-        title: 'Quantum Computing 101',
-        category: 'workshop',
-        description: 'Hands-on workshop introducing quantum computing concepts and programming.',
-        longDescription: 'Dive into the fascinating world of quantum computing with this comprehensive workshop. Led by researchers from leading quantum computing companies, participants will learn quantum mechanics fundamentals, work with Qiskit, and run actual quantum circuits on IBM quantum computers.',
-        date: 'February 12, 2026',
-        time: '2:00 PM - 6:00 PM',
-        venue: 'Seminar Hall A',
-        prize: 'Certificate + Swag Kit',
+        id: 'tech-quiz',
+        title: 'Tech Quiz',
+        category: 'quiz',
+        description: 'A fast-paced quiz covering technology, programming, AI, and general tech knowledge.',
+        longDescription: 'Test your tech IQ in this rapid-fire quiz competition! Questions span across programming languages, AI/ML concepts, tech history, current trends, and general computing knowledge. Fast fingers and faster thinking required!',
+        date: 'Day 1',
+        time: '4:00 PM - 5:30 PM',
+        venue: 'Seminar Hall',
+        prize: '₹10,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 50,
+        registrationDeadline: 'February 10, 2026',
+        image: '/images/tech_quiz.png',
+        rules: [
+            'Individual participation',
+            'Multiple choice and rapid-fire rounds',
+            'No external help or devices',
+            'Tie-breaker rounds if needed',
+            'Judges decision is final'
+        ],
+        timeline: [
+            { time: '4:00 PM', activity: 'Prelims - Written Round' },
+            { time: '4:30 PM', activity: 'Semifinals - Buzzer Round' },
+            { time: '5:00 PM', activity: 'Finals - Rapid Fire' },
+            { time: '5:30 PM', activity: 'Prize Distribution' }
+        ]
+    },
+    {
+        id: 'offline-treasure',
+        title: 'Offline Treasure',
+        category: 'fun',
+        description: 'A fun, logic-based treasure hunt involving clues, puzzles, and teamwork across the campus.',
+        longDescription: 'Get ready for an adrenaline-pumping treasure hunt across the campus! Solve cryptic clues, decode puzzles, find hidden checkpoints, and race against time. Physical fitness and mental agility both required!',
+        date: 'Day 1',
+        time: '11:00 AM - 1:00 PM',
+        venue: 'Campus Wide',
+        prize: '₹10,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 100,
+        registrationDeadline: 'February 10, 2026',
+        image: '/images/offline_treasure.png',
+        rules: [
+            'Individual participation',
+            'Follow all clues in order',
+            'No damaging campus property',
+            'GPS and maps allowed on phone',
+            'First to complete all checkpoints wins'
+        ],
+        timeline: [
+            { time: '11:00 AM', activity: 'Briefing & First Clue' },
+            { time: '11:15 AM', activity: 'Hunt Begins' },
+            { time: '12:45 PM', activity: 'Final Checkpoint' },
+            { time: '1:00 PM', activity: 'Results' }
+        ]
+    },
+    {
+        id: 'ai-debate',
+        title: 'AI Debate',
+        category: 'debate',
+        description: 'A thought-provoking debate where participants discuss and defend views on AI, ethics, and future tech.',
+        longDescription: 'Should AI have rights? Will automation take all jobs? Join the intellectual battlefield and debate the most pressing questions about artificial intelligence, ethics, and the future of technology. Persuade the judges with logic and eloquence!',
+        date: 'Day 1',
+        time: '3:00 PM - 5:00 PM',
+        venue: 'Debate Hall',
+        prize: '₹10,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 50,
+        registrationDeadline: 'February 10, 2026',
+        image: '/images/ai_debate.png',
+        rules: [
+            'Individual participation',
+            'Topics revealed on spot',
+            'Prep time: 10 minutes',
+            'Speaking time: 5 minutes per side',
+            'Judged on content, delivery, and rebuttal'
+        ],
+        timeline: [
+            { time: '3:00 PM', activity: 'Topic Reveal & Prep' },
+            { time: '3:15 PM', activity: 'Preliminary Rounds' },
+            { time: '4:00 PM', activity: 'Semifinals' },
+            { time: '4:30 PM', activity: 'Finals' },
+            { time: '5:00 PM', activity: 'Results' }
+        ]
+    },
+    {
+        id: 'reverse-it',
+        title: 'Reverse IT',
+        category: 'coding',
+        description: 'Debug, analyze, or reverse-engineer given outputs to understand the logic behind the code.',
+        longDescription: 'Think like a detective! You\'ll be given program outputs and must figure out what code produced them. Reverse engineering, pattern recognition, and deep logical thinking are key to winning this unique challenge.',
+        date: 'Day 2',
+        time: '10:00 AM - 12:00 PM',
+        venue: 'Computer Lab B',
+        prize: '₹15,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 100,
+        registrationDeadline: 'February 10, 2026',
+        image: '/images/reverse_it.png',
+        rules: [
+            'Individual participation',
+            'Analyze outputs, write matching code',
+            'Multiple levels of difficulty',
+            'Partial marks for close solutions',
+            'Time is a scoring factor'
+        ],
+        timeline: [
+            { time: '10:00 AM', activity: 'Rules Explanation' },
+            { time: '10:15 AM', activity: 'Level 1: Easy' },
+            { time: '10:45 AM', activity: 'Level 2: Medium' },
+            { time: '11:15 AM', activity: 'Level 3: Hard' },
+            { time: '12:00 PM', activity: 'Scoring & Results' }
+        ]
+    },
+    {
+        id: 'project-expo',
+        title: 'Project Expo',
+        category: 'showcase',
+        description: 'Showcase your innovative projects and ideas to judges and fellow students.',
+        longDescription: 'Got a cool project? Present it to the world! Whether it\'s a web app, AI model, IoT device, or any tech innovation - set up your booth, demonstrate your project, and impress the judges. Networking opportunity with industry professionals included!',
+        date: 'Day 2',
+        time: '2:00 PM - 5:00 PM',
+        venue: 'Exhibition Hall',
+        prize: '₹20,000',
         teamSize: 'Individual',
         teamMinSize: 1,
         teamMaxSize: 1,
         isTeamEvent: false,
         registrationFee: 150,
         registrationDeadline: 'February 10, 2026',
-        image: '/images/quantum_101.png',
+        image: '/images/project_expo.png',
         rules: [
-            'Basic Python knowledge required',
-            'Laptops mandatory',
-            'Limited to 100 participants',
-            'Certificate provided upon completion',
-            'Materials will be shared digitally'
+            'Pre-built projects allowed',
+            'Working demo required',
+            'Documentation must be provided',
+            'Presentation time: 10 minutes',
+            'Q&A with judges: 5 minutes'
         ],
         timeline: [
-            { time: '2:00 PM', activity: 'Introduction to Quantum Mechanics' },
-            { time: '3:00 PM', activity: 'Quantum Gates & Circuits' },
-            { time: '4:00 PM', activity: 'Break' },
-            { time: '4:15 PM', activity: 'Hands-on with Qiskit' },
-            { time: '5:30 PM', activity: 'Q&A Session' },
-            { time: '6:00 PM', activity: 'Certificate Distribution' }
+            { time: '2:00 PM', activity: 'Booth Setup' },
+            { time: '2:30 PM', activity: 'Judging Begins' },
+            { time: '4:00 PM', activity: 'Public Exhibition' },
+            { time: '4:45 PM', activity: 'Results Announcement' },
+            { time: '5:00 PM', activity: 'Prize Distribution' }
+        ]
+    },
+    {
+        id: 'typing-titans',
+        title: 'Typing Titans',
+        category: 'speed',
+        description: 'A speed and accuracy challenge to test your typing skills under time pressure.',
+        longDescription: 'How fast can you type? Compete against the clock and other participants in this typing speed championship. Words per minute (WPM) and accuracy both count. The fastest, most accurate typist takes the crown!',
+        date: 'Day 2',
+        time: '11:00 AM - 12:30 PM',
+        venue: 'Computer Lab A',
+        prize: '₹5,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 50,
+        registrationDeadline: 'February 10, 2026',
+        image: '/images/typing_titans.png',
+        rules: [
+            'Individual participation',
+            'Standard QWERTY keyboards',
+            'Multiple rounds with elimination',
+            'WPM and accuracy both scored',
+            'Minimum 95% accuracy required'
+        ],
+        timeline: [
+            { time: '11:00 AM', activity: 'Practice Round' },
+            { time: '11:15 AM', activity: 'Preliminary Round' },
+            { time: '11:45 AM', activity: 'Semifinals' },
+            { time: '12:15 PM', activity: 'Finals' },
+            { time: '12:30 PM', activity: 'Results' }
+        ]
+    },
+    {
+        id: 'canva-design',
+        title: 'Canva',
+        category: 'design',
+        description: 'Design creative posters or visuals using Canva within a given theme and time limit.',
+        longDescription: 'Unleash your creativity using Canva! You\'ll be given a theme and must create a stunning poster or visual design within the time limit. Creativity, aesthetics, message clarity, and tool usage will be judged.',
+        date: 'Day 2',
+        time: '1:00 PM - 3:00 PM',
+        venue: 'Design Studio',
+        prize: '₹10,000',
+        teamSize: 'Individual',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 50,
+        registrationDeadline: 'February 10, 2026',
+        image: '/images/canva_design.png',
+        rules: [
+            'Individual participation',
+            'Canva Free or Pro allowed',
+            'Theme revealed at start',
+            'Time limit: 1.5 hours',
+            'Original work only, no templates'
+        ],
+        timeline: [
+            { time: '1:00 PM', activity: 'Theme Reveal' },
+            { time: '1:15 PM', activity: 'Design Begins' },
+            { time: '2:45 PM', activity: 'Submission Deadline' },
+            { time: '3:00 PM', activity: 'Judging & Results' }
         ]
     }
 ]
 
 export const eventCategories = [
     { id: 'all', label: 'All Events', icon: '🎯' },
+    { id: 'hackathon', label: 'Hackathon', icon: '🚀' },
     { id: 'coding', label: 'Coding', icon: '💻' },
     { id: 'ai', label: 'AI/ML', icon: '🤖' },
-    { id: 'robotics', label: 'Robotics', icon: '🦾' },
+    { id: 'quiz', label: 'Quiz', icon: '❓' },
+    { id: 'fun', label: 'Fun', icon: '🎮' },
+    { id: 'debate', label: 'Debate', icon: '🎤' },
+    { id: 'showcase', label: 'Showcase', icon: '🏆' },
+    { id: 'speed', label: 'Speed', icon: '⚡' },
     { id: 'design', label: 'Design', icon: '🎨' },
-    { id: 'gaming', label: 'Gaming', icon: '🎮' },
-    { id: 'workshop', label: 'Workshops', icon: '📚' },
 ]

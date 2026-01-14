@@ -11,7 +11,7 @@ import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { NeonText, GlassCard, GlowButton, ScrambleText } from '@/components/ui'
 import { Footer } from '@/components/sections'
 import { eventPackages, colorMap } from '@/data'
-import { Calendar, Clock, MapPin, QrCode, Ticket, User, Download, Share2, Edit2, Check } from 'lucide-react'
+import { Calendar, Clock, MapPin, QrCode, Ticket, User, Download, Share2, Edit2, Check, AlertTriangle, ArrowRight, Users } from 'lucide-react'
 
 const Background3D = dynamic(
     () => import('@/components/three/Background3D').then((mod) => mod.Background3D),
@@ -61,6 +61,13 @@ export default function ProfilePage() {
         event_name: string
         event_date: string
         verified: boolean
+        event_date: string
+        verified: boolean
+        payment_status?: string
+        amount_paid?: number
+        is_team_pass?: boolean
+        team_name?: string
+        team_size?: number
     }[]>([])
 
     // Edit states
@@ -127,7 +134,7 @@ export default function ProfilePage() {
                 // Fetch registrations from database (for multi-ticket support)
                 const { data: regData, error: regError } = await supabase
                     .from('registrations')
-                    .select('id, ticket_id, attendee_name, attendee_email, attendee_phone, attendee_college, attendee_cc, details_locked, event_id, event_name, event_date, verified')
+                    .select('id, ticket_id, attendee_name, attendee_email, attendee_phone, attendee_college, attendee_cc, details_locked, event_id, event_name, event_date, verified, payment_status, amount_paid, is_team_pass, team_name, team_size')
                     .eq('user_id', authUser.id)
                     .order('created_at', { ascending: true })
 
@@ -606,6 +613,60 @@ export default function ProfilePage() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {registrations.map((reg, index) => {
                                 const eventDetails = eventPackages.find(e => e.id === reg.event_id)
+
+                                // Pending Payment Card
+                                if (reg.payment_status === 'pending') {
+                                    return (
+                                        <motion.div
+                                            key={reg.id}
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: index * 0.1 }}
+                                            className="relative group h-full"
+                                        >
+                                            <div className="absolute inset-0 bg-red-500/10 blur-xl group-hover:bg-red-500/20 transition-all duration-500" />
+
+                                            <div className="relative h-full flex flex-col justify-between p-6 rounded-2xl border border-red-500/30 bg-black/60 backdrop-blur-xl overflow-hidden">
+                                                {/* Striped Warning Background */}
+                                                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+                                                    backgroundImage: 'repeating-linear-gradient(45deg, #ef4444 0, #ef4444 10px, transparent 10px, transparent 20px)'
+                                                }} />
+
+                                                <div>
+                                                    <div className="flex justify-between items-start mb-6">
+                                                        <div className="px-3 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-400 text-xs font-bold font-mono tracking-wider animate-pulse">
+                                                            PAYMENT_PENDING
+                                                        </div>
+                                                        <div className="text-red-500/50">
+                                                            <AlertTriangle className="w-8 h-8" />
+                                                        </div>
+                                                    </div>
+
+                                                    <h3 className="text-2xl font-heading font-bold text-white mb-2">{reg.event_name}</h3>
+                                                    {reg.team_name && (
+                                                        <p className="text-red-300/80 font-mono text-sm mb-4">Team: {reg.team_name}</p>
+                                                    )}
+
+                                                    <div className="text-sm text-text-secondary mb-6">
+                                                        Registration initiated but payment not completed. Complete payment to unlock your team pass.
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center justify-between mt-auto pt-4 border-t border-red-500/20">
+                                                    <span className="text-xl font-bold text-white">₹{reg.amount_paid}</span>
+                                                    <button
+                                                        onClick={() => router.push(`/register/${reg.event_id}`)}
+                                                        className="px-6 py-2 rounded-lg bg-red-500 text-black font-bold hover:bg-red-400 transition-colors flex items-center gap-2"
+                                                    >
+                                                        Pay Now
+                                                        <ArrowRight className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )
+                                }
+
                                 return (
                                     <RegistrationPassCard
                                         key={reg.ticket_id}
@@ -1214,6 +1275,11 @@ function RegistrationPassCard({
         event_name: string
         event_date: string
         verified: boolean
+        payment_status?: string
+        amount_paid?: number
+        is_team_pass?: boolean
+        team_name?: string
+        team_size?: number
     }
     eventDetails: any
     index: number
@@ -1241,6 +1307,8 @@ function RegistrationPassCard({
                 event: registration.event_id,
                 eventName: registration.event_name,
                 attendee: registration.attendee_name,
+                team: registration.team_name,
+                isTeam: registration.is_team_pass,
                 phone: registration.attendee_phone,
                 college: registration.attendee_college,
                 date: registration.event_date,
@@ -1390,14 +1458,28 @@ function RegistrationPassCard({
         ctx.fillStyle = '#000000'
         ctx.fillText(category, 55, 178)
 
-        // === ATTENDEE SECTION ===
+        // === ATTENDEE / TEAM SECTION ===
         ctx.font = '10px monospace'
         ctx.fillStyle = '#64748b'
-        ctx.fillText('ATTENDEE', 40, 220)
+        ctx.fillText(registration.is_team_pass ? 'TEAM DETAILS' : 'ATTENDEE', 40, 220)
 
+        // Draw Team Name if team pass, else Attendee Name
         ctx.font = 'bold 30px Arial, sans-serif'
-        ctx.fillStyle = '#ffffff'
-        ctx.fillText(registration.attendee_name.toUpperCase(), 40, 255)
+        ctx.fillStyle = registration.is_team_pass ? '#f59e0b' : '#ffffff' // Amber for team
+        // Fix upper case call
+        const attName = registration.attendee_name || ''
+        const tName = registration.team_name || ''
+        const nameText = registration.is_team_pass && tName
+            ? tName.toUpperCase()
+            : attName.toUpperCase()
+        ctx.fillText(nameText, 40, 255)
+
+        // If Team Pass, show Leader below
+        if (registration.is_team_pass) {
+            ctx.font = 'bold 14px monospace'
+            ctx.fillStyle = '#94a3b8'
+            ctx.fillText(`LEADER: ${attName.toUpperCase()}`, 40, 280)
+        }
 
         // === DATE / VENUE / TIME COLUMNS ===
         const colY = 300
@@ -1620,6 +1702,16 @@ INFOTHON 2K26 - The Ultimate Tech Fest!
                             )}
                         </div>
                     </div>
+
+                    {/* Team Pass Badge for UI */}
+                    {registration.is_team_pass && (
+                        <div className="mb-4">
+                            <span className="px-3 py-1 rounded bg-yellow-500/20 text-yellow-500 border border-yellow-500/50 text-xs font-bold font-mono tracking-wider animate-pulse inline-flex items-center gap-2">
+                                <Users className="w-3 h-3" />
+                                TEAM PASS: {registration.team_name}
+                            </span>
+                        </div>
+                    )}
 
                     {/* Ticket ID */}
                     <div className="text-xs font-mono text-glow-cyan mb-3">

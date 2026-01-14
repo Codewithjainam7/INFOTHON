@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Html5Qrcode } from 'html5-qrcode'
-import { Lock, Scan, CheckCircle, XCircle, User, Calendar, MapPin, Ticket, Mail, Shield, AlertTriangle, Database, RefreshCw } from 'lucide-react'
+import { Lock, Scan, CheckCircle, XCircle, User, Calendar, MapPin, Ticket, Mail, Shield, AlertTriangle, Database, RefreshCw, Users, Check } from 'lucide-react'
 import { createClient } from '@/lib/supabase'
 
 // Hardcoded credentials
@@ -22,6 +22,7 @@ interface TicketData {
 }
 
 interface DBRegistration {
+    id: string
     ticket_id: string
     user_id: string
     user_email: string
@@ -31,6 +32,20 @@ interface DBRegistration {
     event_date: string
     verified: boolean
     created_at: string
+    is_team_pass?: boolean
+    team_name?: string
+    team_size?: number
+    member_1_name?: string
+    member_1_verified?: boolean
+    member_2_name?: string
+    member_2_verified?: boolean
+    member_3_name?: string
+    member_3_verified?: boolean
+    member_4_name?: string
+    member_4_verified?: boolean
+    member_5_name?: string
+    member_5_verified?: boolean
+    details_locked?: boolean
 }
 
 // Glitch Text Component
@@ -329,7 +344,8 @@ function VerificationResult({
     isLoading,
     showCheckedIn,
     onReset,
-    onMarkVerified
+    onMarkVerified,
+    onTeamMemberCheckIn
 }: {
     data: TicketData | null
     dbRecord: DBRegistration | null
@@ -337,6 +353,7 @@ function VerificationResult({
     showCheckedIn: boolean
     onReset: () => void
     onMarkVerified: () => void
+    onTeamMemberCheckIn: (index: number) => void
 }) {
     const isValid = dbRecord !== null
     const alreadyVerified = dbRecord?.verified === true
@@ -475,7 +492,7 @@ function VerificationResult({
                     {/* Status text */}
                     <h2 className={`text-3xl font-heading font-bold text-center mb-2 ${isValid ? 'text-green-500' : 'text-red-500'}`}>
                         <GlitchText>
-                            {isValid ? '✓ TICKET VERIFIED' : '✗ TICKET NOT FOUND'}
+                            {isValid ? '✓ VALID TICKET' : '✗ TICKET NOT FOUND'}
                         </GlitchText>
                     </h2>
 
@@ -484,21 +501,9 @@ function VerificationResult({
                         <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-mono ${isValid ? 'bg-green-500/20 text-green-400 border border-green-500/50' : 'bg-red-500/20 text-red-400 border border-red-500/50'
                             }`}>
                             <Database className="w-4 h-4" />
-                            {isValid ? 'FOUND IN DATABASE' : 'NOT IN DATABASE'}
+                            {isValid ? 'VERIFIED IN DATABASE' : 'NOT IN DATABASE'}
                         </div>
                     </div>
-
-                    {/* Already verified warning */}
-                    {alreadyVerified && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="mb-4 p-3 rounded-lg bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 flex items-center gap-2"
-                        >
-                            <AlertTriangle className="w-5 h-5" />
-                            <span className="text-sm font-mono">TICKET ALREADY SCANNED PREVIOUSLY</span>
-                        </motion.div>
-                    )}
 
                     {/* Ticket details from DB */}
                     {dbRecord && (
@@ -514,42 +519,79 @@ function VerificationResult({
                                         <Ticket className="w-4 h-4" />
                                         Ticket ID
                                     </div>
-                                    <div className="font-mono text-glow-cyan font-bold text-sm">{dbRecord.ticket_id}</div>
+                                    <div className="font-mono text-glow-cyan font-bold text-sm truncate">{dbRecord.ticket_id}</div>
                                 </div>
                                 <div className="p-4 rounded-lg bg-black/50 border border-white/10">
                                     <div className="flex items-center gap-2 text-text-muted text-xs uppercase mb-1">
                                         <Calendar className="w-4 h-4" />
                                         Event
                                     </div>
-                                    <div className="font-bold text-white">{dbRecord.event_name}</div>
-                                </div>
-                                <div className="p-4 rounded-lg bg-black/50 border border-white/10">
-                                    <div className="flex items-center gap-2 text-text-muted text-xs uppercase mb-1">
-                                        <User className="w-4 h-4" />
-                                        Attendee
-                                    </div>
-                                    <div className="font-bold text-white">{dbRecord.attendee_name}</div>
-                                </div>
-                                <div className="p-4 rounded-lg bg-black/50 border border-white/10">
-                                    <div className="flex items-center gap-2 text-text-muted text-xs uppercase mb-1">
-                                        <Mail className="w-4 h-4" />
-                                        Email
-                                    </div>
-                                    <div className="font-mono text-sm text-white truncate">{dbRecord.user_email}</div>
+                                    <div className="font-bold text-white truncate">{dbRecord.event_name}</div>
                                 </div>
                             </div>
 
-                            <div className="p-4 rounded-lg bg-black/50 border border-white/10">
-                                <div className="flex items-center gap-2 text-text-muted text-xs uppercase mb-1">
-                                    <MapPin className="w-4 h-4" />
-                                    Event Date
+                            {/* Team Pass Logic */}
+                            {dbRecord.is_team_pass ? (
+                                <div className="p-4 rounded-lg bg-black/50 border border-glow-cyan/30">
+                                    <div className="flex items-center gap-2 text-glow-cyan text-xs uppercase mb-3 font-bold">
+                                        <Users className="w-4 h-4" />
+                                        Team Members ({dbRecord.team_name})
+                                    </div>
+                                    <div className="space-y-3">
+                                        {[1, 2, 3, 4, 5].map((i) => {
+                                            const nameKey = `member_${i}_name` as keyof DBRegistration;
+                                            const verifiedKey = `member_${i}_verified` as keyof DBRegistration;
+                                            const name = dbRecord[nameKey] as string;
+                                            const isVerified = dbRecord[verifiedKey] as boolean;
+
+                                            if (!name) return null;
+
+                                            return (
+                                                <div key={i} className="flex items-center justify-between p-2 rounded bg-white/5 border border-white/10">
+                                                    <span className="text-white text-sm">{name}</span>
+                                                    {isVerified ? (
+                                                        <span className="text-green-400 text-xs font-bold flex items-center gap-1">
+                                                            <CheckCircle className="w-3 h-3" /> VERIFIED
+                                                        </span>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => onTeamMemberCheckIn(i)}
+                                                            className="px-3 py-1 rounded bg-glow-cyan/20 text-glow-cyan text-xs hover:bg-glow-cyan/40 transition-colors uppercase font-bold"
+                                                        >
+                                                            Check In
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
-                                <div className="font-bold text-white">{dbRecord.event_date}</div>
-                            </div>
+                            ) : (
+                                // Individual Pass Logic
+                                <>
+                                    <div className="p-4 rounded-lg bg-black/50 border border-white/10">
+                                        <div className="flex items-center gap-2 text-text-muted text-xs uppercase mb-1">
+                                            <User className="w-4 h-4" />
+                                            Attendee
+                                        </div>
+                                        <div className="font-bold text-white">{dbRecord.attendee_name}</div>
+                                    </div>
+
+                                    {alreadyVerified && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="mt-4 p-3 rounded-lg bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 flex items-center gap-2"
+                                        >
+                                            <AlertTriangle className="w-5 h-5" />
+                                            <span className="text-sm font-mono">ALREADY CHECKED IN</span>
+                                        </motion.div>
+                                    )}
+                                </>
+                            )}
                         </motion.div>
                     )}
 
-                    {/* Fallback: show QR data if no DB record */}
                     {!dbRecord && data && (
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -559,13 +601,12 @@ function VerificationResult({
                             <p className="text-red-400 text-sm font-mono mb-2">QR Data (Not in Database):</p>
                             <p className="text-white text-sm">Ticket: {data.ticketId}</p>
                             <p className="text-white text-sm">Event: {data.eventName}</p>
-                            <p className="text-white text-sm">Attendee: {data.attendee}</p>
                         </motion.div>
                     )}
 
                     {/* Action buttons */}
                     <div className="space-y-3">
-                        {isValid && !alreadyVerified && (
+                        {isValid && !dbRecord.is_team_pass && !alreadyVerified && (
                             <motion.button
                                 onClick={onMarkVerified}
                                 whileHover={{ scale: 1.02 }}
@@ -598,357 +639,136 @@ export default function AdminScannerPage() {
     const [isVerifying, setIsVerifying] = useState(false)
     const [showResult, setShowResult] = useState(false)
     const [showCheckedIn, setShowCheckedIn] = useState(false)
-
-    const verifyInDatabase = async (data: TicketData) => {
-        setIsVerifying(true)
-        const supabase = createClient()
-
-        try {
-            // Query the registrations table for this ticket
-            const { data: registration, error } = await supabase
-                .from('registrations')
-                .select('*')
-                .eq('ticket_id', data.ticketId)
-                .single()
-
-            if (error || !registration) {
-                console.log('Ticket not found in DB:', data.ticketId)
-                setDbRecord(null)
-            } else {
-                console.log('Found registration:', registration)
-                setDbRecord(registration as DBRegistration)
-            }
-        } catch (err) {
-            console.error('DB verification error:', err)
-            setDbRecord(null)
-        }
-
-        setIsVerifying(false)
-    }
+    const supabase = createClient()
 
     const handleScan = async (data: TicketData | null) => {
         setScannedData(data)
-        setShowResult(true)
-        setShowCheckedIn(false)
-
         if (data) {
-            await verifyInDatabase(data)
+            setShowResult(true)
+            setIsVerifying(true)
+
+            // Fetch from Supabase - UPDATED to select team fields
+            const { data: record, error } = await supabase
+                .from('registrations')
+                .select('id, ticket_id, user_id, attendee_name, email:attendee_email, event_id, event_name, event_date, verified, is_team_pass, team_name, team_size, member_1_name, member_1_verified, member_2_name, member_2_verified, member_3_name, member_3_verified, member_4_name, member_4_verified, member_5_name, member_5_verified')
+                .eq('ticket_id', data.ticketId)
+                .single()
+
+            if (record) {
+                setDbRecord({
+                    ...record,
+                    user_email: record.email, // Map email alias
+                    created_at: new Date().toISOString() // Mock date if not fetched
+                } as unknown as DBRegistration)
+            } else {
+                setDbRecord(null)
+            }
+            setIsVerifying(false)
         }
     }
 
-    const handleMarkVerified = async () => {
-        if (!dbRecord) return
-
-        const supabase = createClient()
-        const { error } = await supabase
-            .from('registrations')
-            .update({ verified: true })
-            .eq('ticket_id', dbRecord.ticket_id)
-
-        if (!error) {
-            setDbRecord({ ...dbRecord, verified: true })
-            setShowCheckedIn(true)
-        }
-    }
-
-    const handleReset = () => {
+    const resetScan = () => {
         setScannedData(null)
         setDbRecord(null)
         setShowResult(false)
         setShowCheckedIn(false)
     }
 
+    const markVerified = async () => {
+        if (!dbRecord) return
+
+        const { error } = await supabase
+            .from('registrations')
+            .update({ verified: true })
+            .eq('ticket_id', dbRecord.ticket_id)
+
+        if (!error) {
+            setDbRecord(prev => prev ? { ...prev, verified: true } : null)
+            setShowCheckedIn(true)
+        }
+    }
+
+    const markTeamMemberVerified = async (index: number) => {
+        if (!dbRecord) return;
+
+        const updateField = `member_${index}_verified`;
+        const { error } = await supabase
+            .from('registrations')
+            .update({ [updateField]: true })
+            .eq('ticket_id', dbRecord.ticket_id)
+
+        if (!error) {
+            setDbRecord(prev => {
+                if (!prev) return null;
+                return {
+                    ...prev,
+                    [`member_${index}_verified`]: true
+                }
+            })
+            // Can optionally show a toast here?
+        }
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen bg-bg-primary flex items-center justify-center p-4">
+                <AdminLogin onLogin={() => setIsAuthenticated(true)} />
+            </div>
+        )
+    }
+
     return (
-        <div className="min-h-screen bg-bg-primary relative overflow-hidden">
-            {/* Gradient Overlays - matching landing page */}
-            <div className="absolute inset-0 bg-gradient-radial from-glow-cyan/5 via-transparent to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
-
-            {/* Scanlines overlay */}
-            <div className="absolute inset-0 pointer-events-none opacity-20" style={{
-                background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, 0.03) 2px, rgba(0, 245, 255, 0.03) 4px)'
-            }} />
-
-            {/* Grid pattern */}
-            <div className="absolute inset-0 opacity-10" style={{
-                backgroundImage: 'linear-gradient(rgba(0,245,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.1) 1px, transparent 1px)',
-                backgroundSize: '50px 50px'
-            }} />
-
-            {/* Corner Elements - matching landing */}
-            <div className="absolute top-20 left-4 sm:left-8 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-t-2 border-glow-cyan/20 rounded-tl-3xl" />
-            <div className="absolute top-20 right-4 sm:right-8 w-16 h-16 sm:w-24 sm:h-24 border-r-2 border-t-2 border-glow-cyan/20 rounded-tr-3xl" />
-            <div className="absolute bottom-20 left-4 sm:left-8 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-b-2 border-glow-violet/20 rounded-bl-3xl" />
-            <div className="absolute bottom-20 right-4 sm:right-8 w-16 h-16 sm:w-24 sm:h-24 border-r-2 border-b-2 border-glow-violet/20 rounded-br-3xl" />
-
-            <div className="relative z-10 container mx-auto px-4 py-16">
-                {/* Header with Logos - matching landing page style */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-center mb-12"
-                >
-                    {/* INFOTHON × 2K26 Logo Section with Glitch Effects */}
-                    <div className="flex flex-col items-center gap-6 mb-8">
-                        {/* INFOTHON Logo with glitch effect */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
-                            className="relative"
-                        >
-                            {/* Glow background */}
-                            <motion.div
-                                className="absolute inset-0 flex justify-center items-center"
-                                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                                transition={{ duration: 3, repeat: Infinity }}
-                            >
-                                <div className="w-48 h-16 bg-glow-cyan/20 blur-3xl rounded-full" />
-                            </motion.div>
-
-                            {/* Glitch layer - Cyan offset */}
-                            <motion.img
-                                src="/images/INFOTHON.png"
-                                alt=""
-                                className="absolute inset-0 h-14 sm:h-16 md:h-20 w-auto object-contain opacity-60 mx-auto"
-                                style={{ filter: 'hue-rotate(180deg)' }}
-                                animate={{
-                                    x: [0, -5, 2, -5, 0],
-                                    opacity: [0, 0.8, 0, 0.6, 0],
-                                }}
-                                transition={{
-                                    duration: 0.15,
-                                    repeat: Infinity,
-                                    repeatDelay: 2,
-                                }}
-                            />
-
-                            {/* Glitch layer - Violet offset */}
-                            <motion.img
-                                src="/images/INFOTHON.png"
-                                alt=""
-                                className="absolute inset-0 h-14 sm:h-16 md:h-20 w-auto object-contain opacity-60 mx-auto"
-                                style={{ filter: 'hue-rotate(-60deg)' }}
-                                animate={{
-                                    x: [0, 5, -2, 5, 0],
-                                    opacity: [0, 0.7, 0, 0.5, 0],
-                                }}
-                                transition={{
-                                    duration: 0.12,
-                                    repeat: Infinity,
-                                    repeatDelay: 1.5,
-                                }}
-                            />
-
-                            {/* Main INFOTHON image */}
-                            <motion.img
-                                src="/images/INFOTHON.png"
-                                alt="INFOTHON"
-                                className="h-14 sm:h-16 md:h-20 w-auto object-contain relative z-10"
-                                style={{
-                                    filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                }}
-                                animate={{
-                                    x: [0, 0, -3, 0, 3, 0, 0],
-                                    filter: [
-                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                        'drop-shadow(0 0 40px rgba(34,211,238,0.7)) drop-shadow(0 0 80px rgba(139,92,246,0.5))',
-                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                    ],
-                                }}
-                                transition={{
-                                    x: { duration: 0.1, repeat: Infinity, repeatDelay: 3 },
-                                    filter: { duration: 2, repeat: Infinity },
-                                }}
-                            />
-                        </motion.div>
-
-                        {/* × Symbol */}
-                        <motion.span
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.6 }}
-                            className="text-3xl md:text-4xl font-bold text-glow-violet"
-                        >
-                            ×
-                        </motion.span>
-
-                        {/* 2K26 Logo with glitch effect - matching landing page exactly */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.6 }}
-                            className="relative"
-                        >
-                            {/* Glow background */}
-                            <motion.div
-                                className="absolute inset-0 flex justify-center items-center"
-                                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                                transition={{ duration: 3, repeat: Infinity }}
-                            >
-                                <div className="w-48 h-20 bg-glow-violet/20 blur-3xl rounded-full" />
-                            </motion.div>
-
-                            {/* Glitch layer - Cyan offset */}
-                            <motion.img
-                                src="/images/2k26.png"
-                                alt=""
-                                className="absolute inset-0 h-24 sm:h-32 md:h-40 w-auto object-contain opacity-60 mx-auto"
-                                style={{ filter: 'hue-rotate(180deg)' }}
-                                animate={{
-                                    x: [0, -5, 2, -5, 0],
-                                    y: [0, 2, -1, 0],
-                                    scale: [1, 1.02, 0.98, 1],
-                                    opacity: [0, 0.8, 0, 0.6, 0],
-                                }}
-                                transition={{
-                                    duration: 0.15,
-                                    repeat: Infinity,
-                                    repeatDelay: 2,
-                                    times: [0, 0.2, 0.4, 0.6, 1],
-                                }}
-                            />
-
-                            {/* Glitch layer - Violet offset */}
-                            <motion.img
-                                src="/images/2k26.png"
-                                alt=""
-                                className="absolute inset-0 h-24 sm:h-32 md:h-40 w-auto object-contain opacity-60 mx-auto"
-                                style={{ filter: 'hue-rotate(-60deg)' }}
-                                animate={{
-                                    x: [0, 5, -2, 5, 0],
-                                    y: [0, -2, 1, 0],
-                                    scale: [1, 0.98, 1.02, 1],
-                                    opacity: [0, 0.7, 0, 0.5, 0],
-                                }}
-                                transition={{
-                                    duration: 0.12,
-                                    repeat: Infinity,
-                                    repeatDelay: 1.5,
-                                    times: [0, 0.2, 0.4, 0.6, 1],
-                                }}
-                            />
-
-                            {/* Main 2K26 image with glow */}
-                            <motion.img
-                                src="/images/2k26.png"
-                                alt="2K26"
-                                className="h-24 sm:h-32 md:h-40 w-auto object-contain relative z-10"
-                                style={{
-                                    filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                }}
-                                animate={{
-                                    x: [0, 0, -3, 0, 3, 0, 0],
-                                    scale: [1, 1, 1.01, 1, 0.99, 1, 1],
-                                    filter: [
-                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                        'drop-shadow(0 0 40px rgba(34,211,238,0.7)) drop-shadow(0 0 80px rgba(139,92,246,0.5))',
-                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
-                                    ],
-                                }}
-                                transition={{
-                                    x: { duration: 0.1, repeat: Infinity, repeatDelay: 3, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
-                                    scale: { duration: 0.1, repeat: Infinity, repeatDelay: 3, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
-                                    filter: { duration: 2, repeat: Infinity },
-                                }}
-                            />
-
-                            {/* Glitch slice overlay */}
-                            <motion.div
-                                className="absolute inset-0 overflow-hidden pointer-events-none z-20"
-                                animate={{ opacity: [0, 1, 0] }}
-                                transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 5 }}
-                            >
-                                <div
-                                    className="absolute w-full h-1/4 bg-glow-cyan/20"
-                                    style={{ top: '25%', transform: 'translateX(3px)' }}
-                                />
-                                <div
-                                    className="absolute w-full h-1/6 bg-glow-violet/20"
-                                    style={{ top: '60%', transform: 'translateX(-4px)' }}
-                                />
-                            </motion.div>
-
-                            {/* Scanning line effect */}
-                            <motion.div
-                                className="absolute inset-0 overflow-hidden pointer-events-none"
-                                style={{ clipPath: 'inset(0)' }}
-                            >
-                                <motion.div
-                                    className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan to-transparent"
-                                    animate={{ top: ['-10%', '110%'] }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                                />
-                            </motion.div>
-
-                            {/* Corner brackets */}
-                            <div className="absolute -top-2 -left-2 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/50" />
-                            <div className="absolute -top-2 -right-2 w-3 h-3 border-r-2 border-t-2 border-glow-violet/50" />
-                            <div className="absolute -bottom-2 -left-2 w-3 h-3 border-l-2 border-b-2 border-glow-violet/50" />
-                            <div className="absolute -bottom-2 -right-2 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/50" />
-                        </motion.div>
-                    </div>
-
-                    {/* Subtitle with badge style */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.8 }}
+        <main className="min-h-screen bg-bg-primary p-4">
+            <div className="max-w-4xl mx-auto pt-8">
+                <div className="flex justify-between items-center mb-8">
+                    <h1 className="text-2xl font-heading font-bold text-white">
+                        <span className="text-glow-cyan">INFOTHON</span> SCANNER
+                    </h1>
+                    <button
+                        onClick={() => setIsAuthenticated(false)}
+                        className="text-sm text-red-400 font-mono hover:text-red-300"
                     >
-                        <span className="inline-block px-4 py-2 rounded-full glass text-sm font-mono text-glow-cyan tracking-wider">
-                            TICKET VERIFICATION SYSTEM
-                        </span>
-                    </motion.div>
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 1 }}
-                        className="text-glow-violet/60 font-mono text-xs mt-3 uppercase tracking-widest"
-                    >
-                        Event Coordinator Access Only
-                    </motion.p>
-                </motion.div>
+                        LOGOUT
+                    </button>
+                </div>
 
-                {/* Content */}
                 <AnimatePresence mode="wait">
-                    {!isAuthenticated ? (
-                        <motion.div key="login" exit={{ opacity: 0, scale: 0.9 }}>
-                            <AdminLogin onLogin={() => setIsAuthenticated(true)} />
+                    {!showResult ? (
+                        <motion.div
+                            key="scanner"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                        >
+                            <QRScanner onScan={handleScan} />
+
+                            <div className="text-center mt-12">
+                                <p className="text-text-muted text-sm max-w-md mx-auto">
+                                    Use this scanner at the event entrance. Point camera at the attendee's QR code.
+                                    Database verification happens automatically.
+                                </p>
+                            </div>
                         </motion.div>
-                    ) : showResult ? (
-                        <motion.div key="result" exit={{ opacity: 0, scale: 0.9 }}>
+                    ) : (
+                        <motion.div
+                            key="result"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                        >
                             <VerificationResult
                                 data={scannedData}
                                 dbRecord={dbRecord}
                                 isLoading={isVerifying}
                                 showCheckedIn={showCheckedIn}
-                                onReset={handleReset}
-                                onMarkVerified={handleMarkVerified}
+                                onReset={resetScan}
+                                onMarkVerified={markVerified}
+                                onTeamMemberCheckIn={markTeamMemberVerified}
                             />
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="scanner"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                        >
-                            <div className="max-w-md mx-auto">
-                                <div className="text-center mb-8">
-                                    <h2 className="text-2xl font-heading font-bold text-white mb-2">
-                                        <GlitchText>SCAN TICKET QR</GlitchText>
-                                    </h2>
-                                    <p className="text-text-muted text-sm">
-                                        Point camera at attendee&apos;s ticket QR code
-                                    </p>
-                                </div>
-                                <QRScanner onScan={handleScan} />
-                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
             </div>
-        </div>
+        </main>
     )
 }

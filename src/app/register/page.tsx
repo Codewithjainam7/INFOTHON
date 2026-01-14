@@ -49,6 +49,14 @@ export default function RegisterPage() {
     }, [])
 
     const toggleEvent = (eventId: string) => {
+        const event = eventPackages.find(e => e.id === eventId)
+
+        // If it's a team event (Hackathon), redirect to team registration page
+        if (event?.isTeamEvent) {
+            window.location.href = `/register/${eventId}`
+            return
+        }
+
         setSelectedEvents(prev =>
             prev.includes(eventId)
                 ? prev.filter(id => id !== eventId)
