@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { Trash2, Plus, Minus, Tag, ArrowLeft, ArrowRight, Check, Zap } from 'lucide-react'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
@@ -298,6 +299,9 @@ function PaymentSuccessOverlay({ onComplete }: { onComplete: () => void }) {
 }
 
 export default function CheckoutPage() {
+    const searchParams = useSearchParams()
+    const eventId = searchParams.get('event')
+
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [couponCode, setCouponCode] = useState('')
     const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
@@ -317,14 +321,20 @@ export default function CheckoutPage() {
         }
     }, [])
 
-    // Load cart from localStorage
+    // Load event from URL param (new flow) or fallback to cart (legacy)
     useEffect(() => {
-        const saved = localStorage.getItem('infothon_registrations')
-        if (saved) {
-            const eventIds: string[] = JSON.parse(saved)
-            setCartItems(eventIds.map(id => ({ id, quantity: 1 })))
+        if (eventId) {
+            // New flow: single event from URL
+            setCartItems([{ id: eventId, quantity: 1 }])
+        } else {
+            // Legacy fallback: load from localStorage cart
+            const saved = localStorage.getItem('infothon_registrations')
+            if (saved) {
+                const eventIds: string[] = JSON.parse(saved)
+                setCartItems(eventIds.map(id => ({ id, quantity: 1 })))
+            }
         }
-    }, [])
+    }, [eventId])
 
     // Get event details for cart items
     const getEventDetails = (id: string) => eventPackages.find(e => e.id === id)

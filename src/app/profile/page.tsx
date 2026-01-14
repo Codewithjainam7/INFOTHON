@@ -610,61 +610,8 @@ export default function ProfilePage() {
 
                     {registrations.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {registrations.map((reg, index) => {
+                            {registrations.filter(r => r.payment_status !== 'pending').map((reg, index) => {
                                 const eventDetails = eventPackages.find(e => e.id === reg.event_id)
-
-                                // Pending Payment Card
-                                if (reg.payment_status === 'pending') {
-                                    return (
-                                        <motion.div
-                                            key={reg.id}
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            className="relative group h-full"
-                                        >
-                                            <div className="absolute inset-0 bg-red-500/10 blur-xl group-hover:bg-red-500/20 transition-all duration-500" />
-
-                                            <div className="relative h-full flex flex-col justify-between p-6 rounded-2xl border border-red-500/30 bg-black/60 backdrop-blur-xl overflow-hidden">
-                                                {/* Striped Warning Background */}
-                                                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
-                                                    backgroundImage: 'repeating-linear-gradient(45deg, #ef4444 0, #ef4444 10px, transparent 10px, transparent 20px)'
-                                                }} />
-
-                                                <div>
-                                                    <div className="flex justify-between items-start mb-6">
-                                                        <div className="px-3 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-400 text-xs font-bold font-mono tracking-wider animate-pulse">
-                                                            PAYMENT_PENDING
-                                                        </div>
-                                                        <div className="text-red-500/50">
-                                                            <AlertTriangle className="w-8 h-8" />
-                                                        </div>
-                                                    </div>
-
-                                                    <h3 className="text-2xl font-heading font-bold text-white mb-2">{reg.event_name}</h3>
-                                                    {reg.team_name && (
-                                                        <p className="text-red-300/80 font-mono text-sm mb-4">Team: {reg.team_name}</p>
-                                                    )}
-
-                                                    <div className="text-sm text-text-secondary mb-6">
-                                                        Registration initiated but payment not completed. Complete payment to unlock your team pass.
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex items-center justify-between mt-auto pt-4 border-t border-red-500/20">
-                                                    <span className="text-xl font-bold text-white">₹{reg.amount_paid}</span>
-                                                    <button
-                                                        onClick={() => router.push(reg.is_team_pass ? `/register/${reg.event_id}` : '/checkout')}
-                                                        className="px-6 py-2 rounded-lg bg-red-500 text-black font-bold hover:bg-red-400 transition-colors flex items-center gap-2"
-                                                    >
-                                                        Pay Now
-                                                        <ArrowRight className="w-4 h-4" />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    )
-                                }
 
                                 return (
                                     <RegistrationPassCard

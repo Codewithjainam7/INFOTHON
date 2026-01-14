@@ -212,25 +212,45 @@ export default function EventsPage() {
                                     transition={{ duration: 0.3, delay: index * 0.05 }}
                                 >
                                     <Link href={`/events/${event.id}`}>
-                                        <div className="glitch-container rounded-lg p-4 sm:p-5 h-full group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden">
-                                            {/* Corner accents */}
-                                            <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
-                                            <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
-                                            <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
-                                            <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+                                        <div className="glitch-container rounded-lg h-full group border border-white/10 bg-black/40 backdrop-blur-md hover:border-glow-cyan/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all duration-300 relative overflow-hidden">
+                                            {/* Event Image */}
+                                            <div className="relative h-40 overflow-hidden">
+                                                <img
+                                                    src={event.image}
+                                                    alt={event.title}
+                                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
-                                            <div className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-semibold uppercase bg-gradient-to-r ${categoryColors[event.category]} text-white mb-3 sm:mb-4`}>
-                                                {event.category}
+                                                {/* Price Badge */}
+                                                <div className="absolute top-3 right-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-sm border border-glow-cyan/50 shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+                                                    <span className="text-lg font-heading font-black text-glow-cyan">₹{event.price}</span>
+                                                </div>
+
+                                                {/* Category Badge */}
+                                                <div className={`absolute bottom-3 left-3 inline-block px-3 py-1 rounded-full text-xs font-bold uppercase bg-gradient-to-r ${categoryColors[event.category]} text-white`}>
+                                                    {event.category}
+                                                </div>
                                             </div>
-                                            <h3 className={`text-lg sm:text-xl font-heading font-bold mb-2 sm:mb-3 ${categoryShimmerClasses[event.category]}`}>
-                                                {event.title}
-                                            </h3>
-                                            <p className="text-text-secondary text-xs sm:text-sm mb-4 line-clamp-2">
-                                                {event.description}
-                                            </p>
-                                            <div className="flex justify-between items-center pt-3 sm:pt-4 border-t border-white/10">
-                                                <span className="text-xs sm:text-sm text-text-muted">{event.date}</span>
-                                                <span className="text-sm sm:text-base font-heading font-bold text-glow-cyan drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">{event.prize}</span>
+
+                                            {/* Content */}
+                                            <div className="p-4 sm:p-5">
+                                                {/* Corner accents */}
+                                                <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-glow-cyan/60" />
+                                                <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-glow-violet/60" />
+                                                <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-glow-violet/60" />
+                                                <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-glow-cyan/60" />
+
+                                                <h3 className={`text-lg sm:text-xl font-heading font-bold mb-2 ${categoryShimmerClasses[event.category]} group-hover:text-glow-cyan transition-colors`}>
+                                                    {event.title}
+                                                </h3>
+                                                <p className="text-text-secondary text-xs sm:text-sm mb-4 line-clamp-2 font-mono">
+                                                    {event.description}
+                                                </p>
+                                                <div className="flex justify-between items-center pt-3 border-t border-white/10">
+                                                    <span className="text-xs font-mono text-text-muted uppercase tracking-wider">{event.date}</span>
+                                                    <span className="text-sm font-cyber font-bold text-glow-violet tracking-widest">{event.prize}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </Link>
