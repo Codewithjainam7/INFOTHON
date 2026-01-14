@@ -9,6 +9,10 @@ export interface Event {
     venue: string
     prize: string
     teamSize: string
+    teamMinSize: number  // For team pass logic
+    teamMaxSize: number  // For team pass logic
+    isTeamEvent: boolean // True = single team pass, False = individual passes
+    registrationFee: number
     registrationDeadline: string
     image: string
     rules: string[]
@@ -25,9 +29,13 @@ export const events: Event[] = [
         date: 'February 12, 2026',
         time: '10:00 AM - 10:00 AM (Next Day)',
         venue: 'Tech Hub Arena',
-        prize: '₹2,00,000',
+        prize: '₹50,000',
         teamSize: '2-3 members',
-        registrationDeadline: 'March 10, 2026',
+        teamMinSize: 2,
+        teamMaxSize: 3,
+        isTeamEvent: true,
+        registrationFee: 500,
+        registrationDeadline: 'February 10, 2026',
         image: '/images/code_sprint.png',
         rules: [
             'Teams must consist of 2-3 members from the same institution',
@@ -54,9 +62,13 @@ export const events: Event[] = [
         date: 'March 16-17, 2026',
         time: '9:00 AM Day 1 - 9:00 PM Day 2',
         venue: 'AI Research Center',
-        prize: '₹3,00,000',
-        teamSize: '3-4 members',
-        registrationDeadline: 'March 12, 2026',
+        prize: '₹1,00,000',
+        teamSize: '4-5 members',
+        teamMinSize: 4,
+        teamMaxSize: 5,
+        isTeamEvent: true,
+        registrationFee: 1000,
+        registrationDeadline: 'February 10, 2026',
         image: '/images/neural_nexus.png',
         rules: [
             'Pre-trained models are allowed but must be disclosed',
@@ -83,9 +95,13 @@ export const events: Event[] = [
         date: 'March 17, 2026',
         time: '11:00 AM - 7:00 PM',
         venue: 'Main Arena',
-        prize: '₹2,50,000',
-        teamSize: '4-6 members',
-        registrationDeadline: 'March 5, 2026',
+        prize: '₹75,000',
+        teamSize: '2-3 members',
+        teamMinSize: 2,
+        teamMaxSize: 3,
+        isTeamEvent: true,
+        registrationFee: 500,
+        registrationDeadline: 'February 10, 2026',
         image: '/images/robo_wars.png',
         rules: [
             'Robots must weigh under 60kg',
@@ -112,9 +128,13 @@ export const events: Event[] = [
         date: 'February 12, 2026',
         time: '10:00 AM - 6:00 PM',
         venue: 'Design Studio Hall',
-        prize: '₹1,00,000',
+        prize: '₹30,000',
         teamSize: '1-2 members',
-        registrationDeadline: 'March 12, 2026',
+        teamMinSize: 1,
+        teamMaxSize: 2,
+        isTeamEvent: false,
+        registrationFee: 200,
+        registrationDeadline: 'February 10, 2026',
         image: '/images/pixel_perfect.png',
         rules: [
             'Any design tool is permitted (Figma, Sketch, Adobe XD, etc.)',
@@ -141,9 +161,13 @@ export const events: Event[] = [
         date: 'March 16-17, 2026',
         time: 'All Day Event',
         venue: 'Gaming Arena',
-        prize: '₹1,50,000',
-        teamSize: '5 members (Varies by game)',
-        registrationDeadline: 'March 14, 2026',
+        prize: '₹40,000',
+        teamSize: '2-5 members',
+        teamMinSize: 2,
+        teamMaxSize: 5,
+        isTeamEvent: true,
+        registrationFee: 300,
+        registrationDeadline: 'February 10, 2026',
         image: '/images/cyber_siege.png',
         rules: [
             'Teams must register for specific game tournaments',
@@ -172,7 +196,11 @@ export const events: Event[] = [
         venue: 'Seminar Hall A',
         prize: 'Certificate + Swag Kit',
         teamSize: 'Individual',
-        registrationDeadline: 'March 14, 2026',
+        teamMinSize: 1,
+        teamMaxSize: 1,
+        isTeamEvent: false,
+        registrationFee: 150,
+        registrationDeadline: 'February 10, 2026',
         image: '/images/quantum_101.png',
         rules: [
             'Basic Python knowledge required',
