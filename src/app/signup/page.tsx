@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { Eye, EyeOff, Check, X } from 'lucide-react'
+import { Eye, EyeOff, Check, X, User, Mail, Phone, Building, Code, Lock, ShieldCheck } from 'lucide-react'
 import { FloatingNavbar } from '@/components/navigation'
 import { SmoothScroll, GlowCursor } from '@/components/effects'
 import { GlowButton, NeonText, GlassCard, ScrambleText } from '@/components/ui'
@@ -69,7 +69,7 @@ function CyberInput({
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 text-glow-cyan/60 hover:text-glow-cyan transition-colors p-1"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-50 text-glow-cyan/60 hover:text-glow-cyan transition-colors p-1 cursor-pointer"
                     >
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -352,11 +352,7 @@ export default function SignUpPage() {
                                             placeholder="Enter your name"
                                             value={formData.name}
                                             onChange={handleChange('name')}
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
-                                                </svg>
-                                            }
+                                            icon={<User className="w-5 h-5" />}
                                         />
 
                                         <CyberInput
@@ -365,11 +361,7 @@ export default function SignUpPage() {
                                             placeholder="your@email.com"
                                             value={formData.email}
                                             onChange={handleChange('email')}
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                                                </svg>
-                                            }
+                                            icon={<Mail className="w-5 h-5" />}
                                         />
 
                                         <CyberInput
@@ -378,11 +370,7 @@ export default function SignUpPage() {
                                             placeholder="+91 XXXXX XXXXX"
                                             value={formData.phone}
                                             onChange={handleChange('phone')}
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                                                </svg>
-                                            }
+                                            icon={<Phone className="w-5 h-5" />}
                                         />
 
                                         <CyberInput
@@ -390,11 +378,7 @@ export default function SignUpPage() {
                                             placeholder="Your college name"
                                             value={formData.college}
                                             onChange={handleChange('college')}
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
-                                                </svg>
-                                            }
+                                            icon={<Building className="w-5 h-5" />}
                                         />
 
                                         <CyberInput
@@ -402,11 +386,7 @@ export default function SignUpPage() {
                                             placeholder="Enter CC code if you have one"
                                             value={formData.cc}
                                             onChange={handleChange('cc')}
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
-                                                </svg>
-                                            }
+                                            icon={<Code className="w-5 h-5" />}
                                         />
 
                                         <CyberInput
@@ -416,11 +396,7 @@ export default function SignUpPage() {
                                             value={formData.password}
                                             onChange={handleChange('password')}
                                             showPasswordToggle
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                                                </svg>
-                                            }
+                                            icon={<Lock className="w-5 h-5" />}
                                         />
                                         <PasswordStrength password={formData.password} />
 
@@ -432,11 +408,7 @@ export default function SignUpPage() {
                                             onChange={handleChange('confirmPassword')}
                                             showPasswordToggle
                                             error={formData.confirmPassword && formData.password !== formData.confirmPassword ? 'Passwords do not match' : undefined}
-                                            icon={
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                                                </svg>
-                                            }
+                                            icon={<ShieldCheck className="w-5 h-5" />}
                                         />
 
                                         <div className="pt-4">

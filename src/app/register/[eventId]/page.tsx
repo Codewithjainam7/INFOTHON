@@ -438,23 +438,11 @@ export default function TeamRegistrationPage() {
 
                         {/* Form Container */}
                         <motion.div
-                            className="relative rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_rgba(0,245,255,0.05)] group/form"
+                            className="relative z-10 w-full group/form"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
                         >
-                            {/* Random Glitch Overlay on Form */}
-                            <motion.div
-                                className="absolute inset-0 bg-white/5 pointer-events-none z-50 mix-blend-overlay"
-                                animate={{ opacity: [0, 0.05, 0, 0.02, 0] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            />
-
-                            {/* Corner Accents - Glitching */}
-                            <motion.div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-glow-cyan" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.5, repeat: Infinity }} />
-                            <motion.div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-glow-violet" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.7, repeat: Infinity }} />
-                            <motion.div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-glow-violet" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.6, repeat: Infinity }} />
-                            <motion.div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-glow-cyan" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 0.4, repeat: Infinity }} />
 
                             <div className="p-6 md:p-10 relative z-10">
                                 <AnimatePresence mode="wait">
@@ -530,17 +518,18 @@ export default function TeamRegistrationPage() {
                                             </div>
 
                                             <div className="flex justify-end mt-12">
-                                                <button
+                                                <motion.button
                                                     onClick={() => teamName.trim() && setCurrentStep(2)}
                                                     disabled={!teamName.trim()}
-                                                    className="relative px-8 py-4 bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-bold font-cyber tracking-widest text-sm hover:scale-105 transition-all group/btn overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(34,211,238,0.4)] rounded-xl"
+                                                    className="relative py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
+                                                    whileTap={{ scale: 0.95 }}
                                                 >
-                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500" />
-                                                    <span className="relative z-10 flex items-center gap-2">
+                                                    <span className="flex items-center gap-2">
                                                         INITIALIZE OPERATIVES
-                                                        <Zap className="w-4 h-4 fill-current group-hover/btn:animate-ping" />
+                                                        <Zap className="w-5 h-5 fill-current" />
                                                     </span>
-                                                </button>
+                                                </motion.button>
                                             </div>
                                         </motion.div>
                                     )}
@@ -619,13 +608,17 @@ export default function TeamRegistrationPage() {
                                                 >
                                                     BACK
                                                 </button>
-                                                <button
+                                                <motion.button
                                                     onClick={() => setCurrentStep(3)}
-                                                    className="px-4 md:px-6 py-3 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black hover:scale-105 font-bold transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,245,255,0.3)] text-sm md:text-base order-1 sm:order-2"
+                                                    className="relative py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors order-1 sm:order-2"
+                                                    style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
+                                                    whileTap={{ scale: 0.95 }}
                                                 >
-                                                    PROCEED TO SUMMARY
-                                                    <CreditCard className="w-4 h-4" />
-                                                </button>
+                                                    <span className="flex items-center gap-2">
+                                                        PROCEED TO SUMMARY
+                                                        <CreditCard className="w-5 h-5" />
+                                                    </span>
+                                                </motion.button>
                                             </div>
                                         </motion.div>
                                     )}
@@ -695,24 +688,27 @@ export default function TeamRegistrationPage() {
                                                 >
                                                     BACK
                                                 </button>
-                                                <button
+                                                <motion.button
                                                     onClick={handlePayment}
                                                     disabled={isLoading || !razorpayLoaded}
-                                                    className="px-6 md:px-8 py-3 md:py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center justify-center gap-2 md:gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group text-sm md:text-base order-1 sm:order-2"
+                                                    className="relative py-4 px-8 font-heading font-bold text-base sm:text-lg uppercase tracking-wider text-bg-primary bg-glow-cyan hover:bg-cyan-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
+                                                    style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
+                                                    whileTap={{ scale: 0.95 }}
                                                 >
-                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
-                                                    {isLoading ? (
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                                                            PROCESSING...
-                                                        </div>
-                                                    ) : (
-                                                        <>
-                                                            <Zap className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-                                                            INITIATE PAYMENT
-                                                        </>
-                                                    )}
-                                                </button>
+                                                    <span className="flex items-center gap-2">
+                                                        {isLoading ? (
+                                                            <>
+                                                                <div className="w-5 h-5 border-2 border-bg-primary/30 border-t-bg-primary rounded-full animate-spin" />
+                                                                PROCESSING...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Zap className="w-5 h-5 fill-current" />
+                                                                INITIATE PAYMENT
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                </motion.button>
                                             </div>
                                         </motion.div>
                                     )}

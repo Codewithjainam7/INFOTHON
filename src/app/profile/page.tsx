@@ -247,7 +247,22 @@ export default function ProfilePage() {
         }
     }
 
-    const myTickets = eventPackages.filter(pkg => purchasedEvents.includes(pkg.id))
+    // Computed tickets from registrations (Single Source of Truth)
+    const myTickets = registrations.map(reg => {
+        const eventDef = eventPackages.find(e => e.id === reg.event_id)
+        if (!eventDef) return null
+        return {
+            ...eventDef,
+            // Use actual paid amount if available, otherwise fallback to event price
+            price: reg.amount_paid !== undefined ? reg.amount_paid : eventDef.price,
+            registration_id: reg.id // Keep track of unique registration
+        }
+    }).filter(item => item !== null) as (typeof eventPackages[0] & { registration_id: string })[]
+
+    // Calculate Totals
+    const totalSpent = myTickets.reduce((sum, t) => sum + t.price, 0)
+    const uniqueEventsCount = new Set(myTickets.map(t => t.id)).size // OR use myTickets.length for total tickets
+    const workshopsCount = myTickets.filter(t => t.category === 'WORKSHOP').length
 
     return (
         <SmoothScroll>
@@ -593,8 +608,8 @@ export default function ProfilePage() {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
                         <StatCard label="Events Registered" value={myTickets.length.toString()} icon={<Ticket />} delay={0.1} />
-                        <StatCard label="Total Spent" value={`₹${myTickets.reduce((sum, e) => sum + e.price, 0)}`} icon={<Download />} delay={0.2} />
-                        <StatCard label="Workshops" value={myTickets.filter(e => e.category === 'WORKSHOP').length.toString()} icon={<Calendar />} delay={0.3} />
+                        <StatCard label="Total Spent" value={`₹${totalSpent}`} icon={<Download />} delay={0.2} />
+                        <StatCard label="Workshops" value={workshopsCount.toString()} icon={<Calendar />} delay={0.3} />
                         <StatCard label="Certificates" value="0" icon={<Share2 />} delay={0.4} />
                     </div>
 
