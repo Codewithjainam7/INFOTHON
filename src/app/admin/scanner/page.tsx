@@ -327,17 +327,100 @@ function VerificationResult({
     data,
     dbRecord,
     isLoading,
+    showCheckedIn,
     onReset,
     onMarkVerified
 }: {
     data: TicketData | null
     dbRecord: DBRegistration | null
     isLoading: boolean
+    showCheckedIn: boolean
     onReset: () => void
     onMarkVerified: () => void
 }) {
     const isValid = dbRecord !== null
     const alreadyVerified = dbRecord?.verified === true
+
+    // Show success celebration when just checked in
+    if (showCheckedIn) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full max-w-lg mx-auto"
+            >
+                <div className="relative p-8 rounded-2xl border-2 border-green-500/50 bg-green-500/10 backdrop-blur-xl overflow-hidden text-center">
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-green-500" />
+                    <div className="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-green-500" />
+                    <div className="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-green-500" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-green-500" />
+
+                    {/* Success animation */}
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: [0, 1.2, 1] }}
+                        transition={{ duration: 0.5 }}
+                        className="flex justify-center mb-6"
+                    >
+                        <motion.div
+                            className="w-28 h-28 rounded-full border-4 border-green-500 flex items-center justify-center"
+                            animate={{
+                                boxShadow: ['0 0 20px rgba(34,197,94,0.3)', '0 0 60px rgba(34,197,94,0.6)', '0 0 20px rgba(34,197,94,0.3)']
+                            }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                        >
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ delay: 0.3, type: 'spring' }}
+                            >
+                                <CheckCircle className="w-16 h-16 text-green-500" />
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="text-3xl font-heading font-bold text-green-500 mb-4"
+                    >
+                        ✓ CHECK-IN COMPLETE!
+                    </motion.h2>
+
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-white font-mono mb-2"
+                    >
+                        {dbRecord?.attendee_name}
+                    </motion.p>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.6 }}
+                        className="text-text-muted text-sm font-mono mb-6"
+                    >
+                        {dbRecord?.event_name}
+                    </motion.p>
+
+                    <motion.button
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.7 }}
+                        onClick={onReset}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-bold uppercase tracking-wider"
+                    >
+                        SCAN ANOTHER TICKET
+                    </motion.button>
+                </div>
+            </motion.div>
+        )
+    }
 
     return (
         <motion.div
@@ -514,6 +597,7 @@ export default function AdminScannerPage() {
     const [dbRecord, setDbRecord] = useState<DBRegistration | null>(null)
     const [isVerifying, setIsVerifying] = useState(false)
     const [showResult, setShowResult] = useState(false)
+    const [showCheckedIn, setShowCheckedIn] = useState(false)
 
     const verifyInDatabase = async (data: TicketData) => {
         setIsVerifying(true)
@@ -545,6 +629,7 @@ export default function AdminScannerPage() {
     const handleScan = async (data: TicketData | null) => {
         setScannedData(data)
         setShowResult(true)
+        setShowCheckedIn(false)
 
         if (data) {
             await verifyInDatabase(data)
@@ -562,6 +647,7 @@ export default function AdminScannerPage() {
 
         if (!error) {
             setDbRecord({ ...dbRecord, verified: true })
+            setShowCheckedIn(true)
         }
     }
 
@@ -569,6 +655,7 @@ export default function AdminScannerPage() {
         setScannedData(null)
         setDbRecord(null)
         setShowResult(false)
+        setShowCheckedIn(false)
     }
 
     return (
@@ -614,6 +701,7 @@ export default function AdminScannerPage() {
                                 data={scannedData}
                                 dbRecord={dbRecord}
                                 isLoading={isVerifying}
+                                showCheckedIn={showCheckedIn}
                                 onReset={handleReset}
                                 onMarkVerified={handleMarkVerified}
                             />
