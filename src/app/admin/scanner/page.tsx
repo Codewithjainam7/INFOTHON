@@ -659,9 +659,12 @@ export default function AdminScannerPage() {
     }
 
     return (
-        <div className="min-h-screen bg-black relative overflow-hidden">
-            {/* Background effects */}
-            <div className="absolute inset-0 bg-gradient-to-b from-glow-cyan/5 via-transparent to-glow-violet/5" />
+        <div className="min-h-screen bg-bg-primary relative overflow-hidden">
+            {/* Gradient Overlays - matching landing page */}
+            <div className="absolute inset-0 bg-gradient-radial from-glow-cyan/5 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary" />
+
+            {/* Scanlines overlay */}
             <div className="absolute inset-0 pointer-events-none opacity-20" style={{
                 background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, 0.03) 2px, rgba(0, 245, 255, 0.03) 4px)'
             }} />
@@ -672,60 +675,239 @@ export default function AdminScannerPage() {
                 backgroundSize: '50px 50px'
             }} />
 
-            <div className="relative z-10 container mx-auto px-4 py-12">
-                {/* Header with Logos */}
+            {/* Corner Elements - matching landing */}
+            <div className="absolute top-20 left-4 sm:left-8 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-t-2 border-glow-cyan/20 rounded-tl-3xl" />
+            <div className="absolute top-20 right-4 sm:right-8 w-16 h-16 sm:w-24 sm:h-24 border-r-2 border-t-2 border-glow-cyan/20 rounded-tr-3xl" />
+            <div className="absolute bottom-20 left-4 sm:left-8 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-b-2 border-glow-violet/20 rounded-bl-3xl" />
+            <div className="absolute bottom-20 right-4 sm:right-8 w-16 h-16 sm:w-24 sm:h-24 border-r-2 border-b-2 border-glow-violet/20 rounded-br-3xl" />
+
+            <div className="relative z-10 container mx-auto px-4 py-16">
+                {/* Header with Logos - matching landing page style */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-center mb-12"
                 >
-                    {/* Logo Images */}
-                    <div className="flex items-center justify-center gap-4 mb-6">
+                    {/* INFOTHON × 2K26 Logo Section with Glitch Effects */}
+                    <div className="flex flex-col items-center gap-6 mb-8">
+                        {/* INFOTHON Logo with glitch effect */}
                         <motion.div
-                            whileHover={{ scale: 1.05 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
                             className="relative"
                         >
-                            <img
+                            {/* Glow background */}
+                            <motion.div
+                                className="absolute inset-0 flex justify-center items-center"
+                                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                            >
+                                <div className="w-48 h-16 bg-glow-cyan/20 blur-3xl rounded-full" />
+                            </motion.div>
+
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.img
+                                src="/images/INFOTHON_glitch.png"
+                                alt=""
+                                className="absolute inset-0 h-14 sm:h-16 md:h-20 w-auto object-contain opacity-60 mx-auto"
+                                style={{ filter: 'hue-rotate(180deg)' }}
+                                animate={{
+                                    x: [0, -5, 2, -5, 0],
+                                    opacity: [0, 0.8, 0, 0.6, 0],
+                                }}
+                                transition={{
+                                    duration: 0.15,
+                                    repeat: Infinity,
+                                    repeatDelay: 2,
+                                }}
+                            />
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.img
+                                src="/images/INFOTHON_glitch.png"
+                                alt=""
+                                className="absolute inset-0 h-14 sm:h-16 md:h-20 w-auto object-contain opacity-60 mx-auto"
+                                style={{ filter: 'hue-rotate(-60deg)' }}
+                                animate={{
+                                    x: [0, 5, -2, 5, 0],
+                                    opacity: [0, 0.7, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.12,
+                                    repeat: Infinity,
+                                    repeatDelay: 1.5,
+                                }}
+                            />
+
+                            {/* Main INFOTHON image */}
+                            <motion.img
                                 src="/images/INFOTHON_glitch.png"
                                 alt="INFOTHON"
-                                className="h-16 md:h-20 w-auto object-contain"
-                            />
-                            {/* Glow effect */}
-                            <motion.div
-                                className="absolute inset-0 pointer-events-none"
-                                animate={{
-                                    boxShadow: ['0 0 20px rgba(0,245,255,0.3)', '0 0 40px rgba(0,245,255,0.5)', '0 0 20px rgba(0,245,255,0.3)']
+                                className="h-14 sm:h-16 md:h-20 w-auto object-contain relative z-10"
+                                style={{
+                                    filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
                                 }}
-                                transition={{ duration: 2, repeat: Infinity }}
+                                animate={{
+                                    x: [0, 0, -3, 0, 3, 0, 0],
+                                    filter: [
+                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                        'drop-shadow(0 0 40px rgba(34,211,238,0.7)) drop-shadow(0 0 80px rgba(139,92,246,0.5))',
+                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                    ],
+                                }}
+                                transition={{
+                                    x: { duration: 0.1, repeat: Infinity, repeatDelay: 3 },
+                                    filter: { duration: 2, repeat: Infinity },
+                                }}
                             />
                         </motion.div>
-                        <span className="text-3xl md:text-4xl font-bold text-glow-violet">×</span>
+
+                        {/* × Symbol */}
+                        <motion.span
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5, delay: 0.6 }}
+                            className="text-3xl md:text-4xl font-bold text-glow-violet"
+                        >
+                            ×
+                        </motion.span>
+
+                        {/* 2K26 Logo with glitch effect - matching landing page exactly */}
                         <motion.div
-                            whileHover={{ scale: 1.05 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8, delay: 0.6 }}
                             className="relative"
                         >
-                            <img
-                                src="/images/2k26_glitch.png"
-                                alt="2K26"
-                                className="h-16 md:h-20 w-auto object-contain"
-                            />
-                            {/* Glow effect */}
+                            {/* Glow background */}
                             <motion.div
-                                className="absolute inset-0 pointer-events-none"
+                                className="absolute inset-0 flex justify-center items-center"
+                                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                            >
+                                <div className="w-48 h-20 bg-glow-violet/20 blur-3xl rounded-full" />
+                            </motion.div>
+
+                            {/* Glitch layer - Cyan offset */}
+                            <motion.img
+                                src="/images/2k26.png"
+                                alt=""
+                                className="absolute inset-0 h-24 sm:h-32 md:h-40 w-auto object-contain opacity-60 mx-auto"
+                                style={{ filter: 'hue-rotate(180deg)' }}
                                 animate={{
-                                    boxShadow: ['0 0 20px rgba(139,92,246,0.3)', '0 0 40px rgba(139,92,246,0.5)', '0 0 20px rgba(139,92,246,0.3)']
+                                    x: [0, -5, 2, -5, 0],
+                                    y: [0, 2, -1, 0],
+                                    scale: [1, 1.02, 0.98, 1],
+                                    opacity: [0, 0.8, 0, 0.6, 0],
                                 }}
-                                transition={{ duration: 2, repeat: Infinity }}
+                                transition={{
+                                    duration: 0.15,
+                                    repeat: Infinity,
+                                    repeatDelay: 2,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
                             />
+
+                            {/* Glitch layer - Violet offset */}
+                            <motion.img
+                                src="/images/2k26.png"
+                                alt=""
+                                className="absolute inset-0 h-24 sm:h-32 md:h-40 w-auto object-contain opacity-60 mx-auto"
+                                style={{ filter: 'hue-rotate(-60deg)' }}
+                                animate={{
+                                    x: [0, 5, -2, 5, 0],
+                                    y: [0, -2, 1, 0],
+                                    scale: [1, 0.98, 1.02, 1],
+                                    opacity: [0, 0.7, 0, 0.5, 0],
+                                }}
+                                transition={{
+                                    duration: 0.12,
+                                    repeat: Infinity,
+                                    repeatDelay: 1.5,
+                                    times: [0, 0.2, 0.4, 0.6, 1],
+                                }}
+                            />
+
+                            {/* Main 2K26 image with glow */}
+                            <motion.img
+                                src="/images/2k26.png"
+                                alt="2K26"
+                                className="h-24 sm:h-32 md:h-40 w-auto object-contain relative z-10"
+                                style={{
+                                    filter: 'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                }}
+                                animate={{
+                                    x: [0, 0, -3, 0, 3, 0, 0],
+                                    scale: [1, 1, 1.01, 1, 0.99, 1, 1],
+                                    filter: [
+                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                        'drop-shadow(0 0 40px rgba(34,211,238,0.7)) drop-shadow(0 0 80px rgba(139,92,246,0.5))',
+                                        'drop-shadow(0 0 20px rgba(34,211,238,0.4)) drop-shadow(0 0 40px rgba(139,92,246,0.2))',
+                                    ],
+                                }}
+                                transition={{
+                                    x: { duration: 0.1, repeat: Infinity, repeatDelay: 3, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
+                                    scale: { duration: 0.1, repeat: Infinity, repeatDelay: 3, times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 1] },
+                                    filter: { duration: 2, repeat: Infinity },
+                                }}
+                            />
+
+                            {/* Glitch slice overlay */}
+                            <motion.div
+                                className="absolute inset-0 overflow-hidden pointer-events-none z-20"
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 5 }}
+                            >
+                                <div
+                                    className="absolute w-full h-1/4 bg-glow-cyan/20"
+                                    style={{ top: '25%', transform: 'translateX(3px)' }}
+                                />
+                                <div
+                                    className="absolute w-full h-1/6 bg-glow-violet/20"
+                                    style={{ top: '60%', transform: 'translateX(-4px)' }}
+                                />
+                            </motion.div>
+
+                            {/* Scanning line effect */}
+                            <motion.div
+                                className="absolute inset-0 overflow-hidden pointer-events-none"
+                                style={{ clipPath: 'inset(0)' }}
+                            >
+                                <motion.div
+                                    className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-glow-cyan to-transparent"
+                                    animate={{ top: ['-10%', '110%'] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                                />
+                            </motion.div>
+
+                            {/* Corner brackets */}
+                            <div className="absolute -top-2 -left-2 w-3 h-3 border-l-2 border-t-2 border-glow-cyan/50" />
+                            <div className="absolute -top-2 -right-2 w-3 h-3 border-r-2 border-t-2 border-glow-violet/50" />
+                            <div className="absolute -bottom-2 -left-2 w-3 h-3 border-l-2 border-b-2 border-glow-violet/50" />
+                            <div className="absolute -bottom-2 -right-2 w-3 h-3 border-r-2 border-b-2 border-glow-cyan/50" />
                         </motion.div>
                     </div>
 
-                    <p className="text-text-muted font-mono uppercase tracking-widest text-sm">
-                        Ticket Verification System
-                    </p>
-                    <p className="text-glow-cyan/60 font-mono text-xs mt-2">
-                        EVENT COORDINATOR ACCESS ONLY
-                    </p>
+                    {/* Subtitle with badge style */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.8 }}
+                    >
+                        <span className="inline-block px-4 py-2 rounded-full glass text-sm font-mono text-glow-cyan tracking-wider">
+                            TICKET VERIFICATION SYSTEM
+                        </span>
+                    </motion.div>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 1 }}
+                        className="text-glow-violet/60 font-mono text-xs mt-3 uppercase tracking-widest"
+                    >
+                        Event Coordinator Access Only
+                    </motion.p>
                 </motion.div>
 
                 {/* Content */}
