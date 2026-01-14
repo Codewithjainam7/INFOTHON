@@ -674,57 +674,57 @@ export default function TeamRegistrationPage() {
 
 
 
-                                                {/* Errors */}
-                                    {errors.length > 0 && (
-                                        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 animate-pulse">
-                                            <div className="flex items-center gap-2 text-red-400 mb-2">
-                                                <AlertTriangle className="w-5 h-5" />
-                                                <span className="font-bold">CRITICAL_ERROR</span>
-                                            </div>
-                                            <ul className="text-sm text-red-300 space-y-1 list-disc list-inside font-mono">
-                                                {errors.map((err, i) => (
-                                                    <li key={i}>{err}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                            </div>
+                                            {/* Errors */}
+                                            {errors.length > 0 && (
+                                                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 animate-pulse">
+                                                    <div className="flex items-center gap-2 text-red-400 mb-2">
+                                                        <AlertTriangle className="w-5 h-5" />
+                                                        <span className="font-bold">CRITICAL_ERROR</span>
+                                                    </div>
+                                                    <ul className="text-sm text-red-300 space-y-1 list-disc list-inside font-mono">
+                                                        {errors.map((err, i) => (
+                                                            <li key={i}>{err}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
 
-                            <div className="flex justify-between items-center">
-                                <button
-                                    onClick={() => setCurrentStep(2)}
-                                    className="px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10"
-                                >
-                                    BACK
-                                </button>
-                                <button
-                                    onClick={handlePayment}
-                                    disabled={isLoading || !razorpayLoaded}
-                                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group"
-                                >
-                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
-                                    {isLoading ? (
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                                            PROCESSING...
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <Zap className="w-5 h-5 fill-current" />
-                                            INITIATE PAYMENT
-                                        </>
+
+                                            <div className="flex justify-between items-center">
+                                                <button
+                                                    onClick={() => setCurrentStep(2)}
+                                                    className="px-6 py-3 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 font-bold transition-all border border-white/10"
+                                                >
+                                                    BACK
+                                                </button>
+                                                <button
+                                                    onClick={handlePayment}
+                                                    disabled={isLoading || !razorpayLoaded}
+                                                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-glow-cyan to-glow-violet text-black font-black hover:scale-105 disabled:opacity-50 disabled:scale-100 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(34,211,238,0.4)] relative overflow-hidden group"
+                                                >
+                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                                                    {isLoading ? (
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                                                            PROCESSING...
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            <Zap className="w-5 h-5 fill-current" />
+                                                            INITIATE PAYMENT
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </motion.div>
                                     )}
-                                </button>
+                                </AnimatePresence>
                             </div>
                         </motion.div>
-                                    )}
-                            </AnimatePresence>
-                    </div>
-                </motion.div>
-            </div >
-        </main >
+                    </div >
+                </main >
 
-            <Footer />
+                <Footer />
             </SmoothScroll >
         </>
     )
