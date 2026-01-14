@@ -419,31 +419,37 @@ export default function CheckoutPage() {
                 const eventDetails = eventPackages.find(e => e.id === item.id)
                 if (!eventDetails) continue
 
-                // Generate unique ticket ID for each quantity
+                // Generate unique ticket ID for EACH ticket in the quantity
                 for (let q = 0; q < item.quantity; q++) {
-                    const ticketId = `INFOTHON-${item.id.toUpperCase().slice(0, 4)}-${btoa(`${user.email}-${item.id}-${q}`).slice(0, 8).toUpperCase()}`
+                    // Use timestamp + random to ensure uniqueness
+                    const timestamp = Date.now()
+                    const random = Math.random().toString(36).substring(2, 6).toUpperCase()
+                    const ticketId = `INFOTHON-${item.id.toUpperCase().slice(0, 4)}-${timestamp.toString(36).toUpperCase().slice(-4)}${random}-${q + 1}`
 
-                    // Insert into registrations table
+                    // Insert into registrations table (use insert, not upsert)
                     const { error: regError } = await supabase
                         .from('registrations')
-                        .upsert({
+                        .insert({
                             ticket_id: ticketId,
                             user_id: user.id,
                             user_email: user.email,
-                            attendee_name: user.user_metadata?.full_name || 'Guest',
+                            attendee_name: q === 0 ? (user.user_metadata?.full_name || 'Guest') : `Attendee ${q + 1}`,
                             event_id: item.id,
                             event_name: eventDetails.title,
                             event_date: eventDetails.date,
                             quantity: 1,
                             verified: false,
                             created_at: new Date().toISOString()
-                        }, { onConflict: 'ticket_id' })
+                        })
 
                     if (regError) {
-                        console.error('Failed to insert registration:', regError)
+                        console.error(`Failed to insert registration ${q + 1}/${item.quantity}:`, regError)
                     } else {
-                        console.log('Inserted registration:', ticketId)
+                        console.log(`Inserted registration ${q + 1}/${item.quantity}:`, ticketId)
                     }
+
+                    // Small delay to ensure unique timestamps
+                    await new Promise(resolve => setTimeout(resolve, 10))
                 }
             }
         }

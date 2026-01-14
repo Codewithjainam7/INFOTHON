@@ -709,7 +709,7 @@ export default function AdminScannerPage() {
 
                             {/* Glitch layer - Cyan offset */}
                             <motion.img
-                                src="/images/INFOTHON_glitch.png"
+                                src="/images/INFOTHON.png"
                                 alt=""
                                 className="absolute inset-0 h-14 sm:h-16 md:h-20 w-auto object-contain opacity-60 mx-auto"
                                 style={{ filter: 'hue-rotate(180deg)' }}
@@ -726,7 +726,7 @@ export default function AdminScannerPage() {
 
                             {/* Glitch layer - Violet offset */}
                             <motion.img
-                                src="/images/INFOTHON_glitch.png"
+                                src="/images/INFOTHON.png"
                                 alt=""
                                 className="absolute inset-0 h-14 sm:h-16 md:h-20 w-auto object-contain opacity-60 mx-auto"
                                 style={{ filter: 'hue-rotate(-60deg)' }}
@@ -743,7 +743,7 @@ export default function AdminScannerPage() {
 
                             {/* Main INFOTHON image */}
                             <motion.img
-                                src="/images/INFOTHON_glitch.png"
+                                src="/images/INFOTHON.png"
                                 alt="INFOTHON"
                                 className="h-14 sm:h-16 md:h-20 w-auto object-contain relative z-10"
                                 style={{
