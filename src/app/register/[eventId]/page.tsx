@@ -672,7 +672,7 @@ export default function TeamRegistrationPage() {
                                                 </div>
                                             </div>
 
-                                        </div>
+
 
                                                 {/* Errors */}
                                     {errors.length > 0 && (
@@ -718,13 +718,13 @@ export default function TeamRegistrationPage() {
                             </div>
                         </motion.div>
                                     )}
-                    </AnimatePresence>
-                </div>
-            </motion.div>
-        </div >
-                </main >
+                            </AnimatePresence>
+                    </div>
+                </motion.div>
+            </div >
+        </main >
 
-        <Footer />
+            <Footer />
             </SmoothScroll >
         </>
     )
