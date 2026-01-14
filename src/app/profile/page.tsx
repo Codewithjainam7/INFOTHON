@@ -61,8 +61,7 @@ export default function ProfilePage() {
         event_name: string
         event_date: string
         verified: boolean
-        event_date: string
-        verified: boolean
+
         payment_status?: string
         amount_paid?: number
         is_team_pass?: boolean
